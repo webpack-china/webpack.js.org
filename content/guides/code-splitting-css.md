@@ -44,17 +44,19 @@ webpack 能够用 `ExtractTextWebpackPlugin` 帮助你将 CSS 单独打包，以
 
 安装 [`ExtractTextWebpackPlugin`](/plugins/extract-text-webpack-plugin)
 ```
-npm i --save-dev extract-text-webpack-plugin@beta
+npm i --save-dev extract-text-webpack-plugin
 ```
 
 为了使用这个插件，它需要通过2步被配置到 `webpack.config.js` 文件中。
 
 ```diff
++ const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 module.exports = {
     module: {
          rules: [{
              test: /\.css$/,
--            use: 'css-loader'
+-            use: 'css-loader',
 +            use: ExtractTextPlugin.extract({
 +                use: 'css-loader'
 +            })
