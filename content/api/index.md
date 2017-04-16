@@ -7,3 +7,7 @@ sort: 1
 * [Node](/api/node)
 * [Loaders](/api/loaders)
 * [Plugins](/api/plugins)
+
+***
+
+> 原文：https://webpack.js.org/api/

@@ -1,12 +1,12 @@
 ---
-title: Development
+title: 开发(Development)
 contributors:
   - rouzbeh84
 ---
 
-These guides cover what you need to know in order to develop webpack.
+这些指南涵盖了开发 webpack 所需要了解的内容。内容还在制作中！
 
-*   [Release Process](./release-process)
-*   [Plugin Patterns](./plugin-patterns)
-*   [How To Write A Plugin](./how-to-write-a-plugin)
-*   [How To Write A Loader](./how-to-write-a-loader)
+*   [发布过程](./release-process)
+*   [插件模式](./plugin-patterns)
+*   [如何编写一个插件？](./how-to-write-a-plugin)
+*   [如何编写一个 loader？](./how-to-write-a-loader)
