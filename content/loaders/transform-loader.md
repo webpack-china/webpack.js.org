@@ -9,20 +9,20 @@ edit: https://github.com/webpack-contrib/transform-loader/edit/master/README.md
 npm i transform-loader --save
 ```
 
-## Usage
+## 用法
 
-[Documentation: Using loaders](http://webpack.github.io/docs/using-loaders.html)
+[文档：使用 loader](http://webpack.github.io/docs/using-loaders.html)
 
-Pass the module name as query parameter.
+通过查询参数来传递模块名。
 
 ``` javascript
 var x = require("!transform-loader?brfs!./file.js");
-var x = require("!transform-loader/cacheable?brfs!./file.js"); // cacheable version
+var x = require("!transform-loader/cacheable?brfs!./file.js"); // 可缓存版本
 ```
 
-If you pass a number instead it will take the function from `this.options.transforms[number]`.
+如果你传递了一个数字，将得到 `this.options.transforms[number]` 中的函数。
 
-## Webpack 2.x Config Example
+### webpack 2.x 配置示例
 
 ``` javascript
 module.exports = {
@@ -83,7 +83,7 @@ module.exports = {
 };
 ```
 
-## Webpack 1.x Config Example
+### webpack 1.x 配置示例
 
 ``` javascript
 module.exports = {
@@ -116,15 +116,15 @@ module.exports = {
 };
 ```
 
-## Typical brfs Example
+## 典型 brfs 示例
 
-Say you have the following Node source:
+假如你有下面这样的 Node 源码：
 
 ```js
 var test = require('fs').readFileSync('./test.txt', 'utf8');
 ```
 
-After `npm install transform-loader brfs --save`, add the following loader to your config:
+在 `npm install transform-loader brfs --save` 之后，像下面这样添加加载器到你的配置中：
 
 ```js
 module.exports = {
@@ -141,9 +141,9 @@ module.exports = {
 }
 ```
 
-The loader is applied to all JS files, which can incur a performance hit with watch tasks. So you may want to use `transform-loader/cacheable?brfs` instead. 
+加载器将应用到所有 JS 文件，这样在执行 watch 任务时将导致性能提醒。因此你也许需要使用带缓存的版本 `transform-loader/cacheable?brfs` 。
 
-## Maintainers
+## 维护人员
 
 <table>
   <tbody>
@@ -185,3 +185,7 @@ The loader is applied to all JS files, which can incur a performance hit with wa
 
 [chat]: https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg
 [chat-url]: https://gitter.im/webpack/webpack
+
+***
+
+> 原文：https://webpack.js.org/loaders/transform-loader/

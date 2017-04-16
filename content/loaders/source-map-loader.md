@@ -9,12 +9,12 @@ edit: https://github.com/webpack-contrib/source-map-loader/edit/master/README.md
 npm i -D source-map-loader
 ```
 
-## Usage
+## 用法
 
-[Documentation: Using loaders](https://webpack.js.org/concepts/#loaders)
+[文档：使用 loader](https://webpack.js.org/concepts/#loaders)
 
 
-### Example webpack config
+### webpack 配置示例
 
 ``` javascript
 module.exports = {
@@ -30,9 +30,9 @@ module.exports = {
 };
 ```
 
-This extracts SourceMaps from all js files (including node_modules). This is not very performant, so you may want to only apply the loader to relevant files.
+将从所有 js 文件（包括 node_modules）中提取 SourceMap。性能并不是很高，因此您可能只希望将 loader 应用到相关文件。
 
-## Maintainers
+## 维护人员
 
 <table>
   <tbody>
@@ -74,3 +74,7 @@ This extracts SourceMaps from all js files (including node_modules). This is not
 
 [chat]: https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg
 [chat-url]: https://gitter.im/webpack/webpack
+
+***
+
+> 原文：https://webpack.js.org/loaders/source-map-loader/

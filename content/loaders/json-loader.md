@@ -3,16 +3,16 @@ title: json-loader
 source: https://raw.githubusercontent.com/webpack-contrib/json-loader/master/README.md
 edit: https://github.com/webpack-contrib/json-loader/edit/master/README.md
 ---
-## Install
+## 安装
 
 ```bash
 npm install --save-dev json-loader
 ```
 
-## Usage
+## 用法
 
 
-### Configuration (recommended)
+### 通过配置（推荐）
 
 **webpack.config.js**
 ```js
@@ -32,7 +32,7 @@ module.exports = {
 import json from 'file.json';
 ```
 
-### CLI
+### 通过命令行（CLI）
 
 ```bash
 webpack --module-bind 'json=json-loader'
@@ -42,7 +42,7 @@ webpack --module-bind 'json=json-loader'
 import json from 'file.json';
 ```
 
-### Inline
+### 内联使用
 
 ```js
 import json from 'json-loader!file.json';
@@ -59,7 +59,7 @@ By default, the json-loader will output the json object, set this query paramete
 
 
 
-## Maintainer
+## 维护人员
 
 <table>
   <tbody>
@@ -109,3 +109,7 @@ By default, the json-loader will output the json object, set this query paramete
 
 [chat]: https://badges.gitter.im/webpack/webpack.svg
 [chat-url]: https://gitter.im/webpack/webpack
+
+***
+
+> 原文：https://webpack.js.org/loaders/json-loader/

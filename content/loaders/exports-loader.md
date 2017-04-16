@@ -9,20 +9,20 @@ edit: https://github.com/webpack-contrib/exports-loader/edit/master/README.md
 npm i exports-loader --save
 ```
 
-## Usage
+##  用法
 
 ``` javascript
 require("exports-loader?file,parse=helpers.parse!./file.js");
-// adds below code to the file's source:
+// 向文件源码添加如下代码：
 //  exports["file"] = file;
 //  exports["parse"] = helpers.parse;
 
 require("exports-loader?file!./file.js");
-// adds below code to the file's source:
+// 向文件源码添加如下代码：
 //  module.exports = file;
 ```
 
-[Documentation: Using loaders](http://webpack.github.io/docs/using-loaders.html)
+[文档: 使用 loader](http://webpack.github.io/docs/using-loaders.html)
 
 ## Maintainers
 
@@ -66,3 +66,7 @@ require("exports-loader?file!./file.js");
 
 [chat]: https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg
 [chat-url]: https://gitter.im/webpack/webpack
+
+***
+
+> 原文：https://webpack.js.org/loaders/exports-loader/

@@ -3,13 +3,13 @@ title: null-loader
 source: https://raw.githubusercontent.com/webpack-contrib/null-loader/master/README.md
 edit: https://github.com/webpack-contrib/null-loader/edit/master/README.md
 ---
-## Install
+## 安装
 
 ```bash
 npm i null-loader --save
 ```
 
-## Maintainers
+## 维护人员
 
 <table>
   <tbody>
@@ -51,3 +51,7 @@ npm i null-loader --save
 
 [chat]: https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg
 [chat-url]: https://gitter.im/webpack/webpack
+
+***
+
+> 原文：https://webpack.js.org/loaders/null-loader/

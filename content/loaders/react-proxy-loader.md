@@ -3,24 +3,24 @@ title: react-proxy-loader
 source: https://raw.githubusercontent.com/webpack-contrib/react-proxy-loader/master/README.md
 edit: https://github.com/webpack-contrib/react-proxy-loader/edit/master/README.md
 ---
-## Install
+## 安装
 
 ```bash
 npm install react-proxy-loader`
 ```
 
-## Usage
+## 用法
 
-[Documentation: Using loaders](http://webpack.github.io/docs/using-loaders.html)
+[文档：使用 loader](http://webpack.github.io/docs/using-loaders.html)
 
 ``` js
 var Component = require("react-proxy-loader!./Component");
-// => returns the proxied component (It loads on demand.)
-// (webpack creates an additional chunk for this component and its dependencies)
+// => 返回代理组件（它按需加载。）
+// （webpack 为此组件及其依赖项创建一个额外的 chunk）
 
 var ComponentProxyMixin = require("react-proxy-loader!./Component").Mixin;
-// => returns a mixin for the proxied component
-// (This allows you to setup rendering for the loading state for the proxy)
+// => 返回代理组件的 mixin
+// （这允许您为 proxy 的加载状态设置渲染）
 var ComponentProxy = React.createClass({
 	mixins: [ComponentProxyMixin],
 	renderUnavailable: function() {
@@ -29,11 +29,11 @@ var ComponentProxy = React.createClass({
 });
 ```
 
-The proxy is a react component. All properties are transferred to the wrapped component.
+代理是一个react组件。所有属性都将传输到包装组件。
 
-## Configuration
+## 配置
 
-Instead of (or in addition to) inlining the loader call you can also specify the proxied components in your configuration:
+代替（或除了）内联加载器调用之外，还可以在配置中指定代理组件：
 
 ``` js
 module.exports = {
@@ -53,15 +53,15 @@ module.exports = {
 };
 ```
 
-### Chunk name
+### Chunk 名称
 
-You can give the chunk a name with the `name` query parameter:
+您可以使用 `name` 查询参数为该 chunk 提供名称：
 
 ``` js
 var Component = require("react-proxy-loader?name=chunkName!./Component");
 ```
 
-## Maintainers
+## 维护人员
 
 <table>
   <tbody>
@@ -103,3 +103,7 @@ var Component = require("react-proxy-loader?name=chunkName!./Component");
 
 [chat]: https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg
 [chat-url]: https://gitter.im/webpack/webpack
+
+***
+
+> 原文：https://webpack.js.org/loaders/react-proxy-loader/

@@ -1,5 +1,5 @@
 ---
-title: Entry and Context
+title: 入口和上下文(Entry and Context)
 sort: 4
 contributors:
   - sokra
@@ -7,19 +7,19 @@ contributors:
   - tarang9211
 ---
 
-The entry object is where webpack looks to start building the bundle. The context is an absolute string to the directory that contains the entry files.
+entry 对象是用于 webpack 查找启动并构建 bundle。其上下文是入口文件所处的目录的绝对路径的字符串。
 
 ## `context`
 
 `string`
 
-The base directory, an **absolute path**, for resolving entry points and loaders from configuration.
+基础目录，**绝对路径**，用于从配置中解析入口起点(entry point)和加载器(loader)
 
 ``` js
 context: path.resolve(__dirname, "app")
 ```
 
-By default the current directory is used, but it's recommended to pass a value in your configuration. This makes your configuration independent from CWD (current working directory).
+默认使用当前目录，但是推荐在配置中传递一个值。这使得你的配置独立于 CWD(current working directory)。
 
 ---
 
@@ -27,11 +27,11 @@ By default the current directory is used, but it's recommended to pass a value i
 
 `string | [string] | object { <key>: string | [string] } | (function: () => string | [string] | object { <key>: string | [string] })`
 
-The point or points to enter the application. At this point the application starts executing. If an array is passed all items will be executed.
+起点或是应用程序的起点入口。从这个起点开始，应用程序启动执行。如果传递一个数组，那么数组的每一项都会执行。
 
-A dynamically loaded module is **not** an entry point.
+动态加载的模块**不是**入口起点。
 
-Simple rule: one entry point per HTML page. SPA: one entry point, MPA: multiple entry points.
+简单规则：每个 HTML 页面都有一个入口起点。单页应用(SPA)：一个入口起点，多页应用(MPA)：多个入口起点。
 
 ```js
 entry: {
@@ -41,19 +41,23 @@ entry: {
 }
 ```
 
-### Naming
-If a string or array of strings is passed, the chunk is named `main`. If an object is passed, each key is the name of a chunk, and the value describes the entrypoint for the chunk.
+### 命名
+如果传入一个字符串或字符串数组，chunk 会被命名为 `main`。如果传入一个对象，则每个键(key)会是 chunk 的名称，该值描述了 chunk 的入口起点。
 
-### Dynamic entry
+### 动态入口
 
 ```js
 entry: () => './demo'
 ```
 
-or
+或
 
 ```js
 entry: () => new Promise((resolve) => resolve(['./demo', './demo2']))
 ```
 
-When combining with the [`output.library`](/configuration/output#output-library) option: If an array is passed only the last item is exported.
+当结合 [`output.library`](/configuration/output#output-library) 选项时：如果传入数组，则只导出最后一项。
+
+***
+
+> 原文：https://webpack.js.org/configuration/entry-context/

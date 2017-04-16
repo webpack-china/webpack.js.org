@@ -3,15 +3,15 @@ title: mocha-loader
 source: https://raw.githubusercontent.com/webpack-contrib/mocha-loader/master/README.md
 edit: https://github.com/webpack-contrib/mocha-loader/edit/master/README.md
 ---
-## Install
+## 安装
 
 ```bash
 npm install --save-dev mocha-loader
 ```
 
-## Usage
+## 用法
 
-### Configuration (recommended)
+### 配置（推荐）
 
 **webpack.config.js**
 ```js
@@ -29,7 +29,7 @@ module.exports = {
 import test from './test'
 ```
 
-### CLI
+### 命令行接口(CLI)
 
 ```bash
 webpack --module-bind 'mocha-loader!./test'
@@ -45,9 +45,9 @@ import test from './test'
 import test from 'mocha-loader!./test'
 ```
 
-## Options
+## 选项
 
-## Maintainer
+## 维护人员
 
 <table>
   <tbody>
@@ -89,3 +89,7 @@ import test from 'mocha-loader!./test'
 
 [chat]: https://badges.gitter.im/webpack/webpack.svg
 [chat-url]: https://gitter.im/webpack/webpack
+
+***
+
+> 原文：https://webpack.js.org/loaders/mocha-loader/

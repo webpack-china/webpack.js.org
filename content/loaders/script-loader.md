@@ -3,19 +3,19 @@ title: script-loader
 source: https://raw.githubusercontent.com/webpack-contrib/script-loader/master/README.md
 edit: https://github.com/webpack-contrib/script-loader/edit/master/README.md
 ---
-## Install
+## 安装
 
 ```bash
 npm install --save-dev script-loader
 ```
 
-## Usage
+## 用法
 
-Executes JS script once in global context.
+在全局上下文(global context)执行一次 JS 脚本。
 
-> :warning: Doesn't work in NodeJS
+> :警告: 在 node.js 中不会运行
 
-### Config (recommended)
+### 配置（推荐）
 
 ```js
 import exec from 'script.exec.js';
@@ -35,13 +35,13 @@ module.exports = {
 }
 ```
 
-### Inline
+### 内联
 
 ```js
 import exec from 'script-loader!./script.js';
 ```
 
-## Maintainers
+## 维护人员
 
 <table>
   <tbody>
@@ -86,3 +86,7 @@ import exec from 'script-loader!./script.js';
 
 [chat]: https://badges.gitter.im/webpack/webpack.svg
 [chat-url]: https://gitter.im/webpack/webpack
+
+***
+
+> 原文：https://webpack.js.org/loaders/script-loader/

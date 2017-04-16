@@ -9,11 +9,11 @@ edit: https://github.com/webpack-contrib/i18n-webpack-plugin/edit/master/README.
 npm i -D i18n-webpack-plugin
 ```
 
-## Usage
+## 用法
 
-see [webpack/webpack/examples/i18n](https://github.com/webpack/webpack/tree/master/examples/i18n).
+参考 [webpack/webpack/examples/i18n](https://github.com/webpack/webpack/tree/master/examples/i18n)。
 
-## Options
+## 配置
 
 ```
 plugins: [
@@ -21,9 +21,9 @@ plugins: [
   new I18nPlugin(languageConfig, optionsObj)
 ],
 ```
- - `optionsObj.functionName`: the default value is `__`, you can change it to other function name.
- - `optionsObj.failOnMissing`: the default value is `false`, which will show a warning message, if the mapping text cannot be found. If set to `true`, the message will be an error message.
- - `optionsObj.hideMessage`: the default value is `false`, which will show the warning/error message. If set to `true`, the message will be hide.
+ - `optionsObj.functionName`：默认值为 `__`, 你可以更改为其他函数名。
+ - `optionsObj.failOnMissing`：默认值为 `false`，找不到映射文本（mapping text）时会给出一个警告信息，如果设置为 `true`，则会给出一个错误信息。
+ - `optionsObj.hideMessage`：默认值为 `false`，将会显示警告/错误信息。如果设置为 `true`，警告/错误信息将会被隐藏。
 
 ## Maintainers
 
@@ -67,3 +67,7 @@ plugins: [
 
 [chat]: https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg
 [chat-url]: https://gitter.im/webpack/webpack
+
+***
+
+> 原文：https://webpack.js.org/plugins/i18n-webpack-plugin/

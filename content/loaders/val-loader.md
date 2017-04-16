@@ -3,7 +3,7 @@ title: val-loader
 source: https://raw.githubusercontent.com/webpack-contrib/val-loader/master/README.md
 edit: https://github.com/webpack-contrib/val-loader/edit/master/README.md
 ---
-## Install
+## 安装
 
 ```bash
 npm install val-loader --save-dev
@@ -95,13 +95,14 @@ module.exports = {
 };
 ```
 
-## Usage
+## 用法
 
-The module that is loaded with this loader must stick to the following interfaces:
+此 loader 所加载的模块必须符合以下接口：
 
-### Expected module interface
+### 期望的模块接口
 
 The loaded module must export a function as `default` export with the following *function interface*.
+加载的模块必须使用以下*函数接口*，将 `默认的` export 导出为一个函数。
 
 ```js
 module.exports = function (...) { ... };
@@ -134,7 +135,7 @@ Property | Type | Description
 
 The **val-loader** itself has no options. The options are passed as they are (without cloning them) to the exported function.
 
-## Maintainers
+## 维护人员
 
 <table>
   <tbody>
@@ -189,3 +190,7 @@ The **val-loader** itself has no options. The options are passed as they are (wi
 
 [chat]: https://badges.gitter.im/webpack-contrib/webpack.svg
 [chat-url]: https://gitter.im/webpack-contrib/webpack
+
+***
+
+> 原文：https://webpack.js.org/loaders/val-loader/

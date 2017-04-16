@@ -9,9 +9,9 @@ edit: https://github.com/webpack-contrib/npm-install-webpack-plugin/edit/master/
 $ npm install --save-dev npm-install-webpack-plugin
 ```
 
-## Usage
+## 用法
 
-In your `webpack.config.js`:
+在 `webpack.config.js` 中：
 
 ```js
 plugins: [
@@ -19,22 +19,22 @@ plugins: [
 ],
 ```
 
-**This is equivalent to**:
+**相当于**：
 
 ```js
 plugins: [
   new NpmInstallPlugin({
-    // Use --save or --save-dev
+    // 使用 --save 或者 --save-dev
     dev: false,
-    // Install missing peerDependencies
+    // 安装缺少的 peerDependencies
     peerDependencies: true,
-    // Reduce amount of console logging
+    // 减少控制台日志记录的数量
     quiet: false,
   });
 ],
 ```
 
-You can provide a `Function` to the `dev` to make it dynamic:
+可以提供一个 `Function` 来动态设置 `dev`：
 
 ```js
 plugins: [

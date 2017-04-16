@@ -3,7 +3,7 @@ title: bundle-loader
 source: https://raw.githubusercontent.com/webpack-contrib/bundle-loader/master/README.md
 edit: https://github.com/webpack-contrib/bundle-loader/edit/master/README.md
 ---
-## Install
+## 安装
 
 ```bash
 npm i bundle-loader --save
@@ -11,39 +11,39 @@ npm i bundle-loader --save
 
 ## Usage
 
-[Documentation: Using loaders](http://webpack.github.io/docs/using-loaders.html)
+[文档: 使用加载器](http://webpack.github.io/docs/using-loaders.html)
 
 ``` javascript
-// The chunk is requested, when you require the bundle
+// 当你引用 bundle 的时候，chunk 会被浏览器加载。
 var waitForChunk = require("bundle-loader!./file.js");
 
-// To wait until the chunk is available (and get the exports)
-//  you need to async wait for it.
+// 为了等待 chunk 的加载完成 (而且为了拿到 exports 输出)
+// 你需要异步去等待它
 waitForChunk(function(file) {
-	// use file like it was required with
+	// 这里可以使用file，就像是用下面的代码require进来一样
 	// var file = require("./file.js");
 });
-// wraps the require in a require.ensure block
+// 将 require 包裹在 require.ensure 的代码块中
 ```
 
-The file is requested when you require the bundle loader. If you want it to request it lazy, use:
+当你引用 bundle 的时候，chunk 会被浏览器加载。如果你想它懒加载，请用：
 
 ``` javascript
 var load = require("bundle-loader?lazy!./file.js");
 
-// The chunk is not requested until you call the load function
+// bundle 不会被加载，除非你调用了 call 函数
 load(function(file) {
 
 });
 ```
 ### `name` query parameter
 
-You may set name for a bundle using the `name` query parameter. 
-See [documentation](https://github.com/webpack/loader-utils#interpolatename).
+你可能会使用 `name` 查询参数给 bundle 设置名称。
+请查看[文档](https://github.com/webpack/loader-utils#interpolatename).
 
-**Note** chunks created by the loader will be named according to the 
+**Note** chunks created by the loader will be named according to the
 [`output.chunkFilename`](https://webpack.js.org/configuration/output/#output-chunkfilename) rule, which defaults to `[id].[name]`.
-Here `[name]` corresponds to the chunk name set in the `name` query parameter. 
+Here `[name]` corresponds to the chunk name set in the `name` query parameter.
 
 #### Example:
 
@@ -51,7 +51,7 @@ Here `[name]` corresponds to the chunk name set in the `name` query parameter.
 require("bundle-loader?lazy&name=my-chunk!./file.js");
 require("bundle-loader?lazy&name=[name]!./file.js");
 ```
-And the WebPack configuration:
+And the webpack configuration:
 ``` js
 module.exports = {
    entry: { ... },
@@ -63,10 +63,10 @@ module.exports = {
 }
 ```
 
-Normal chunks will show up using the `filename` rule above, and be named according to their chunkname. 
+Normal chunks will show up using the `filename` rule above, and be named according to their chunkname.
 Chunks from `bundle-loader`, however will load using the `chunkFilename` rule, so the example files will produce `my-chunk-1.js` and `file-2.js` respectively.
 
-You can also use `chunkFilename` to add hash values to the filename, since putting `[hash]` in the bundle query parameter does not work correctly. 
+You can also use `chunkFilename` to add hash values to the filename, since putting `[hash]` in the bundle query parameter does not work correctly.
 
 ## Maintainers
 
@@ -110,3 +110,7 @@ You can also use `chunkFilename` to add hash values to the filename, since putti
 
 [chat]: https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg
 [chat-url]: https://gitter.im/webpack/webpack
+
+***
+
+> 原文：https://webpack.js.org/loaders/bundle-loader/

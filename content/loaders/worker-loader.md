@@ -3,17 +3,17 @@ title: worker-loader
 source: https://raw.githubusercontent.com/webpack-contrib/worker-loader/master/README.md
 edit: https://github.com/webpack-contrib/worker-loader/edit/master/README.md
 ---
-## Install
+## 安装
 
 ```bash
 npm i -D worker-loader
 ```
 
-## Usage
+## 用法
 
-[Documentation: Using loaders](http://webpack.github.io/docs/using-loaders.html)
+[文档：使用 loader](http://webpack.github.io/docs/using-loaders.html)
 
-Import the worker file:
+导入 worker 文件：
 
 ``` javascript
 // main.js
@@ -25,7 +25,8 @@ worker.onmessage = function(event) {...};
 worker.addEventListener("message", function(event) {...});
 ```
 
-You can also inline the worker as a blob with the `inline` parameter:
+您还可以使用inline参数将worker作为blob内联：
+
 ``` javascript
 var MyWorker = require("worker-loader?inline!./myWorker.js");
 ```
@@ -44,7 +45,7 @@ var MyWorker = require("worker-loader?name=outputWorkerName.[hash].js!./myWorker
 ```
 
 
-The worker file can import dependencies just like any other file:
+worker文件可以像任何其他文件一样导入依赖关系：
 
 ``` javascript
 // file.js
@@ -55,7 +56,7 @@ var o = {foo: 'foo'}
 _.has(o, 'foo') // true
 ```
 
-You can even use ES6 modules if you have the babel-loader configured:
+如果你配置了babel-loader，你甚至可以使用ES6模块：
 
 ``` javascript
 // file.js
@@ -66,7 +67,7 @@ let o = {foo: 'foo'}
 _.has(o, 'foo') // true
 ```
 
-## Maintainers
+## 维护人员
 
 <table>
   <tbody>
@@ -117,3 +118,7 @@ _.has(o, 'foo') // true
 
 [test]: http://img.shields.io/travis/webpack-contrib/worker-loader.svg
 [test-url]: https://travis-ci.org/webpack-contrib/worker-loader
+
+***
+
+> 原文：https://webpack.js.org/loaders/worker-loader/
