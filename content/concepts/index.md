@@ -63,12 +63,12 @@ T> 你可能看到项目**生成(emitted 或 emit)**贯穿我们整个文档和[
 
 webpack 的目标是，让 **webpack** 聚焦于项目中的所有资源(asset)，而浏览器不需要关注考虑这些（这并不意味着资源(asset)都必须打包在一起）。webpack 把[每个文件(.css, .html, .scss, .jpg, etc.) 都作为模块](/concepts/modules)处理。然而 webpack **只理解 JavaScript**。
 
-**webpack loader 会_将这些文件转换为模块_，而转换后的文件会被添加到依赖图表中。**
+**webpack loader 会_将这些文件转换为模块_，使得它们能够被被添加到依赖图表中。**
 
 在更高层面，webpack 的配置有两个目标。
 
 1. 识别出(identify)应该被对应的 loader 进行转换(transform)的那些文件
-2. 由于进行过文件转换，所以能够将被转换的文件添加到依赖图表（并且最终添加到 bundle 中）(`use` 属性)
+2. 对这些文件转换，使其能够被添加到依赖图表（并且最终添加到 bundle 中）(`use` 属性)
 
 **webpack.config.js**
 
@@ -93,9 +93,9 @@ module.exports = config;
 
 以上配置中，对一个单独的 module 对象定义了 `rules` 属性，里面包含两个必须属性：`test` 和 `use`。这可以告诉 webpack compiler 如下：
 
-> “嘿，webpack compiler，当你碰到「在 `require()`/`import` 语句中被解析为 '.js' 或 '.jsx' 的路径」时，在你把它们添加并打包之前，要先**使用** `babel-loader` 去转换”。
+> “嘿，webpack compiler，当你碰到「在 `require()`/`import` 语句中被解析到某个 '.js' 或 '.jsx' 文件的路径」时，在你把它们添加并打包之前，要先**使用** `babel-loader` 去转换”。
 
-W> 重要的是要记得，在 webpack 配置中定义 loader 时，要定义在 `module.rules` 中，而不是 `rules`。然而，在定义错误时 webpack 会给出严重的警告。
+W> 重要的是要记得，在 webpack 配置中定义 loader 时，要定义在 `module.rules` 中，而不是 `rules`。而且，在定义错误时 webpack 会给出严重的警告。
 
 我们还有尚未提到的 loader，可以设定更多特定属性。
 
@@ -105,7 +105,7 @@ W> 重要的是要记得，在 webpack 配置中定义 loader 时，要定义在
 
 由于 loader 仅在每个文件的基础上执行转换，而 `插件(plugins)` 最常用于（但不限于）在打包模块的“compilation”和“chunk”生命周期执行操作和自定义功能[（查看更多）](/concepts/plugins)。webpack 的插件系统[极其强大和可定制化](/api/plugins)。
 
-想要使用一个插件，你只需要 `require()` 它，然后把它添加到 `plugins` 数组中。多数插件可以通过选项(option)自定义。你也可以在一个配置文件中因为不同目的而多次使用同一个插件，你需要使用 `new` 创建实例来调用它。
+想要使用一个插件，你只需要 `require()` 它，然后把它添加到 `plugins` 数组中。多数插件可以通过选项(option)自定义。考虑到你也可以在一个配置文件中因为不同目的而多次使用同一个插件，你需要使用 `new` 创建实例来调用它。
 
 **webpack.config.js**
 
