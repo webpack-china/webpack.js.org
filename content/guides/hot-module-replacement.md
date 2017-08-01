@@ -25,121 +25,210 @@ W> __HMR__ 不适用于生产环境，这意味着它应当只在开发环境使
 
 ## 启用 HMR
 
-启用此功能实际上相当简单。我们来看看如何使用 [webpack-dev-server](https://github.com/webpack/webpack-dev-server) 来设置 HMR……
+这个功能非常有利于提高开发效率，而我们要做的，就是更新 [webpack-dev-server](https://github.com/webpack/webpack-dev-server) 的设置 ，和使用 webpack 的 HMR 插件。我们现在要删除掉 `print.js`的入口配置以及它在 `index.js` 中的引用。
 
-``` js
-const path = require('path');
-const webpack = require('webpack');
+__webpack.config.js__
 
-module.exports = {
-  entry: './index.js',
+``` diff
+  const path = require('path');
+  const HtmlWebpackPlugin = require('html-webpack-plugin');
++ const webpack = require('webpack');
 
-  plugins: [
-    new webpack.HotModuleReplacementPlugin() // 启用 HMR
-  ],
-
-  output: {
-    filename: 'main.js',
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '/'
-  },
-
-  devServer: {
-    hot: true, // 告诉 dev-server 我们在使用 HMR
-    contentBase: path.resolve(__dirname, 'dist'),
-    publicPath: '/'
-  }
-};
+  module.exports = {
+    entry: {
+-      app: './src/index.js',
+-      print: './src/print.js'
++      app: './src/index.js'
+    },
+    devtool: 'inline-source-map',
+    devServer: {
+      contentBase: './dist',
++     hot: true
+    },
+    plugins: [
+      new HtmlWebpackPlugin({
+        title: 'Hot Module Replacement'
+      }),
++     new webpack.HotModuleReplacementPlugin()
+    ],
+    output: {
+      filename: '[name].bundle.js',
+      path: path.resolve(__dirname, 'dist')
+    }
+  };
 ```
 
-不是太坏，嗯？我们使用 `module.hot.accept` 来测试一下……
+你也可以通过命令来修改 [webpack-dev-server](https://github.com/webpack/webpack-dev-server) 的配置：`webpack-dev-server --hotOnly`
+
+接下来我们在命令行中运行 `npm start` 查看运行结果。
+
+现在，我们来修改 `index.js`文件，以便当 `print.js` 内部发生变更时可以告诉webpack接受更新的模块。
 
 __index.js__
 
-``` js
-import Library from './library';
+``` diff
+  import _ from 'lodash';
+  import printMe from './print.js';
 
-if (module.hot) {
-  module.hot.accept('./library', function() {
-    console.log('Accepting the updated library module!');
-    Library.log();
-  })
-}
-```
+  function component() {
+    var element = document.createElement('div');
+    var btn = document.createElement('button');
 
-__library.js__
+    element.innerHTML = _.join(['Hello', 'webpack'], ' ');
 
-``` js
-export default {
-  log() {
-    // 在服务器启动后进行修改以进行测试
-    console.log('Initial log...')
+    btn.innerHTML = 'Click me and check the console!';
+    btn.onclick = printMe;
+
+    element.appendChild(btn);
+
+    return element;
   }
-}
+
+  document.body.appendChild(component());
++
++ if (module.hot) {
++   module.hot.accept('./print.js', function() {
++     console.log('Accepting the updated printMe module!');
++     printMe();
++   })
++ }
 ```
 
-开始将 `library.js` 中的 `console.log` 语句，改为 `Second log...'`，你应该在浏览器控制台中看到如下输出：
+更改 `print.js` 中 `console.log` 的输出内容，你将会在浏览器中看到如下的输出。
+
+__print.js__
+
+``` diff
+  export default function printMe() {
+-   console.log('I get called from print.js!');
++   console.log('Updating print.js...')
+  }
+```
+
+__console__
 
 ``` diff
 [HMR] Waiting for update signal from WDS...
-main.js:9998 Initial log...
-main.js:9468 [WDS] Hot Module Replacement enabled.
-+ 2main.js:9468 [WDS] App updated. Recompiling...
-+ main.js:9468 [WDS] App hot update...
-+ main.js:9912 [HMR] Checking for updates on the server...
-+ main.js:9982 Accepting the updated library module!
-+ 0.1bafc70….hot-update.js:11 Second log...
-+ main.js:9955 [HMR] Updated modules:
-+ main.js:9957 [HMR]  - ./src/library.js
-+ main.js:9894 [HMR] App is up to date.
+main.js:4395 [WDS] Hot Module Replacement enabled.
++ 2main.js:4395 [WDS] App updated. Recompiling...
++ main.js:4395 [WDS] App hot update...
++ main.js:4330 [HMR] Checking for updates on the server...
++ main.js:10024 Accepting the updated printMe module!
++ 0.4b8ee77….hot-update.js:10 Updating print.js...
++ main.js:4330 [HMR] Updated modules:
++ main.js:4330 [HMR]  - 20
++ main.js:4330 [HMR] Consider using the NamedModulesPlugin for module names.
 ```
 
+## 陷阱
 
-## 问题
+模块热替换可能比较难掌握。为了说明这一点，我们回到刚才的示例中。如果你继续点击示例页面上的按钮，你会发现控制台仍在打印这旧的 `printMe` 功能.
 
-热模块更换可能很难掌握。例如，假设我有以下 class 类：
+这是因为按钮的 `onclick` 事件仍然绑定在旧的 `printMe` 函数上。
 
-``` js
-class Logger {
-  log(text) {
-    console.log('Logging some text: ', text)
+为了让它与 HRM 正常工作，我们需要使用 `module.hot.accept` 更新绑定到新的 `printMe` 函数：
+
+__index.js__
+
+``` diff
+  import _ from 'lodash';
+  import printMe from './print.js';
+
+  function component() {
+    var element = document.createElement('div');
+    var btn = document.createElement('button');
+
+    element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+
+    btn.innerHTML = 'Click me and check the console!';
+    btn.onclick = printMe;  // onclick event is bind to the original printMe function
+
+    element.appendChild(btn);
+
+    return element;
   }
-}
+
+- document.body.appendChild(component());
++ let element = component(); // Store the element to re-render on print.js changes
++ document.body.appendChild(element);
+
+  if (module.hot) {
+    module.hot.accept('./print.js', function() {
+      console.log('Accepting the updated printMe module!');
+-     printMe();
++     document.body.removeChild(element);
++     element = component(); // Re-render the "component" to update the click handler
++     document.body.appendChild(element);
+    })
+  }
 ```
 
-即使包含此 class 类的底层模块已使用新代码进行修补(patch)，任何现有的类实例仍然具有旧的 `log` 方法。也就是说，如果我们修改这个方法内部，那么旧的实例就不会被反映出来，除非我们以使用 `module.hot.accept` 的方式重新实例化它们。
-
-这只是一个例子，但还有很多其他人可以轻松地让人犯错的地方。幸运的是，有很多 loader 在，一些会在下面提到，这将使这个使用过程变得更容易。
+这只是一个例子，但还有很多其他地方可以轻松地让人犯错。幸运的是，有很多 loader 在（其中一些会在下面提到），这将模块热替换变得更容易使用。
 
 
 ## HMR 修改样式表
 
-我们可以使用 `style-loader` 来实现 CSS 的模块热替换(Hot Module Replacement)。当更新 CSS 依赖模块时，此 loader 在后台使用 `module.hot.accept` 来修补(patch) `<style>` 标签。所以，可以使用以下 webpack 配置...
+我们可以使用 `style-loader` 来实现 CSS 的模块热替换(Hot Module Replacement)。当更新 CSS 依赖模块时，此 loader 在后台使用 `module.hot.accept` 来修补(patch) `<style>` 标签。
 
-``` js
-module.exports = {
-  // ...
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
-        use: [ 'style-loader', 'css-loader' ]
-      }
-    ]
-  },
-  // ...
-}
+所以，可以使用以下命令安装两个 loader：
+
+```bash
+npm install --save-dev style-loader css-loader
 ```
 
-热加载样式表轻而易举……
+接下来我们来更新 webpack 的配置，让这两个 loader 生效：
 
-__index.js__
+__webpack.config.js__
 
-``` js
-import Lib from './library';
-import './styles.css';
+```diff
+  const path = require('path');
+  const HtmlWebpackPlugin = require('html-webpack-plugin');
+  const webpack = require('webpack');
 
-// ...
+  module.exports = {
+    entry: {
+      app: './src/index.js'
+    },
+    devtool: 'inline-source-map',
+    devServer: {
+      contentBase: './dist',
+      hot: true
+    },
++   module: {
++     rules: [
++       {
++         test: /\.css$/,
++         use: ['style-loader', 'css-loader']
++       }
++     ]
++   },
+    plugins: [
+      new HtmlWebpackPlugin({
+        title: 'Hot Module Replacement'
+      }),
+      new webpack.HotModuleReplacementPlugin()
+    ],
+    output: {
+      filename: '[name].bundle.js',
+      path: path.resolve(__dirname, 'dist')
+    }
+  };
+```
+
+热加载样式像导入它们一样简单：
+
+__project__
+
+``` diff
+  webpack-demo
+  | - package.json
+  | - webpack.config.js
+  | - /dist
+    | - bundle.js
+  | - /src
+    | - index.js
+    | - print.js
++   | - styles.css
 ```
 
 __styles.css__
@@ -150,8 +239,51 @@ body {
 }
 ```
 
+__index.js__
+
+``` diff
+  import _ from 'lodash';
+  import printMe from './print.js';
++ import './styles.css';
+
+  function component() {
+    var element = document.createElement('div');
+    var btn = document.createElement('button');
+
+    element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+
+    btn.innerHTML = 'Click me and check the console!';
+    btn.onclick = printMe;  // onclick event is bind to the original printMe function
+
+    element.appendChild(btn);
+
+    return element;
+  }
+
+  let element = component();
+  document.body.appendChild(element);
+
+  if (module.hot) {
+    module.hot.accept('./print.js', function() {
+      console.log('Accepting the updated printMe module!');
+      document.body.removeChild(element);
+      element = component(); // Re-render the "component" to update the click handler
+      document.body.appendChild(element);
+    })
+  }
+
+```
+
 将 `body` 上的样式修改为 `background: red;`，您应该可以立即看到页面的背景颜色随之更改，而无需完全刷新。
 
+__styles.css__
+
+``` diff
+  body {
+-   background: blue;
++   background: red;
+  }
+```
 
 ## 其他代码和框架
 
