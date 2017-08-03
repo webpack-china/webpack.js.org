@@ -1,44 +1,308 @@
 ---
-title: 代码拆分
-sort: 2
+title: 代码分离
+sort: 9
 contributors:
   - pksjce
   - pastelsky
+  - simon04
+  - jonwheeler
+  - johnstew
+  - shinxi
+  - tomtasche
+  - levy9527
+  - rahulcs
+  - chrisVillanueva
+  - rafde
+  - bartushek
+  - shaunwallace
+  - skipjack
+  - jakearchibald
+  - TheDutchCoder
+  - rouzbeh84
+  - shaodahong
 ---
 
-代码拆分是 webpack 中最引人注目的特性之一。你可以把你的代码分离到不同的 bundle 中，然后你就可以去按需加载这些文件 - 例如，当用户导航到匹配的路由，或用户触发了事件时，加载对应文件。如果使用了正确的使用方式，这可以使我们有更小的 bundle，同时可以控制优先加载资源，从而对你的应用程序加载时间产生重要影响。
+T> 本指南扩展了[起步](/guides/getting-started)和[管理构建文件](/guides/output-management)中提供的示例。请确保您至少已熟悉其中提供的示例。
 
-总的来说，使用 `webpack` 可以完成的两类代码分离工作：
+代码分离是 webpack 中最引人注目的特性之一。此特性能够把代码分离到不同的 bundle 中，然后可以按需加载或并行加载这些文件。代码分离可以用于获取更小的 bundle，以及控制资源加载优先级，如果使用合理，会极大影响加载时间。
 
-## 分离资源，实现缓存资源和并行加载资源
+有三种常用的代码分离方法：
 
-### 分离第三方库(vendor)
+- 入口起点：使用 [`entry`](/configuration/entry-context) 选项手动分离代码。
+- 防止重复：使用 [`CommonsChunkPlugin`](/plugins/commons-chunk-plugin) 去重和分离 chunk。
+- 动态导入：通过模块的内联函数调用来分离代码。
 
-一个典型的应用程序，会依赖于许多提供框架/功能需求的第三方库代码。不同于应用程序代码，这些第三方库代码不会频繁修改。
 
-如果我们将这些库(library)中的代码，保留到与应用程序代码相独立的 bundle 上，我们就可以利用浏览器缓存机制，把这些文件长时间的缓存到用户的机器上。
+## Entry Points
 
-为了完成这个目标，不管应用程序代码如何变化，vendor 文件名中的 `hash` 部分都必须保持不变。学习[如何使用 CommonsChunkPlugin 分离 vendor/library](/guides/code-splitting-libraries) 代码。
+This is by far the easiest, and most intuitive, way to split code. However, it is more manual and has a some pitfalls we will go over. Let's take a look at how we might split another module from the main bundle:
 
-### 分离 CSS
+__project__
 
-你可能需要将你的样式分离到单独的 bundle 中，与应用程序的逻辑分离。
-这加强了样式的可缓存性，并且浏览器能够并行加载应用程序代码中的样式文件，避免无样式内容造成的闪烁问题(FOUC - flash of unstyled content)。
+``` diff
+webpack-demo
+|- package.json
+|- webpack.config.js
+|- /dist
+|- /src
+  |- index.js
++ |- another-module.js
+|- /node_modules
+```
 
-学习[如何使用 `ExtractTextWebpackPlugin` 来分离 css](/guides/code-splitting-css)。
+__another-module.js__
 
-## 按需分离
+``` js
+import _ from 'lodash';
 
-虽然前面几类资源分离，需要用户预先在配置中指定分离模块，但也可以在应用程序代码中创建动态分离模块。
+console.log(
+  _.join(['Another', 'module', 'loaded!'], ' ')
+);
+```
 
-这可以用于更细粒度的代码块，例如，根据我们的应用程序路由，或根据用户行为预测。这可以使用户按照实际需要加载非必要资源。
+__webpack.config.js__
 
-### 使用 `require.ensure()` 分离代码
+``` js
+const path = require('path');
+const HTMLWebpackPlugin = require('html-webpack-plugin');
 
-`require.ensure()` 是 CommonJS 异步引入资源的方法。通过添加 `require.ensure([<fileurl>])`，我们可以在代码中定义一些需要分离的模块。这样 webpack 能够在这些分离模块内部，创建包含内部所有代码的独立 bundle。
-学习 [如何使用 `require.ensure()` 来分离代码](/guides/code-splitting-require)。
+module.exports = {
+  entry: {
+    index: './src/index.js',
+    another: './src/another-module.js'
+  },
+  plugins: [
+    new HTMLWebpackPlugin({
+      title: 'Code Splitting'
+    })
+  ],
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist')
+  }
+};
+```
 
-?> Document `System.import()`
+This will yield the following build result:
+
+``` bash
+Hash: 309402710a14167f42a8
+Version: webpack 2.6.1
+Time: 570ms
+            Asset    Size  Chunks                    Chunk Names
+  index.bundle.js  544 kB       0  [emitted]  [big]  index
+another.bundle.js  544 kB       1  [emitted]  [big]  another
+   [0] ./~/lodash/lodash.js 540 kB {0} {1} [built]
+   [1] (webpack)/buildin/global.js 509 bytes {0} {1} [built]
+   [2] (webpack)/buildin/module.js 517 bytes {0} {1} [built]
+   [3] ./src/another-module.js 87 bytes {1} [built]
+   [4] ./src/index.js 216 bytes {0} [built]
+```
+
+As mentioned there are some pitfalls to this approach:
+
+- If there are any duplicated modules between entry chunks they will be included in both bundles.
+- It isn't as flexible and can't be used to dynamically split code with the core application logic.
+
+The first of these two points is definitely an issue for our example, as `lodash` is also imported within `./src/index.js` and will thus be duplicated in both bundles. Let's remove this duplication by using the `CommonsChunkPlugin`.
+
+
+## Prevent Duplication
+
+The [`CommonsChunkPlugin`](/plugins/commons-chunk-plugin) allows us to extract common dependencies into an existing entry chunk or an entirely new chunk. Let's use this to de-duplicate the `lodash` dependency from the previous example:
+
+__webpack.config.js__
+
+``` diff
+  const path = require('path');
++ const webpack = require('webpack');
+  const HTMLWebpackPlugin = require('html-webpack-plugin');
+
+  module.exports = {
+    entry: {
+      index: './src/index.js',
+      another: './src/another-module.js'
+    },
+    plugins: [
+      new HTMLWebpackPlugin({
+        title: 'Code Splitting'
+-     })
++     }),
++     new webpack.optimize.CommonsChunkPlugin({
++       name: 'common' // Specify the common bundle's name.
++     })
+    ],
+    output: {
+      filename: '[name].bundle.js',
+      path: path.resolve(__dirname, 'dist')
+    }
+  };
+```
+
+With the [`CommonsChunkPlugin`](/plugins/commons-chunk-plugin) in place, we should now see the duplicate dependency removed from our `index.bundle.js`. The plugin should notice that we've separated `lodash` out to a separate chunk and remove the dead weight from our main bundle. Let's do an `npm run build` to see if it worked:
+
+``` bash
+Hash: 70a59f8d46ff12575481
+Version: webpack 2.6.1
+Time: 510ms
+            Asset       Size  Chunks                    Chunk Names
+  index.bundle.js  665 bytes       0  [emitted]         index
+another.bundle.js  537 bytes       1  [emitted]         another
+ common.bundle.js     547 kB       2  [emitted]  [big]  common
+   [0] ./~/lodash/lodash.js 540 kB {2} [built]
+   [1] (webpack)/buildin/global.js 509 bytes {2} [built]
+   [2] (webpack)/buildin/module.js 517 bytes {2} [built]
+   [3] ./src/another-module.js 87 bytes {1} [built]
+   [4] ./src/index.js 216 bytes {0} [built]
+```
+
+Here are some other useful plugins and loaders provide by the community for splitting code:
+
+- [`ExtractTextPlugin`](/plugins/extract-text-webpack-plugin): Useful for splitting CSS out from the main application.
+- [`bundle-loader`](/loaders/bundle-loader): Used to split code and lazy load the resulting bundles.
+- [`promise-loader`](https://github.com/gaearon/promise-loader): Similar to the `bundle-loader` but uses promises.
+
+T> The [`CommonsChunkPlugin`](/plugins/commons-chunk-plugin) is also used to split vendor modules from core application code using [explicit vendor chunks](/plugins/commons-chunk-plugin/#explicit-vendor-chunk).
+
+
+## Dynamic Imports
+
+Two similar techniques are supported by webpack when it comes to dynamic code splitting. The first and more preferable approach is use to the [`import()` syntax](/api/module-methods#import-) that conforms to the [ECMAScript proposal](https://github.com/tc39/proposal-dynamic-import) for dynamic imports. The legacy, webpack-specific approach is to use [`require.ensure`](/api/module-methods#require-ensure). Let's try using the first of these two approaches...
+
+W> `import()` calls use [promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise). If you want to support older browsers that lack `Promise` support (e.g. Internet Explorer), you'll need to include a `Promise` polyfill _before_ your primary bundles.
+
+Before we start, let's remove the extra [`entry`](/concepts/entry-points/) and [`CommonsChunkPlugin`](/plugins/commons-chunk-plugin) from our config as they won't be needed for this next demonstration:
+
+__webpack.config.js__
+
+``` diff
+  const path = require('path');
+- const webpack = require('webpack');
+  const HTMLWebpackPlugin = require('html-webpack-plugin');
+
+  module.exports = {
+    entry: {
++     index: './src/index.js'
+-     index: './src/index.js',
+-     another: './src/another-module.js'
+    },
+    plugins: [
+      new HTMLWebpackPlugin({
+        title: 'Code Splitting'
+-     }),
++     })
+-     new webpack.optimize.CommonsChunkPlugin({
+-       name: 'common' // Specify the common bundle's name.
+-     })
+    ],
+    output: {
+      filename: '[name].bundle.js',
++     chunkFilename: '[name].bundle.js',
+      path: path.resolve(__dirname, 'dist')
+    }
+  };
+```
+
+We'll also update our project to remove the now unused files:
+
+__project__
+
+``` diff
+webpack-demo
+|- package.json
+|- webpack.config.js
+|- /dist
+|- /src
+  |- index.js
+- |- another-module.js
+|- /node_modules
+```
+
+Now, instead of statically importing `lodash`, we'll use dynamic importing to separate a chunk:
+
+__src/index.js__
+
+``` diff
+- import _ from 'lodash';
+-
+- function component() {
++ function getComponent() {
+-   var element = document.createElement('div');
+-
+-   // Lodash, now imported by this script
+-   element.innerHTML = _.join(['Hello', 'webpack'], ' ');
++   return import(/* webpackChunkName: "lodash" */ 'lodash').then(_ => {
++     var element = document.createElement('div');
++
++     element.innerHTML = _.join(['Hello', 'webpack'], ' ');
++
++     return element;
++
++   }).catch(error => 'An error occurred while loading the component');
+  }
+
+- document.body.appendChild(component());
++ getComponent().then(component => {
++   document.body.appendChild(component);
++ })
+```
+
+Note the use of `webpackChunkName` in the comment. This will cause our separate bundle to be named `lodash.bundle.js` instead of just `[id].bundle.js`. For more information on `webpackChunkName` and the other available options, see the [`import()` documentation](/api/module-methods#import-). Let's run webpack to see `lodash` separated out to a separate bundle:
+
+``` bash
+Hash: a27e5bf1dd73c675d5c9
+Version: webpack 2.6.1
+Time: 544ms
+           Asset     Size  Chunks                    Chunk Names
+lodash.bundle.js   541 kB       0  [emitted]  [big]  lodash
+ index.bundle.js  6.35 kB       1  [emitted]         index
+   [0] ./~/lodash/lodash.js 540 kB {0} [built]
+   [1] ./src/index.js 377 bytes {1} [built]
+   [2] (webpack)/buildin/global.js 509 bytes {0} [built]
+   [3] (webpack)/buildin/module.js 517 bytes {0} [built]
+```
+
+If you've enabled [`async` functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function) via a pre-processor like babel, note that you can simplify the code as `import()` statements just return promises:
+
+__src/index.js__
+
+``` diff
+- function getComponent() {
++ async function getComponent() {
+-   return import(/* webpackChunkName: "lodash" */ 'lodash').then(module => {
+-     var element = document.createElement('div');
+-
+-     element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+-
+-     return element;
+-
+-   }).catch(error => 'An error occurred while loading the component');
++   var element = document.createElement('div');
++   const _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
++
++   element.innerHTML = _.join(['Hello', 'webpack'], ' ');
++
++   return element;
+  }
+
+  getComponent().then(component => {
+    document.body.appendChild(component);
+  });
+```
+
+
+## Bundle Analysis
+
+Once you start splitting your code, it can be useful to analyze the output to check where modules have ended up. The [official analyze tool](https://github.com/webpack/analyse) is a good place to start. There are some other community-supported options out there as well:
+
+- [webpack-chart](https://alexkuz.github.io/webpack-chart/): Interactive pie chart for webpack stats.
+- [webpack-visualizer](https://chrisbateman.github.io/webpack-visualizer/): Visualize and analyze your bundles to see which modules are taking up space and which might be duplicates.
+- [webpack-bundle-analyzer](https://github.com/th0r/webpack-bundle-analyzer): A plugin and CLI utility that represents bundle content as convenient interactive zoomable treemap.
+
+
+## Next Steps
+
+See [Lazy Loading](/guides/lazy-loading) for a more concrete example of how `import()` can be used in a real application and [Caching](/guides/caching) to learn how to split code more effectively.
 
 ***
 

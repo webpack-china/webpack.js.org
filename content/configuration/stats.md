@@ -4,13 +4,14 @@ sort: 15
 contributors:
   - SpaceK33z
   - sallar
+  - jungomi
 ---
 
 `stats` 选项能让你准确地控制显示哪些包的信息。如果你希望得到部分包的信息（而不是一股脑全部输出），而不想使用 `quiet` 或者 `noInfo` 模式的时候，这个选项是一个很好的折衷办法。
 
 T> 对于 webpack-dev-server ，这个属性要放在 `devServer` 对象里。
 
-W> This option does not have any effect when using the Node.js API.
+W> 在使用 Node.js API 后，此选项无效。
 
 ## `stats`
 
@@ -28,6 +29,7 @@ stats: "errors-only"
 | `"minimal"`     | *none*  | 只在发生错误 或是 新的编译时输出 |
 | `"none"`        | `false` | 没有输出 |
 | `"normal"`      | `true`  | 标准输出 |
+| `"detailed"`    | *none*  | 详细输出（从 webpack 3.0.0 开始） |
 | `"verbose"`     | *none*  | 全部输出 |
 
 对于更加精细的控制，这些选项可以准确地列出你想要的信息。请注意，此对象中的所有选项都是可选的。
@@ -40,6 +42,8 @@ stats: {
   assetsSort: "field",
   // 增加缓存了的（但没构建）模块的信息
   cached: true,
+  // Show cached assets (setting this to `false` only shows emitted files)
+  cachedAssets: true,
   // 增加子级的信息
   children: true,
   // 增加包信息（设置为 `false` 能允许较少的冗长输出）
@@ -52,17 +56,33 @@ stats: {
   chunksSort: "field",
   // 用于缩短请求的上下文目录
   context: "../src/",
+  // `webpack --colors` 等同于
+  colors: true,
+  // Display the distance from the entry point for each module
+  depth: false,
+  // Display the entry points with the corresponding bundles
+  entrypoints: false,
   // 增加错误信息
   errors: true,
   // 增加错误的详细信息（就像解析日志一样）
   errorDetails: true,
+  // Exclude modules which match one of the given strings or regular expressions
+  exclude: [],
   // 增加编译的哈希值
   hash: true,
+  // Set the maximum number of modules to be shown
+  maxModules: 15,
   // 增加内置的模块信息
   modules: true,
   // 对模块按指定的项进行排序
   modulesSort: "field",
-  // 增加 publicPath 的信息
+  // Show dependencies and origin of warnings/errors (since webpack 2.5.0)
+  moduleTrace: true,
+  // Show performance hint when file size exceeds `performance.maxAssetSize`
+  performance: true,
+  // Show the exports of the modules
+  providedExports: false,
+  // 增加 public path 的信息
   publicPath: true,
   // 增加模块被引入的原因
   reasons: true,
@@ -70,10 +90,16 @@ stats: {
   source: true,
   // 增加时间信息
   timings: true,
+  // Show which exports of a module are used
+  usedExports: false,
   // 增加 webpack 版本信息
   version: true,
   // 增加提示
-  warnings: true
+  warnings: true,
+  // Filter warnings to be shown (since webpack 2.4.0),
+  // can be a String, Regexp, a function getting the warning and returning a boolean
+  // or an Array of a combination of the above. First match wins.
+  warningsFilter: "filter" | /filter/ | ["filter", /filter/] | (warning) => ... return true|false
 };
 ```
 

@@ -1,26 +1,26 @@
 ---
-title: 加载器 API(Loader API)
+title: Loader API
 sort: 4
 contributors:
     - TheLarkInn
+    - jhnns
+
 ---
 
-Loaders allow you to preprocess files as you `require()` or “load” them. Loaders are kind of like “tasks” in other build tools, 
-and provide a powerful way to handle front-end build steps. Loaders can transform files from a different language (like CoffeeScript to JavaScript), or inline images as data URLs. Loaders even allow you to do things like `require()` css files right in your JavaScript!
+loader 用于对模块的源代码进行转换。它们是一些将资源文件的源码作为参数，并返回新的源码的（运行在 Node.js 中的）函数。
 
-To tell webpack to transform a module with a loader, you can specify the loader in the webpack [configuration](/configuration) file (preferred) or in the module request, such as in a `require()` call.
+## 如何写一个 Loader
 
-?> When /concepts/loaders merges, we should link to the many usages of loaders found there (require vs configuration) from this page.
+所谓 loader 只是导出为一个函数的 JavaScript 模块。[loader runner](https://github.com/webpack/loader-runner) 会调用这个函数，然后把上一个 loader 产生的结果或者资源文件(resource file)传入进去。函数的 `this` 上下文将由 webpack 填充，并且 [loader runner](https://github.com/webpack/loader-runner) 带有一些有用方法，可以使 loader 改变为异步调用方式，或者获取 query 参数。
 
-## How to write a loader
+第一个 loader 的传入参数只有一个：资源文件(resource file)的内容。compiler 需要得到最后一个 loader 产生的处理结果。这个处理结果应该是 `String` 或者 `Buffer`（被转换为一个 string），代表了模块的 JavaScript 源码。另外还可以传递一个可选的 SourceMap 结果（格式为 JSON 对象）。
 
-A loader is just a JavaScript module that exports a function. The compiler calls this function and passes the result of the previous loader or the resource file into it. The `this` context of the function is filled-in by the compiler with some useful methods that allow the loader (among other things) to change its invocation style to async, or get query parameters. The first loader is passed one argument: the content of the resource file. The compiler expects a result from the last loader. The result should be a `String` or a `Buffer` (which is converted to a string), representing the JavaScript source code of the module. An optional SourceMap result (as JSON object) may also be passed.
+如果是单个处理结果，可以在**同步模式**中直接返回。如果有多个处理结果，则需要调用 `this.callback()`。在**异步模式**中，必须调用 `this.async()`，来指示 [loader runner](https://github.com/webpack/loader-runner) 等待异步结果，它会返回 `this.callback()` 回调函数，随后 Loader 必须返回 `undefined` 并且调用该回调函数。
 
-A single result can be returned in **sync mode**. For multiple results the `this.callback()` must be called. In **async mode** `this.async()` must be called. It returns `this.callback()` if **async mode** is allowed. Then the loader must return `undefined` and call the callback.
 
-## Examples
+## 示例
 
-### Sync Loader
+### 同步 Loader
 
 **sync-loader.js**
 
@@ -30,14 +30,23 @@ module.exports = function(content) {
 };
 ```
 
-### Async Loader 
+**sync-loader-with-multiple-results.js**
+
+```javascript
+module.exports = function(content) {
+    this.callback(null, someSyncOperation(content), sourceMaps, ast);
+    return; // 当调用callback()时总是返回undefined
+};
+```
+
+
+### 异步 Loader
 
 **async-loader.js**
 
 ```javascript
 module.exports = function(content) {
     var callback = this.async();
-    if(!callback) return someSyncOperation(content);
     someAsyncOperation(content, function(err, result) {
         if(err) return callback(err);
         callback(null, result);
@@ -45,11 +54,24 @@ module.exports = function(content) {
 };
 ```
 
-T> It’s recommended to give an asynchronous loader a fall-back to synchronous mode. This isn’t required for webpack, but allows the loader to run  synchronously using [enhanced-require](https://github.com/webpack/enhanced-resolve).
+**async-loader-with-multiple-results.js**
+
+```javascript
+module.exports = function(content) {
+    var callback = this.async();
+    someAsyncOperation(content, function(err, result, sourceMaps, ast) {
+        if(err) return callback(err);
+        callback(null, result, sourceMaps, ast);
+    });
+};
+```
+
+T> loader 最初被设计为可以在同步 loader pipeline（如 Node.js ，使用 [enhanced-require](https://github.com/webpack/enhanced-require)），与异步 pipeline（如 webpack ）中运行。然而在 Node.js 这样的单线程环境下进行耗时长的同步计算不是个好主意，我们建议尽可能地使您的 loader 异步化。但如果计算量很小，同步 loader 也是可以的。
+
 
 ### "Raw" Loader
 
-By default, the resource file is treated as utf-8 string and passed as String to the loader. By setting raw to true the loader is passed the raw `Buffer`. Every loader is allowed to deliver its result as `String` or as `Buffer`. The compiler converts them between loaders.
+默认情况下，资源文件会被转化为 UTF-8 字符串，然后传给 loader。通过设置 `raw`，loader 可以接收原始的 `Buffer`。每一个 loader 都可以用 `String` 或者 `Buffer` 的形式传递它的处理结果。Complier 将会把它们在 loader 之间相互转换。
 
 **raw-loader.js**
 
@@ -57,17 +79,18 @@ By default, the resource file is treated as utf-8 string and passed as String to
 module.exports = function(content) {
 	assert(content instanceof Buffer);
 	return someSyncOperation(content);
-	// return value can be a `Buffer` too
-	// This is also allowed if loader is not "raw"
+	// 返回值也可以是一个 `Buffer`
+	// 即使不是 raw loader 也没问题
 };
 module.exports.raw = true;
-``` 
+```
+
 
 ### Pitching Loader
 
-The order of chained loaders are **always** called from right to left. But, in some cases, loaders do not care about the results of the previous loader or the resource. They only care for **metadata**. The `pitch` method on the loaders is called from **left to right** before the loaders are called (from right to left). 
+loader **总是**从右到左地被调用，但是在一些情况下，loader 不需要关心之前处理的结果或者资源(resource)，而是只关心**元数据(metadata)**。在 loader 被调用前（从右到左），loader 中的 `pitch` 方法会**从左到右**依次被调用。
 
-If a loader delivers a result in the `pitch` method the process turns around and skips the remaining loaders, continuing with the calls to the more left loaders. `data` can be passed between pitch and normal call.
+如果中间某个 Loader 的 `pitch` 方法返回了一个值，那么剩下的 Loader 都会被跳过，转而从当前 Loader 开始向左调用 Loader。`data`可以在 pitch 和普通的 Loader 调用间传递。
 
 ```javascript
 module.exports = function(content) {
@@ -75,239 +98,310 @@ module.exports = function(content) {
 };
 module.exports.pitch = function(remainingRequest, precedingRequest, data) {
 	if(someCondition()) {
-		// fast exit
+		// 直接返回
 		return "module.exports = require(" + JSON.stringify("-!" + remainingRequest) + ");";
 	}
 	data.value = 42;
 };
 ```
 
-## The loader context 
 
-The loader context represents the properties that are available inside of a loader assigned to the `this` property. 
+## The loader context
 
-Given the following example this require call is used:
-In `/abc/file.js`:
+Loader context 表示在 Loader 内使用 `this` 可以访问的一些方法或属性
+
+假设我们在 `/abc/file.js` 中这样请求加载别的模块：
 
 ```javascript
 require("./loader1?xyz!loader2!./resource?rrr");
 ```
 
-### `version` 
 
-**Loader API version.** Currently `2`. This is useful for providing backwards compatibility. Using the version you can specify custom logic or fallbacks for breaking changes.  
+### `this.version`
 
-### `context`
+**Loader API 的版本号。**目前是 `2`。这对于向后兼容性有一些用处。通过这个版本号，你可以为不同版本间的破坏性变更编写不同的逻辑，或做降级处理。
 
-**The directory of the module.** Can be used as context for resolving other stuff.
 
-In the example: `/abc` because `resource.js` is in this directory
+### `this.context`
 
-### `request`
+**模块所在的目录。**某些场景下这可能会有用处。
 
-The resolved request string.
+在我们的例子中：这个属性为 `/abc`，因为 `resource.js` 在这个目录中
 
-In the example: `"/abc/loader1.js?xyz!/abc/node_modules/loader2/index.js!/abc/resource.js?rrr"`
 
-### `query`
+### `this.request`
 
-A string. The query of the request for the current loader.
+被解析出来的请求字符串。
 
-In the example: in loader1: `"?xyz"`, in loader2: `""`
+在我们的例子中：`"/abc/loader1.js?xyz!/abc/node_modules/loader2/index.js!/abc/resource.js?rrr"`
 
-### `data`
 
-A data object shared between the pitch and the normal phase.
+### `this.query`
 
-### `cacheable`
+1. 如果这个 loader 配置了 [`options`](/configuration/module/#useentry) 对象的话，`this.query` 就指向这个 option 对象。
+2. 如果 loader 中没有 `options`，而是以 query 字符串作为参数调用时，`this.query` 就是一个以 `?` 开头的字符串。
+
+W> `options` 已取代 `query`，所以此属性废弃。使用`loader-utils`中的 [`getOptions` 方法](https://github.com/webpack/loader-utils#getoptions)来提取给定 loader 的 option。
+
+
+### `this.callback`
+
+一个可以同步或者异步调用的可以返回多个结果的函数。预期的参数是：
+
+```typescript
+this.callback(
+    err: Error | null,
+    content: string | Buffer,
+    sourceMap?: SourceMap,
+    abstractSyntaxTree?: AST
+);
+```
+
+1. 第一个参数必须是 `Error` 或者 `null`
+2. 第二个参数是一个 `string` 或者 [`Buffer`](https://nodejs.org/api/buffer.html)。
+3. 可选的：第三个参数必须是一个可以被[这个模块](https://github.com/mozilla/source-map)解析的 source map。
+4. 可选的：`AST` 可以是给定语言的抽象语法树，比如 [`ESTree`](https://github.com/estree/estree)。这个值会被 webpack 自身忽略掉，但是如果你想在多个 loader 之间共用 AST 的时候对于加速构建非常有用。
+
+如果这个函数被调用的话，你应该返回 undefined 从而避免含糊的 loader 结果。
+
+
+### `this.async`
+
+告诉 [loader-runner](https://github.com/webpack/loader-runner) 这个loader将会异步地回调。返回`this.callback`。
+
+
+### `this.data`
+
+在 pitch 阶段和正常阶段之间共享的数据对象。
+
+
+### `this.cacheable`
+
+设置是否可缓存标志的函数：
 
 ```typescript
 cacheable(flag = true: boolean)
 ```
 
-By default, loader results are cacheable. Call this method passing `false` to make the loader's result not cacheable.
+默认情况下，loader 的处理结果会被标记为可缓存。调用这个方法然后传入 `false`，可以关闭 loader 的缓存。
 
-A cacheable loader must have a deterministic result, when inputs and dependencies haven't changed. This means the loader shouldn't have other dependencies than specified with `this.addDependency`. Most loaders are deterministic and cacheable.
+一个可缓存的 Loader 在输入和相关依赖没有变化时，必须返回相同的结果。这意味着 Loader 除了 `this.addDependency` 里指定的以外，不应该有其它任何外部依赖。
 
-### `loaders`
+
+### `this.loaders`
+
+所有 Loader 组成的数组。它在 pitch 阶段的时候是可以写入的。
 
 ```typescript
 loaders = [{request: string, path: string, query: string, module: function}]
 ```
 
-An array of all the loaders. It is writeable in the pitch phase.
-
-In the example:
+在我们的示例中：
 
 ```javascript
 [
-  { request: "/abc/loader1.js?xyz",
-	path: "/abc/loader1.js",
-	query: "?xyz",
-	module: [Function]
+  {
+    request: "/abc/loader1.js?xyz",
+    path: "/abc/loader1.js",
+    query: "?xyz",
+    module: [Function]
   },
-  { request: "/abc/node_modules/loader2/index.js",
-	path: "/abc/node_modules/loader2/index.js",
-	query: "",
-	module: [Function]
+  {
+    request: "/abc/node_modules/loader2/index.js",
+    path: "/abc/node_modules/loader2/index.js",
+    query: "",
+    module: [Function]
   }
 ]
 ```
 
-### `loaderIndex`
 
-The index in the loaders array of the current loader.
+### `this.loaderIndex`
 
-In the example: in loader1: `0`, in loader2: `1`
+当前 Loader 在 Loader 数组中的索引。
 
-### `resource`
+在我们的示例中：loader1：`0`，loader2：`1`
 
-The resource part of the request, including query.
 
-In the example: `"/abc/resource.js?rrr"`
+### `this.resource`
 
-### `resourcePath`
+请求的资源部分，包括 query 参数。
 
-The resource file.
+在我们的示例中：`"/abc/resource.js?rrr"`
 
-In the example: `"/abc/resource.js"`
 
-### `resourceQuery`
+### `this.resourcePath`
 
-The query of the resource.
+资源文件的路径。
 
-In the example: `"?rrr"`
+在我们的示例中：`"/abc/resource.js"`
 
-### `emitWarning`
+
+### `this.resourceQuery`
+
+资源的 query 参数。
+
+在我们的示例中：`"?rrr"`
+
+
+### `this.target`
+
+编译的目标。从配置选项中传递过来的。
+
+示例：`"web"`, `"node"`
+
+
+### `this.webpack`
+
+如果是 Webpack 编译的，这个布尔值会被设置为真。
+
+T> Loader 最初被设计为可以同时当 Babel transform 用。如果你编写了一个 Loader 可以同时兼容二者，那么可以使用这个属性了解是否存在可用的 loaderContext 和 Webpack 的特性。
+
+
+### `this.sourceMap`
+
+应该生成一个source map。因为生成 source map 可能会非常耗时，你应该确认 source map 确实被请求了。
+
+
+### `this.emitWarning`
 
 ```typescript
 emitWarning(message: string)
 ```
 
-Emit a warning.
+发出一个警告。
 
-### `emitError`
+
+### `this.emitError`
 
 ```typescript
 emitError(message: string)
 ```
 
-Emit an error.
+发出一个错误。
 
-### `exec`
+
+### `this.loadModule`
 
 ```typescript
-exec(code: string, filename: string)
+loadModule(request: string, callback: function(err, source, sourceMap, module))
 ```
 
-Execute some code fragment like a module.
+解析给定的 request 到一个模块，应用所有配置的 loader ，并且利用生成的 source 、sourceMap 和 模块实例（通常是 [`NormalModule`](https://github.com/webpack/webpack/blob/master/lib/NormalModule.js) 的一个实例），来进行回调。如果你需要知道其他模块的源代码来生成结果的话，你可以使用这个函数。
 
-T> Don't use `require(this.resourcePath)`, use this function to make loaders chainable!
 
-### `resolve`
+### `this.resolve`
 
 ```typescript
 resolve(context: string, request: string, callback: function(err, result: string))
 ```
 
-Resolve a request like a require expression.
+像 require 表达式一样解析一个 request 。
 
-### `resolveSync`
 
-```typescript
-resolveSync(context: string, request: string) -> string
-```
-
-Resolve a request like a require expression.
-
-### `addDependency`
+### `this.addDependency`
 
 ```typescript
 addDependency(file: string)
-dependency(file: string) // shortcut
+dependency(file: string) // 简写
 ```
 
-Adds a file as dependency of the loader result in order to make them watchable. For example, [html-loader](https://github.com/webpack/html-loader) uses this technique as it finds `src` and `src-set` attributes. Then, it sets the url's for those attributes as dependencies of the html file that is parsed.  
+加入一个文件作为产生 Loader 结果的依赖，使它们的任何变化可以被监听到。例如，[html-loader](https://github.com/webpack/html-loader) 就使用了这个技巧。当它发现 `src` 和 `src-set` 属性时，就会把这些属性上的 url 加入到被解析的 html 文件的依赖中。
 
-### `addContextDependency`
+
+### `this.addContextDependency`
 
 ```typescript
 addContextDependency(directory: string)
 ```
 
-Add a directory as dependency of the loader result.
+把文件夹作为 Loader 的依赖加入。
 
-### `clearDependencies`
+
+### `this.clearDependencies`
 
 ```typescript
 clearDependencies()
 ```
 
-Remove all dependencies of the loader result. Even initial dependencies and these of other loaders. Consider using `pitch`.
+移除 Loader 所有的依赖。甚至自己和其它 Loader 的初始依赖。考虑使用 `pitch`。
 
-### `value`
 
-Pass values to the next loader. If you know what your result exports if executed as module, set this value here (as a only element array).
-
-### `inputValue`
-
-Passed from the last loader. If you would execute the input argument as module, consider reading this variable for a shortcut (for performance).
-
-### `options`
-
-The options passed to the Compiler.
-
-### `debug`
-
-A boolean flag. It is set when in debug mode.
-
-### `minimize`
-
-Should the result be minimized.
-
-### `sourceMap`
-
-Should a SourceMap be generated.
-
-### `target`
-
-Target of compilation. Passed from configuration options.
-
-Example values: `"web"`, `"node"`
-
-### `webpack`
-
-This boolean is set to true when this is compiled by webpack.
-
-T> Loaders were originally designed to also work as Babel transforms. Therefore if you write a loader that works for both, you can use this property to know if there is access to additional loaderContext and webpack features. 
-
-### `emitFile`
+### `this.emitFile`
 
 ```typescript
-emitFile(name: string, content: Buffer|String, sourceMap: {...})
+emitFile(name: string, content: Buffer|string, sourceMap: {...})
 ```
 
-Emit a file. This is webpack-specific.
+产生一个文件。这是 webpack 独有的（原文：This is webpack-specific）。
 
-### `fs`
 
-Access to the `compilation`'s `inputFileSystem` property.
+### `this.fs`
 
-### `_compilation`
+用于访问 `compilation` 的 `inputFileSystem` 属性。
 
-Hacky access to the Compilation object of webpack.
 
-### `_compiler`
+## Deprecated context properties
 
-Hacky access to the Compiler object of webpack.
+W> 强烈建议不要使用这些属性，因为我们打算移除它们。它们仍然列在此处用于文档目的。
 
-### `_module`
 
-Hacky access to the Module object being loaded.
+### `this.exec`
 
-### Custom `loaderContext` Properties
+```typescript
+exec(code: string, filename: string)
+```
 
-Custom properties can be added to the `loaderContext` by either specifying values on the `loader` proprty on your webpack [configuration](/configuration), or by creating a [custom plugin](/api/plugins) that hooks into the `normal-module-loader` event which gives you access to the `loaderContext` to modify or extend. 
+以模块的方式执行一些代码片段。
+
+
+### `this.resolveSync`
+
+```typescript
+resolveSync(context: string, request: string) -> string
+```
+
+像 require 表达式一样解析一个 request 。（同步）
+
+
+### `this.value`
+
+向下一个 Loader 传值。如果你知道了作为模块执行后的结果，请在这里赋值（以单元素数组的形式）。
+
+
+### `this.inputValue`
+
+从上一个 Loader 那里传递过来的值。如果你会以模块的方式处理输入参数，建议预先读入这个变量。（为了性能因素）
+
+
+### `this.options`
+
+options 的值将会传递给 Complier
+
+
+### `this.debug`
+
+一个布尔值，当处于 debug 模式时为真。
+
+
+### `this.minimize`
+
+决定处理结果是否应该被压缩。
+
+
+### `this._compilation`
+
+一种 hack 写法。用于访问 Webpack 的 Compilation 对象。
+
+
+### `this._compiler`
+
+一种 hack 写法。用于访问 Webpack 的 Compiler 对象。
+
+
+### `this._module`
+
+一种 hack 写法。用于访问当前加载的 Module 对象。
 
 ***
 

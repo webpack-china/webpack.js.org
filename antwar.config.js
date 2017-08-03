@@ -7,6 +7,7 @@ var highlight = require('./utilities/highlight');
 module.exports = {
   template: {
     title: 'webpack',
+    description: 'webpack 是一个模块打包器。它的主要目标是将 JavaScript 文件打包在一起，打包后的文件用于在浏览器中使用，但它也能够胜任转换(transform)、打包(bundle)或包裹(package)任何资源(resource or asset)。',
     file: path.join(__dirname, 'template.ejs')
   },
   output: 'build',
@@ -38,16 +39,13 @@ module.exports = {
       }
     ),
 
-    'get-started': section(
-      '起步',
-      function() {
-        return require.context(
-          'json-loader!yaml-frontmatter-loader!./content/get-started',
-          false,
-          /^\.\/.*\.md$/
-        )
+    'get-started': {
+      redirects: {
+        '': '/guides/getting-started',
+        'install-webpack': '/guides/installation',
+        'why-webpack': '/guides/why-webpack',
       }
-    ),
+    },
 
     concepts: section(
       '概念',
@@ -68,8 +66,23 @@ module.exports = {
           true,
           /^\.\/.*\.md$/
         );
+      }, {
+        'code-splitting-import': '/guides/code-splitting',
+        'code-splitting-require': '/guides/code-splitting',
+        'code-splitting-async': '/guides/code-splitting',
+        'code-splitting-css': '/guides/code-splitting',
+        'code-splitting-libraries': '/guides/code-splitting',
+        'why-webpack': '/guides/comparison',
+        'production-build': '/guides/production'
       }
     ),
+
+    'guides/starter-kits': {
+      title: '起步配套工具',
+      path() {
+        return require('./components/starter-kits/starter-kits.jsx').default;
+      }
+    },
 
     development: section(
       '开发',
@@ -90,6 +103,8 @@ module.exports = {
           false,
           /^\.\/.*\.md$/
         );
+      }, {
+        'external-configs': 'javascript-alternatives'
       }
     ),
 
@@ -101,19 +116,29 @@ module.exports = {
           false,
           /^\.\/.*\.md$/
         );
+      }, {
+        'passing-a-config': 'configuration-types'
       }
     ),
 
-    pluginsapi: section(
-      'Plugins API',
+    'api/plugins': section(
+      'API',
       function() {
         return require.context(
-          'json-loader!yaml-frontmatter-loader!./content/pluginsapi',
+          'json-loader!yaml-frontmatter-loader!./content/api/plugins',
           false,
           /^\.\/.*\.md$/
         );
       }
     ),
+
+    pluginsapi: {
+      redirects: {
+        '': '/api/plugins',
+        'compiler': '/api/plugins/compiler',
+        'template': '/api/plugins/template'
+      }
+    },
 
     loaders: section(
       'Loaders',
@@ -146,6 +171,17 @@ module.exports = {
           /^\.\/.*\.md$/
         );
         return combineContexts(content, generated);
+      }
+    ),
+
+    support: section(
+      '支持',
+      function() {
+        return require.context(
+          'json-loader!yaml-frontmatter-loader!./content/support',
+          false,
+          /^\.\/.*\.md$/
+        );
       }
     ),
 
@@ -194,7 +230,7 @@ function root(contentCb) {
   };
 }
 
-function section(title, contentCb) {
+function section(title, contentCb, redirects = {}) {
   return {
     title: title,
     path: function() {
@@ -212,7 +248,7 @@ function section(title, contentCb) {
         return require('./components/page/page.jsx').default
       }
     },
-    redirects: {} // <from>: <to>
+    redirects: redirects // <from>: <to>
   };
 }
 
@@ -229,6 +265,9 @@ function processPage() {
     },
     contributors: function(o) {
       return Array.isArray(o.file.contributors) && o.file.contributors.length && o.file.contributors.slice().sort();
+    },
+    related: function(o) {
+      return Array.isArray(o.file.related) ? o.file.related : []
     }
   };
 }

@@ -6,6 +6,7 @@ contributors:
   - skipjack
   - spacek33z
   - charlespwd
+  - orteth01
 ---
 
 webpack-dev-server 能够用于快速开发应用程序。请查看[“如何开发？”](/guides/development)入门。
@@ -13,6 +14,7 @@ webpack-dev-server 能够用于快速开发应用程序。请查看[“如何开
 此页面描述影响 webpack-dev-server(简写为：dev-server) 行为的选项。
 
 T> 与 [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware) 兼容的选项旁边有 🔑。
+
 
 ## `devServer`
 
@@ -38,7 +40,39 @@ content is served from dist/
 
 这将给出一些背景知识，就能知道服务器的访问位置，并且知道服务已启动。
 
-如果你通过 Node.js API 来使用 dev-server， `devServer` 中的选项将被忽略。将选项作为第二个参数传入： `new WebpackDevServer(compiler, {...})`。
+如果你通过 Node.js API 来使用 dev-server， `devServer` 中的选项将被忽略。将选项作为第二个参数传入： `new WebpackDevServer(compiler, {...})`。关于如何通过 Node.js API 使用 webpack-dev-server 的示例，请[查看此处](https://github.com/webpack/webpack-dev-server/blob/master/examples/node-api-simple/server.js)。
+
+W> Be aware that when [exporting multiple configurations](/configuration/configuration-types/#exporting-multiple-configurations) only the `devServer` options for the first configuration will be taken into account and used for all the configurations in the array.
+
+T> If you're having trouble, navigating to the `/webpack-dev-server` route will show where files are served. For example, `http://localhost:9000/webpack-dev-server`.
+
+
+## `devServer.allowedHosts`
+
+`array`
+
+This option allows you to specify a whitelist of hosts that are allowed to access the dev server.
+
+```js
+allowedHosts: [
+    'host.com',
+    'subdomain.host.com',
+    'subdomain2.host.com',
+    'host2.com'
+]
+```
+
+Mimicking django's `ALLOWED_HOSTS`, a value beginning with `.` can be used as a subdomain wildcard. `.host.com` will match `host.com`, `www.host.com`, and any other subdomain of `host.com`.
+
+```js
+// this achieves the same effect as the first example
+// with the bonus of not having to update your config
+// if new subdomains need to access the dev server
+allowedHosts: [
+    '.host.com',
+    'host2.com'
+]
+```
 
 
 ## `devServer.clientLogLevel`
@@ -101,7 +135,7 @@ contentBase: false
 `string`
 
 在**惰性模式**中，此选项可减少编译。
-默认在**惰性模式**，每个请求结果都会产生全新的编译。使用 `filename`，可以只在某个文件时被请求时编译。
+默认在**惰性模式**，每个请求结果都会产生全新的编译。使用 `filename`，可以只在某个文件被请求时编译。
 
 如果 `output.filename` 设置为 `bundle.js` ，`filename` 使用如下：
 
@@ -119,7 +153,7 @@ T> `filename` 在不使用**惰性加载**时没有效果。
 
 `object`
 
-在所有请求中添加首部内容：
+在所有响应中添加首部内容：
 
 ```js
 headers: {
@@ -132,7 +166,7 @@ headers: {
 
 `boolean` `object`
 
-当使用[HTML5 History API](https://developer.mozilla.org/en-US/docs/Web/API/History)，任意的 `404` 响应可以提供为 `index.html` 页面。通过传入以下启用：
+当使用 [HTML5 History API](https://developer.mozilla.org/en-US/docs/Web/API/History) 时，任意的 `404` 响应都可能需要被替代为 `index.html`。通过传入以下启用：
 
 ```js
 historyApiFallback: true
@@ -182,7 +216,18 @@ host: "0.0.0.0"
 hot: true
 ```
 
-?> Add various other steps needed for this to work. (From my experience, and the current docs it looks like other steps are needed here - not like in the cmd line where it's just a flag)
+T> Note that you must also include a `new webpack.HotModuleReplacementPlugin()` to fully enable HMR. See the [HMR concepts page](/concepts/hot-module-replacement) for more information.
+
+
+## `devServer.hotOnly` - CLI only
+
+`boolean`
+
+Enables Hot Module Replacement (see [`devServer.hot`](#devserver-hot)) without page refresh as fallback in case of build failures.
+
+```js
+hotOnly: true
+```
 
 
 ## `devServer.https`
@@ -248,6 +293,24 @@ T> 如果使用命令行工具(CLI)，请确保**内联模式(inline mode)**被�
 noInfo: true
 ```
 
+## `devServer.overlay`
+
+`boolean` `object`
+
+Shows a full-screen overlay in the browser when there are compiler errors or warnings. Disabled by default. If you want to show only compiler errors:
+
+```js
+overlay: true
+```
+
+If you want to show warnings as well as errors:
+
+```js
+overlay: {
+  warnings: true,
+  errors: true
+}
+```
 
 ## `devServer.port` - 只用在命令行工具(CLI)
 
@@ -321,7 +384,14 @@ proxy: {
 ```
 
 
-## `devServer.public` - 只用在命令行工具(CLI)
+## `devServer.progress` - 只用于命令行工具(CLI)
+
+`boolean`
+
+将运行进度输出到控制台。
+
+
+## `devServer.public` - 只用于命令行工具(CLI)
 
 `string`
 
@@ -371,6 +441,21 @@ T> `devServer.publicPath` 和 `output.publicPath` 一样被推荐。
 
 ```js
 quiet: true
+```
+
+## `devServer.setup`
+
+`function`
+
+Here you can access the Express app object and add your own custom middleware to it.
+For example, to define custom handlers for some paths:
+
+```js
+setup(app){
+  app.get('/some/path', function(req, res) {
+    res.json({ custom: 'response' });
+  });
+}
 ```
 
 

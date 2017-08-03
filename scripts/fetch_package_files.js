@@ -6,6 +6,7 @@ const path = require('path');
 const async = require('async');
 const mkdirp = require('mkdirp');
 const request = require('request');
+const _ = require('lodash');
 
 if (require.main === module) {
     main();
@@ -45,7 +46,12 @@ function main() {
         return console.error(err);
       }
 
-      console.log('Fetched ' + d.length + ' files');
+      const msg = d.length === 0
+        ? 'Fetched 0 files'
+        : d.length === 1
+        ? 'Fetched 1 file: '
+        : `Fetched ${d.length} files: `;
+      console.log(msg + _.map(d, 'full_name'));
     });
   });
 }
@@ -67,17 +73,29 @@ function fetchPackageFiles(options, finalCb) {
 
         if (body && file === 'README.md') {
           body = body
-            .replace(/^[^]*?<h2[^>]*>/m, '## ') // drop everything up to first <h2>
+            .replace(/^[^]*?<\/h1>/m, '') // drop everything up to first </h1>
+            .replace(/https?:\/\/github.com\/(webpack|webpack-contrib)\/([-A-za-z0-9]+-loader\/?)([)"])/g, '/loaders/$2/$3') // modify loader links
+            .replace(/https?:\/\/github.com\/(webpack|webpack-contrib)\/([-A-za-z0-9]+-plugin\/?)([)"])/g, '/plugins/$2/$3') // modify plugin links
             .replace(/<h2[^>]*>/g, '## ') // replace any <h2> with ##
-            .replace(/<\/h2>/g, ''); // drop </h2>
+            .replace(/<\/h2>/g, '') // drop </h2>
+            .replace(/<!--[\s\S]*?-->/g, ''); // drop comments
         }
 
-        // TODO: push this type of to a script of its own to keep this generic
+        var title = pkg.name;
+        if (title.match(/-plugin$/)) {
+          title = _.camelCase(title);
+          title = _.upperFirst(title);
+          title = title.replace(/I18N/, 'I18n');
+        }
+
+        // TODO: push this type of stuff to a script of its own to keep this standard
         let headmatter = yamlHeadmatter({
-          title: pkg.name,
+          title: title,
           source: url,
           edit: [pkg.html_url, 'edit', branch, file].join('/'),
+          repo: pkg.html_url
         });
+
         return async.parallel(
           [
             fs.writeFile.bind(null,
