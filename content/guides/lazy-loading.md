@@ -16,7 +16,7 @@ T> 这个指南是[代码分离](/guides/code-splitting)的后续，如果你之
 
 ## 示例
 
-我们还以[代码分离](/guides/code-splitting#dynamic-imports)的例子为例，并做一些调整，来进一步论述这个概念。那里的代码确实会在脚本运行的时候产生一个分离的代码块 `lodash.bundle.js` ，在技术概念上“懒加载”它。问题是加载这个包并不需要用户的交互 -- 意思是每次加载页面的时候都会请求它。这样做并没有对我们有很多帮助，还会对性能产生负面影响。
+我们以[代码分离](/guides/code-splitting#dynamic-imports)中的例子为例，并做一些调整，来进一步论述这个概念。那里的代码确实会在脚本运行的时候产生一个分离的代码块 `lodash.bundle.js` ，在技术概念上“懒加载”它。问题是加载这个包并不需要用户的交互 -- 意思是每次加载页面的时候都会请求它。这样做并没有对我们有很多帮助，还会对性能产生负面影响。
 
 我们试试不同的做法。我们增加一个交互，当用户点击按钮的时候用console打印一些文字。但是会等到第一次交互的时候再加载那个代码块（`print.js`）。为此，我们返回到代码分离的例子中，把 `lodash` 放到主代码块中，重新运行_Code Splitting_中的代码[final _Dynamic Imports_ example](/guides/code-splitting#dynamic-imports)。
 
@@ -77,7 +77,7 @@ __src/index.js__
 + document.body.appendChild(component());
 ```
 
-W> 注意当调用ES6模块的 `import()` 方法（引入模块）时，必须使用模块的 `.default` 值，因为它才是promise被处理后返回的实际的 `module` 对象。
+W> 注意当调用ES6模块的 `import()` 方法（引入模块）时，必须指向模块的 `.default` 值，因为它才是promise被处理后返回的实际的 `module` 对象。
 
 现在运行webpack来验证一下我们的懒加载功能：
 
