@@ -28,7 +28,7 @@ W> __HMR__ 不适用于生产环境，这意味着它应当只在开发环境使
 
 ## 启用 HMR
 
-启用此功能实际上相当简单。All we need to do is update our [webpack-dev-server](https://github.com/webpack/webpack-dev-server) configuration, and use webpack's built in HMR plugin. We'll also remove the entry point for `print.js` as it will now be consumed by the `index.js` module.
+启用此功能实际上相当简单。所要做的只是修改下[webpack-dev-server](https://doc.webpack-china.org/configuration/dev-server)的设置，并启用webpack内置的HMR插件。之后把入口从`print.js`替换成`index.js`就可以了
 
 __webpack.config.js__
 
@@ -61,11 +61,11 @@ __webpack.config.js__
   };
 ```
 
-You can also use the CLI to modify the [webpack-dev-server](https://github.com/webpack/webpack-dev-server) configuration with the following command: `webpack-dev-server --hotOnly`.
+你还可以命令行(`webpack-dev-server --hotOnly`)的方式来直接更改[webpack-dev-server](https://doc.webpack-china.org/configuration/dev-server)的设置
 
-To get it up and running let's run `npm start` from the command line.
+修改完之后，用`npm start`来启用更新后的设定吧。
 
-Now let's update the `index.js` file so that when a change inside `print.js` is detected we tell webpack to accept the updated module.
+好了，现在来更改下`index.js`的内容，这样当检测到`print.js`内的内容发生改变的时候，webpack就知道要去更新一下模块了。
 
 __index.js__
 
@@ -97,7 +97,7 @@ __index.js__
 + }
 ```
 
-Start changing the `console.log` statement in `print.js`, and you should see the following output in the browser console.
+改一下`pint.js`内`console.log`的内容后，就可以看到浏览器内会出现以下的输出了。
 
 __print.js__
 
@@ -126,11 +126,9 @@ main.js:4395 [WDS] Hot Module Replacement enabled.
 
 ## 问题
 
-Hot Module Replacement can be tricky. To show this, let's go back to our working example. If you go ahead and click the button on the example page, you will realize the console is printing the old `printMe` function.
-
-This is happening because the button's `onclick` event handler is still bound to the original `printMe` function.
-
-To make this work with HMR we need to update that binding to the new `printMe` function using `module.hot.accept`:
+热更新模块在具体的使用当中有时候会比较棘手。拿之前的例子来说，如果你按下了样例网页的按钮后，你会发现console记录的是更新前的`printMe`函数。
+这个问题是由于按钮的`onclick`事件绑定的仍然是旧的`printMe`函数。
+为了让这个按钮能按照我们期望的那样运行，我们还需要用`module.hot.accept`来让这个按钮绑定到新的`printMe`上去：
 
 __index.js__
 
@@ -145,7 +143,7 @@ __index.js__
     element.innerHTML = _.join(['Hello', 'webpack'], ' ');
 
     btn.innerHTML = 'Click me and check the console!';
-    btn.onclick = printMe;  // onclick event is bind to the original printMe function
+    btn.onclick = printMe;  // onclick事件绑定的是原来的printMe函数
 
     element.appendChild(btn);
 
@@ -153,7 +151,7 @@ __index.js__
   }
 
 - document.body.appendChild(component());
-+ let element = component(); // Store the element to re-render on print.js changes
++ let element = component(); // 保存element来重新渲染print.js的变化
 + document.body.appendChild(element);
 
   if (module.hot) {
@@ -161,7 +159,7 @@ __index.js__
       console.log('Accepting the updated printMe module!');
 -     printMe();
 +     document.body.removeChild(element);
-+     element = component(); // Re-render the "component" to update the click handler
++     element = component(); // 重新渲染组件，之后onclick就会绑定到新的printMe函数上
 +     document.body.appendChild(element);
     })
   }
@@ -174,13 +172,13 @@ __index.js__
 
 借助于 `style-loader` 的帮助，CSS 的模块热替换实际上是相当简单的。当更新 CSS 依赖模块时，此 loader 在后台使用 `module.hot.accept` 来修补(patch) `<style>` 标签。
 
-First let's install both loaders with the following command:
+首先用以下的指令加载这两个loader吧
 
 ```bash
 npm install --save-dev style-loader css-loader
 ```
 
-Now let's update the configuration file to make use of the loader.
+之后修改下配置文件来使用这两个loader
 
 __webpack.config.js__
 
@@ -257,7 +255,7 @@ __index.js__
     element.innerHTML = _.join(['Hello', 'webpack'], ' ');
 
     btn.innerHTML = 'Click me and check the console!';
-    btn.onclick = printMe;  // onclick event is bind to the original printMe function
+    btn.onclick = printMe;  // onclick事件绑定的是原来的printMe函数
 
     element.appendChild(btn);
 
@@ -271,7 +269,7 @@ __index.js__
     module.hot.accept('./print.js', function() {
       console.log('Accepting the updated printMe module!');
       document.body.removeChild(element);
-      element = component(); // Re-render the "component" to update the click handler
+      element = component(); // 重新渲染组件，之后onclick就会绑定到新的printMe函数上
       document.body.appendChild(element);
     })
   }
