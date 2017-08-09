@@ -4,27 +4,27 @@ source: https://raw.githubusercontent.com/webpack-contrib/thread-loader/master/R
 edit: https://github.com/webpack-contrib/thread-loader/edit/master/README.md
 ---
 ## Install
+安装
 
 ```bash
 npm install --save-dev thread-loader
 ```
 
 ## Usage
+使用
+把这个loader放置在其他loader之前， 放置在这个loader之后的loader就会在一个单独的工人池(worker pool)中运行
 
-Put this loader in front of other loaders. The following loaders run in a worker pool.
+在工人池(worker pool)中运行的loader是受到限制的。 比如
+* 这些Loader不能产生新的文件
+* 这些Loader不能使用定制的loader API(即，通过插件)
+* 这些Loader无法获取webpack的选项设置
 
-Loaders running in a worker pool are limited. Examples:
+每个工人(worker)都是一个单独的有600ms限制的node.js进程。 同时跨进程的数据交换也会被限制。
 
-* Loaders cannot emit files.
-* Loaders cannot use custom loader API (i. e. by plugins).
-* Loaders cannot access the webpack options.
-
-Each worker is separate node.js process, which has an overhead of ~600ms. There is also an overhead of inter-process communication.
-
-Use this loader only for expensive operations!
+请仅在耗时的loader上使用
 
 ## Examples
-
+例子
 **webpack.config.js**
 
 ```js
@@ -33,9 +33,6 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        include: path.resolve("src"),
-        use: [
-          "thread-loader",
           "expensive-loader"
         ]
       }
@@ -45,35 +42,35 @@ module.exports = {
 ```
 
 **with options**
-
+选项
 ```js
 use: [
   {
     loader: "thread-loader",
-    // loaders with equal options will share worker pools
+    // 有同样配置的loader会共享一个工人池(worker pool)
     options: {
-      // the number of spawned workers, defaults to number of cpus
+      // 产生的工人(workre)的数量，默认是cpu的核心数
       workers: 2,
 
-      // number of jobs a worker processes in parallel
-      // defaults to 20
+      // 一个工人(workre)进程中并行执行工作的数量
+      // 默认为20
       workerParallelJobs: 50,
 
-      // additional node.js arguments
+      // 额外的node.js参数
       workerNodeArgs: ['--max-old-space-size', '1024'],
 
-      // timeout for killing the worker processes when idle
-      // defaults to 500 (ms)
-      // can be set to Infinity for watching builds to keep workers alive
+      // 闲置时定时删除工人(workre)进程
+      // 默认为500ms
+      // 可以设置为无穷大， 这样在监视模式(--watch)下可以保持工人(workre)持续存在
       poolTimeout: 2000,
 
-      // number of jobs the poll distributes to the workers
-      // defaults to 200
-      // decrease of less efficient but more fair distribution
+      // 池(pool)分配给工人(workre)的工作数量
+      // 默认为200
+      // 降低这个数值会降低总体的效率，但是会提升工作分布更均一
       poolParallelJobs: 50,
 
-      // name of the pool
-      // can be used to create different pools with elsewise identical options
+      // 池(pool)的名称
+      // 可以修改名称来创建其余选项都一样的池(pool)
       name: "my-pool"
     }
   },
@@ -82,10 +79,10 @@ use: [
 ```
 
 **prewarming**
+预热
+可以通过预热工人池(worker pool)来防止启动工人(worker)时的高延时
 
-To prevent the high delay when booting workers it possible to warmup the worker pool.
-
-This boots the max number of workers in the pool and loads specified modules into the node.js module cache.
+这会启动池(pool)内最大数量的工人(workre)并把指定的模块载入node.js的模块缓存中。
 
 ``` js
 const threadLoader = require('thread-loader');
@@ -104,7 +101,7 @@ threadLoader.warmup({
 
 
 ## Maintainers
-
+维护者
 <table>
   <tbody>
     <tr>
