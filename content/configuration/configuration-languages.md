@@ -35,7 +35,7 @@ const config: webpack.Configuration = {
   }
 };
 
-export defalt config;
+export default config;
 ```
 
 
