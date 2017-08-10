@@ -33,6 +33,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
+          "thread-loader",
           "expensive-loader"
         ]
       }
