@@ -12,13 +12,14 @@ webpack 接受以多种编程和数据语言编写的配置文件。支持的文
 
 
 ## TypeScript
-为了用[TypeScript](http://www.typescriptlang.org/)书写webpack的配置文件， 必须先安装相关依赖
+
+为了用 [TypeScript](http://www.typescriptlang.org/) 书写webpack的配置文件，必须先安装相关依赖
 
 ``` bash
 npm install --save-dev typescript ts-node @types/node @types/webpack
 ```
 
-之后就可以使用typescript书写webpack的配置文件了
+之后就可以使用typescript书写webpack的配置文件了：
 
 __webpack.config.ts__
 
@@ -41,7 +42,7 @@ export default config;
 
 ## CoffeeScript
 
-类似的，为了使用[CoffeeScript](http://coffeescript.org/)来书写配置文件, 用样需要安装相关的依赖
+类似的，为了使用 [CoffeeScript](http://coffeescript.org/) 来书写配置文件, 同样需要安装相关的依赖
 
 ``` bash
 npm install --save-dev coffee-script
@@ -76,11 +77,11 @@ module.exports = config
 
 ## Babel and JSX
 
-在以下的例子中， 使用了JSX(React 的javascript) 以及Babel来创建JSON形式的webpack配置文件
+在以下的例子中， 使用了 JSX ( React 形式的 javascript ) 以及 Babel 来创建 JSON 形式的 webpack 配置文件
 
-> 感谢 of [Jason Miller](https://twitter.com/_developit/status/769583291666169862)
+> 感谢 [Jason Miller](https://twitter.com/_developit/status/769583291666169862)
 
-首先安装依赖
+首先安装依赖：
 
 ``` js
 npm install --save-dev babel-register jsxobj babel-preset-es2015
