@@ -1,5 +1,5 @@
 ---
-title: HotModuleReplacementPlugin
+title: 热替换模块插件 (HotModuleReplacementPlugin)
 contributors:
   - skipjack
 related:
@@ -9,14 +9,14 @@ related:
     url: /api/hot-module-replacement
 ---
 
-Enables [Hot Module Replacement](/concepts/hot-module-replacement), otherwise known as HMR.
+启用 [热替换模块 (Hot Module Replacement,HMR)](/concepts/hot-module-replacement)。
 
-W> HMR should __never__ be used in production.
+W> __永远不要__ 在production模式下启用HMR
 
 
-## Basic Usage
+## 基本用法 (Basic Usage)
 
-Enabling HMR is easy and in most cases no options are necessary.
+启用HMR非常简单，在大多数情况下也不需要设置选项。
 
 ``` javascript
 new webpack.HotModuleReplacementPlugin({
@@ -25,12 +25,12 @@ new webpack.HotModuleReplacementPlugin({
 ```
 
 
-## Options
+## 选项 (Options)
 
-The following options are accepted:
+包含如下选项：
 
-- `multiStep` (boolean): If `true`, the plugin will build in two steps -- first compiling the hot update chunks, and then the remaining normal assets.
-- `fullBuildTimeout` (number): The delay between the two steps when `multiStep` is enabled.
-- `requestTimeout` (number): The timeout used for manifest download (since webpack 3.0.0)
+- `multiStep` (boolean): 设置为 `true` 时，插件会分成两步编译文件。 首先编译热加载 chunks ，之后再编译剩余的通常的 assets 。
+- `fullBuildTimeout` (number): 当 `multiStep` 启用时，表示两步编译之间的延时。
+- `requestTimeout` (number): 下载 manifest 的延时 ( webpack 3.0.0 后的版本支持)
 
-W> These options are experimental and may be deprecated. As mentioned above, they are typically not necessary and including a `new webpack.HotModuleReplacementPlugin()` is enough.
+W> 这些选项属于实验性内容，因此以后可能会被弃用。就如同上文所说的那样，这些选项通常情况下都是没有必要设置的，仅仅是设置一下 `new webpack.HotModuleReplacementPlugin()` 在大部分情况下就足够了。
