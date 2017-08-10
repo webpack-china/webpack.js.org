@@ -32,7 +32,21 @@ const config: webpack.Configuration = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'foo.bundle.js'
+  }
+};
+
+export defalt config;
 ```
+
+
+## CoffeeScript
+
+类似的，为了使用[CoffeeScript](http://coffeescript.org/)来书写配置文件, 用样需要安装相关的依赖
+
+``` bash
+npm install --save-dev coffee-script
+```
+
 之后就可以使用Coffeecript书写配置文件了
 
 __webpack.config.coffee__
