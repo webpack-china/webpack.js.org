@@ -99,7 +99,7 @@ new webpack.DllReferencePlugin({
 
 [Vendor](https://github.com/webpack/webpack/tree/master/examples/dll) and [User](https://github.com/webpack/webpack/tree/master/examples/dll-user)
 
-_两个单独的用例，用来分别演示作用域 (scope) 和上下文 (context)_
+_两个单独的用例，用来分别演示作用域(scope) 和上下文(context)_
 
 T> 多个 `DllPlugins` 和 `DllReferencePlugins`.
 
