@@ -1,5 +1,5 @@
 ---
-title: DLL插件 (DllPlugin)
+title: DllPlugin
 contributors:
   - aretecode
   - sokra
@@ -11,14 +11,14 @@ related:
     url: https://github.com/webpack/webpack/tree/master/examples/explicit-vendor-chunk/README.md
 ---
 
-`DLL插件 (DLLPlugin)` 和 `DLL引用插件 (DLLReferencePlugin)` 用某种方法实现了分割 bundles ，同时还大大提升了编译的速度。
+`DLLPlugin` 和 `DLLReferencePlugin` 用某种方法实现了分割 bundles，同时还大大提升了编译的速度。
 
 
-## `DLL插件 (DllPlugin)`
+## `DllPlugin`
 
-这个插件是在一个额外的独立的 webpack 设置中创建一个只有 dll 的 bundle (dll-only-bundle)。 这个插件会生成一个名为 `manifest.json` 的文件，这个文件是用来让 [`DLL引用插件 (DLLReferencePlugin)`](/plugins/dll-plugin#dllreferenceplugin) 映射到相关的依赖上去的。
+这个插件是在一个额外的独立的 webpack 设置中创建一个只有 dll 的 bundle(dll-only-bundle)。 这个插件会生成一个名为 `manifest.json` 的文件，这个文件是用来让 [`DLLReferencePlugin`](/plugins/dll-plugin#dllreferenceplugin) 映射到相关的依赖上去的。
 
-* `context` (optional): manifest 文件中请求的上下文(context) (默认值为 webpack 的上下文 (context))
+* `context` (optional): manifest 文件中请求的上下文(context)(默认值为 webpack 的上下文(context))
 * `name`: 暴露出的 DLL 的函数名 ([TemplatePaths](https://github.com/webpack/webpack/blob/master/lib/TemplatedPathPlugin.js): `[hash]` & `[name]` )
 * `path`: manifest json 文件的**绝对路径** (输出文件)
 
@@ -26,14 +26,14 @@ related:
 new webpack.DllPlugin(options)
 ```
 
-在给定 `地址 (path)` 的地方创建一个名为 `manifest.json` 的文件。 这个文件包含了从 `require` 和 `import` 请求到模块 id 的映射。 `DLL引用插件 (DLLReferencePlugin)` 也会用到这个文件。
+在给定 `地址(path)` 的地方创建一个名为 `manifest.json` 的文件。 这个文件包含了从 `require` 和 `import` 请求到模块 id 的映射。 `DLLReferencePlugin` 也会用到这个文件。
 
 这个插件与 [`output.library`](/configuration/output/#output-library) 的选项相结合可以暴露出 (也叫做放入全局域) dll 函数。
 
 
-## `DLL 引用插件 (DllReferencePlugin)`
+## `DllReferencePlugin`
 
-这个插件是在 webpack 主配置文件中设置的， 这个插件把只有 dll 的 bundle(们) (dll-only-bundle(s)) 引用到需要的预编译的依赖。
+这个插件是在 webpack 主配置文件中设置的， 这个插件把只有 dll 的 bundle(们)(dll-only-bundle(s)) 引用到需要的预编译的依赖。
 
 * `context`: (**绝对路径**) manifest (或者是内容属性)中请求的上下文
 * `manifest` (object): 包含 `content` 和 `name` 的对象
@@ -51,26 +51,26 @@ new webpack.DllReferencePlugin(options)
 W> 与 [`output.library`](/configuration/output/#output-library) 保持 `name` 的一致性。
 
 
-### 模式 (Modes)
+### 模式(Modes)
 
-这个插件支持两种模式，分别是 _作用域 (scoped)_ 和 _映射 (mapped)_ 。
+这个插件支持两种模式，分别是 _作用域(scoped)_ 和 _映射(mapped)_ 。
 
-#### 作用域模式 (Scoped Mode)
+#### 作用域模式(Scoped Mode)
 
 dll 中的内容可以在模块前缀下才能被引用，举例来说，令`scope = "xyz" `的话，这个 dll 中的名为 `abc` 的文件可以通过 `require("xyz/abc")` 来获取
 
 T> [作用域的用例](https://github.com/webpack/webpack/tree/master/examples/dll-user)
 
-#### 映射模式 (Mapped Mode)
+#### 映射模式(Mapped Mode)
 
 dll 中的内容被映射到了当前目录下。如果一个被 `require` 的文件符合 dll 中的某个文件(解析之后)，那么这个dll中的这个文件就会被使用。
 
 由于这是在解析了 dll 中每个文件之后才发生的，相同的路径必须能够确保这个 dll bundle 的使用者(不一定是人，可指某些代码)有权限访问。 举例来说， 假如一个 dll bundle 中含有 `loadash`库 以及 文件`abc`， 那么 `require("lodash")` 和 `require("./abc")` 都不会被编译进主要的 bundle文件，而是会被 dll 所使用。
 
 
-## 使用 (Usage)
+## 使用(Usage)
 
-W> `DLL引用插件 (DllReferencePlugin)` 和 `DLL插件 (DllPlugin)` 都是在 _另外_ 的 webpack 设置中使用的。
+W> `DllReferencePlugin` 和 `DLL插件DllPlugin` 都是在 _另外_ 的 webpack 设置中使用的。
 
 **webpack.vendor.config.js**
 
@@ -95,13 +95,13 @@ new webpack.DllReferencePlugin({
 ```
 
 
-## 例子 (Examples)
+## 例子(Examples)
 
 [Vendor](https://github.com/webpack/webpack/tree/master/examples/dll) and [User](https://github.com/webpack/webpack/tree/master/examples/dll-user)
 
 _两个单独的用例，用来分别演示作用域 (scope) 和上下文 (context)_
 
-T> 多个 `DLL插件 (DllPlugins)` 和 `DLL引用插件 (DllReferencePlugins)`.
+T> 多个 `DllPlugins` 和 `DllReferencePlugins`.
 
 
 ## References
