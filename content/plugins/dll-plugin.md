@@ -11,7 +11,7 @@ related:
     url: https://github.com/webpack/webpack/tree/master/examples/explicit-vendor-chunk/README.md
 ---
 
-`DLLPlugin` 和 `DLLReferencePlugin` 用某种方法实现了分割 bundles，同时还大大提升了编译的速度。
+`DLLPlugin` 和 `DLLReferencePlugin` 用某种方法实现了拆分 bundles，同时还大大提升了构建的速度。
 
 
 ## `DllPlugin`
@@ -26,7 +26,7 @@ related:
 new webpack.DllPlugin(options)
 ```
 
-在给定 `地址(path)` 的地方创建一个名为 `manifest.json` 的文件。 这个文件包含了从 `require` 和 `import` 请求到模块 id 的映射。 `DLLReferencePlugin` 也会用到这个文件。
+在给定 `地址(path)` 的路径下创建一个名为 `manifest.json` 的文件。 这个文件包含了从 `require` 和 `import` 的request到模块 id 的映射。 `DLLReferencePlugin` 也会用到这个文件。
 
 这个插件与 [`output.library`](/configuration/output/#output-library) 的选项相结合可以暴露出 (也叫做放入全局域) dll 函数。
 
@@ -48,7 +48,7 @@ new webpack.DllReferencePlugin(options)
 
 通过引用 dll 的 manifest 文件来把依赖的名称映射到模块的 id 上，之后再在需要的时候通过内置的 `__webpack_require__` 函数来 `require` 他们
 
-W> 与 [`output.library`](/configuration/output/#output-library) 保持 `name` 的一致性。
+W> 与 [`output.library`](/configuration/output/#output-library) 保持 `name` 的一致性。
 
 
 ### 模式(Modes)
@@ -68,7 +68,7 @@ dll 中的内容被映射到了当前目录下。如果一个被 `require` 的�
 由于这是在解析了 dll 中每个文件之后才发生的，相同的路径必须能够确保这个 dll bundle 的使用者(不一定是人，可指某些代码)有权限访问。 举例来说， 假如一个 dll bundle 中含有 `loadash`库 以及 文件`abc`， 那么 `require("lodash")` 和 `require("./abc")` 都不会被编译进主要的 bundle文件，而是会被 dll 所使用。
 
 
-## 使用(Usage)
+## 用法(Usage)
 
 W> `DllReferencePlugin` 和 `DLL插件DllPlugin` 都是在 _另外_ 的 webpack 设置中使用的。
 
@@ -95,16 +95,16 @@ new webpack.DllReferencePlugin({
 ```
 
 
-## 例子(Examples)
+## 示例(Examples)
 
 [Vendor](https://github.com/webpack/webpack/tree/master/examples/dll) and [User](https://github.com/webpack/webpack/tree/master/examples/dll-user)
 
-_两个单独的用例，用来分别演示作用域(scope) 和上下文(context)_
+_两个单独的用例，用来分别演示作用域(scope) 和上下文(context)_。
 
 T> 多个 `DllPlugins` 和 `DllReferencePlugins`.
 
 
-## References
+## 引用参考(References)
 
 ### Source
 
