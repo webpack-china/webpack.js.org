@@ -5,7 +5,6 @@ edit: https://github.com/webpack-contrib/thread-loader/edit/master/README.md
 ---
 ## 安装
 
-
 ```bash
 npm install --save-dev thread-loader
 ```
