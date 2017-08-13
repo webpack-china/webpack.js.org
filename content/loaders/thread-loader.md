@@ -3,28 +3,28 @@ title: thread-loader
 source: https://raw.githubusercontent.com/webpack-contrib/thread-loader/master/README.md
 edit: https://github.com/webpack-contrib/thread-loader/edit/master/README.md
 ---
-## Install
-安装
+## 安装
+
 
 ```bash
 npm install --save-dev thread-loader
 ```
 
-## Usage
-使用
-把这个loader放置在其他loader之前， 放置在这个loader之后的loader就会在一个单独的工人池(worker pool)中运行
+## 用法
 
-在工人池(worker pool)中运行的loader是受到限制的。 比如
-* 这些Loader不能产生新的文件
-* 这些Loader不能使用定制的loader API(即，通过插件)
-* 这些Loader无法获取webpack的选项设置
+把这个 loader 放置在其他 loader 之前， 放置在这个 loader 之后的 loader 就会在一个单独的 worker 池(worker pool)中运行
 
-每个工人(worker)都是一个单独的有600ms限制的node.js进程。 同时跨进程的数据交换也会被限制。
+在工人池(worker pool)中运行的 loader 是受到限制的。比如
+* 这些 loader 不能产生新的文件
+* 这些 loader 不能使用定制的 loader API(即，通过插件)
+* 这些 loader 无法获取 webpack 的选项设置
 
-请仅在耗时的loader上使用
+每个 worker 都是一个单独的有 600ms 限制的 node.js 进程。同时跨进程的数据交换也会被限制。
 
-## Examples
-例子
+请仅在耗时的 loader 上使用
+
+## 示例
+
 **webpack.config.js**
 
 ```js
@@ -42,31 +42,31 @@ module.exports = {
 }
 ```
 
-**with options**
-选项
+**可配选项**
+
 ```js
 use: [
   {
     loader: "thread-loader",
-    // 有同样配置的loader会共享一个工人池(worker pool)
+    // 有同样配置的 loader 会共享一个 worker 池(worker pool)
     options: {
-      // 产生的工人(workre)的数量，默认是cpu的核心数
+      // 产生的 worker 的数量，默认是cpu的核心数
       workers: 2,
 
-      // 一个工人(workre)进程中并行执行工作的数量
-      // 默认为20
+      // 一个 worker 进程中并行执行工作的数量
+      // 默认为 20
       workerParallelJobs: 50,
 
-      // 额外的node.js参数
+      // 额外的 node.js 参数
       workerNodeArgs: ['--max-old-space-size', '1024'],
 
-      // 闲置时定时删除工人(workre)进程
-      // 默认为500ms
-      // 可以设置为无穷大， 这样在监视模式(--watch)下可以保持工人(workre)持续存在
+      // 闲置时定时删除 worker 进程
+      // 默认为 500ms
+      // 可以设置为无穷大， 这样在监视模式(--watch)下可以保持 worker 持续存在
       poolTimeout: 2000,
 
-      // 池(pool)分配给工人(workre)的工作数量
-      // 默认为200
+      // 池(pool)分配给 worker 的工作数量
+      // 默认为 200
       // 降低这个数值会降低总体的效率，但是会提升工作分布更均一
       poolParallelJobs: 50,
 
@@ -79,11 +79,11 @@ use: [
 ]
 ```
 
-**prewarming**
-预热
-可以通过预热工人池(worker pool)来防止启动工人(worker)时的高延时
+**预热**
 
-这会启动池(pool)内最大数量的工人(workre)并把指定的模块载入node.js的模块缓存中。
+可以通过预热 worker 池(worker pool)来防止启动 worker 时的高延时
+
+这会启动池(pool)内最大数量的 worker 并把指定的模块载入 node.js 的模块缓存中。
 
 ``` js
 const threadLoader = require('thread-loader');
@@ -101,8 +101,8 @@ threadLoader.warmup({
 ```
 
 
-## Maintainers
-维护者
+## 维护人员
+
 <table>
   <tbody>
     <tr>
