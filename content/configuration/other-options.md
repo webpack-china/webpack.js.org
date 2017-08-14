@@ -11,7 +11,7 @@ related:
 ---
 
 
-这些是余下的一些为 webpack 所支持的选项。
+webpack 支持的其它选项。
 
 W> 寻求帮助： 这个页面还在更新中，如果你发现本页面内有描述不准确或者不完整，请在 [webpack 的文档仓库](https://github.com/webpack/webpack.js.org)中创建 issue 或者 pull request
 
@@ -115,7 +115,7 @@ W> 设置 `recordsPath` 会同时把 `recordsInputPath` 和 `recordsOutputPath` 
 
 ## `recordsOutputPath`
 
-设定需要被写入的记录。下文的例子描述了如何用这个选项和 `recordsInptuPaht` 来重命名一个记录文件：
+设定记录要写入的位置。下文的例子描述了如何用这个选项和 `recordsInptuPaht` 来重命名一个记录文件：
 
 ``` js
 recordsInputPath: path.join(__dirname, 'records.json'),
