@@ -26,7 +26,7 @@ related:
 new webpack.DllPlugin(options)
 ```
 
-在给定 `地址(path)` 的路径下创建一个名为 `manifest.json` 的文件。 这个文件包含了从 `require` 和 `import` 的request到模块 id 的映射。 `DLLReferencePlugin` 也会用到这个文件。
+在给定的 `path` 路径下创建一个名为 `manifest.json` 的文件。 这个文件包含了从 `require` 和 `import` 的request到模块 id 的映射。 `DLLReferencePlugin` 也会用到这个文件。
 
 这个插件与 [`output.library`](/configuration/output/#output-library) 的选项相结合可以暴露出 (也叫做放入全局域) dll 函数。
 
@@ -53,7 +53,7 @@ W> 与 [`output.library`](/configuration/output/#output-library) 保持 `name` �
 
 ### 模式(Modes)
 
-这个插件支持两种模式，分别是 _作用域(scoped)_ 和 _映射(mapped)_ 。
+这个插件支持两种模式，分别是_作用域(scoped)_和_映射(mapped)_。
 
 #### 作用域模式(Scoped Mode)
 
@@ -70,7 +70,7 @@ dll 中的内容被映射到了当前目录下。如果一个被 `require` 的�
 
 ## 用法(Usage)
 
-W> `DllReferencePlugin` 和 `DLL插件DllPlugin` 都是在 _另外_ 的 webpack 设置中使用的。
+W> `DllReferencePlugin` 和 `DLL插件DllPlugin` 都是在_另外_的 webpack 设置中使用的。
 
 **webpack.vendor.config.js**
 
@@ -99,7 +99,7 @@ new webpack.DllReferencePlugin({
 
 [Vendor](https://github.com/webpack/webpack/tree/master/examples/dll) and [User](https://github.com/webpack/webpack/tree/master/examples/dll-user)
 
-_两个单独的用例，用来分别演示作用域(scope) 和上下文(context)_。
+_两个单独的用例，用来分别演示作用域(scope)和上下文(context)。_
 
 T> 多个 `DllPlugins` 和 `DllReferencePlugins`.
 
