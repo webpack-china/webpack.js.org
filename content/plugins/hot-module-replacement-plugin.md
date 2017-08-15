@@ -9,9 +9,9 @@ related:
     url: /api/hot-module-replacement
 ---
 
-启用[热替换模块(Hot Module Replacement)](/concepts/hot-module-replacement)，也被成为HMR。
+启用[热替换模块(Hot Module Replacement)](/concepts/hot-module-replacement)，也被称为 HMR。
 
-W> __永远不要__在 生产环境 (production)下启用 HMR
+W> __永远不要__在生产环境(production)下启用 HMR
 
 
 ## 基本用法(Basic Usage)
@@ -33,4 +33,4 @@ new webpack.HotModuleReplacementPlugin({
 - `fullBuildTimeout` (number)：当 `multiStep` 启用时，表示两步构建之间的延时。
 - `requestTimeout` (number)：下载 manifest 的延时（webpack 3.0.0 后的版本支持）。
 
-W> 这些选项属于实验性内容，因此以后可能会被弃用。就如同上文所说的那样，这些选项通常情况下都是没有必要设置的，仅仅是设置一下 `new webpack.ModuleReplacementPlugin()` 在大部分情况下就足够了。
+W> 这些选项属于实验性内容，因此以后可能会被弃用。就如同上文所说的那样，这些选项通常情况下都是没有必要设置的，仅仅是设置一下 `new webpack.HotModuleReplacementPlugin()` 在大部分情况下就足够了。
