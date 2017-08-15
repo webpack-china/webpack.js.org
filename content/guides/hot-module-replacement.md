@@ -12,7 +12,6 @@ contributors:
   - skipjack
   - sbaidon
   - gdi2290
-  - guyunxiang32
 related:
   - title: 概念 - 模块热替换(Hot Module Replacement)
     url: /concepts/hot-module-replacement
@@ -20,16 +19,16 @@ related:
     url: /api/hot-module-replacement
 ---
 
-T> 本指南示例代码延用[开发](/guides/development)模块的示例代码。
+T> 本指南示例代码延用[开发](/guides/development)指南的示例代码。
 
-模块热替换(Hot Module Replacement 或 HMR)是 webpack 提供的最有用的功能之一。它允许在运行时更新各种模块，而无需进行完全刷新。本页面重点介绍 __实现__，而[概念页面](/concepts/hot-module-replacement)提供了更多关于它的工作原理以及为什么它有用的细节。
+模块热替换(Hot Module Replacement 或 HMR)是 webpack 提供的最有用的功能之一。它允许在运行时更新各种模块，而无需进行完全刷新。本页面重点介绍__实现__，而[概念页面](/concepts/hot-module-replacement)提供了更多关于它的工作原理以及为什么它有用的细节。
 
 W> __HMR__ 不适用于生产环境，这意味着它应当只在开发环境使用。更多详细信息，请查看[生产环境构建指南](/guides/production)。
 
 
 ## 启用 HMR
 
-启用此功能实际上相当简单。而我们要做的，就是更新 [webpack-dev-server](https://github.com/webpack/webpack-dev-server) 的设置 ，和使用 webpack 的 HMR 插件。现在我们要删除掉 `print.js` 的入口配置以及被 `index.js` 文件的索引。
+启用此功能实际上相当简单。而我们要做的，就是更新 [webpack-dev-server](https://github.com/webpack/webpack-dev-server) 的配置，和使用 webpack 的内置 HMR 插件。我们还要删除掉 `print.js` 的入口点，因为它现在正被 `index.js` 模式使用。
 
 __webpack.config.js__
 
@@ -62,9 +61,7 @@ __webpack.config.js__
   };
 ```
 
-你也可以通过命令来修改 [webpack-dev-server](https://github.com/webpack/webpack-dev-server) 的配置：
-
-`webpack-dev-server --hotOnly`
+你也可以通过命令来修改 [webpack-dev-server](https://github.com/webpack/webpack-dev-server) 的配置：`webpack-dev-server --hotOnly`
 
 接下来我们在命令行中运行 `npm start` 查看运行结果。
 
@@ -126,6 +123,7 @@ main.js:4395 [WDS] Hot Module Replacement enabled.
 + main.js:4330 [HMR] Consider using the NamedModulesPlugin for module names.
 ```
 
+
 ## 问题
 
 模块热替换可能比较难掌握。为了说明这一点，我们回到刚才的示例中。如果你继续点击示例页面上的按钮，你会发现控制台仍在打印这旧的 `printMe` 功能。
@@ -171,6 +169,7 @@ __index.js__
 
 这只是一个例子，但还有很多其他地方可以轻松地让人犯错。幸运的是，存在很多 loader（其中一些在下面提到），使得模块热替换的过程变得更容易。
 
+
 ## HMR 修改样式表
 
 借助于 `style-loader` 的帮助，CSS 的模块热替换实际上是相当简单的。当更新 CSS 依赖模块时，此 loader 在后台使用 `module.hot.accept` 来修补(patch) `<style>` 标签。
@@ -181,7 +180,7 @@ __index.js__
 npm install --save-dev style-loader css-loader
 ```
 
-接下来我们来更新 webpack 的配置，让这两个 loader 生效：
+接下来我们来更新 webpack 的配置，让这两个 loader 生效。
 
 __webpack.config.js__
 
