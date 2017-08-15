@@ -61,7 +61,7 @@ __webpack.config.js__
   };
 ```
 
-你也可以通过命令来修改 [webpack-dev-server](https://github.com/webpack/webpack-dev-server) 的配置：`webpack-dev-server --hotOnly`
+你也可以通过命令来修改 [webpack-dev-server](https://github.com/webpack/webpack-dev-server) 的配置：`webpack-dev-server --hotOnly`。
 
 接下来我们在命令行中运行 `npm start` 查看运行结果。
 
@@ -288,6 +288,7 @@ __styles.css__
 +   background: red;
   }
 ```
+
 
 ## 其他代码和框架
 
