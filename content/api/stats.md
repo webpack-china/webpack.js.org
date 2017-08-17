@@ -60,7 +60,7 @@ webpack --profile --json > compilation-stats.json
 {
   "chunkNames": [], // 这个 asset 包含的 chunk
   "chunks": [ 10, 6 ], // 这个 asset 包含的 chunk 的 id
-  "emitted": true, // 表示这个 asset 是否会让它输出
+  "emitted": true, // 表示这个 asset 是否会让它输出到 output 目录
   "name": "10.web.js", // 输出的文件名
   "size": 1058 // 文件的大小
 }
@@ -69,7 +69,7 @@ webpack --profile --json > compilation-stats.json
 
 ### Chunk对象 (Chunk Objects)
 
-每一个 `chunks` 表示一系列称为 [chunk](/glossary#chunk) 的模块。每一个对象都满足以下的结构。
+每一个 `chunks` 表示一组称为 [chunk](/glossary#chunk) 的模块。每一个对象都满足以下的结构。
 
 ``` js-with-links
 {
