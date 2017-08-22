@@ -28,7 +28,7 @@ W> __HMR__ 不适用于生产环境，这意味着它应当只在开发环境使
 
 ## 启用 HMR
 
-启用此功能实际上相当简单。而我们要做的，就是更新 [webpack-dev-server](https://github.com/webpack/webpack-dev-server) 的配置，和使用 webpack 的内置 HMR 插件。我们还要删除掉 `print.js` 的入口点，因为它现在正被 `index.js` 模式使用。
+启用此功能实际上相当简单。而我们要做的，就是更新 [webpack-dev-server](https://github.com/webpack/webpack-dev-server) 的配置，和使用 webpack 内置的 HMR 插件。我们还要删除掉 `print.js` 的入口起点，因为它现在正被 `index.js` 模式使用。
 
 __webpack.config.js__
 
