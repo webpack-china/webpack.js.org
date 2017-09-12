@@ -1,31 +1,31 @@
 ---
-title: Build Performance
+title: 构建性能
 sort: 17
 contributors:
   - sokra
 ---
 
-This guide contains some useful tips for improving build/compilation performance.
+本指南包含一些改进构建/编译性能的实用技巧。
 
 ---
 
-## General
+## 常规
 
-The following best practices should help whether or not you are in [development](/guides/development) or building for [production](/guides/production).
+无论你正在 [development](/guides/development) 或构建 [production](/guides/production)，以下做法应该帮助到你达到最佳。
 
 
-### Stay Up to Date
+### 保持版本最新
 
-Use the latest webpack version. We are always making performance improvements. The latest stable version of webpack is:
+使用最新的 webpack 版本。我们会经常进行性能优化。最新版的 webpack 是:
 
 [![latest webpack version](https://img.shields.io/npm/v/webpack.svg?label=webpack&style=flat-square&maxAge=3600)](https://github.com/webpack/webpack/releases)
 
-Staying up to date with __Node.js__  can also help with performance. On top of this, keeping your package manager (e.g. `npm` or `yarn`) up to date can also help. Newer versions create more efficient module trees and increase resolving speed.
+保持最新的 __Node.js__ 也能够保证性能。除此之外，保证你的包管理工具 (例如 `npm` 或者 `yarn` ) 为最新也能保证性能。较新的版本能够建立更高效的模块树以及提高解析速度。
 
 
 ### Loaders
 
-Apply loaders to the minimal number of modules necessary. Instead of:
+将 loaders 应用于最少数的必要模块中。而不是:
 
 ``` js
 {
@@ -34,7 +34,7 @@ Apply loaders to the minimal number of modules necessary. Instead of:
 }
 ```
 
-Use the `include` field to only apply the loader modules that actually need to be transformed by it:
+使用 `include` 字段仅将 loader 应用在实际需要转换的模块中:
 
 ``` js
 {
@@ -47,68 +47,68 @@ Use the `include` field to only apply the loader modules that actually need to b
 
 ### Bootstrap
 
-Each additional loader/plugin has a bootup time. Try to use as few different tools as possible.
+每个额外的 loader/plugin 都有启动时间。尽量少使用不同的工具。
 
 
-### Resolving
+### 解析
 
-The following steps can increase the speed of resolving:
+以下几步可以提供解析速度:
 
-- Minimize the number of items in `resolve.modules`, `resolve.extensions`, `resolve.mainFiles`, `resolve.descriptionFiles` as they increase the number of filesystem calls.
-- Set `resolve.symlinks: false` if you don't use symlinks (e.g. `npm link` or `yarn link`).
-- Set `resolve.cacheWithContext: false` if you use custom resolving plugins, that are not context specific.
+- 在增加文件系统调用时，尽量减少 `resolve.modules`, `resolve.extensions`, `resolve.mainFiles`, `resolve.descriptionFiles` 的数量。
+- 如果你不需要使用 symlinksSet ，你可以设置 `resolve.symlinks: false` (例如 `npm link` 或者 `yarn link`).
+- 如果你使用自定义解析 plugins ，并且与特殊 context 无关。你可以设置 `resolve.cacheWithContext: false` 。
 
 
 ### Dlls
 
-Use the `DllPlugin` to move code that is changed less often into a separate compilation. This will improve the application's compilation speed, although it does increase complexitity of the build process.
+使用 `DllPlugin` 将更改不频繁的代码进行单独编译。这将改善引用程序的编译速度，即使它增加了构建过程的复杂性。
 
 
 ### Smaller = Faster
 
-Decrease the total size of the compilation to increase build performance. Try to keep chunks small.
+减少编译的整体大小，以提高构建性能。尽量保持 chunks 小巧。
 
-- Use less/smaller libraries.
-- Use the `CommonsChunksPlugin` in Multi-Page Applications.
-- Use the `CommonsChunksPlugin` in `async` mode in Multi-Page Applications.
-- Remove unused code.
-- Only compile the part of the code you are currenly developing on.
+- 使用 较少/较小 的库。
+- 在多页面应用程序中使用 `CommonsChunksPlugin`。
+- 在多页面应用程序中以 `async` 模式使用 `CommonsChunksPlugin ` 。
+- 移除不使用的代码。
+- 只编译你当前正在开发部分的代码。
 
 
 ### Worker Pool
 
-The `thread-loader` can be used to offload expensive loaders to a worker pool. 
+`thread-loader` 可以将非常消耗资源的 loaders 加入到 worker pool 中。
 
-W> Don't use too many workers as there is a boot overhead for the Node.js runtime and the loader. Minimize the module transfers between worker and main process. IPC is expensive.
-
-
-### Persistent cache
-
-Enable persistent caching with the `cache-loader`. Clear cache directory on `"postinstall"` in `package.json`.
+W> 不要使用太多的 wokers ，因为 Node.js 的 runtime 和 loader 有一定的系统开销。减少 workers 和主进程间的传输。进程间通讯(IPC)是非常消耗资源的。
 
 
-### Custom plugins/loaders
+### 持久化缓存
 
-Profile them to not intruduce a performance problem here.
+使用 `cache-loader` 启用持久化缓存。使用 `package.json` 中的 `"postinstall"` 清除缓存目录。
+
+
+### 自定义 plugins/loaders
+
+这里不对他们配置的性能问题作过多赘述。
 
 ---
 
 
 ## Development
 
-The following steps are especially useful in _development_.
+下面步骤对于 _development_ 特别有用。
 
 
-### Incremental Builds
+### 增量编译
 
-Use webpack's watch mode. Don't use other tools to watch your files and invoke webpack. The built in watch mode will keep track of timestamps and passes this information to the compilation for cache invalidation.
+使用 webpack 的监听模式。在监听你的文件和调用 webpack 时不要使用其他工具。在监听模式下构建会记录时间戳并将信息传递给编译让缓存失效。
 
-In some setups watching falls back to polling mode. With many watched files this can cause a lot of CPU load. In these cases you can increase the polling interval with `watchOptions.poll`.
+在某些设置中，监听会回退到轮询模式。有许多监听文件会导致 CPU 大量负载。在这些情况下，你可以使用 `watchOptions.poll` 来增加轮询的间隔。
 
 
-### Compile in Memory
+### 内存编译
 
-The following utilities improve performance by compiling and serving assets in memory rather than writing to disk:
+以下几个实用工具通过在内存中进行代码的编译和资源的提供，但并不写入磁盘来提高性能:
 
 - `webpack-dev-server`
 - `webpack-hot-middleware`
@@ -117,18 +117,18 @@ The following utilities improve performance by compiling and serving assets in m
 
 ### Devtool
 
-Be aware of the performance differences of the different `devtool` settings.
+需要注意的是不同的 `devtool` 的设置，会导致不同的性能差异。
 
-- `"eval"` has the best performance, but doesn't assist you for transpilied code.
-- The `cheap-source-map` variants are more performant, if you can live with the slightly worse mapping quality.
-- Use a `eval-source-map` variant for incremental builds.
+- `"eval"` 具有最好的性能，但并不能帮助你处理代码。
+- 如果你历经了较差的映射性能，使用 `cheap-source-map` 配置拥有更高的性能
+- 增量编译使用 `eval-source-map` 配置。
 
-=> In most cases `eval-cheap-module-source-map` is the best option.
+=> 在大多数情况下，`eval-cheap-module-source-map` 是最好的选择。
 
 
-### Avoid Production Specific Tooling
+### 忽略生产环境下的特殊工具
 
-Certain utilities, plugins and loader only make sense when building for production. For example, it usually doesn't make sense to minify and mangle your code with the `UglifyJsPlugin` while in development. These tools should typically be excluded in development:
+某些实用工具，无论是 plugins 还是 loaders 都只能在构建生产环境时才能够使用。例如，在开发时使用 `UglifyJsPlugin` 来压缩和修改代码是没有意义的。以下这些工具通常在开发中不会使用:
 
 - `UglifyJsPlugin`
 - `ExtractTextPlugin`
@@ -138,9 +138,9 @@ Certain utilities, plugins and loader only make sense when building for producti
 - `ModuleConcatenationPlugin`
 
 
-### Minimal Entry Chunk
+### 保证入口 Chunk 最小
 
-webpack only emits updated chunks to the filesystem. For some configuration options (HMR, `[name]`/`[chunkhash]` in `output.chunkFilename`, `[hash]`) the entry chunk is invalidated in addition to the changed chunks.
+webpack 只会告知文件系统已经更新的 chunk 。对于某些配置选项(HMR, `[name]`/`[chunkhash]` in `output.chunkFilename`, `[hash]`)来说，除了已经改变的 chunks 外，对于入口 chunk 来说不会生效。
 
 Make sure the entry chunk is cheap to emit by keeping it small. The following code block extracts a chunk containing only the runtime with _all other chunks as children_:
 
