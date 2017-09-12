@@ -3,6 +3,7 @@ import Link from '../Link/Link';
 import Container from '../Container/Container';
 import Logo from '../Logo/Logo';
 import Dropdown from '../Dropdown/Dropdown';
+import LinkDropdown from '../Dropdown/LinkDropdown';
 
 // TODO: Maybe by updating the routing scheme later on we can avoid hardcoding this?
 let Sections = [
@@ -70,7 +71,7 @@ export default class Navigation extends React.Component {
                   <Link
                     key={ `navigation__link-${section.title}` }
                     className={ `navigation__link ${activeMod}` }
-                    to={ `/${section.url}` }>
+                    to={ `/${section.url}/` }>
                     { section.title }
                   </Link>
                 );
@@ -106,6 +107,16 @@ export default class Navigation extends React.Component {
             <i className="sidecar__icon icon-stack-overflow" />
           </Link>
 
+          <LinkDropdown
+            className="navigation__links"
+            items={[
+            { title: '印记中文文档导航', url: 'https://docschina.org/' },
+            { title: 'Vue.js 中文文档', url: 'https://vuefe.cn/' },
+            { title: 'React.js 中文文档', url: 'https://doc.react-china.org/' },
+            { title: 'rollup.js 中文文档', url: 'https://rollupjs.org/zh' },
+            { title: 'Node.js 中文文档', url: 'http://nodejs.cn/' }
+          ]} />
+
           <Dropdown
             className="navigation__languages"
             items={[
@@ -127,7 +138,7 @@ export default class Navigation extends React.Component {
                         <Link
                           key={ `navigation__child-${child.title}` }
                           className={ `navigation__child ${activeMod}` }
-                          to={ `/${child.url}` }>
+                          to={ `/${child.url}/` }>
                           { child.title }
                         </Link>
                       );
@@ -175,9 +186,9 @@ export default class Navigation extends React.Component {
     let { pageUrl = '' } = this.props;
 
     if (section.children) {
-      return section.children.some(child => pageUrl.includes(`${child.url}/`));
+      return section.children.some(child => { return (new RegExp("^/" + child.url +".*/")).test(pageUrl); });
 
-    } else return pageUrl.includes(`${section.url}/`);
+    } else return (new RegExp("^/" + section.url +".*/")).test(pageUrl);
   }
 
   /**
