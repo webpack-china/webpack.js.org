@@ -142,7 +142,7 @@ W> 不要使用太多的 wokers ，因为 Node.js 的 runtime 和 loader 有一�
 
 webpack 只会告知文件系统已经更新的 chunk 。对于某些配置选项(HMR, `[name]`/`[chunkhash]` in `output.chunkFilename`, `[hash]`)来说，除了已经改变的 chunks 外，对于入口 chunk 来说不会生效。
 
-Make sure the entry chunk is cheap to emit by keeping it small. The following code block extracts a chunk containing only the runtime with _all other chunks as children_:
+确保入口 chunk 保持最小，并且调用简洁。下述代码块将只包含 runtime 的 chunk 进行了提取，_其他 chunk 都作为子模块_:
 
 ``` js
 new CommonsChunkPlugin({
@@ -156,44 +156,44 @@ new CommonsChunkPlugin({
 
 ## Production
 
-The following steps are especially useful in _production_.
+以下步骤在 _production_ 中非常有用。
 
-W> __Don't sacrifice the quality of your application for small performance gains!__ Keep in mind that optimization quality is in most cases more important than build performance.
+W> __不要为了非常小的性能增益，牺牲你应用程序的质量！__ 请注意，优化代码质量在大多数情况下比构建性能更重要。
 
 
-### Multiple Compilations
+### 多重编译
 
-When using multiple compilations the following tools can help:
+当使用多重编译时，以下工具可以帮助到你:
 
-- [`parallel-webpack`](https://github.com/trivago/parallel-webpack): It allows to do compilation in a worker pool.
-- `cache-loader`: The cache can be shared between multiple compilations.
+- [`parallel-webpack`](https://github.com/trivago/parallel-webpack): 它允许编译工作在工作池中进行。
+- `cache-loader`: 缓存可以在多重编译间共享。
 
 
 ### Source Maps
 
-Source maps are really expensive. Do you really need them?
+Source maps 真的很消耗资源。思考下，你的项目是否真的需要他们？
 
 ---
 
 
-## Specific Tooling Issues
+## 特殊工具的问题
 
-The following tools have certain problems that can degrade build performance.
+下列工具存在某些可能会减低构建性能的问题。
 
 
 ### Babel
 
-- Minimize the number of preset/plugins
+- 项目中的 preset/plugins 数量最小化。
 
 
 ### Typescript
 
-- Use the `fork-ts-checker-webpack-plugin` for type checking in a separate process.
-- Configure loaders to skip typechecking.
-- Use the `ts-loader` in `happyPackMode: true` / `transpileOnly: true`.
+- 在单独的进程中使用 `fork-ts-checker-webpack-plugin` 进行类型检查。
+- 配置 loaders 跳过类型检查。
+- 使用 `ts-loader` 时，设置 `happyPackMode: true` / `transpileOnly: true`。
 
 
 ### Sass
 
-- `node-sass` has a bug which blocks threads from the Node.js threadpool. When using it with the `thread-loader` set `workerParallelJobs: 2`.
+- `node-sass` 中有个来自 Node.js 线程池的阻塞线程的 bug。 当使用 `thread-loader` 时，需要设置 `workerParallelJobs: 2`。
 
