@@ -44,13 +44,12 @@ module.exports = function doSomething() {
 };
 ```
 
-W> 在异步模式下该函数无法使用
+W> 无法在异步函数中使用该功能
 
 
 ### `exports` (CommonJS)
 
 该变量默认值为 `module.exports`（即一个对象）。 如果 `module.exports` 被重写的话， `exports` 不再会被导出。
-
 
 ``` javascript
 exports.someValue = 42;
@@ -75,7 +74,7 @@ exports.aFunction = function doSomething() {
 
 ### `__dirname` (NodeJS)
 
-取决于 `node.__dirname` 的配置选项
+取决于 `node.__dirname` 的配置选项：
 
 * `false`: Not defined
 * `mock`: equal "/"
@@ -97,7 +96,7 @@ exports.aFunction = function doSomething() {
 
 ### `__resourceQuery` (webpack-specific)
 
-当前模块的资源查询 (resource query) 。如果之后有对该模块的 `reqiure` ，那么查询字符串 (query string) 会在 `file.js` 中可见。
+当前模块的资源查询 (resource query) 。如果之后有对该模块的 `reqiure` ，那么查询字符串 (query string) 会在 `file.js` 中可访问。
 
 ``` javascript
 require('file.js?test')
@@ -122,25 +121,25 @@ __resourceQuery === '?test'
 
 ### `__webpack_chunk_load__` (webpack-specific)
 
-内部块载入函数，有两个输入参数：
+内部 chunk 载入函数，有两个输入参数：
 
 * `chunkId` 需要载入的块的id
-* `callback(require)` 块载入后的回掉函数
+* `callback(require)` 块载入后的回调函数
 
 
 ### `__webpack_modules__` (webpack-specific)
 
-所有模块对内部对象的获取。
+访问所有模块的内部对象。
 
 
 ### `__webpack_hash__` (webpack-specific)
 
-这个变量只有在启用 `HotModuleReplacementPlugin` 或者 `ExtendedAPIPlugin` 时才生效。 这个变量提供了对编译的 hash 的获取。
+这个变量只有在启用 `HotModuleReplacementPlugin` 或者 `ExtendedAPIPlugin` 时才生效。 这个变量提供了编译过程中(compilation)的 hash 信息的获取。
 
 
 ### `__non_webpack_require__` (webpack-specific)
 
-生成一个不会被 webpack  解析的 `require` 函数。 在可能的情况下配合全局 require 函数可以完成一些骚操作。
+生成一个不会被 webpack  解析的 `require` 函数。 在可能的情况下配合全局 require 函数可以完成一些酷炫操作。
 
 
 ### `DEBUG`  (webpack-specific)
