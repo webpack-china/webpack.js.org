@@ -119,14 +119,14 @@ W> 不要使用太多的 workers ，因为 Node.js 的 runtime 和 loader 有一
 
 需要注意的是不同的 `devtool` 的设置，会导致不同的性能差异。
 
-- `"eval"` 具有最好的性能，但并不能帮助你处理代码。
+- `"eval"` 具有最好的性能，但并不能帮助你转译代码。
 - 如果你能接受稍差一些的 sourcemap 质量，可以使用 `cheap-source-map` 选项来提高性能
 - 使用 `eval-source-map` 配置进行增量编译。
 
-=> 在大多数情况下，`eval-cheap-module-source-map` 是最好的选择。
+=> 在大多数情况下，`cheap-module-eval-source-map` 是最好的选择。
 
 
-### 忽略生产环境下的特殊工具
+### 避免在生产环境下才会用到的工具
 
 某些实用工具，无论是 plugins 还是 loaders 都只能在构建生产环境时才能够使用。例如，在开发时使用 `UglifyJsPlugin` 来压缩和修改代码是没有意义的。以下这些工具通常在开发中不会使用:
 
@@ -138,11 +138,11 @@ W> 不要使用太多的 workers ，因为 Node.js 的 runtime 和 loader 有一
 - `ModuleConcatenationPlugin`
 
 
-### 保证入口 Chunk 最小
+### 最小化入口 chunk
 
-webpack 只会告知文件系统已经更新的 chunk 。对于某些配置选项(HMR, `[name]`/`[chunkhash]` in `output.chunkFilename`, `[hash]`)来说，除了已经改变的 chunks 外，对于入口 chunk 来说不会生效。
+webpack 只会在文件系统中生成已经更新的 chunk 。对于某些配置选项(HMR, `[name]`/`[chunkhash]` in `output.chunkFilename`, `[hash]`)来说，除了更新的 chunks 无效之外，入口 chunk 也不会生效。
 
-确保入口 chunk 保持最小，并且调用简洁。下述代码块将只包含 runtime 的 chunk 进行了提取，_其他 chunk 都作为子模块_:
+应当在生成入口 chunk 时，尽量减少入口 chunk 的体积，以提高性能。下述代码块将只提取包含 runtime 的 chunk ，_其他 chunk 都作为子模块_:
 
 ``` js
 new CommonsChunkPlugin({
@@ -161,12 +161,12 @@ new CommonsChunkPlugin({
 W> __不要为了非常小的性能增益，牺牲你应用程序的质量！__ 请注意，优化代码质量在大多数情况下比构建性能更重要。
 
 
-### 多重编译
+### 多个编译时
 
-当使用多重编译时，以下工具可以帮助到你:
+当进行多个编译时，以下工具可以帮助到你:
 
-- [`parallel-webpack`](https://github.com/trivago/parallel-webpack): 它允许编译工作在工作池中进行。
-- `cache-loader`: 缓存可以在多重编译间共享。
+- [`parallel-webpack`](https://github.com/trivago/parallel-webpack): 它允许编译工作在 worker 池中进行。
+- `cache-loader`: 缓存可以在多个编译时之间共享。
 
 
 ### Source Maps
@@ -176,7 +176,7 @@ Source maps 真的很消耗资源。思考下，你的项目是否真的需要�
 ---
 
 
-## 特殊工具的问题
+## 工具相关问题
 
 下列工具存在某些可能会减低构建性能的问题。
 
