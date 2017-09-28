@@ -3,7 +3,6 @@ title: ModuleConcatenationPlugin
 contributors:
   - skipjack
   - TheLarkInn
-  - lukastong
 
 related:
   - webpack 3: Official Release!!
@@ -19,4 +18,4 @@ related:
 new webpack.optimize.ModuleConcatenationPlugin()
 ```
 
-> `Scope Hoisting` 是 `ECMAScrip` 模块语法的特性，此特性让 `webpack` 仅打包你用得到的模型到 `bundle` 中和 [其他的情况 ](https://medium.com/webpack/webpack-freelancing-log-book-week-5-7-4764be3266f5).
+> `Scope Hoisting` 是 `ECMAScript` 语法模块的特性，因此特性 `webpack` 会退回到仅打包你正在使用的各类模块的 `normal bundling`  中和 [其他的情况 ](https://medium.com/webpack/webpack-freelancing-log-book-week-5-7-4764be3266f5).
