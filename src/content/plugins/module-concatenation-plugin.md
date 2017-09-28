@@ -18,4 +18,4 @@ related:
 new webpack.optimize.ModuleConcatenationPlugin()
 ```
 
-> `Scope Hoisting` 因为 ES6 模块才成为可能。因为有了这样的特性， `webpack` 会退回到仅打包了你正在使用的各类模块的 `normal bundling` 和 [其他的情况 ](https://medium.com/webpack/webpack-freelancing-log-book-week-5-7-4764be3266f5).
+> `Scope Hoisting` 因为 ES6 模块才成为可能。 `webpack` 可能会根据你正在使用的模块类型和 [其他的情况 ](https://medium.com/webpack/webpack-freelancing-log-book-week-5-7-4764be3266f5)，回退到 `normal bundling`。
