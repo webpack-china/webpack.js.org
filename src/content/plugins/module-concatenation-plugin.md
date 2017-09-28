@@ -7,12 +7,14 @@ related:
   - webpack 3: Official Release!!
 ---
 
-In the past, one of webpack’s trade-offs when bundling was that each module in your bundle would be wrapped in individual function closures. These wrapper functions made it slower for your JavaScript to execute in the browser. In comparison, tools like Closure Compiler and RollupJS ‘hoist’ or concatenate the scope of all your modules into one closure and allow for your code to have a faster execution time in the browser.
 
-This plugin will enable the same concatenation behavior in webpack.
+过去 webpack 打包时的一个取舍是将 bundle 中各个模块单独打包成闭包。这些功能包使你的Javascript在浏览器中处理的更慢。相比之下，一些工具像闭包解析器(Closure Compiler)和RollupJs 可以吊起(hoist)或者预编译范围内的模块到一个闭包中，提升你的代码在浏览器中的执行速度。
+
+
+这个插件会在webpack中实现以上的预编译功能
 
 ``` js
 new webpack.optimize.ModuleConcatenationPlugin()
 ```
 
-> Scope Hoisting is specifically a feature made possible by ECMAScript Module syntax. Because of this webpack may fallback to normal bundling based on what kind of modules you are using, and [other conditions](https://medium.com/webpack/webpack-freelancing-log-book-week-5-7-4764be3266f5).
+> Scope Hoisting 是 ECMAScrip 模块语法的特性，此特性让 webpack 仅打包你用得到的模型到 bundle 中 和 [其他的情况 ](https://medium.com/webpack/webpack-freelancing-log-book-week-5-7-4764be3266f5).
