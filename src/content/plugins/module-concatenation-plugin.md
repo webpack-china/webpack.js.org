@@ -20,7 +20,7 @@ new webpack.optimize.ModuleConcatenationPlugin()
 
 ## 捆绑失败的优化[Optimization Bailouts]
 
-像文章中解释的， webpack 试图达到分批范围提升(scope hoisting)。它会将一些模型捆绑到一个范围内，但并不是任何情况下都会这么做。如果 webpack 不能捆绑模型，将会有两个选择 `Prevent` 和 `Root`，`Prevent` 意思是模型必须在自己的范围内。 `Root` 意思是一个新的模型组将被创建。以下情况决定了输出选择。
+像文章中解释的， webpack 试图达到分批的作用域提升(scope hoisting)。它会将一些模型捆绑到一个作用域内，但并不是任何情况下都会这么做。如果 webpack 不能捆绑模型，将会有两个选择 `Prevent` 和 `Root`，`Prevent` 意思是模型必须在自己的作用域内。 `Root` 意思是一个新的模型组将被创建。以下情况决定了输出选择。
 
 Condition                                     | Outcome
 --------------------------------------------- | --------
