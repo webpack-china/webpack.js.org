@@ -18,9 +18,9 @@ new webpack.optimize.ModuleConcatenationPlugin()
 > 由于实现 ECMAScript 模块语法，作用域提升(Scope Hoisting)这个特定于此语法的功能才成为可能。`webpack` 可能会根据你正在使用的模块类型和[其他的情况](https://medium.com/webpack/webpack-freelancing-log-book-week-5-7-4764be3266f5)，回退到普通打包。
 
 
-## 捆绑失败的优化[Optimization Bailouts]
+## 绑定失败的优化[Optimization Bailouts]
 
-像文章中解释的， webpack 试图达到分批的作用域提升(scope hoisting)。它会将一些模型捆绑到一个作用域内，但并不是任何情况下都会这么做。如果 webpack 不能捆绑模型，将会有两个选择 `Prevent` 和 `Root`，`Prevent` 意思是模型必须在自己的作用域内。 `Root` 意思是一个新的模型组将被创建。以下情况决定了输出选择。
+像文章中解释的， webpack 试图达到分批的作用域提升(scope hoisting)。它会将一些模块绑定到一个作用域内，但并不是任何情况下都会这么做。如果 webpack 不能绑定模块，将会有两个选择 `Prevent` 和 `Root`，`Prevent` 意思是模块必须在自己的作用域内。 `Root` 意思是一个新的模块组将被创建。以下情况决定了输出选择。
 
 Condition                                     | Outcome
 --------------------------------------------- | --------
@@ -36,7 +36,7 @@ In Multiple Chunks                            | Prevent
 `export * from "cjs-module"`                  | Prevent
 
 
-### 模型组算法[Module Grouping Algorithm]
+### 模块分组算法[Module Grouping Algorithm]
 
 下面的 JS 解释了算法：
 
@@ -80,9 +80,9 @@ function tryToAdd(group, module) {
 }
 ```
 
-### 优化捆绑失败的调试[Debugging Optimization Bailouts]
+### 优化绑定失败的调试[Debugging Optimization Bailouts]
 
-当我们使用 webpack CLI 时，参数 `--display-optimization-bailout` 将显示捆绑失败的原因。在 webpack 配置里，加上下面的 `stats` 对象:
+当我们使用 webpack CLI 时，参数 `--display-optimization-bailout` 将显示绑定失败的原因。在 webpack 配置里，加上下面的 `stats` 对象:
 
 ```js
 {
