@@ -20,7 +20,7 @@ new webpack.optimize.ModuleConcatenationPlugin()
 
 ## 绑定失败的优化[Optimization Bailouts]
 
-像文章中解释的， webpack 试图达到分批的作用域提升(scope hoisting)。它会将一些模块绑定到一个作用域内，但并不是任何情况下都会这么做。如果 webpack 不能绑定模块，将会有两个选择 `Prevent` 和 `Root`，`Prevent` 意思是模块必须在自己的作用域内。 `Root` 意思是一个新的模块组将被创建。以下情况决定了输出选择。
+像文章中解释的， webpack 试图达到分批的作用域提升(scope hoisting)。它会将一些模块绑定到一个作用域内，但并不是任何情况下都会这么做。如果 webpack 不能绑定模块，将会有两个选择 Prevent 和 Root，Prevent 意思是模块必须在自己的作用域内。 Root 意味着将创建一个新的模块组。以下条件决定了输出结果：
 
 Condition                                     | Outcome
 --------------------------------------------- | --------
@@ -38,7 +38,7 @@ In Multiple Chunks                            | Prevent
 
 ### 模块分组算法[Module Grouping Algorithm]
 
-下面的 JS 解释了算法：
+以下 JavaScript 伪代码解释了算法：
 
 ```js
 modules.forEach(module => {
@@ -80,9 +80,10 @@ function tryToAdd(group, module) {
 }
 ```
 
+
 ### 优化绑定失败的调试[Debugging Optimization Bailouts]
 
-当我们使用 webpack CLI 时，参数 `--display-optimization-bailout` 将显示绑定失败的原因。在 webpack 配置里，加上下面的 `stats` 对象:
+当我们使用 webpack CLI 时，参数 `--display-optimization-bailout` 将显示绑定失败的原因。在 webpack 配置里，只需将以下内容添加到 stats 对象中：
 
 ```js
 {
