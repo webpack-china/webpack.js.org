@@ -5,8 +5,7 @@ edit: https://github.com/webpack-contrib/compression-webpack-plugin/edit/master/
 repo: https://github.com/webpack-contrib/compression-webpack-plugin
 ---
 
-  <p>Prepare compressed versions of assets to serve them with Content-Encoding.<p>
-</div>
+Prepare compressed versions of assets to serve them with Content-Encoding.
 
 ## 安装
 
@@ -14,71 +13,147 @@ repo: https://github.com/webpack-contrib/compression-webpack-plugin
 npm i -D compression-webpack-plugin
 ```
 
-## 用法
+## 使用
 
-``` javascript
-var CompressionPlugin = require("compression-webpack-plugin");
+**webpack.config.js**
+
+```js
+const CompressionPlugin = require("compression-webpack-plugin")
+
 module.exports = {
   plugins: [
-    new CompressionPlugin({
-      asset: "[path].gz[query]",
-      algorithm: "gzip",
-      test: /\.(js|html)$/,
-      threshold: 10240,
-      minRatio: 0.8
-    })
+    new CompressionPlugin(...options)
   ]
 }
 ```
 
-参数：
+## 选项
 
-* `asset`： 目标资源名称。 `[file]` 会被替换成原始资源。`[path]` 会被替换成原始资源的路径， `[query]` 会被替换成查询字符串。默认值是 `"[path].gz[query]"`。
-* `filename`: A `function(asset)` which receives the asset name (after processing `asset` option) and returns the new asset name. Defaults to `false`.
-* `algorithm`： 可以是 `function(buf, callback)` 或者字符串。对于字符串来说依照 `zlib` 的算法(或者 `zopfli` 的算法)。默认值是 `"gzip"`。
-* `test`： 所有匹配该正则的资源都会被处理。默认值是全部资源。
-* `threshold`： 只有大小大于该值的资源会被处理。单位是 bytes。默认值是 `0`。
-* `minRatio`： 只有压缩率小于这个值的资源才会被处理。默认值是 `0.8`。
-* `deleteOriginalAssets`: Whether to delete the original assets or not. Defaults to `false`.
+|Name|Type|Default|Description|
+|:--:|:--:|:-----:|:----------|
+|**`test`**|`{RegExp}`|`.`|处理所有匹配此 `{RegExp}` 的资源|
+|**`asset`**|`{String}`|`[path].gz[query]`|目标资源名称。 `[file]` 会被替换成原资源。`[path]` 会被替换成原资源路径， `[query]` 替换成原查询字符串|
+|**`filename`**|`{Function}`|`false`|一个 `{Function}` `(asset) => asset`函数，接收原资源名（通过`asset`参数） 返回新资源名|
+|**`algorithm`**|`{String\|Function}`|`gzip`|可以是 `(buffer, cb) => cb(buffer)`或者是使用`zlib`里面的算法的`{String}`|
+|**`threshold`**|`{Number}`|`0`|只处理比这个值大的资源。按字节计算|
+|**`minRatio`**|`{Number}`|`0.8`|只有压缩率比这个值小的资源才会被处理|
+|**`deleteOriginalAssets`**|`{Boolean}`|`false`|是否删除原资源|
 
-Zopfli 的参数选项 (详情请查看 [node-zopfli](https://github.com/pierreinglebert/node-zopfli#options) 文档)：
-* verbose: Default: false,
-* verbose_more: Default: false,
-* numiterations: Default: 15,
-* blocksplitting: Default: true,
-* blocksplittinglast: Default: false,
-* blocksplittingmax: Default: 15
 
-## Maintainers
+### `test`
+
+**webpack.config.js**
+```js
+[
+  new CompressionPlugin({
+    test: /\.js/
+  })
+]
+```
+
+### `asset`
+
+**webpack.config.js**
+```js
+[
+  new CompressionPlugin({
+    asset: '[path].gz[query]'
+  })
+]
+```
+
+### `filename`
+
+**webpack.config.js**
+```js
+[
+  new CompressionPlugin({
+    filename (asset) {
+      asset = 'rename'
+      return asset
+    }
+  })
+]
+```
+
+### `algorithm`
+
+**webpack.config.js**
+```js
+[
+  new CompressionPlugin({
+    algorithm: 'gzip'
+  })
+]
+```
+
+### `threshold`
+
+**webpack.config.js**
+```js
+[
+  new CompressionPlugin({
+    threshold: 0
+  })
+]
+```
+
+### `minRatio`
+
+**webpack.config.js**
+```js
+[
+  new CompressionPlugin({
+    minRatio: 0.8
+  })
+]
+```
+
+### `deleteOriginalAssets`
+
+**webpack.config.js**
+```js
+[
+  new CompressionPlugin({
+    deleteOriginalAssets: true
+  })
+]
+```
+
+<h2 align="center">Maintainers</h2>
 
 <table>
   <tbody>
-    <tr>
-      <td align="center">
-        <img width="150" height="150"
-        src="https://avatars3.githubusercontent.com/u/166921?v=3&s=150">
+  <tr>
+    <td align="center">
+      <a href="https://github.com/d3viant0ne">
+        <img width="150" height="150" src="https://github.com/d3viant0ne.png?v=3&s=150">
         </br>
-        <a href="https://github.com/bebraw">Juho Vepsäläinen</a>
-      </td>
-      <td align="center">
-        <img width="150" height="150"
-        src="https://avatars2.githubusercontent.com/u/8420490?v=3&s=150">
+        Joshua Wiens
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/bebraw">
+        <img width="150" height="150" src="https://github.com/bebraw.png?v=3&s=150">
         </br>
-        <a href="https://github.com/d3viant0ne">Joshua Wiens</a>
-      </td>
-      <td align="center">
-        <img width="150" height="150"
-        src="https://avatars3.githubusercontent.com/u/533616?v=3&s=150">
+        Juho Vepsäläinen
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/michael-ciniawsky">
+        <img width="150" height="150" src="https://github.com/michael-ciniawsky.png?v=3&s=150">
         </br>
-        <a href="https://github.com/SpaceK33z">Kees Kluskens</a>
-      </td>
-      <td align="center">
-        <img width="150" height="150"
-        src="https://avatars3.githubusercontent.com/u/3408176?v=3&s=150">
+        Michael Ciniawsky
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/evilebottnawi">
+        <img width="150" height="150" src="https://github.com/evilebottnawi.png?v=3&s=150">
         </br>
-        <a href="https://github.com/TheLarkInn">Sean Larkin</a>
-      </td>
-    </tr>
+        Alexander Krasnoyarov
+      </a>
+    </td>
+  </tr>
   <tbody>
 </table>
 
@@ -86,11 +161,22 @@ Zopfli 的参数选项 (详情请查看 [node-zopfli](https://github.com/pierrei
 [npm]: https://img.shields.io/npm/v/compression-webpack-plugin.svg
 [npm-url]: https://npmjs.com/package/compression-webpack-plugin
 
+[node]: https://img.shields.io/node/v/compression-webpack-plugin.svg
+[node-url]: https://nodejs.org
+
 [deps]: https://david-dm.org/webpack-contrib/compression-webpack-plugin.svg
 [deps-url]: https://david-dm.org/webpack-contrib/compression-webpack-plugin
 
+[test]: https://secure.travis-ci.org/webpack-contrib/compression-webpack-plugin.svg
+[test-url]: http://travis-ci.org/webpack-contrib/compression-webpack-plugin
+
+[cover]: https://codecov.io/gh/webpack-contrib/compression-webpack-plugin/branch/master/graph/badge.svg
+[cover-url]: https://codecov.io/gh/webpack-contrib/compression-webpack-plugin
+
 [chat]: https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg
 [chat-url]: https://gitter.im/webpack/webpack
+
+
 
 ***
 
