@@ -83,7 +83,7 @@ function tryToAdd(group, module) {
 
 ### 优化绑定失败的调试[Debugging Optimization Bailouts]
 
-当我们使用 webpack CLI 时，参数 `--display-optimization-bailout` 将显示绑定失败的原因。在 webpack 配置里，只需将以下内容添加到 stats 对象中：
+当我们使用 webpack CLI 时，加上参数 `--display-optimization-bailout` 将显示绑定失败的原因。在 webpack 配置里，只需将以下内容添加到 stats 对象中：
 
 ```js
 {
