@@ -208,9 +208,12 @@ __index.js__
 
 ## HMR 修改样式表
 
+
 借助于 `style-loader` 的帮助，CSS 的模块热替换实际上是相当简单的。当更新 CSS 依赖模块时，此 loader 在后台使用 `module.hot.accept` 来修补(patch) `<style>` 标签。
 
 所以，可以使用以下命令安装两个 loader ：
+
+T> 如果你按照本指南运行到这里了，应该先ctrl+c 关闭dev-server。
 
 ```bash
 npm install --save-dev style-loader css-loader
@@ -314,6 +317,7 @@ __index.js__
   }
 
 ```
+T> 运行 npm start ，然后进行下面的尝试。
 
 将 `body` 上的样式修改为 `background: red;`，您应该可以立即看到页面的背景颜色随之更改，而无需完全刷新。
 
