@@ -519,7 +519,7 @@ T> 在使用 [d3](https://github.com/d3) 等工具来实现某些数据可视化
 
 ## 回退处理
 
-对于接下来的指南，我们无需使用本指南中所有用到的资源，因此我们会进行一些清理工作，以便为下一部分指南中的[管理输出章节](https://webpack.js.org/guides/output-management/)做好准备：
+对于接下来的指南，我们无需使用本指南中所有用到的资源，因此我们会进行一些清理工作，以便为下一部分指南中的[管理输出章节](/guides/output-management/)做好准备：
 
 __project__
 
@@ -621,7 +621,7 @@ __src/index.js__
 
 ## 下一章节指南
 
-让我们继续移步到[管理输出](https://webpack.js.org/guides/output-management/)
+让我们继续移步到[管理输出](/guides/output-management/)
 
 
 ## 延伸阅读
