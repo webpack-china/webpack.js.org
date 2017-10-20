@@ -324,7 +324,7 @@ __project__
   |- /node_modules
 ```
 
-With the loader configured and fonts in place, you can use incorporate them via an `@font-face` declaration. The local `url(...)` directive will be picked up by webpack just as it was with the image:
+通过配置好 loader 并将字体文件放在合适的地方，你可以通过一个 `@font-face` 声明合并它们。本地的 `url(...)` 指令会被 webpack 获取处理，就像它处理图片资源一样：
 
 __src/style.css__
 
@@ -344,7 +344,7 @@ __src/style.css__
   }
 ```
 
-Now run a new build and let's see if webpack handled our fonts:
+现在让我们重新构建来看看 webpack 是否处理了我们的字体：
 
 ``` bash
 npm run build
@@ -369,7 +369,7 @@ Time: 775ms
   [10] ./src/index.js 503 bytes {0} [built]
 ```
 
-Open up `index.html` again and see if our `Hello webpack` text has changed to the new font. If all is well, you should see the changes.
+重新打开 `index.html` 看看我们的 `Hello webpack` 文本显示是否换上了新的字体。如果一切顺利，你应该能看到变化。
 
 
 ## 加载数据
