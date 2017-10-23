@@ -4,7 +4,9 @@ source: https://raw.githubusercontent.com/webpack-contrib/zopfli-webpack-plugin/
 edit: https://github.com/webpack-contrib/zopfli-webpack-plugin/edit/master/README.md
 repo: https://github.com/webpack-contrib/zopfli-webpack-plugin
 ---
-Node-Zopfli plugin for Webpack.
+
+  <p>Node-Zopfli plugin for Webpack.<p>
+</div>
 
 ## 安装
 

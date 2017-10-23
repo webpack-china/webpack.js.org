@@ -4,7 +4,9 @@ source: https://raw.githubusercontent.com/webpack-contrib/exports-loader/master/
 edit: https://github.com/webpack-contrib/exports-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/exports-loader
 ---
-Exports variables from inside the file by appending `exports[...] = ...` statements..
+
+  <p>Exports variables from inside the file by appending `exports[...] = ...` statements..<p>
+</div>
 
 ## 安装
 

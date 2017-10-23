@@ -6,7 +6,7 @@ import Shield from '../Shield/Shield';
 import Items from './projects.json';
 import './Organization.scss';
 
-const Organization = props => {
+export default props => {
   return (
     <Container className="organization page__content">
       <h1>The Organization</h1>
@@ -67,7 +67,3 @@ const Organization = props => {
     </Container>
   );
 };
-
-Organization.title = 'Organization';
-
-export default Organization;

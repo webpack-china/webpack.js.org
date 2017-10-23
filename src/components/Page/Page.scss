@@ -24,7 +24,7 @@
   overflow-x: hidden;
   padding: 1.5em 1em;
 
-  @include break {
+  @media break {
     flex: 3;
     padding: 1.5em;
   }

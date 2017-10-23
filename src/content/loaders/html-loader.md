@@ -4,7 +4,9 @@ source: https://raw.githubusercontent.com/webpack-contrib/html-loader/master/REA
 edit: https://github.com/webpack-contrib/html-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/html-loader
 ---
-Exports HTML as string. HTML is minimized when the compiler demands.
+
+  <p>Exports HTML as string. HTML is minimized when the compiler demands.<p>
+</div>
 
 ## 安装
 
@@ -139,7 +141,7 @@ module: {
 }
 ```
 
-##
+### 'Root-relative' URLs
 
 对于以 `/` 开头的 url，默认行为是不转换它们。
 如果设置了 `root` 查询参数，它将被添加到 URL 之前，然后进行转换。

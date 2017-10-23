@@ -13,7 +13,6 @@ contributors:
   - sbaidon
   - gdi2290
   - bdwain
-  - caryli
 related:
   - title: 概念 - 模块热替换(Hot Module Replacement)
     url: /concepts/hot-module-replacement
@@ -53,7 +52,6 @@ __webpack.config.js__
 +     hot: true
     },
     plugins: [
-      new CleanWebpackPlugin(['dist']),
       new HtmlWebpackPlugin({
         title: 'Hot Module Replacement'
       }),
@@ -146,15 +144,14 @@ const webpack = require('webpack');
 const config = require('./webpack.config.js');
 const options = {
   contentBase: './dist',
-  hot: true,
-  host: 'localhost'
+  hot: true
 };
 
 webpackDevServer.addDevServerEntrypoints(config, options);
 const compiler = webpack(config);
 const server = new webpackDevServer(compiler, options);
 
-server.listen(5000, 'localhost', () => {
+server.listen(5000, () => {
   console.log('dev server listening on port 5000');
 });
 ```
@@ -223,7 +220,6 @@ __webpack.config.js__
 ```diff
   const path = require('path');
   const HtmlWebpackPlugin = require('html-webpack-plugin');
-  const CleanWebpackPlugin = require('clean-webpack-plugin');
   const webpack = require('webpack');
 
   module.exports = {
@@ -244,7 +240,6 @@ __webpack.config.js__
 +     ]
 +   },
     plugins: [
-      new CleanWebpackPlugin(['dist'])
       new HtmlWebpackPlugin({
         title: 'Hot Module Replacement'
       }),

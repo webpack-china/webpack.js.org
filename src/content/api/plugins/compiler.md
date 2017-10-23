@@ -1,6 +1,5 @@
 ---
 title: 编译器(Compiler)
-group: Plugins
 sort: 2
 contributors:
   - rishantagarwal

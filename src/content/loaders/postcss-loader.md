@@ -5,19 +5,19 @@ edit: https://github.com/postcss/postcss-loader/edit/master/README.md
 repo: https://github.com/postcss/postcss-loader
 ---
 
-  
-  <p>Loader for <a href="http://webpack.js.org/">webpack</a> to process CSS with <a href="http://postcss.org/">PostCSS</a></p>
 </div>
+
+
 
 ## Install
 
 ```bash
-npm i -D postcss-loader
+npm i -D  postcss-loader
 ```
 
 ## Usage
 
-##
+### `Config`
 
 **postcss.config.js**
 ```js
@@ -26,6 +26,7 @@ module.exports = {
   plugins: {
     'postcss-import': {},
     'postcss-cssnext': {},
+    'autoprefixer': {},
     'cssnano': {}
   }
 }
@@ -94,15 +95,15 @@ module.exports = {
 
 ## Options
 
-|Name|Type|Default|Description|
-|:--:|:--:|:-----:|:----------|
-|[`exec`](#exec)|`{Boolean}`|`undefined`|Enable PostCSS Parser support in `CSS-in-JS`|
-|[`parser`](#syntaxes)|`{String\|Object}`|`undefined`|Set PostCSS Parser|
-|[`syntax`](#syntaxes)|`{String\|Object}`|`undefined`|Set PostCSS Syntax|
-|[`stringifier`](#syntaxes)|`{String\|Object}`|`undefined`|Set PostCSS Stringifier|
-|[`config`](#config)|`{Object}`|`undefined`|Set `postcss.config.js` config path && `ctx`|
-|[`plugins`](#plugins)|`{Array\|Function}`|`[]`|Set PostCSS Plugins|
-|[`sourceMap`](#sourceMap)|`{String\|Boolean}`|`false`|Enable Source Maps|
+|Name|Default|Description|
+|:--:|:-----:|:----------|
+|`exec`|`undefined`|Enable PostCSS Parser support in `CSS-in-JS`|
+|`parser`|`undefined`|Set PostCSS Parser|
+|`syntax`|`undefined`|Set PostCSS Syntax|
+|`stringifier`|`undefined`|Set PostCSS Stringifier|
+|`config`|`undefined`|Set `postcss.config.js` config path && `ctx`|
+|`plugins`|`[]`|Set PostCSS Plugins|
+|`sourceMap`|`false`|Enable Source Maps|
 
 ### `Exec`
 
@@ -120,11 +121,6 @@ If you use JS styles without the [`postcss-js`][postcss-js] parser, add the `exe
 ```
 
 ### `Config`
-
-|Name|Type|Default|Description|
-|:--:|:--:|:-----:|:----------|
-|[`path`](#path)|`{String}`|`undefined`|PostCSS Config Path|
-|[`context`](#context)|`{Object}`|`undefined`|PostCSS Config Context|
 
 #### `Path`
 
@@ -170,7 +166,7 @@ module.exports = ({ file, options, env }) => ({
 **webpack.config.js**
 ```js
 {
-  loader: 'postcss-loader',
+  loader: 'postcss-loader'
   options: {
     config: {
       ctx: {
@@ -190,7 +186,6 @@ module.exports = ({ file, options, env }) => ({
 {
   loader: 'postcss-loader',
   options: {
-    ident: 'postcss',
     plugins: (loader) => [
       require('postcss-import')({ root: loader.resourcePath }),
       require('postcss-cssnext')(),
@@ -201,15 +196,13 @@ module.exports = ({ file, options, env }) => ({
 }
 ```
 
-> ⚠️  webpack requires an identifier (`ident`) in `options` when `{Function}/require` is used (Complex Options). The `ident` can be freely named as long as it is unique. It's recommended to name it (`ident: 'postcss'`)
-
 ### `Syntaxes`
 
 |Name|Type|Default|Description|
 |:--:|:--:|:-----:|:----------|
-|[`parser`](#parser)|`{String\|Function}`|`undefined`|Custom PostCSS Parser|
-|[`syntax`](#syntax)|`{String\|Function}`|`undefined`|Custom PostCSS Syntax|
-|[`stringifier`](#stringifier)|`{String\|Function}`|`undefined`|Custom PostCSS Stringifier|
+|`syntax`|`{String\|Function}`|`undefined`|Custom PostCSS Syntax|
+|`parser`|`{String\|Function}`|`undefined`|Custom PostCSS Parser|
+|`stringifier`|`{String\|Function}`|`undefined`|Custom PostCSS Stringifier|
 
 #### `Parser`
 
@@ -304,7 +297,6 @@ within the CSS directly as an annotation comment.
     {
       loader: 'postcss-loader',
       options: {
-        ident: 'postcss',
         plugins: [
           require('postcss-import')(),
           require('stylelint')(),

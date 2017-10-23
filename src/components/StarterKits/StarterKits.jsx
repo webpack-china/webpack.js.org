@@ -10,7 +10,7 @@ import './StarterKits.scss';
 // can use. This component could even use something like griddle
 // to allow sorting and such.
 
-const StarterKits = props => (
+export default props => (
   <Container className="starter-kits page__content">
     <h1>起步配套工具</h1>
 
@@ -70,7 +70,3 @@ const StarterKits = props => (
     </div>
   </Container>
 );
-
-StarterKits.title = 'Starter Kits';
-
-export default StarterKits;

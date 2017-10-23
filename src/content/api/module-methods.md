@@ -1,6 +1,5 @@
 ---
-title: Module Methods
-group: Modules
+title: Module API - Methods
 sort: 3
 contributors:
   - skipjack

@@ -4,7 +4,9 @@ source: https://raw.githubusercontent.com/webpack-contrib/null-loader/master/REA
 edit: https://github.com/webpack-contrib/null-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/null-loader
 ---
-A loader that returns an empty module.
+
+  <p>A loader that returns an empty module.<p>
+</div>
 
 ## 安装
 

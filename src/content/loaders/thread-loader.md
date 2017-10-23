@@ -4,7 +4,9 @@ source: https://raw.githubusercontent.com/webpack-contrib/thread-loader/master/R
 edit: https://github.com/webpack-contrib/thread-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/thread-loader
 ---
-Runs the following loaders in a worker pool.
+
+  <p>Runs the following loaders in a worker pool.</p>
+</div>
 
 ## 安装
 

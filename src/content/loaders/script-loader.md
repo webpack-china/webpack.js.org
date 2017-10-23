@@ -5,6 +5,7 @@ edit: https://github.com/webpack-contrib/script-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/script-loader
 ---
 
+</div>
 
 ## 安装
 
@@ -18,7 +19,7 @@ npm install --save-dev script-loader
 
 > :警告: 在 node.js 中不会运行
 
-##
+### 配置（推荐）
 
 ```js
 import exec from 'script.exec.js';

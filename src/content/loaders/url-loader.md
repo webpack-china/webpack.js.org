@@ -4,7 +4,9 @@ source: https://raw.githubusercontent.com/webpack-contrib/url-loader/master/READ
 edit: https://github.com/webpack-contrib/url-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/url-loader
 ---
-Loads files as `base64` encoded URL
+
+  <p>Loads files as `base64` encoded URL</p>
+</div>
 
 ## 安装
 
@@ -48,12 +50,11 @@ module.exports = {
 |:--:|:--:|:-----:|:----------|
 |**`limit`**|`{Number}`|`undefined`|Byte limit to inline files as Data URL|
 |**`mimetype`**|`{String}`|`extname`|Specify MIME type for the file (Otherwise it's inferred from the file extension)|
-|**`fallback`**|`{String}`|`file-loader`|Specify `loader` for the file when file is greater than the limit (in bytes)|
+|**`prefix`**|`{String}`|`false`|Parameters for the [`file-loader`](/loaders/file-loader/) are valid too. They are passed to the file-loader if used|
 
-##
+### `limit`
 
-If the file is greater than the limit (in bytes) the [`file-loader`](/loaders/file-loader/) is used by default and all query parameters are passed to it.
-You can use other loader using `fallback` option.
+If the file is greater than the limit (in bytes) the [`file-loader`](/loaders/file-loader/) is used and all query parameters are passed to it.
 
 The limit can be specified via loader options and defaults to no limit.
 
@@ -81,14 +82,13 @@ Set the MIME type for the file. If unspecified the file extensions will be used 
 }
 ```
 
-### `fallback`
+### `prefix`
 
-**webpack.config.js**
 ```js
 {
   loader: 'url-loader',
   options: {
-    fallback: 'responsive-loader'
+    prefix: 'img'
   }
 }
 ```

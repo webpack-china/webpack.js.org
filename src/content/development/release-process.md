@@ -1,18 +1,13 @@
 ---
-title: 发布流程(Release Process)
-sort: 5
+title: webpack 合并、标记和发布流程(webpack merge, tag and release process)
 contributors:
   - d3viant0ne
   - sokra
 ---
 
-部署 webpack 的发布流程实际上是无痛苦的。阅读以下步骤，你可以清楚了解其完成情况。
+## Pull 请求到 `master`
 
-
-## 创建一个 pull requests
-
-当将 pull requests 合并到 `master` 分支中时，选择 _Create Merge Commit_ 选项。
-
+ 当你提交到你的 `master` 分支上时，选择 _Create Merge-Commit_ 选项。
 
 ## 创建一个发布
 

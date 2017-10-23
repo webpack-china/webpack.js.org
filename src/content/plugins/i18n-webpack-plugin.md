@@ -4,7 +4,9 @@ source: https://raw.githubusercontent.com/webpack-contrib/i18n-webpack-plugin/ma
 edit: https://github.com/webpack-contrib/i18n-webpack-plugin/edit/master/README.md
 repo: https://github.com/webpack-contrib/i18n-webpack-plugin
 ---
-i18n (localization) plugin for Webpack.
+
+  <p>i18n (localization) plugin for Webpack.<p>
+</div>
 
 ## 安装
 

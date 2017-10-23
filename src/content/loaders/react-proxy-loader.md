@@ -4,7 +4,9 @@ source: https://raw.githubusercontent.com/webpack-contrib/react-proxy-loader/mas
 edit: https://github.com/webpack-contrib/react-proxy-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/react-proxy-loader
 ---
-Wraps a react component in a proxy component to enable Code Splitting (loads a react component and its dependencies on demand).
+
+  <p>Wraps a react component in a proxy component to enable Code Splitting (loads a react component and its dependencies on demand).<p>
+</div>
 
 ## 安装
 
@@ -54,7 +56,7 @@ module.exports = {
 };
 ```
 
-##
+### chunk 名称
 
 您可以使用 `name` 查询参数为该 chunk 提供名称：
 

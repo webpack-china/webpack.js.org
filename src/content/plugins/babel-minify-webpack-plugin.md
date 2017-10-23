@@ -4,7 +4,9 @@ source: https://raw.githubusercontent.com/webpack-contrib/babel-minify-webpack-p
 edit: https://github.com/webpack-contrib/babel-minify-webpack-plugin/edit/master/README.md
 repo: https://github.com/webpack-contrib/babel-minify-webpack-plugin
 ---
-一个用于<a href="https://github.com/babel/minify">babel-minify</a>的 webpack 插件 - 基于 babel 的 minifier
+
+  <p>一个用于<a href="https://github.com/babel/minify">babel-minify</a>的Webpack插件<p>
+</div>
 
 ## 安装
 
@@ -28,7 +30,7 @@ module.exports = {
 
 ## 选项
 
-###
+#### minifyOpts
 
 `minifyOpts` 被传递给 babel-preset-minify。 你可以在包目录中找到[所有可用的选项](https://github.com/babel/minify/tree/master/packages/babel-preset-minify#options)。
 

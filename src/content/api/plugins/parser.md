@@ -1,6 +1,5 @@
 ---
 title: Parser
-group: Plugins
 sort: 8
 ---
 

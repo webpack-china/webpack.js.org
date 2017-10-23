@@ -4,7 +4,9 @@ source: https://raw.githubusercontent.com/webpack-contrib/raw-loader/master/READ
 edit: https://github.com/webpack-contrib/raw-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/raw-loader
 ---
-A loader for webpack that lets you import files as a string.
+
+  <p>A loader for webpack that lets you import files as a string.</p>
+</div>
 
 ## 安装
 
@@ -16,7 +18,7 @@ npm install --save-dev raw-loader
 
 通过 webpack 配置、命令行或者内联使用 loader。
 
-##
+### 通过 webpack 配置（推荐）
 
 **webpack.config.js**
 ```js
@@ -34,7 +36,7 @@ module.exports = {
 
 **在你的项目中**
 ```js
-import txt from './file.txt';
+import txt from 'file.txt';
 ```
 
 ### 通过命令行（CLI）

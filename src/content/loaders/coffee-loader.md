@@ -4,7 +4,9 @@ source: https://raw.githubusercontent.com/webpack-contrib/coffee-loader/master/R
 edit: https://github.com/webpack-contrib/coffee-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/coffee-loader
 ---
-Loads <a href="http://coffeescript.org/">CoffeeScript</a> like JavaScript
+
+  <p>Loads <a href="http://coffeescript.org/">CoffeeScript</a> like JavaScript</p>
+</div>
 
 ## 安装
 
@@ -19,7 +21,7 @@ npm install --save-dev coffee-loader
 import coffee from 'coffee-loader!./file.coffee';
 ```
 
-##
+### 配置（推荐）
 
 
 ```js
@@ -46,9 +48,8 @@ module.exports = {
 |:--:|:-----:|:----------|
 |**`literate`**|`false`|Enable CoffeeScript in Markdown (Code Blocks) e.g `file.coffee.md`|
 |**`sourceMap`**|`false`|Enable/Disable Sourcemaps|
-|**`transpile`**|`false`|Provide Babel presets and plugins|
 
-### [`Literate`](http://coffeescript.org/#literate)
+### [Literate](http://coffeescript.org/#literate)
 
 **webpack.config.js**
 ```js
@@ -69,7 +70,7 @@ module.exports = {
 }
 ```
 
-### `Sourcemaps`
+### Sourcemaps
 
 **webpack.config.js**
 ```js
@@ -82,31 +83,6 @@ module.exports = {
           {
             loader: 'coffee-loader',
             options: { sourceMap: true }
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-### [`Transpile`](http://coffeescript.org/#transpilation)
-
-**webpack.config.js**
-```js
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.coffee$/,
-        use: [
-          {
-            loader: 'coffee-loader',
-            options: {
-              transpile: {
-                presets: ['env']
-              }
-            }
           }
         ]
       }

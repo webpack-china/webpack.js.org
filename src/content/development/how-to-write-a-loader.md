@@ -1,6 +1,6 @@
 ---
-title: 编写一个 loader
-sort: 2
+title: 如何编写一个 loader？(How to write a loader?)
+sort: 3
 contributors:
   - asulaiman
 ---
@@ -43,7 +43,7 @@ Note that webpack currently only searches in your node modules folder for loader
 resolveLoader: {
   modules: [
     'node_modules',
-    path.resolve(__dirname, 'loaders')
+    path_resolve(__dirname, 'loaders')
   ]
 }
 ```

@@ -4,7 +4,9 @@ source: https://raw.githubusercontent.com/webpack-contrib/transform-loader/maste
 edit: https://github.com/webpack-contrib/transform-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/transform-loader
 ---
-Use <a href="https://github.com/substack/node-browserify/wiki/list-of-transforms">browserify transforms</a> as webpack-loader.
+
+  <p>Use <a href="https://github.com/substack/node-browserify/wiki/list-of-transforms">browserify transforms</a> as webpack-loader.<p>
+</div>
 
 ## 安装
 

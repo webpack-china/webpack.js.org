@@ -16,18 +16,10 @@ const Page = ({ page, section }) => {
   let indexPage = section.title !== 'Home' ? require(`page-loader!../../content/${section.name}/index.md`) : null;
   let pages = (
     section.pages()
-      .sort(({ file: { attributes: a }}, { file: { attributes: b }}) => {
-        let group1 = a.group.toLowerCase();
-        let group2 = b.group.toLowerCase();
-
-        if (group1 < group2) return -1;
-        if (group1 > group2) return 1;
-        return a.sort - b.sort;
-      })
+      .sort((a, b) => a.file.attributes.sort - b.file.attributes.sort)
       .map(page => ({
         url: page.url,
         title: page.file.attributes.title,
-        group: page.file.attributes.group,
         anchors: page.file.attributes.anchors
       }))
   );
@@ -38,7 +30,6 @@ const Page = ({ page, section }) => {
   if (indexPage) {
     pages.unshift({
       url: `/${section.name}/`,
-      group: indexPage.attributes.group,
       title: indexPage.attributes.title,
       anchors: indexPage.attributes.anchors
     });

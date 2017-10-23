@@ -1,6 +1,5 @@
 ---
 title: 概念术语
-sort: 3
 contributors:
   - rouzbeh84
   - bebraw
