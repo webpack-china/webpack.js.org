@@ -21,7 +21,11 @@ W> __We don't recommend using globals!__ The whole concept behind webpack is to 
 
 Another instance where _shimming_ can be useful is when you want to [polyfill](https://en.wikipedia.org/wiki/Polyfill) browser functionality to support more users. In this case, you may only want to deliver those polyfills to the browsers that need patching (i.e. load them on demand).
 
+另外一个 _shimming_ 有用的地方就是当你希望 [polyfill](https://en.wikipedia.org/wiki/Polyfill)  浏览器功能性以支持更多用户时。 在这种情况下，你可能只想要传送这些增强功能给到这些需要打补丁的浏览器。
+
 The following article will walk through both of these use cases.
+
+下面的文章将带给我们这二者的用例。
 
 T> For simplicity, this guide stems from the examples in [Getting Started](/guides/getting-started). Please make sure you are familiar with the setup there before moving on.
 
@@ -29,6 +33,8 @@ T> For simplicity, this guide stems from the examples in [Getting Started](/guid
 ## Shimming Globals
 
 Let's start with the first use case of shimming global variables. Before we do anything let's take another look at our project:
+
+让我们开始第一个 shimming 全局变量的用例。在此之前，我们先看看我们的项目。
 
 __project__
 
@@ -44,7 +50,11 @@ webpack-demo
 
 Remember that `lodash` package we were using? For demonstration purposes, let's say we wanted to instead provide this as a global throughout our application. To do this, we can use the `ProvidePlugin`.
 
+还记得我们之前用过的 `lodash`吗？ 出于演示的目的，让我们把这个做为一个全局变量在我们的应用中。要这样做，我们使用`ProvidePlugin`
+
 The [`ProvidePlugin`](/plugins/provide-plugin) makes a package available as a variable in every module compiled through webpack. If webpack sees that variable used, it will include the given package in the final bundle. Let's go ahead by removing the `import` statement for `lodash` and instead providing it via the plugin:
+
+[`ProvidePlugin`](/plugins/provide-plugin) 使得一个包能做为一个变量在每一个模块被webpack编译时。如果webpack知道这个变量被使用了，那么它会将此包包含在最终的bundle中。让我们先除去`lodash`的`import`申明，然后在plugin中提供申明。
 
 __src/index.js__
 
