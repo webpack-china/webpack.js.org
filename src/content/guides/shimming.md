@@ -15,6 +15,8 @@ related:
 
 The `webpack` compiler can understand modules written as ES2015 modules, CommonJS or AMD. However, some third party libraries may expect global dependencies (e.g. `$` for `jQuery`). The libraries might also create globals which need to be exported. These "broken modules" are one instance where _shimming_ comes into play.
 
+`webpack`编译器能理解使用ES2015模块化， CommonJS 或 AMD 格式编写的模块。无论如何，一些第三方的库可能期待全局依赖（例如`jQuery`中的`$`）。这些库也可能创建一些需要被导出的全局变量。这些‘奇葩模块’就是 _shimming_ 起作用的地方。
+
 W> __We don't recommend using globals!__ The whole concept behind webpack is to allow more modular front-end development. This means writing isolated modules that are well contained and do not rely on hidden dependencies (e.g. globals). Please use these features only when necessary.
 
 Another instance where _shimming_ can be useful is when you want to [polyfill](https://en.wikipedia.org/wiki/Polyfill) browser functionality to support more users. In this case, you may only want to deliver those polyfills to the browsers that need patching (i.e. load them on demand).
