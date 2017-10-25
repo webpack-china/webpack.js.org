@@ -19,7 +19,7 @@ W> __We don't recommend using globals!__ The whole concept behind webpack is to 
 
 另外一个 _shimming_ 有用的地方就是当你希望 [polyfill](https://en.wikipedia.org/wiki/Polyfill)  浏览器功能性以支持更多用户时。 在这种情况下，你可能只想要传送这些增强功能给到这些需要打补丁的浏览器。
 
-下面的文章将带给我们这二者的用例。
+下面的文章将展示给我们这二者的用例。
 
 T> For simplicity, this guide stems from the examples in [Getting Started](/guides/getting-started). Please make sure you are familiar with the setup there before moving on.
 
@@ -42,7 +42,7 @@ webpack-demo
 
 还记得我们之前用过的 `lodash`吗？ 出于演示的目的，让我们把这个做为一个全局变量在我们的应用中。要这样做，我们使用`ProvidePlugin`
 
-[`ProvidePlugin`](/plugins/provide-plugin) 使得一个包能做为一个变量在每一个模块被webpack编译时。如果webpack知道这个变量被使用了，那么它会将此包包含在最终的bundle中。让我们先除去`lodash`的`import`申明，然后在plugin中提供申明。
+[`ProvidePlugin`](/plugins/provide-plugin) 使得一个包能做为可用的变量在每一个模块被webpack编译时。如果webpack知道这个变量在其中某一个模块中被使用了，那么它会将此包包含在最终的bundle中。让我们先除去`lodash`的`import`申明，然后在plugin中提供申明。
 
 __src/index.js__
 
@@ -83,7 +83,7 @@ __webpack.config.js__
 
 我们所做的最基本的就是告诉webpack...
 
-> If you encounter at least one instance of the variable `lodash`, include the `lodash` package and provide it to the modules that need it.
+> 如果你遇到了至少一处 `lodash` 变量的实例, 将 `lodash` 囊括进来，并提供给需要他的模块。
 
 如果我们run build，将会看到同样的输出：
 
@@ -91,7 +91,7 @@ __webpack.config.js__
 TODO: Include output
 ```
 
-我们同样能使用 `ProvidePlugin` 去暴露一个模块其中单独的export，通过配置一个“数组路径”(e.g. `[module, child,...children?]`). 所以，我们只需要提供`join`方法从`lodash`库中，到需要使用的地方。
+我们同样能使用 `ProvidePlugin` 去暴露一个模块其中单独的export，通过配置一个“数组路径”(e.g. `[module, child,...children?]`). 所以，我们只需要从`lodash`库中提供`join`方法，到需要使用的地方。
 
 __src/index.js__
 
@@ -127,7 +127,7 @@ __webpack.config.js__
     ]
   };
 ```
-这样就能很好的与[Tree Shaking](/guides/tree-shaking)配合将`lodash`库中的其他方法去除。
+这样就能很好的与[Tree Shaking](/guides/tree-shaking)配合将`lodash`库中的其他没用到的方法去除。
 
 ## Granular Shimming
 
