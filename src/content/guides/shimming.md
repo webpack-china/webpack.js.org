@@ -181,7 +181,6 @@ __webpack.config.js__
 
 ## 全局 Exports
 
-Let's say a library creates a global variable that it expects its consumers to use. We can add a small module to our setup to demonstrate this:
 让我们使用一个库，并创建一个全局变量以供人使用。为此我们新建一个小模块到我们的步骤中用来说明这些：
 
 __project__
@@ -207,7 +206,6 @@ var helpers = {
 }
 ```
 
-Now, while you'd likely never do this in your own source code, you may encounter a dated library you'd like to use that contains similar code to what's shown above. In this case, we can use [`exports-loader`](/loaders/exports-loader/), to export that global variable as a normal module export. For instance, in order to export `file` as `file` and `helpers.parse` as `parse`:
 现在，你可能从来没有在你的源代码中做过这些，你或许见到过上面的代码，在你想要使用一个老旧的库的时候。在这个用例中，我们使用
 [`exports-loader`](/loaders/exports-loader/)，去把一个全局变量作为一个普通的模块来导出。例如，为了将`file`导出为`file`以及将`helpers.parse`导出为`parse`：
 
