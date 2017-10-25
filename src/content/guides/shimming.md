@@ -91,7 +91,7 @@ __webpack.config.js__
 TODO: Include output
 ```
 
-我们同样能使用 `ProvidePlugin` 去暴露一个模块的导出，通过配置一个“数组路径”(e.g. `[module, child,...children?]`). 所以，我们只需要提供`join`方法从需要使用 `lodash`的地方。
+我们同样能使用 `ProvidePlugin` 去暴露一个模块其中单独的export，通过配置一个“数组路径”(e.g. `[module, child,...children?]`). 所以，我们只需要提供`join`方法从`lodash`库中，到需要使用的地方。
 
 __src/index.js__
 
