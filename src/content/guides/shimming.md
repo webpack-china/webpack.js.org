@@ -95,15 +95,22 @@ __webpack.config.js__
 
 What we've essentially done here is tell webpack...
 
+我们所做的最基本的就是告诉webpack...
+
 > If you encounter at least one instance of the variable `lodash`, include the `lodash` package and provide it to the modules that need it.
 
+
 If we run a build, we should still see the same output:
+
+如果我们run build，将会看到同样的输出：
 
 ``` bash
 TODO: Include output
 ```
 
 We can also use the `ProvidePlugin` to expose a single export of a module by configuring it with an "array path" (e.g. `[module, child, ...children?]`). So let's imagine we only wanted to provide the `join` method from `lodash` wherever it's invoked:
+
+我们同样能使用 `ProvidePlugin` 去暴露一个模块的导出，通过配置一个“数组路径”(e.g. `[module, child,...children?]`). 所以，我们只需要提供`join`方法从需要使用 `lodash`的地方。
 
 __src/index.js__
 
