@@ -42,7 +42,7 @@ webpack-demo
 
 还记得我们之前用过的 `lodash`吗？ 出于演示的目的，让我们把这个做为一个全局变量在我们的应用中。要这样做，我们使用`ProvidePlugin`
 
-[`ProvidePlugin`](/plugins/provide-plugin) 使得一个包能做为可用的变量在每一个模块被webpack编译时。如果webpack知道这个变量在其中某一个模块中被使用了，那么它会将此包包含在最终的bundle中。让我们先除去`lodash`的`import`申明，然后在plugin中提供申明。
+[`ProvidePlugin`](/plugins/provide-plugin) 使得一个包能做为可用的变量在每一个模块被webpack编译时。如果webpack知道这个变量在其中某一个模块中被使用了，那么它会将此包包含在最终的bundle中。让我们先除去`lodash`的`import`声明，然后在plugin中提供声明。
 
 __src/index.js__
 
@@ -129,9 +129,9 @@ __webpack.config.js__
 ```
 这样就能很好的与[Tree Shaking](/guides/tree-shaking)配合将`lodash`库中的其他没用到的方法去除。
 
-## Granular Shimming
+## 细粒度 Shimming
 
-Some legacy modules rely on `this` being the `window` object. Let's update our `index.js` so this is the case:
+一些传统的模块依赖的`this`指向的是`window`对象。在接下来的用例中，让我们升级我们的`index.js`：
 
 ``` diff
   function component() {
@@ -148,7 +148,8 @@ Some legacy modules rely on `this` being the `window` object. Let's update our `
   document.body.appendChild(component());
 ```
 
-This becomes a problem when the module is executed in a CommonJS context where `this` is equal to `module.exports`. In this case you can override `this` using the [`imports-loader`](/loaders/imports-loader/):
+当模块运行在CommonJS环境下这将会变成一个问题，也就是说此时的`this`指向的是`module.exports`。在这个例子中你可以覆写`this`通过使用
+[`imports-loader`](/loaders/imports-loader/):
 
 __webpack.config.js__
 
@@ -178,9 +179,10 @@ __webpack.config.js__
 ```
 
 
-## Global Exports
+## 全局 Exports
 
 Let's say a library creates a global variable that it expects its consumers to use. We can add a small module to our setup to demonstrate this:
+让我们使用一个库，并创建一个全局变量以供人使用。为此我们新建一个小模块到我们的步骤中用来说明这些：
 
 __project__
 
@@ -206,6 +208,8 @@ var helpers = {
 ```
 
 Now, while you'd likely never do this in your own source code, you may encounter a dated library you'd like to use that contains similar code to what's shown above. In this case, we can use [`exports-loader`](/loaders/exports-loader/), to export that global variable as a normal module export. For instance, in order to export `file` as `file` and `helpers.parse` as `parse`:
+现在，你可能从来没有在你的源代码中做过这些，你或许见到过上面的代码，在你想要使用一个老旧的库的时候。在这个用例中，我们使用
+[`exports-loader`](/loaders/exports-loader/)，去把一个全局变量作为一个普通的模块来导出。例如，为了将`file`导出为`file`以及将`helpers.parse`导出为`parse`：
 
 __webpack.config.js__
 
@@ -239,7 +243,7 @@ __webpack.config.js__
   };
 ```
 
-Now from within our entry script (i.e. `src/index.js`), we could `import { file, parse } from './globals.js';` and all should work smoothly.
+现在从我们的entry入口文件中(i.e. `src/index.js`)，我们能 `import { file, parse } from './globals.js';` ，然后一切将顺利进行。
 
 
 ## Loading Polyfills
