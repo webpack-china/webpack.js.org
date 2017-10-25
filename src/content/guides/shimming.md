@@ -13,26 +13,18 @@ related:
     url: https://github.com/babel/babel-preset-env#usebuiltins
 ---
 
-The `webpack` compiler can understand modules written as ES2015 modules, CommonJS or AMD. However, some third party libraries may expect global dependencies (e.g. `$` for `jQuery`). The libraries might also create globals which need to be exported. These "broken modules" are one instance where _shimming_ comes into play.
-
 `webpack`编译器能理解使用ES2015模块化， CommonJS 或 AMD 格式编写的模块。无论如何，一些第三方的库可能期待全局依赖（例如`jQuery`中的`$`）。这些库也可能创建一些需要被导出的全局变量。这些‘奇葩模块’就是 _shimming_ 起作用的地方。
 
 W> __We don't recommend using globals!__ The whole concept behind webpack is to allow more modular front-end development. This means writing isolated modules that are well contained and do not rely on hidden dependencies (e.g. globals). Please use these features only when necessary.
 
-Another instance where _shimming_ can be useful is when you want to [polyfill](https://en.wikipedia.org/wiki/Polyfill) browser functionality to support more users. In this case, you may only want to deliver those polyfills to the browsers that need patching (i.e. load them on demand).
-
 另外一个 _shimming_ 有用的地方就是当你希望 [polyfill](https://en.wikipedia.org/wiki/Polyfill)  浏览器功能性以支持更多用户时。 在这种情况下，你可能只想要传送这些增强功能给到这些需要打补丁的浏览器。
-
-The following article will walk through both of these use cases.
 
 下面的文章将带给我们这二者的用例。
 
 T> For simplicity, this guide stems from the examples in [Getting Started](/guides/getting-started). Please make sure you are familiar with the setup there before moving on.
 
 
-## Shimming Globals
-
-Let's start with the first use case of shimming global variables. Before we do anything let's take another look at our project:
+## 全局 Shimming 
 
 让我们开始第一个 shimming 全局变量的用例。在此之前，我们先看看我们的项目。
 
@@ -48,11 +40,7 @@ webpack-demo
 |- /node_modules
 ```
 
-Remember that `lodash` package we were using? For demonstration purposes, let's say we wanted to instead provide this as a global throughout our application. To do this, we can use the `ProvidePlugin`.
-
 还记得我们之前用过的 `lodash`吗？ 出于演示的目的，让我们把这个做为一个全局变量在我们的应用中。要这样做，我们使用`ProvidePlugin`
-
-The [`ProvidePlugin`](/plugins/provide-plugin) makes a package available as a variable in every module compiled through webpack. If webpack sees that variable used, it will include the given package in the final bundle. Let's go ahead by removing the `import` statement for `lodash` and instead providing it via the plugin:
 
 [`ProvidePlugin`](/plugins/provide-plugin) 使得一个包能做为一个变量在每一个模块被webpack编译时。如果webpack知道这个变量被使用了，那么它会将此包包含在最终的bundle中。让我们先除去`lodash`的`import`申明，然后在plugin中提供申明。
 
@@ -93,22 +81,15 @@ __webpack.config.js__
   };
 ```
 
-What we've essentially done here is tell webpack...
-
 我们所做的最基本的就是告诉webpack...
 
 > If you encounter at least one instance of the variable `lodash`, include the `lodash` package and provide it to the modules that need it.
-
-
-If we run a build, we should still see the same output:
 
 如果我们run build，将会看到同样的输出：
 
 ``` bash
 TODO: Include output
 ```
-
-We can also use the `ProvidePlugin` to expose a single export of a module by configuring it with an "array path" (e.g. `[module, child, ...children?]`). So let's imagine we only wanted to provide the `join` method from `lodash` wherever it's invoked:
 
 我们同样能使用 `ProvidePlugin` 去暴露一个模块的导出，通过配置一个“数组路径”(e.g. `[module, child,...children?]`). 所以，我们只需要提供`join`方法从需要使用 `lodash`的地方。
 
@@ -146,9 +127,7 @@ __webpack.config.js__
     ]
   };
 ```
-
-This would go nicely with [Tree Shaking](/guides/tree-shaking) as the rest of the `lodash` library should get dropped.
-
+这样就能很好的与[Tree Shaking](/guides/tree-shaking)配合将`lodash`库中的其他方法去除。
 
 ## Granular Shimming
 
