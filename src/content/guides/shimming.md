@@ -12,6 +12,8 @@ related:
   - title: useBuiltIns in babel-preset-env
     url: https://github.com/babel/babel-preset-env#usebuiltins
 ---
+T> 译者注：shim是一个库，它将一个新的API引入到一个旧的环境中，而且仅靠旧环境中已有的手段实现。
+       polyfill就是一个用在浏览器API上的shim.我们通常的做法是先检查当前浏览器是否支持某个API,如果不支持的话就加载对应的polyfill.然后新旧浏览器就都         可以使用这个API了.
 
 `webpack`编译器能理解使用ES2015模块化， CommonJS 或 AMD 格式编写的模块。无论如何，一些第三方的库可能期待全局依赖（例如`jQuery`中的`$`）。这些库也可能创建一些需要被导出的全局变量。这些‘奇葩模块’就是 _shimming_ 起作用的地方。
 
