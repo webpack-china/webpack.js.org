@@ -17,13 +17,14 @@ T> 译者注：shim是一个库，它将一个新的API引入到一个旧的环�
 
 `webpack`编译器能理解使用ES2015模块化， CommonJS 或 AMD 格式编写的模块。无论如何，一些第三方的库可能期待全局依赖（例如`jQuery`中的`$`）。这些库也可能创建一些需要被导出的全局变量。这些‘奇葩模块’就是 _shimming_ 起作用的地方。
 
-W> __We don't recommend using globals!__ The whole concept behind webpack is to allow more modular front-end development. This means writing isolated modules that are well contained and do not rely on hidden dependencies (e.g. globals). Please use these features only when necessary.
+W> __我们不推荐使用全局的东西!__ 在webpack背后的整个概念是让更多的前端开发模块化。也就是说鼓励去写独立的模块以及不要依靠那些看不见的依赖(e.g. globals)。请在你必须的时候才使用本文这些特性。
+ 
 
 另外一个 _shimming_ 有用的地方就是当你希望 [polyfill](https://en.wikipedia.org/wiki/Polyfill)  浏览器功能性以支持更多用户时。 在这种情况下，你可能只想要传送这些增强功能给到这些需要打补丁的浏览器。
 
 下面的文章将展示给我们这二者的用例。
 
-T> For simplicity, this guide stems from the examples in [Getting Started](/guides/getting-started). Please make sure you are familiar with the setup there before moving on.
+T> 本指南继续延伸[起步](https://doc.webpack-china.org/guides/getting-started/)中的代码示例。
 
 
 ## 全局 Shimming 
