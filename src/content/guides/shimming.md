@@ -249,15 +249,15 @@ __webpack.config.js__
 
 ## Loading Polyfills
 
-Almost everything we've discussed thus far has been in relation to handling legacy packages. Let's move on to our second topic: __polyfills__.
+目前为止我们所讨论的所有内容都是处理那些遗留的packages，让我们进入到下一个话题：__polyfills__。
 
-There's a lot of ways to load polyfills. For example, to include the [`babel-polyfill`](https://babeljs.io/docs/usage/polyfill/) we might simply:
+有很多方法来使用polyfills。例如，要加入[`babel-polyfill`](https://babeljs.io/docs/usage/polyfill/)我们只需要如下操作：
 
 ``` bash
 npm i --save babel-polyfill
 ```
 
-and `import` it so as to include it in our main bundle:
+然后使用`import`让其添加到我们的主文件：
 
 __src/index.js__
 
@@ -277,9 +277,10 @@ __src/index.js__
 
 T> Note that we aren't binding the `import` to a variable. This is because polyfills simply run on their own, prior to the rest of the code base, allowing us to then assume certain native functionality exists.
 
-Now while this is one approach, __including polyfills in the main bundle is not recommended__ because this penalizes modern browsers users by making them download a bigger file with unneeded scripts.
+__把polyfills放入主文件并不是最佳选择__ 因为这条语句使得那些现代浏览器下载了一个很大的文件，然而他们并不需要。
 
-Let's move our `import` to a new file and add the [`whatwg-fetch`](https://github.com/github/fetch) polyfill:
+让我们把`import`放入一个新文件，并加入[`whatwg-fetch`](https://github.com/github/fetch) polyfill：
+
 
 ``` bash
 npm i --save whatwg-fetch
@@ -358,7 +359,7 @@ __webpack.config.js__
   };
 ```
 
-With that in place, we can add the logic to conditionally load our new `polyfills.bundle.js` file. How you make this decision depends on the technologies and browsers you need to support. We'll just do some simple testing to determine whether our polyfills are needed:
+如此之后，我们给我们新的`polyfills.bundle.js`文件加入了一些条件性读取的逻辑。你该如何决定依赖于那些需要你支持的技术以及浏览器们。我们将做一些简单的测试来看看是否需要这些polyfills：
 
 __dist/index.html__
 
@@ -386,8 +387,7 @@ __dist/index.html__
     </body>
   </html>
 ```
-
-Now we can `fetch` some data within our entry script:
+现在我们能`fetch`一些数据在我们的入口文件中了：
 
 __src/index.js__
 
@@ -411,7 +411,7 @@ __src/index.js__
 +   .catch(error => console.error('Something went wrong when fetching this data: ', error))
 ```
 
-If we run our build, another `polyfills.bundle.js` file will be emitted and everything should still run smoothly in the browser. Note that this set up could likely be improved upon but it should give you a good idea of how you can provide polyfills only to the users that actually need them.
+当我们开始构建时，`polyfills.bundle.js`文件将会被加载，然后所有东西将正确无误的加载在浏览器中。要注意到以上的这些操作并不是最完善的，我们只是提供给你一个很棒的想法给你，关于如何使用polyfills给那些需要它的用户。
 
 
 ## Further Optimizations
