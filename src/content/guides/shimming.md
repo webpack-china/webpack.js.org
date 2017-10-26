@@ -247,7 +247,7 @@ __webpack.config.js__
 现在从我们的entry入口文件中(i.e. `src/index.js`)，我们能 `import { file, parse } from './globals.js';` ，然后一切将顺利进行。
 
 
-## Loading Polyfills
+## 加载 Polyfills
 
 目前为止我们所讨论的所有内容都是处理那些遗留的packages，让我们进入到下一个话题：__polyfills__。
 
