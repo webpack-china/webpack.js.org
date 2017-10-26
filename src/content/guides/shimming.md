@@ -436,13 +436,14 @@ Node built-ins, 就像`process`，能根据你的配置文件正确的进行 pol
 
 ## 其他工具
 
-There are a few other tools that can help when dealing with legacy modules.
+还有一些其他的工具能够帮助我们处理这些老旧的模块。
 
-The [`script-loader`](/loaders/script-loader/) evaluates code in the global context, similar to inclusion via a `script` tag. In this mode, every normal library should work. `require`, `module`, etc. are undefined.
+[`script-loader`](/loaders/script-loader/) 会在全局条件下对代码求值，类似于加入一个`script`标签。在这种模式下，每一个正常的库都应该能工作。
+`require`，`module`等是处于undefined状态的。
 
-W> When using the `script-loader`, the module is added as a string to the bundle. It is not minimized by `webpack`, so use a minimized version. There is also no `devtool` support for libraries added by this loader.
+W> 当使用`script-loader`时，模块将转化为string类型加入bundle.js。它不会被`webpack`最小化，所以你应该选择一个mini的版本。同时，使用此loader将不会有`devtool`的支持。
 
-When there is no AMD/CommonJS version of the module and you want to include the `dist`, you can flag this module in [`noParse`](/configuration/module/#module-noparse). This will cause webpack to include the module without parsing it or resolving `require()` and `import` statements. This practice is also used to improve the build performance.
+这些老旧的模块如果没有 AMD/CommonJS 的支持，但你也想将他们加入`dist`文件，你可以使用[`noParse`](/configuration/module/#module-noparse)来标定这个模块。这样就能使webpack将它加入打包同时不进行转化以及不需要提供`require()`和`import`声明。这个实践将提升构建性能。
 
 W> Any feature requiring the AST, like the `ProvidePlugin`, will not work.
 
