@@ -431,10 +431,10 @@ import 'core-js/modules/web.dom.iterable';
 
 ## Node Built-Ins
 
-Node built-ins, 就像`process`，能根据你的配置文件正确的 polyfills 且不需要任何特别的loaders 或者 plugins。查看
+Node built-ins, 就像`process`，能根据你的配置文件正确的进行 polyfills 且不需要任何特别的loaders 或者 plugins。查看
 [node configuration page](/configuration/node)获取更多信息。
 
-## Other Utilities
+## 其他工具
 
 There are a few other tools that can help when dealing with legacy modules.
 
