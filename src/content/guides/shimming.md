@@ -414,9 +414,9 @@ __src/index.js__
 当我们开始构建时，`polyfills.bundle.js`文件将会被加载，然后所有东西将正确无误的加载在浏览器中。要注意到以上的这些操作并不是最完善的，我们只是提供给你一个很棒的想法给你，关于如何使用polyfills给那些需要它的用户。
 
 
-## Further Optimizations
+## 深度优化
 
-The `babel-preset-env` package uses [browserslist](https://github.com/ai/browserslist) to transpile only what is not supported in your browsers matrix. This preset comes with the `useBuiltIns` option, `false` by default, which converts your global `babel-polyfill` import to a more granular feature by feature `import` pattern:
+`babel-preset-env` package 使用[browserslist](https://github.com/ai/browserslist)来转译那些你浏览器中不支持的特性。 其使用了`useBuiltIns`选项，默认值是`false`，能将你的全局`babel-polyfills` import 转换为更细粒度的`import`格式：
 
 ``` js
 import 'core-js/modules/es7.string.pad-start';
@@ -426,13 +426,13 @@ import 'core-js/modules/web.immediate';
 import 'core-js/modules/web.dom.iterable';
 ```
 
-See [the repository](https://github.com/babel/babel-preset-env) for more information.
+查看[the repository](https://github.com/babel/babel-preset-env)获取更多信息。
 
 
 ## Node Built-Ins
 
-Node built-ins, like `process`, can be polyfilled right directly from your configuration file without the use of any special loaders or plugins. See the [node configuration page](/configuration/node) for more information and examples.
-
+Node built-ins, 就像`process`，能根据你的配置文件正确的 polyfills 且不需要任何特别的loaders 或者 plugins。查看
+[node configuration page](/configuration/node)获取更多信息。
 
 ## Other Utilities
 
