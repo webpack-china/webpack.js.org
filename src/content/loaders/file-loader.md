@@ -41,7 +41,7 @@ module.exports = {
 }
 ```
 
-生成文件 file.png ，输出到输出目录并返回public url
+生成文件 file.png ，输出到输出目录并返回public url。
 
 ```
 "/public/path/0dcbbaa7013869e351f.png"
@@ -92,7 +92,7 @@ You can configure a custom filename template for your file using the query param
 |**`digestType`**|`{String}`|`base64`|`hex`, `base26`, `base32`, `base36`, `base49`, `base52`, `base58`, `base62`, `base64`|
 |**`length`**|`{Number}`|`8`|字符的长度|
 
-默认情况下，文件会按照你指定的路径和名称输出同一目录中，且会使用相同的 URL 路径来访问文件
+默认情况下，文件会按照你指定的路径和名称输出同一目录中，且会使用相同的 URL 路径来访问文件。
 
 ### `context`
 
