@@ -14,7 +14,7 @@ repo: https://github.com/webpack-contrib/file-loader
 npm install --save-dev file-loader
 ```
 
-## <a href="https://webpack.js.org/concepts/loaders">Usage</a>
+## 用法
 
 默认情况下，生成的文件的文件名就是文件内容的 MD5 哈希值并会保留所引用资源的原始扩展名。
 
@@ -41,24 +41,24 @@ module.exports = {
 }
 ```
 
-Emits `file.png` as file in the output directory and returns the public URL
+生成文件 file.png ，输出到输出目录并返回public url
 
 ```
 "/public/path/0dcbbaa7013869e351f.png"
 ```
 
-## Options
+## 选项
 
-|Name|Type|Default|Description|
+|名称|类型|默认值|描述|
 |:--:|:--:|:-----:|:----------|
-|**`name`**|`{String}`|`[hash].[ext]`|Configure a custom filename template for your file|
-|**`context`**|`{String}`|`this.options.context`|Configure a custom file context, defaults to `webpack.config.js` [context](https://webpack.js.org/configuration/entry-context/#context)|
-|**`publicPath`**|`{String\|Function}`|[`__webpack_public_path__ `](https://webpack.js.org/api/module-variables/#__webpack_public_path__-webpack-specific-)|Configure a custom `public` path for your files|
-|**`outputPath`**|`{String\|Function}`|`'undefined'`|Configure a custom `output` path for your files|
-|**`useRelativePath`**|`{Boolean}`|`false`|Should be `true` if you wish to generate a `context` relative URL for each file|
-|**`emitFile`**|`{Boolean}`|`true`|By default a file is emitted, however this can be disabled if required (e.g. for server side packages)|
+|**`name`**|`{String}`|`[hash].[ext]`|为你的文件配置自定义文件名模板|
+|**`context`**|`{String}`|`this.options.context`|配置自定义文件 `context`,默认为 `webpack.config.js` [context](https://webpack.js.org/configuration/entry-context/#context)|
+|**`publicPath`**|`{String\|Function}`|[`__webpack_public_path__ `](https://webpack.js.org/api/module-variables/#__webpack_public_path__-webpack-specific-)|为你的文件配置自定义发布目录|
+|**`outputPath`**|`{String\|Function}`|`'undefined'`|为你的文件配置自定义输出目录|
+|**`useRelativePath`**|`{Boolean}`|`false`|如果你希望为每个文件生成一个相对url的`context`时，应该将其设置为true|
+|**`emitFile`**|`{Boolean}`|`true`|默认情况下会生成文件,可以通过将此项设置为false来禁止(例如使用了服务端的 packages)|
 
-### `name`
+##
 
 You can configure a custom filename template for your file using the query parameter `name`. For instance, to copy a file from your `context` directory into the output directory retaining the full directory structure, you might use
 
@@ -74,25 +74,25 @@ You can configure a custom filename template for your file using the query param
 
 #### `placeholders`
 
-|Name|Type|Default|Description|
+|名称|类型|默认值|描述|
 |:--:|:--:|:-----:|:----------|
-|**`[ext]`**|`{String}`|`file.extname`|The extension of the resource|
-|**`[name]`**|`{String}`|`file.basename`|The basename of the resource|
-|**`[path]`**|`{String}`|`file.dirname`|The path of the resource relative to the `context`|
-|**`[hash]`**|`{String}`|`md5`|The hash of the content, hashes below for more info|
-|**`[N]`**|`{Number}`|``|The `n-th` match obtained from matching the current file name against the query param `regExp`|
+|**`[ext]`**|`{String}`|`file.extname`|资源扩展名|
+|**`[name]`**|`{String}`|`file.basename`|资源的基本名称|
+|**`[path]`**|`{String}`|`file.dirname`|资源相对于 `context`的路径|
+|**`[hash]`**|`{String}`|`md5`|内容的哈希值, 哈希表中有更多信息|
+|**`[N]`**|`{Number}`|``|当前文件名按照查询参数 `regExp` 匹配后获得到第 N 个匹配结果|
 
 #### `hashes`
 
 `[<hashType>:hash:<digestType>:<length>]` optionally you can configure
 
-|Name|Type|Default|Description|
+|名称|类型|默认值|描述|
 |:--:|:--:|:-----:|:----------|
 |**`hashType`**|`{String}`|`md5`|`sha1`, `md5`, `sha256`, `sha512`|
 |**`digestType`**|`{String}`|`base64`|`hex`, `base26`, `base32`, `base36`, `base49`, `base52`, `base58`, `base62`, `base64`|
-|**`length`**|`{Number}`|`8`|The length in chars|
+|**`length`**|`{Number}`|`8`|字符的长度|
 
-By default, the path and name you specify will output the file in that same directory and will also use that same URL path to access the file.
+默认情况下，文件会按照你指定的路径和名称输出同一目录中，且会使用相同的 URL 路径来访问文件
 
 ### `context`
 
@@ -107,7 +107,7 @@ By default, the path and name you specify will output the file in that same dire
 }
 ```
 
-You can specify custom `output` and `public` paths by using `outputPath`, `publicPath` and `useRelativePath`
+你可以使用 `outputPath`，`useRelativePath`和 `publicPath`来指定自定义输出路径和发布目录。
 
 ### `publicPath`
 
@@ -137,7 +137,7 @@ You can specify custom `output` and `public` paths by using `outputPath`, `publi
 
 ### `useRelativePath`
 
-`useRelativePath` should be `true` if you wish to generate a relative URL to the for each file context.
+如果你希望为每个文件生成一个相对url的`context`时，应该将`useRelativePath`设置为true。
 
 ```js
 {
@@ -150,7 +150,7 @@ You can specify custom `output` and `public` paths by using `outputPath`, `publi
 
 ### `emitFile`
 
-By default a file is emitted, however this can be disabled if required (e.g. for server side packages).
+默认情况下会生成文件,可以通过将此项设置为false来禁止(例如使用了服务端的 packages)。
 
 ```js
 import img from './file.png'
@@ -165,7 +165,7 @@ import img from './file.png'
 }
 ```
 
-> ⚠️  Returns the public URL but does **not** emit a file
+> ⚠️  返回 public URL 但 **不会** 生成文件
 
 ```
 `${publicPath}/0dcbbaa701328e351f.png`
