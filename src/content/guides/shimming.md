@@ -12,15 +12,13 @@ related:
   - title: useBuiltIns in babel-preset-env
     url: https://github.com/babel/babel-preset-env#usebuiltins
 ---
-T> 译者注：shim是一个库，它将一个新的API引入到一个旧的环境中，而且仅靠旧环境中已有的手段实现。
-       polyfill就是一个用在浏览器API上的shim。我们通常的做法是先检查当前浏览器是否支持某个API，如果不支持的话就加载对应的polyfill。然后新旧浏览器就都可以使用这个API了。
 
-`webpack`编译器能理解使用ES2015模块化， CommonJS 或 AMD 格式编写的模块。无论如何，一些第三方的库可能期待全局依赖（例如`jQuery`中的`$`）。这些库也可能创建一些需要被导出的全局变量。这些‘奇葩模块’就是 _shimming_ 起作用的地方。
+`webpack` 编译器能理解使用 ES2015 模块化，CommonJS 或 AMD 格式编写的模块。无论如何，一些第三方的库可能期待全局依赖（例如 `jQuery` 中的 `$`）。这些库也可能创建一些需要被导出的全局变量。这些‘奇葩模块’就是 _shimming_ 起作用的地方。
 
-W> __我们不推荐使用全局的东西!__ 在webpack背后的整个概念是让更多的前端开发模块化。也就是说鼓励去写独立的模块以及不要依靠那些看不见的依赖(e.g. globals)。请在你必须的时候才使用本文这些特性。
+W> __我们不推荐使用全局的东西！__ 在 webpack 背后的整个概念是让更多的前端开发模块化。也就是说鼓励去写独立的模块以及不要依靠那些看不见的依赖（例如 globals）。请在你必须的时候才使用本文这些特性。
  
 
-另外一个 _shimming_ 有用的地方就是当你希望 [polyfill](https://en.wikipedia.org/wiki/Polyfill)  浏览器功能性以支持更多用户时。 在这种情况下，你可能只想要传送这些增强功能给到这些需要打补丁的浏览器。
+另外一个 _shimming_ 有用的地方就是当你希望 [polyfill](https://en.wikipedia.org/wiki/Polyfill) 浏览器功能性以支持更多用户时。在这种情况下，你可能只想要传送这些增强功能给到这些需要打补丁的浏览器。
 
 下面的文章将展示给我们这二者的用例。
 
@@ -45,7 +43,7 @@ webpack-demo
 
 还记得我们之前用过的 `lodash`吗？ 出于演示的目的，让我们把这个做为一个全局变量在我们的应用中。要这样做，我们使用`ProvidePlugin`
 
-[`ProvidePlugin`](/plugins/provide-plugin) 使得一个包能做为可用的变量在每一个模块被webpack编译时。如果webpack知道这个变量在其中某一个模块中被使用了，那么它会将此包包含在最终的bundle中。让我们先除去`lodash`的`import`声明，然后在plugin中提供声明。
+[`ProvidePlugin`](/plugins/provide-plugin) 使得一个包能做为可用的变量在每一个模块被 webpack 编译时。如果 webpack 知道这个变量在其中某一个模块中被使用了，那么它会将此包包含在最终的 bundle 中。让我们先除去 `lodash` 的 `import` 声明，然后在 plugin 中提供声明。
 
 __src/index.js__
 
@@ -84,7 +82,7 @@ __webpack.config.js__
   };
 ```
 
-我们所做的最基本的就是告诉webpack...
+我们所做的最基本的就是告诉 webpack……
 
 > 如果你遇到了至少一处 `lodash` 变量的实例, 将 `lodash` 囊括进来，并提供给需要他的模块。
 
@@ -94,7 +92,7 @@ __webpack.config.js__
 TODO: Include output
 ```
 
-我们同样能使用 `ProvidePlugin` 去暴露一个模块其中单独的export，通过配置一个“数组路径”(e.g. `[module, child,...children?]`). 所以，我们只需要从`lodash`库中提供`join`方法，到需要使用的地方。
+我们同样能使用 `ProvidePlugin` 去暴露一个模块其中单独的 export，通过配置一个“数组路径”（例如 `[module, child,...children?]`）。所以，我们只需要从 `lodash` 库中提供 `join` 方法，到需要使用的地方。
 
 __src/index.js__
 
@@ -130,11 +128,11 @@ __webpack.config.js__
     ]
   };
 ```
-这样就能很好的与[Tree Shaking](/guides/tree-shaking)配合将`lodash`库中的其他没用到的方法去除。
+这样就能很好的与 [tree shaking](/guides/tree-shaking)配合将 `lodash` 库中的其他没用到的方法去除。
 
 ## 细粒度 Shimming
 
-一些传统的模块依赖的`this`指向的是`window`对象。在接下来的用例中，让我们升级我们的`index.js`：
+一些传统的模块依赖的 `this` 指向的是 `window` 对象。在接下来的用例中，让我们升级我们的 `index.js`：
 
 ``` diff
   function component() {
@@ -151,8 +149,7 @@ __webpack.config.js__
   document.body.appendChild(component());
 ```
 
-当模块运行在CommonJS环境下这将会变成一个问题，也就是说此时的`this`指向的是`module.exports`。在这个例子中你可以覆写`this`通过使用
-[`imports-loader`](/loaders/imports-loader/):
+当模块运行在 CommonJS 环境下这将会变成一个问题，也就是说此时的 `this` 指向的是 `module.exports`。在这个例子中你可以覆写 `this` 通过使用 [`imports-loader`](/loaders/imports-loader/):
 
 __webpack.config.js__
 
@@ -209,8 +206,7 @@ var helpers = {
 }
 ```
 
-现在，你可能从来没有在你的源代码中做过这些，你或许见到过上面的代码，在你想要使用一个老旧的库的时候。在这个用例中，我们使用
-[`exports-loader`](/loaders/exports-loader/)，去把一个全局变量作为一个普通的模块来导出。例如，为了将`file`导出为`file`以及将`helpers.parse`导出为`parse`：
+现在，你可能从来没有在你的源代码中做过这些，你或许见到过上面的代码，在你想要使用一个老旧的库的时候。在这个用例中，我们使用 [`exports-loader`](/loaders/exports-loader/)，去把一个全局变量作为一个普通的模块来导出。例如，为了将 `file` 导出为 `file` 以及将 `helpers.parse` 导出为 `parse`：
 
 __webpack.config.js__
 
@@ -244,20 +240,20 @@ __webpack.config.js__
   };
 ```
 
-现在从我们的entry入口文件中(i.e. `src/index.js`)，我们能 `import { file, parse } from './globals.js';` ，然后一切将顺利进行。
+现在从我们的 entry 入口文件中(i.e. `src/index.js`)，我们能 `import { file, parse } from './globals.js';` ，然后一切将顺利进行。
 
 
 ## 加载 Polyfills
 
-目前为止我们所讨论的所有内容都是处理那些遗留的packages，让我们进入到下一个话题：__polyfills__。
+目前为止我们所讨论的所有内容都是处理那些遗留的 packages，让我们进入到下一个话题：__polyfills__。
 
-有很多方法来使用polyfills。例如，要加入[`babel-polyfill`](https://babeljs.io/docs/usage/polyfill/)我们只需要如下操作：
+有很多方法来使用 polyfills。例如，要加入 [`babel-polyfill`](https://babeljs.io/docs/usage/polyfill/) 我们只需要如下操作：
 
 ``` bash
 npm i --save babel-polyfill
 ```
 
-然后使用`import`让其添加到我们的主文件：
+然后使用 `import` 让其添加到我们的主文件：
 
 __src/index.js__
 
@@ -277,9 +273,9 @@ __src/index.js__
 
 T> Note that we aren't binding the `import` to a variable. This is because polyfills simply run on their own, prior to the rest of the code base, allowing us to then assume certain native functionality exists.
 
-__把polyfills放入主文件并不是最佳选择__ 因为这条语句使得那些现代浏览器下载了一个很大的文件，然而他们并不需要。
+__把 polyfills 放入主文件并不是最佳选择__ 因为这条语句使得那些现代浏览器下载了一个很大的文件，然而他们并不需要。
 
-让我们把`import`放入一个新文件，并加入[`whatwg-fetch`](https://github.com/github/fetch) polyfill：
+让我们把 `import` 放入一个新文件，并加入 [`whatwg-fetch`](https://github.com/github/fetch) polyfill：
 
 
 ``` bash
@@ -359,7 +355,7 @@ __webpack.config.js__
   };
 ```
 
-如此之后，我们给我们新的`polyfills.bundle.js`文件加入了一些条件性读取的逻辑。你该如何决定依赖于那些需要你支持的技术以及浏览器们。我们将做一些简单的测试来看看是否需要这些polyfills：
+如此之后，我们给我们新的 `polyfills.bundle.js` 文件加入了一些条件性读取的逻辑。你该如何决定依赖于那些需要你支持的技术以及浏览器们。我们将做一些简单的测试来看看是否需要这些 polyfills：
 
 __dist/index.html__
 
@@ -387,7 +383,7 @@ __dist/index.html__
     </body>
   </html>
 ```
-现在我们能`fetch`一些数据在我们的入口文件中了：
+现在我们能 `fetch` 一些数据在我们的入口文件中了：
 
 __src/index.js__
 
@@ -411,12 +407,12 @@ __src/index.js__
 +   .catch(error => console.error('Something went wrong when fetching this data: ', error))
 ```
 
-当我们开始构建时，`polyfills.bundle.js`文件将会被加载，然后所有东西将正确无误的加载在浏览器中。要注意到以上的这些操作并不是最完善的，我们只是提供给你一个很棒的想法给你，关于如何使用polyfills给那些需要它的用户。
+当我们开始构建时，`polyfills.bundle.js` 文件将会被加载，然后所有东西将正确无误的加载在浏览器中。要注意到以上的这些操作并不是最完善的，我们只是提供给你一个很棒的想法给你，关于如何使用 polyfills 给那些需要它的用户。
 
 
 ## 深度优化
 
-`babel-preset-env` package 使用[browserslist](https://github.com/ai/browserslist)来转译那些你浏览器中不支持的特性。 其使用了`useBuiltIns`选项，默认值是`false`，能将你的全局`babel-polyfills` import 转换为更细粒度的`import`格式：
+`babel-preset-env` package 使用 [browserslist](https://github.com/ai/browserslist) 来转译那些你浏览器中不支持的特性。其使用了 `useBuiltIns` 选项，默认值是 `false`，能将你的全局 `babel-polyfills` import 转换为更细粒度的 `import` 格式：
 
 ``` js
 import 'core-js/modules/es7.string.pad-start';
@@ -426,28 +422,32 @@ import 'core-js/modules/web.immediate';
 import 'core-js/modules/web.dom.iterable';
 ```
 
-查看[the repository](https://github.com/babel/babel-preset-env)获取更多信息。
+查看[本仓库](https://github.com/babel/babel-preset-env)以获取更多信息。
 
 
 ## Node Built-Ins
 
-Node built-ins, 就像`process`，能根据你的配置文件正确的进行 polyfills 且不需要任何特别的loaders 或者 plugins。查看
+Node built-ins, 就像 `process`，能根据你的配置文件正确的进行 polyfills 且不需要任何特别的 loaders 或者 plugins。查看
 [node configuration page](/configuration/node)获取更多信息。
 
 ## 其他工具
 
 还有一些其他的工具能够帮助我们处理这些老旧的模块。
 
-[`script-loader`](/loaders/script-loader/) 会在全局条件下对代码求值，类似于加入一个`script`标签。在这种模式下，每一个正常的库都应该能工作。
-`require`，`module`等是处于undefined状态的。
+[`script-loader`](/loaders/script-loader/) 会在全局条件下对代码求值，类似于加入一个 `script` 标签。在这种模式下，每一个正常的库都应该能工作。
+`require`，`module` 等是处于 undefined 状态的。
 
-W> 当使用`script-loader`时，模块将转化为string类型加入bundle.js。它不会被`webpack`最小化，所以你应该选择一个mini的版本。同时，使用此loader将不会有`devtool`的支持。
+W> 当使用 `script-loader` 时，模块将转化为 string 类型加入 bundle.js。它不会被 `webpack` 最小化，所以你应该选择一个 mini 的版本。同时，使用此 loader 将不会有 `devtool` 的支持。
 
-这些老旧的模块如果没有 AMD/CommonJS 的支持，但你也想将他们加入`dist`文件，你可以使用[`noParse`](/configuration/module/#module-noparse)来标定这个模块。这样就能使webpack将它加入打包同时不进行转化以及不需要提供`require()`和`import`声明。这个实践将提升构建性能。
+这些老旧的模块如果没有 AMD/CommonJS 的支持，但你也想将他们加入 `dist` 文件，你可以使用 [`noParse`](/configuration/module/#module-noparse) 来标定这个模块。这样就能使 webpack 将它加入打包同时不进行转化以及不需要提供 `require()` 和 `import` 声明。这个实践将提升构建性能。
 
 W> Any feature requiring the AST, like the `ProvidePlugin`, will not work.
 
 Lastly, there are some modules that support different [module styles](/concepts/modules) like AMD, CommonJS and legacy. In most of these cases, they first check for `define` and then use some quirky code to export properties. In these cases, it could help to force the CommonJS path by setting `define=>false` via the [`imports-loader`](/loaders/imports-loader/).
+
+***
+
+T> 译者注：shim 是一个库，它将一个新的 API 引入到一个旧的环境中，而且仅靠旧环境中已有的手段实现。polyfill 就是一个用在浏览器 API 上的 shim。我们通常的做法是先检查当前浏览器是否支持某个 API，如果不支持的话就加载对应的 polyfill。然后新旧浏览器就都可以使用这个 API 了。
 
 ***
 
