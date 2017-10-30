@@ -19,9 +19,7 @@ loader 是导出为 `function` 的 node 模块。
 
 在复杂的情况下，当多个 loaders 被串联调用时，只有最后一个 loader 能够获取资源文件并且只有第一个 loader 预期返回一个或者两个值（JavaScript 和 SourceMap）。其它任何 loader 返回的值会传到之前的 loader 中。
 
-In other words, chained loaders are executed in reverse order -- either right to left or bottom to top depending on the format of your array. Lets say you have two loaders that go by the name of `foo-loader` and `bar-loader`. You would like to execute `foo-loader` and then pass the result of the transformation from `foo-loader` finally to `bar-loader`.
-
-You would add the following in your config file (assuming that both loaders are already defined):
+换句话说，串联调用的 loaders 会以相反的顺序执行 —— 不管你是从左到右还是从上到下定义你的 loaders 数组。假设你有两个 loader，名字分别为 `foo-loader` 和 `bar-loader`，你希望先执行 `foo-loader`，然后把 `foo-loader` 的执行结果传递给 `bar-loader`，你可以在配置文件中添加以下内容（假设两个 loader 都已定义）：
 
 ``` javascript
 module: {
@@ -37,7 +35,7 @@ module: {
 }
 ```
 
-Note that webpack currently only searches in your node modules folder for loaders. If these loaders are defined outside your node modules folder you would need to use the `resolveLoader` property to get webpack to include your loaders. For example lets say you have your custom loaders included in a folder called `loaders`. You would have to add the following to your config file:
+注意，webpack 目前只在 node_modules 文件夹中查找 loaders。如果有某些 loaders 是在 node_modules 文件夹之外自定义的，那么需要使用 `resolveLoader` 这个属性来让 webpack 加载这些 loaders。举个例子，假设有一个自定义 loader 放在一个叫 `loaders` 的文件夹中，你需要在配置文件中添加以下内容：
 
 ``` javascript
 resolveLoader: {
