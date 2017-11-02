@@ -110,7 +110,7 @@ webpack 中有几个不同的选项，可以帮助你在代码发生变化后自
 
 ### 使用监察模式
 
-我们添加一个用于启动 webpack 的观察模式的 npm 脚本(script)：
+我们添加一个用于启动 webpack 的监察模式的 npm 脚本(script)：
 
 __package.json__
 
