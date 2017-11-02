@@ -13,18 +13,18 @@ related:
     url: https://github.com/babel/babel-preset-env#usebuiltins
 ---
 
-`webpack` 编译器能理解使用 ES2015 模块化，CommonJS 或 AMD 格式编写的模块。无论如何，一些第三方的库可能期待全局依赖（例如 `jQuery` 中的 `$`）。这些库也可能创建一些需要被导出的全局变量。这些‘奇葩模块’就是 _shimming_ 起作用的地方。
+`webpack` 编译器能识别 ES2015 模块、CommonJS 或 AMD 格式编写的模块。然而，一些第三方的库可能期待全局依赖（例如 `jQuery` 中的 `$`）。这些库也可能创建一些需要被导出的全局变量。这些‘奇葩模块’就是 _shimming_ 起作用的地方。
 
-W> __我们不推荐使用全局的东西！__ 在 webpack 背后的整个概念是让更多的前端开发模块化。也就是说鼓励去写独立的模块以及不要依靠那些看不见的依赖（例如 globals）。请在你必须的时候才使用本文这些特性。
+W> __我们不推荐使用全局的东西！__ 在 webpack 背后的整个概念是让更多的前端开发模块化。也就是说鼓励去写独立的模块以及不要依靠那些看不见的依赖（例如 globals）。请只在必要的时候才使用本文这些特性。
 
-另外一个 _shimming_ 有用的地方就是当你希望 [polyfill](https://en.wikipedia.org/wiki/Polyfill) 浏览器功能性以支持更多用户时。在这种情况下，你可能只想要传送这些增强功能给到这些需要打补丁的浏览器。
+另外一个 _shimming_ 有用的地方就是当你希望 [polyfill](https://en.wikipedia.org/wiki/Polyfill) 浏览器功能性以支持更多用户时。在这种情况下，你可能只想要传送这些增强功能给到这些需要打补丁的浏览器（i.e. 按需加载）
 
 下面的文章将展示给我们这二者的用例。
 
 T> 本指南继续延伸[起步](https://doc.webpack-china.org/guides/getting-started/)中的代码示例。
 
 
-## 全局 Shimming
+## Shimming 全局变量
 
 让我们开始第一个 shimming 全局变量的用例。在此之前，我们先看看我们的项目。
 
@@ -42,7 +42,7 @@ webpack-demo
 
 还记得我们之前用过的 `lodash`吗？ 出于演示的目的，让我们把这个做为一个全局变量在我们的应用中。要这样做，我们使用`ProvidePlugin`
 
-[`ProvidePlugin`](/plugins/provide-plugin) 使得一个包能做为可用的变量在每一个模块被 webpack 编译时。如果 webpack 知道这个变量在其中某一个模块中被使用了，那么它会将此包包含在最终的 bundle 中。让我们先除去 `lodash` 的 `import` 声明，然后在 plugin 中提供声明。
+[`ProvidePlugin`](/plugins/provide-plugin) 通过 webpack 的编译能使 一个 package 转换成一个变量，从而在每一个 module 中使用。如果 webpack 知道这个变量在其中某一个模块中被使用了，那么它会将此包包含在最终的 bundle 中。让我们先除去 `lodash` 的 `import` 声明，然后在 plugin 中提供声明。
 
 __src/index.js__
 
@@ -91,7 +91,7 @@ __webpack.config.js__
 TODO: Include output
 ```
 
-我们同样能使用 `ProvidePlugin` 去暴露一个模块其中单独的 export，通过配置一个“数组路径”（例如 `[module, child,...children?]`）。所以，我们只需要从 `lodash` 库中提供 `join` 方法，到需要使用的地方。
+我们同样能使用 `ProvidePlugin` 去暴露一个模块中某个单独的 export 出的东西，通过配置一个“数组路径”（例如 `[module, child,...children?]`）。所以，让我们期待下：仅仅需要 `lodash` 库中的 `join` 方法（而不需要导出其他方法）到需要用的地方。
 
 __src/index.js__
 
@@ -248,7 +248,7 @@ __webpack.config.js__
 
 目前为止我们所讨论的所有内容都是处理那些遗留的 packages，让我们进入到下一个话题：__polyfills__。
 
-有很多方法来使用 polyfills。例如，要加入 [`babel-polyfill`](https://babeljs.io/docs/usage/polyfill/) 我们只需要如下操作：
+有很多方法来引入 polyfills。例如，要加入 [`babel-polyfill`](https://babeljs.io/docs/usage/polyfill/) 我们只需要如下操作：
 
 ``` bash
 npm i --save babel-polyfill
@@ -437,7 +437,7 @@ Node built-ins, 就像 `process`，能根据你的配置文件正确的进行 po
 
 [`script-loader`](/loaders/script-loader/) 会在全局条件下对代码求值，类似于加入一个 `script` 标签。在这种模式下，每一个正常的库都应该能工作。`require`, `module` 等是处于 undefined 状态的。
 
-W> 当使用 `script-loader` 时，模块将转化为 string 类型加入 bundle.js。它不会被 `webpack` 最小化，所以你应该选择一个 mini 的版本。同时，使用此 loader 将不会有 `devtool` 的支持。
+W> 当使用 `script-loader` 时，模块将转化为 string 类型加入 bundle.js。它不会被 `webpack` 压缩，所以你应该选择一个 mini 的版本。同时，使用此 loader 将不会有 `devtool` 的支持。
 
 这些老旧的模块如果没有 AMD/CommonJS 的支持，但你也想将他们加入 `dist` 文件，你可以使用 [`noParse`](/configuration/module/#module-noparse) 来标定这个模块。这样就能使 webpack 将它加入打包同时不进行转化以及不需要提供 `require()` 和 `import` 声明。这个实践将提升构建性能。
 
