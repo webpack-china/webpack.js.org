@@ -39,7 +39,7 @@ module.exports = {
 }
 ```
 
-生成文件 file.png ，输出到输出目录并返回public url。
+生成文件 file.png ，输出到输出目录并返回 public URL。
 
 ```
 "/public/path/0dcbbaa7013869e351f.png"
@@ -97,7 +97,7 @@ You can configure a custom filename template for your file using the query param
 |**`[ext]`**|`{String}`|`file.extname`|资源扩展名|
 |**`[name]`**|`{String}`|`file.basename`|资源的基本名称|
 |**`[path]`**|`{String}`|`file.dirname`|资源相对于 `context`的路径|
-|**`[hash]`**|`{String}`|`md5`|内容的哈希值, 哈希表中有更多信息|
+|**`[hash]`**|`{String}`|`md5`|内容的哈希值，下面的 hashes 配置中有更多信息|
 |**`[N]`**|`{Number}`|``|当前文件名按照查询参数 `regExp` 匹配后获得到第 N 个匹配结果|
 
 #### `hashes`
@@ -125,7 +125,7 @@ You can configure a custom filename template for your file using the query param
 }
 ```
 
-你可以使用 `outputPath`，`useRelativePath`和 `publicPath`来指定自定义输出路径和发布目录。
+你可以使用 `outputPath`，`useRelativePath`和 `publicPath`来指定自定义 `output` 输出路径和 `public` 发布目录。
 
 ### `publicPath`
 
@@ -155,7 +155,7 @@ You can configure a custom filename template for your file using the query param
 
 ### `useRelativePath`
 
-如果你希望为每个文件生成一个相对url的`context`时，应该将`useRelativePath`设置为true。
+如果你希望为每个文件生成一个相对 URL 的 `context` 时，应该将 `useRelativePath` 设置为 `true`。
 
 ```js
 {
@@ -168,7 +168,7 @@ You can configure a custom filename template for your file using the query param
 
 ### `emitFile`
 
-默认情况下会生成文件,可以通过将此项设置为false来禁止(例如使用了服务端的 packages)。
+默认情况下会生成文件，可以通过将此项设置为 false 来禁用（例如使用了服务端的 packages）。
 
 ```js
 import img from './file.png'
@@ -183,7 +183,7 @@ import img from './file.png'
 }
 ```
 
-> ⚠️  返回 public URL 但 **不会** 生成文件
+> ⚠️  返回 public URL 但**不会**生成文件
 
 ```
 `${publicPath}/0dcbbaa701328e351f.png`
