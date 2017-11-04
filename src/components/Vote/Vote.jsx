@@ -3,13 +3,13 @@ import Interactive from 'antwar-interactive';
 import Container from '../Container/Container';
 import VoteApp from './App';
 import '../../styles';
-import './List.scss';
+import './Vote.scss';
 import './App.scss';
 import './Influence.scss';
 import './Button/Button.scss';
 
-export default ({ section, page }) => {
-  let arr = page.url.split('/');
+const Vote = ({ section, page }) => {
+  let arr = page.url.split('/').filter(Boolean);
   let name = arr[arr.length - 1];
 
   return (
@@ -25,3 +25,7 @@ export default ({ section, page }) => {
     </Container>
   );
 };
+
+Vote.title = 'Vote';
+
+export default Vote;

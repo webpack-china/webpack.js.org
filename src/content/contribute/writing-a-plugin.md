@@ -1,6 +1,6 @@
 ---
-title: 如何编写一个插件？(How to write a plugin?)
-sort: 2
+title: 编写一个插件
+sort: 3
 ---
 
 插件向第三方开发者提供了 webpack 引擎中完整的能力。使用阶段式的构建回调，开发者可以引入它们自己的行为到 webpack 构建流程中。创建插件比创建 loader 更加高级，因为你将需要理解一些 webpack 底层的内部特性来做相应的勾子，所以做好阅读一些源码的准备！
@@ -47,6 +47,7 @@ MyExampleWebpackPlugin.prototype.apply = function(compiler) {
 - [Compilation Source](https://github.com/webpack/webpack/blob/master/lib/Compilation.js)
 
 ## 基本插件架构
+
 
 插件都是被实例化的带有 `apply` 原型方法的对象。这个 `apply` 方法在安装插件时将被 webpack 编译器调用一次。`apply` 方法提供了一个对应的编译器对象的引用，从而可以访问到相关的编译器回调。一个简单的插件结构如下：
 

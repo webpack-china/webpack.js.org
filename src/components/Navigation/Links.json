@@ -1,0 +1,22 @@
+[
+  {
+    "title": "文档",
+    "url": "concepts",
+    "children": [
+      { "title": "概念", "url": "concepts" },
+      { "title": "配置", "url": "configuration" },
+      { "title": "API", "url": "api" },
+      { "title": "指南", "url": "guides" },
+      { "title": "loaders", "url": "loaders" },
+      { "title": "插件", "url": "plugins" }
+    ]
+  },
+  {
+    "title": "参与贡献",
+    "url": "contribute"
+  },
+  {
+    "title": "博客",
+    "url": "//medium.com/webpack"
+  }
+]

@@ -4,9 +4,7 @@ source: https://raw.githubusercontent.com/webpack-contrib/file-loader/master/REA
 edit: https://github.com/webpack-contrib/file-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/file-loader
 ---
-
-  <p>Instructs webpack to emit the required object as file and to return its public URL</p>
-</div>
+Instructs webpack to emit the required object as file and to return its public URL
 
 ## 安装
 
@@ -51,16 +49,18 @@ module.exports = {
 
 |名称|类型|默认值|描述|
 |:--:|:--:|:-----:|:----------|
-|**`name`**|`{String}`|`[hash].[ext]`|为你的文件配置自定义文件名模板|
-|**`context`**|`{String}`|`this.options.context`|配置自定义文件 `context`,默认为 `webpack.config.js` [context](https://webpack.js.org/configuration/entry-context/#context)|
-|**`publicPath`**|`{String\|Function}`|[`__webpack_public_path__ `](https://webpack.js.org/api/module-variables/#__webpack_public_path__-webpack-specific-)|为你的文件配置自定义发布目录|
-|**`outputPath`**|`{String\|Function}`|`'undefined'`|为你的文件配置自定义输出目录|
-|**`useRelativePath`**|`{Boolean}`|`false`|如果你希望为每个文件生成一个相对url的`context`时，应该将其设置为true|
-|**`emitFile`**|`{Boolean}`|`true`|默认情况下会生成文件,可以通过将此项设置为false来禁止(例如使用了服务端的 packages)|
+|**`name`**|`{String\|Function}`|`[hash].[ext]`|为你的文件配置自定义文件名模板|
+|**`context`**|`{String}`|`this.options.context`|配置自定义文件 context，默认为 `webpack.config.js` [context](https://webpack.js.org/configuration/entry-context/#context)|
+|**`publicPath`**|`{String\|Function}`|[`__webpack_public_path__ `](https://webpack.js.org/api/module-variables/#__webpack_public_path__-webpack-specific-)|为你的文件配置自定义 `public` 发布目录|
+|**`outputPath`**|`{String\|Function}`|`'undefined'`|为你的文件配置自定义 `output` 输出目录|
+|**`useRelativePath`**|`{Boolean}`|`false`|如果你希望为每个文件生成一个相对 url 的 `context` 时，应该将其设置为 `true`|
+|**`emitFile`**|`{Boolean}`|`true`|默认情况下会生成文件，可以通过将此项设置为 false 来禁止（例如，使用了服务端的 packages）|
 
 ##
 
 You can configure a custom filename template for your file using the query parameter `name`. For instance, to copy a file from your `context` directory into the output directory retaining the full directory structure, you might use
+
+#### `{String}`
 
 **webpack.config.js**
 ```js
@@ -68,6 +68,24 @@ You can configure a custom filename template for your file using the query param
   loader: 'file-loader',
   options: {
     name: '[path][name].[ext]'
+  }
+}
+```
+
+#### `{Function}`
+
+**webpack.config.js**
+```js
+{
+  loader: 'file-loader',
+  options: {
+    name (file) {
+      if (env === 'development') {
+        return '[path][name].[ext]'
+      }
+
+      return '[hash].[ext]'
+    }
   }
 }
 ```
@@ -117,7 +135,7 @@ You can configure a custom filename template for your file using the query param
   loader: 'file-loader',
   options: {
     name: '[path][name].[ext]',
-    publicPath: 'assets'
+    publicPath: 'assets/'
   }
 }
 ```
@@ -130,7 +148,7 @@ You can configure a custom filename template for your file using the query param
   loader: 'file-loader',
   options: {
     name: '[path][name].[ext]',
-    outputPath: 'images'
+    outputPath: 'images/'
   }
 }
 ```

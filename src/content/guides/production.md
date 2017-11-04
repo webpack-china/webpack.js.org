@@ -13,6 +13,8 @@ contributors:
   - redian
   - skipjack
   - xgqfrms
+  - kelset
+  - xgirma
 ---
 
 在本指南中，我们将深入一些最佳实践，并且使用工具，将网站或应用程序构建到生产环境中。
@@ -127,6 +129,7 @@ __package.json__
     "author": "",
     "license": "ISC",
     "devDependencies": {
+      "clean-webpack-plugin": "^0.1.17",
       "css-loader": "^0.28.4",
       "csv-loader": "^2.1.1",
       "express": "^4.15.3",
@@ -135,6 +138,8 @@ __package.json__
       "style-loader": "^0.18.2",
       "webpack": "^3.0.0",
       "webpack-dev-middleware": "^1.12.0",
+      "webpack-dev-server": "^2.9.1",
+      "webpack-merge": "^4.1.0",
       "xml-loader": "^1.2.1"
     }
   }
@@ -175,6 +180,7 @@ __webpack.prod.js__
   })
 ```
 
+T> 避免在生产中使用 `inline-***` 和 `eval-***`，因为它们可以增加 bundle 大小，并降低整体性能。
 
 ## 指定环境
 
@@ -191,8 +197,9 @@ __webpack.prod.js__
   module.exports = merge(common, {
     devtool: 'cheap-module-source-map',
     plugins: [
--     new UglifyJSPlugin()
-+     new UglifyJSPlugin(),
+      new UglifyJSPlugin({
+        sourceMap: true
+      }),
 +     new webpack.DefinePlugin({
 +       'process.env': {
 +         'NODE_ENV': JSON.stringify('production')
@@ -232,7 +239,7 @@ __src/index.js__
 
 ## CLI 替代选项
 
-以上描述也可以通过命令行实现。例如，`--optimize-minize` 标记将在后台引用 `UglifyJSPlugin`。和以上描述的 `DefinePlugin` 实例相同，`--define process.env.NODE_ENV="'production'"` 也会做同样的事情。并且，`webpack -p` 将自动地调用上述这些标记，从而调用需要引入的插件。
+以上描述也可以通过命令行实现。例如，`--optimize-minimize` 标记将在后台引用 `UglifyJSPlugin`。和以上描述的 `DefinePlugin` 实例相同，`--define process.env.NODE_ENV="'production'"` 也会做同样的事情。并且，`webpack -p` 将自动地调用上述这些标记，从而调用需要引入的插件。
 
 这些简便方式虽然都很不错，但是我们通常建议只使用配置方式，因为在这两种场景中下，配置方式能够更好地帮助你了解自己正在做的事情。配置方式还可以让你更方便地控制这两个插件中的其他选项。
 

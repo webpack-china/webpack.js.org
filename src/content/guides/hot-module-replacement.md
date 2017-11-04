@@ -13,6 +13,8 @@ contributors:
   - sbaidon
   - gdi2290
   - bdwain
+  - caryli
+  - xgirma
 related:
   - title: 概念 - 模块热替换(Hot Module Replacement)
     url: /concepts/hot-module-replacement
@@ -38,6 +40,7 @@ __webpack.config.js__
 ``` diff
   const path = require('path');
   const HtmlWebpackPlugin = require('html-webpack-plugin');
+  const CleanWebpackPlugin = require('clean-webpack-plugin');
 + const webpack = require('webpack');
 
   module.exports = {
@@ -52,9 +55,11 @@ __webpack.config.js__
 +     hot: true
     },
     plugins: [
+      new CleanWebpackPlugin(['dist']),
       new HtmlWebpackPlugin({
         title: 'Hot Module Replacement'
       }),
++     new webpack.NamedModulesPlugin(),
 +     new webpack.HotModuleReplacementPlugin()
     ],
     output: {
@@ -64,9 +69,9 @@ __webpack.config.js__
   };
 ```
 
-你也可以通过命令来修改 [webpack-dev-server](https://github.com/webpack/webpack-dev-server) 的配置：`webpack-dev-server --hotOnly`。
+T> 你可以通过命令来修改 [webpack-dev-server](https://github.com/webpack/webpack-dev-server) 的配置：`webpack-dev-server --hotOnly`。
 
-接下来我们在命令行中运行 `npm start` 查看运行结果。
+注意，我们还添加了 `NamedModulesPlugin`，以便更容易查看要修补(patch)的依赖。在起步阶段，我们将通过在命令行中运行 `npm start` 来启动并运行 dev server。
 
 现在，我们来修改 `index.js` 文件，以便当 `print.js` 内部发生变更时可以告诉 webpack 接受更新的模块。
 
@@ -144,14 +149,15 @@ const webpack = require('webpack');
 const config = require('./webpack.config.js');
 const options = {
   contentBase: './dist',
-  hot: true
+  hot: true,
+  host: 'localhost'
 };
 
 webpackDevServer.addDevServerEntrypoints(config, options);
 const compiler = webpack(config);
 const server = new webpackDevServer(compiler, options);
 
-server.listen(5000, () => {
+server.listen(5000, 'localhost', () => {
   console.log('dev server listening on port 5000');
 });
 ```
@@ -240,6 +246,7 @@ __webpack.config.js__
 +     ]
 +   },
     plugins: [
+      new CleanWebpackPlugin(['dist'])
       new HtmlWebpackPlugin({
         title: 'Hot Module Replacement'
       }),
