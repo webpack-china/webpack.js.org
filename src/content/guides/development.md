@@ -110,7 +110,7 @@ webpack 中有几个不同的选项，可以帮助你在代码发生变化后自
 
 ### 使用观察模式
 
-你可以指示 webpack "watch" 依赖图中的所有文件以进行更改。如果其中一个文件被更新，代码将被重新编译，所以你不必手动运行整个构建。
+我们添加一个用于启动 webpack 的观察模式的 npm script：
 
 我们添加一个用于启动 webpack 的观察模式的 npm script 脚本：
 
@@ -243,16 +243,15 @@ T> 现在，服务器正在运行，你可能需要尝试[模块热替换(Hot Mo
 
 ### 使用 webpack-dev-middleware
 
-`webpack-dev-middleware` is a wrapper that will emit files processed by webpack to a server. This is used in `webpack-dev-server` internally, however it's available as a separate package to allow more custom setups if desired. We'll take a look at an example that combines webpack-dev-middleware with an express server.
-
-Let's install `express` and `webpack-dev-middleware` so we can get started:
-
+`webpack-dev-middleware` 是一个中间件，它将通过webpack处理后的文件发布到一个服务器。 它被使用在`webpack-dev-server` 内部， 同样这也是一个单独的包允许来实现更多需求。接下来是一个webpack-dev-middleware配合express server的例子。
+ 
+首先安装 `express` 和 `webpack-dev-middleware`：
+ 
 ``` bash
 npm install --save-dev express webpack-dev-middleware
 ```
-
-Now we need to make some adjustments to our webpack configuration file in order to make sure the middleware will function correctly:
-
+ 
+接下来我们需要修改一下webpack的配置文件来确保中间件正确启用:
 __webpack.config.js__
 
 ``` diff
@@ -279,9 +278,9 @@ __webpack.config.js__
     }
   };
 ```
-
-The `publicPath` will be used within our server script as well in order to make sure files are served correctly on `http://localhost:3000`, the port number we'll specify later. The next step is setting up our custom `express` server:
-
+ 
+参数 `publicPath` 将用在服务端脚本里，为了确保文件能在`http://localhost:3000`被访问到，端口号我们等会设置。下一步就是设置我们的第三方 `express` 服务器：
+ 
 __project__
 
 ``` diff
@@ -318,8 +317,8 @@ app.listen(3000, function () {
   console.log('Example app listening on port 3000!\n');
 });
 ```
-
-Now add an npm script to make it a little easier to run the server:
+ 
+现在添加一个npm script来使我们更方便地运行服务器：
 
 __package.json__
 
@@ -353,8 +352,8 @@ __package.json__
     }
   }
 ```
-
-Now in your terminal run `npm run server`, it should give you an output similar to this:
+ 
+现在在你的终端输入 `npm run server`，将会有类似如下信息输出：
 
 ``` bash
 Example app listening on port 3000!
@@ -380,10 +379,10 @@ Child html-webpack-plugin for "index.html":
        [3] (webpack)/buildin/module.js 517 bytes {0} [built]
 webpack: Compiled successfully.
 ```
-
-Now fire up your browser and go to `http://localhost:3000`, you should see your webpack app running and functioning!
-
-T> If you like to know more about how Hot Module Replacement works, we recommend you read the [Hot Module Replacement](/guides/hot-module-replacement/) guide.
+ 
+现在打开浏览器访问 `http://localhost:3000`,你应该看到你的webpack应用已经运行！
+ 
+T> 如果你想了解更多关于模块热替换（Hot Module Replacement）的机制，我们推荐你看[Hot Module Replacement](/guides/hot-module-replacement/) 指南.
 
 
 ## 调整文本编辑器
