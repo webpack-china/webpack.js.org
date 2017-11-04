@@ -108,11 +108,9 @@ webpack 中有几个不同的选项，可以帮助你在代码发生变化后自
 多数场景中，你可能需要使用 `webpack-dev-server`，但是不妨探讨一下以上的所有选项。
 
 
-### 使用观察模式
+### 使用监察模式
 
-我们添加一个用于启动 webpack 的观察模式的 npm script：
-
-我们添加一个用于启动 webpack 的观察模式的 npm script 脚本：
+我们添加一个用于启动 webpack 的监察模式的 npm 脚本(script)：
 
 __package.json__
 
