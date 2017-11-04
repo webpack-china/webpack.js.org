@@ -12,7 +12,7 @@ Instructs webpack to emit the required object as file and to return its public U
 npm install --save-dev file-loader
 ```
 
-## 用法
+## <a href="https://doc.webpack-china.org/concepts/loaders">用法</a>
 
 默认情况下，生成的文件的文件名就是文件内容的 MD5 哈希值并会保留所引用资源的原始扩展名。
 
@@ -39,7 +39,7 @@ module.exports = {
 }
 ```
 
-生成文件 file.png ，输出到输出目录并返回 public URL。
+生成文件 file.png，输出到输出目录并返回 public URL。
 
 ```
 "/public/path/0dcbbaa7013869e351f.png"
