@@ -16,7 +16,7 @@ contributors:
 
 ### 保持版本最新
 
-使用最新的 webpack 版本。我们会经常进行性能优化。 webpack 的最新稳定版本是:
+使用最新的 webpack 版本。我们会经常进行性能优化。 webpack 的最新稳定版本是：
 
 [![latest webpack version](https://img.shields.io/npm/v/webpack.svg?label=webpack&style=flat-square&maxAge=3600)](https://github.com/webpack/webpack/releases)
 
@@ -34,7 +34,7 @@ contributors:
 }
 ```
 
-使用 `include` 字段仅将 loader 模块应用在实际需要用其转换的位置中:
+使用 `include` 字段仅将 loader 模块应用在实际需要用其转换的位置中：
 
 ``` js
 {
