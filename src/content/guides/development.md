@@ -110,7 +110,7 @@ webpack 中有几个不同的选项，可以帮助你在代码发生变化后自
 
 ### 使用观察模式
 
-我们添加一个用于启动 webpack 的观察模式的 npm script：
+你可以指示 webpack "watch" 依赖图中的所有文件以进行更改。如果其中一个文件被更新，代码将被重新编译，所以你不必手动运行整个构建。
 
 我们添加一个用于启动 webpack 的观察模式的 npm script 脚本：
 
@@ -243,15 +243,16 @@ T> 现在，服务器正在运行，你可能需要尝试[模块热替换(Hot Mo
 
 ### 使用 webpack-dev-middleware
 
-`webpack-dev-middleware` 是一个中间件，它将通过webpack处理后的文件发布到一个服务器。 它被使用在`webpack-dev-server` 内部， 同样这也是一个单独的包允许来实现更多需求。接下来是一个webpack-dev-middleware配合express server的例子。
- 
-首先安装 `express` 和 `webpack-dev-middleware`：
- 
+`webpack-dev-middleware` 是一个中间件容器(wrapper)，它将通过 webpack 处理后的文件发布到一个服务器(server)。在内部 `webpack-dev-server` 它使用，然而，它可以作为一个单独的包来提供，可以进行更多的自定义设置来实现更多需求。接下来是一个 webpack-dev-middleware 配合 express server 的示例。
+
+首先，安装 `express` 和 `webpack-dev-middleware`：
+
 ``` bash
 npm install --save-dev express webpack-dev-middleware
 ```
- 
-接下来我们需要修改一下webpack的配置文件来确保中间件正确启用:
+
+接下来我们需要对 webpack 的配置文件做一些调整，以确保中间件(middleware)功能能够正确启用：
+
 __webpack.config.js__
 
 ``` diff
@@ -278,9 +279,9 @@ __webpack.config.js__
     }
   };
 ```
- 
-参数 `publicPath` 将用在服务端脚本里，为了确保文件能在`http://localhost:3000`被访问到，端口号我们等会设置。下一步就是设置我们的第三方 `express` 服务器：
- 
+
+`publicPath` 也会在服务器脚本用到，以确保文件资源能够在 `http://localhost:3000` 下正确访问，我们稍后再设置端口号。下一步就是设置我们自定义的 `express` 服务：
+
 __project__
 
 ``` diff
@@ -317,8 +318,8 @@ app.listen(3000, function () {
   console.log('Example app listening on port 3000!\n');
 });
 ```
- 
-现在添加一个npm script来使我们更方便地运行服务器：
+
+现在，添加一个 npm script，以使我们更方便地运行服务：
 
 __package.json__
 
@@ -352,8 +353,8 @@ __package.json__
     }
   }
 ```
- 
-现在在你的终端输入 `npm run server`，将会有类似如下信息输出：
+
+现在，在你的终端执行 `npm run server`，将会有类似如下信息输出：
 
 ``` bash
 Example app listening on port 3000!
@@ -379,10 +380,10 @@ Child html-webpack-plugin for "index.html":
        [3] (webpack)/buildin/module.js 517 bytes {0} [built]
 webpack: Compiled successfully.
 ```
- 
-现在打开浏览器访问 `http://localhost:3000`,你应该看到你的webpack应用已经运行！
- 
-T> 如果你想了解更多关于模块热替换（Hot Module Replacement）的机制，我们推荐你看[Hot Module Replacement](/guides/hot-module-replacement/) 指南.
+
+现在，打开浏览器，跳转到 `http://localhost:3000`，你应该看到你的webpack 应用程序已经运行！
+
+T> 如果想要了解更多关于模块热替换(Hot Module Replacement)的机制，我们推荐你查看[模块热替换(Hot Module Replacement)](/guides/hot-module-replacement/)指南。
 
 
 ## 调整文本编辑器
