@@ -13,17 +13,19 @@ contributors:
 
 - [**资源(Asset)**](/guides/asset-management/): 这是一个普遍的术语，用于图片、字体、媒体，还有一些其他类型的文件，常用在网站和其他应用程序。这些文件通常最终在[输出(output )](/glossary#o) 中成为单个文件，但也可以通过一些东西内联，像 [style-loader](/loaders/style-loader) 或者 [url-loader](/loaders/url-loader) .
 
+
 ## B
 
-- [**包(Bundle)**](/guides/getting-started/#creating-a-bundle): 由多个不同的模块生成，bundles 包含了早已经过加载和编译的最终源文件版本。
-- [**包分离(Bundle Splitting)**](/guides/code-splitting): 这个流程提供一个优化build的方法，允许 webpack 为应用程序生成多个包( bundles )。结果是，
-每个包( bundles )可以从依赖中分离，减少需要重新发布的代码量，因此由客户端重新下载并利用浏览器缓存。
+- [**Bundle**](/guides/getting-started/#creating-a-bundle): 由多个不同的模块生成，bundles 包含了早已经过加载和编译的最终源文件版本。
+- [**Bundle 分离(Bundle Splitting)**](/guides/code-splitting): 这个流程提供一个优化 build 的方法，允许 webpack 为应用程序生成多个 bundle。最终效果是，当其他某些 bundle 的改动时，彼此独立的另一些 bundle 都可以不受到影响，减少需要重新发布的代码量，因此由客户端重新下载并利用浏览器缓存。
+
 
 ## C
 
-- **块( Chunk )**: 这是 webpack 特有的术语被用在内部来管理 building 过程。包文件(Bundles)由块组成，其中有几种类型（比如入口和子后代(child)）。通常块(chunks)会直接对应包文件(bundles)，但是有一些配置并不会产生一对一的关系。
-- [**代码分割(Code Splitting)**](/guides/code-splitting/): 指分割你的代码到每个包文件/块(bundles/chunks)里面，你可以按需加载，而不是加载一个包含全部的打包文件。
-- [**配置(Configuration)**](/concepts/configuration/): webpack 的配置文件是一个普通的 JavaScript 文件，它输出一个对象。该对象然后由 webpack 根据其定义的属性进行处理。
+- **Chunk**: 这是 webpack 特定的术语被用在内部来管理 building 过程。bundle 由 chunk 组成，其中有几种类型（例如，入口 chunk(entry chunk) 和子 chunk(child chunk)）。通常 chunk 会直接对应所输出的 bundle，但是有一些配置并不会产生一对一的关系。
+- [**代码分离(Code Splitting)**](/guides/code-splitting/): 指将代码分离到每个 bundles/chunks 里面，你可以按需加载，而不是加载一个包含全部的 bundle。
+- [**配置(Configuration)**](/concepts/configuration/): webpack 的配置文件是一个普通的 JavaScript 文件，它导出为一个对象。然后由 webpack 根据这个对象定义的属性进行处理。
+
 
 ## D
 
@@ -41,7 +43,7 @@ contributors:
 
 ## H
 
-- [**热模块替换(Hot Module Replacement(HMR))**](/concepts/hot-module-replacement): 一个改变，添加或删除模块(`modules`)的过程中，正在运行的应用程序不需要重载整个页面。
+- [**热模块替换(Hot Module Replacement(HMR))**](/concepts/hot-module-replacement): 一个修改、添加或删除模块(modules)的过程，而正在运行中的应用程序无需重载加载整个页面。
 
 
 ## I
@@ -52,7 +54,8 @@ contributors:
 
 ## L
 
-- [**加载器(Loaders)**](/concepts/loaders): 应用于模块源代码的转换。它们允许你预处理 `require()` 或“加载”的文件。就像“任务启动者(task-runner)”
+- [**Loaders**](/concepts/loaders): loader 允许你在 `require()` 或“加载”的文件之前，先预处理文件。就像“任务执行器(task-runner)”
+
 
 ## M
 
@@ -64,8 +67,8 @@ contributors:
 
 ## O
 
-- [**输出(Output)**](/concepts/output): 该选项确定在磁盘哪里输出编译后的文件。
-    > _注意, 虽然可以有多个入口点, 但规定只能配置一个输出(output)._
+- [**输出(Output)**](/concepts/output): 此选项指定编译后的文件，输出到硬盘的何处。
+  > _注意, 虽然可以有多个入口点, 但规定只能配置一个输出(output)。_
 
 
 ## P
@@ -82,14 +85,14 @@ contributors:
 ## T
 
 - [**目标(Target)**](/configuration/target/): [这里列出](/configuration/target/) 了用户配置的部署目标，针对特定的环境（如浏览器，NodeJS或Electron）进行编译。
-- [**Tree Shaking**](/guides/tree-shaking/): 删除未使用/过多的代码，更准确地说是动态代码导入。例如webpack的编译器将通过分析各种“import”语句和导入代码的使用来实现这一点，确定哪些部分的依赖关系实际上被利用，删除不是“树”的部分。
+- [**Tree Shaking**](/guides/tree-shaking/): 移除未使用/多余的代码，或者更准确地说，只导入引用的代码。编译器(compiler)（例如 webpack）将通过分析各种 `import` 语句和引入代码的使用情况，来确定哪些部分的依赖关系被实际使用，删除不是“树”的部分，以实现此功能。
 
 
 ## U
 
 ## V
 
-- [**第三方库入口点(Vendor Entry Point)**](/concepts/entry-points/#separate-app-and-vendor-entries):  从 app.js 和 vendors.js 开始创建依赖图(dependency graph)。这些依赖图是彼此完全分离、互相独立的，允许你使用 CommonsChunkPlugin 从「应用程序 bundle」中提取 vendor 引用(vendor reference) 到 vendor bundle。如果应用程序 bundle 中没有 vendor 代码，那么你可以在 webpack 中实现被称为长效缓存的通用模式。
+- [**第三方库入口点(Vendor Entry Point)**](/concepts/entry-points/#separate-app-and-vendor-entries):  从 app.js 和 vendors.js 开始创建依赖图(dependency graph)。这些依赖图是彼此完全分离、互相独立的，允许你使用 CommonsChunkPlugin 从「应用程序 bundle」中提取 vendor 引用(vendor reference) 到 vendor bundle。可以帮助你在 webpack 中实现被称为[长效缓存](/guides/caching/)的通用模式。
 
 
 ## W
