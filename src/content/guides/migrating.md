@@ -16,11 +16,11 @@ contributors:
   - ndelangen
 ---
 
-The following sections describe the major changes from webpack 1 to 2.
+以下各节描述从webpack1到webpack2的重大变化。
 
-T> Note that there were far fewer changes between 2 and 3, so that migration shouldn't be too bad. If you are running into issues, please see [the changelog](https://github.com/webpack/webpack/releases) for details.
+T> 从webpack1到webpack2的变化较从2到3要少的多，所以版本迁移的难度应该不大。如果你遇到了问题，请查看 [the changelog](https://github.com/webpack/webpack/releases) 以了解更多细节。
 
-W> This content may be moved to the blog post in the near future as version 2 has been out for a while. On top of that, version 3 was recently released and version 4 is on the horizon. As noted above, folks should instead to refer to [the changelog](https://github.com/webpack/webpack/releases) for migrations.
+W> 随着2版已经发布一段时间，此内容可能在不久的将来被转移到博客文章中。最重要的是，3版最近发布，4版即将发布。如上所述，大家最好是参考 [the changelog](https://github.com/webpack/webpack/releases) 去进行相应的版本迁移。
 
 
 ## `resolve.root`, `resolve.fallback`, `resolve.modulesDirectories`
