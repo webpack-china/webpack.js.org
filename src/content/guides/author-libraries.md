@@ -14,7 +14,7 @@ contributors:
 
 ## 创建一个 library
 
-假设你正在编写一个名为 `webpack-numbers` 的小的 library，可以将数字 1 到 5 转换为文本表示，反之亦然，例如将 2 转换为 'two'。
+假设你正在编写一个名为 `webpack-numbers` 的小的 library，可以将数字 0 到 5 转换为文本表示，反之亦然，例如将 2 转换为 'two'。
 
 基本的项目结构可能如下所示：
 
