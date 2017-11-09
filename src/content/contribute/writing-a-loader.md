@@ -8,7 +8,7 @@ contributors:
 
 插件是导出一个函数的node模块。该函数在loader转换翻译资源的时候调用。给定的函数经通过this上下文访问[Loader API](/api/loaders/)
 
-## Setup
+## 安装
 
 
 在深入研究不同loader以及他们的用法和例子之前，我们先看三种本地开发测试的方法。
@@ -43,7 +43,7 @@ resolveLoader: {
 
 最后，如果你已经为loader创建了独立的库或者包，你可以使用 [`npm link`](https://docs.npmjs.com/cli/link)，来关联你要测试的项目
 
-## Simple Usage简单使用
+## 简单使用
 
 当一个loader在资源中使用，这个loader只能传入一个参数————包含资源文件内容的字符串
 
@@ -52,7 +52,7 @@ resolveLoader: {
 loader会返回一个或者两个值。第一个值类型是JavaScript代码的字符串或者buffer。第二个参数值是SourceMap，他是个JavaScript对象。
 
 
-## Complex Usage 复杂使用
+## 复杂使用
 
 当链式调用多个loader的时候，他们会反向执行。根据数组格式，从右向左或者从下向上执行。
 
@@ -75,19 +75,9 @@ __webpack.config.js__sourp
 ```
 
 
-## Guidelines 引导
+## 引导
 
 编写loader时应该遵循以下准则。它们按重要性排序，有些仅适用于某些场景，请阅读下面详细的章节以获得更多信息。
-- Keep them __simple__.
-- Utilize __chaining__.
-- Emit __modular__ output.
-- Make sure they're __stateless__.
-- Employ __loader utilities__.
-- Mark __loader dependencies__.
-- Resolve __module dependencies__.
-- Extract __common code__.
-- Avoid __absolute paths__.
-- Use __peer dependencies__.
 - 简单易用
 - 支持链式传递。
 - 模块化到的输出
@@ -99,11 +89,11 @@ __webpack.config.js__sourp
 - 避免绝对路径
 - 使用相同依赖
 
-### Simple 简单
+### 简单
 
 Loaders应该只做单一任务。这不仅使每个loader易维护，也可以在更多场景链式调用。
 
-### Chaining 链式
+### 链式
 
 利用loader可以链式调用的优势。写五个简单的loader实现五项任务，而不是一个loader实现五项任务。功能隔离不仅是loader更简单，也让loader可以使用自己本身不具备的功能。
 
@@ -115,15 +105,15 @@ Loaders应该只做单一任务。这不仅使每个loader易维护，也可以�
 
 T>loader可以被链式调用意味着不一定要产出JavaScript。只要下一个loader可以处理这个产出，这个loader就可以返回任意类型的模块。
 
-### Modular 模块化
+### 模块化
 
 保证输出模块化。loader生成的模块与普通模块遵循相同的原则。
 
-### Stateless 无状态
+### 无状态
 
 确保laoder在模块转换之间不保存状态。每次运行都应该独立于其他编译模块以及相同模块之前的编译结果。
 
-### Loader Utilities loader工具库
+### loader工具库
 
 充分利用[`loader-utils`](https://github.com/webpack/loader-utils)包。它提供了许多有用的工具，但最常用的一种方法是获取传递给loader的选项。
 [`schema-utils`](https://github.com/webpack-contrib/schema-utils)包配合`loader-utils`，基于对loader选项的验证，用于JSON Schema一致性。这有一个简单使用两者的例子：
@@ -153,7 +143,7 @@ export default function(source) {
 };
 ```
 
-### Loader Dependencies loader依赖
+### Loader依赖
 
 如果一个loader使用拓展资源（例如 从文件系统读取），必须声明它。这些信息在观察模式用于无效缓存loaders和重编译。这有一个关于如何使用`addDependency`方法的例子；
 __loader.js__
@@ -174,7 +164,7 @@ export default function(source) {
 };
 ```
 
-### Module Dependencies 模块依赖
+### 模块依赖
 
 根据模块类型，可能有不同的模式指定依赖项。例如在css中，使用`@import`和`url(...)`来声明依赖。这些依赖关系应该由模块系统解决。
 
@@ -210,7 +200,7 @@ T> 如果语言只接受相对路径（例如`url(file)`总是指`./file`），�
 ```
 
 
-## Testing 测试
+## 测试
 
 当你按照以上规则写了一个loader，并且可以在本地运行。下一步该做什么呢？让我们用一个简单的单元测试来保证loader的正确运行。我们间使用[Jest](https://facebook.github.io/jest/)框架。让我们安装并且保存为`devDependencies`。
 
