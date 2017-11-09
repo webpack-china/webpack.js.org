@@ -200,31 +200,43 @@ export default function(source) {
 ### Module Dependencies 模块依赖
 
 Depending the type of module, there may be a different schema used to specify dependencies. In CSS for example, the `@import` and `url(...)` statements are used. These dependencies should be resolved by the module system.
+根据模块类型，可能有不同的模式指定依赖项。例如在css中，使用`@import`和`url(...)`来声明依赖。这些依赖关系应该由模块系统解决。
 
 This can be done in one of two ways:
+这个有两种方式实现：
+
+- 通过把它们转化成`require`声明依赖
+- 使用`this.resolve`函数解析路径
 
 - By transforming them to `require` statements.
 - Using the `this.resolve` function to resolve the path.
 
 The `css-loader` is a good example of the first approach. It transforms dependencies to `require`s, by replacing `@import` statements with a `require` to the other stylesheet and `url(...)` with a `require` to the referenced file.
+`css-loader`是第一种方式的一个例子。它替换`@import`为`require`来声明对其他样式文件的依赖，替换`url(...)`为`require`引用文件，从而实现转化为`require`声明依赖
 
 In the case of the `less-loader`, it cannot transform each `@import` to a `require` because all `.less` files must be compiled in one pass for variables and mixin tracking. Therefore, the `less-loader` extends the less compiler with custom path resolving logic. It then takes advantage of the second approach, `this.resolve`, to resolve the dependency through webpack.
+对于`less-loader`，他可以转化每个 `@import`为`require`，因为所有`.less`的文件变量和混合跟踪必须被一次编译。因此`less-loader`扩展性低于解析路径函数的方法。利用第二种方式通过webpack的`this.resolve`解析依赖。
 
 T> If the language only accepts relative urls (e.g. `url(file)` always refers to `./file`), you can use the `~` convention to specify references to installed modules (e.g. those in `node_modules`). So, in the case of `url`, that would look something like `url('~some-library/image.jpg')`.
+T> 如果语言只接受相对路径（例如`url(file)`总是指`./file`），通过使用`~`来指定已安装模块。所以对于`url`，相当于 `url('~some-library/image.jpg')`
 
 ### Common Code通用代码
 
 Avoid generating common code in every module the loader processes. Instead, create a runtime file in the loader and generate a `require` to that shared module.
+避免在每个loader中包含通用代码，相反，创建一个运行时文件用 `require`在loader中共享使用。
 
 ### Absolute Paths 绝对路径
 
 Don't insert absolute paths into the module code as they break hashing when the root for the project is moved. There's a [`stringifyRequest`](https://github.com/webpack/loader-utils#stringifyrequest) method in `loader-utils` which can be used to convert an absolute path to a relative one.
+不要在模块代码中插入绝对路径，因为当项目跟路径变化时，文件绝对路径也会变化。`loader-utils`中的[`stringifyRequest`]   (https://github.com/webpack/loader-utils#stringifyrequest）方法可以转化绝对路径为相对路径。
 
-### Peer Dependencies
+### Peer Dependencies 同等依赖
 
 If the loader you're working on is a simple wrapper around another package, then you should include the package as a `peerDependency`. This approach allows the application's developer to specify the exact version in the `package.json` if desired.
+如果你的loader简单包裹另外一个包，你应该把这个包作为一个`peerDependency`引入。这种方式允许应用开发者在必要情况下，在`package.json` 中指定特定的包版本。
 
 For instance, the `sass-loader` [specifies `node-sass`](https://github.com/webpack-contrib/sass-loader/blob/master/package.json) as peer dependency like so:
+例如`sass-loader` [specifies `node-sass`](https://github.com/webpack-contrib/sass-loader/blob/master/package.json)，作为同等依赖引用如下：
 
 ``` js
 "peerDependencies": {
@@ -233,9 +245,10 @@ For instance, the `sass-loader` [specifies `node-sass`](https://github.com/webpa
 ```
 
 
-## Testing
+## Testing 测试
 
 So you've written a loader, followed the guidelines above, and have it set up to run locally. What's next? Let's go through a simple unit testing example to ensure our loader is working the way we expect. We'll be using the [Jest](https://facebook.github.io/jest/) framework to do this. We'll also install `babel-jest` and some presets that will allow us to use the `import` / `export` and `async` / `await`. Let's start by installing and saving these as a `devDependencies`:
+当你按照以上规则写了一个loader，并且可以在本地运行。下一步该做什么呢？让我们用一个简单的单元测试来保证loader的正确运行。我们间使用[Jest](https://facebook.github.io/jest/)框架。让我们安装并且保存为`devDependencies`。
 
 ``` bash
 npm i --save-dev jest babel-jest babel-preset-env
@@ -257,6 +270,7 @@ __.babelrc__
 ```
 
 Our loader will process `.txt` files and simply replace any instance of `[name]` with the `name` option given to the loader. Then it will output a valid JavaScript module containing the text as it's default export:
+我们的loader将会处理`.txt`文件，并且简单替换任何实例中的`[name]`为loader选项中设置的`name`。然后返回包含默认导出文本的JavaScript模块。
 
 __src/loader.js__
 
@@ -273,6 +287,7 @@ export default source => {
 ```
 
 We'll use this loader to process the following file:
+我们将会使用这个loader处理一下文件：
 
 __test/example.txt__
 
@@ -281,6 +296,7 @@ Hey [name]!
 ```
 
 Pay close attention to this next step as we'll be using the [Node.js API](/api/node) and [`memory-fs`](https://github.com/webpack/memory-fs) to execute webpack. This lets us avoid emitting `output` to disk and will give us access to the `stats` data which we can use to grab our transformed module:
+关注下一步，我们将会使用 [Node.js API](/api/node)和[`memory-fs`](https://github.com/webpack/memory-fs)去执行webpack。这让我们避免像磁盘写入写出，并允许我们访问获取转换模块的统计数据`stats`
 
 ``` bash
 npm i --save-dev webpack memory-fs
@@ -327,6 +343,7 @@ export default (fixture, options = {}) => {
 ```
 
 T> In this case, we've inlined our webpack configuration but you can also accept a configuration as a parameter to the exported function. This would allow you to test multiple setups using the same compiler module.
+T>这种情况下，我们可以内联webpack配置，也可以把配置作为参数传给导出的函数。这允许我们使用相同的编译模块测试多个设置
 
 And now, finally, we can write our test and add an npm script to run it:
 
