@@ -16,7 +16,7 @@ contributors:
   - ndelangen
 ---
 
-以下各节描述从 webpack 1 到 webpack 2 的主要变化。
+以下各节描述从 webpack 1 到 webpack 2 的重大变化。
 
 T> webpack 从 1 到 2 的变化，比从 2 到 3 要少很多，所以版本迁移起来难度应该不大。如果你遇到了问题，请查看 [更新日志](https://github.com/webpack/webpack/releases) 以了解更多细节。
 
