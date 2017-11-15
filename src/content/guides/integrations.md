@@ -125,4 +125,4 @@ module.exports = function(config) {
 };
 ```
 
-获取更多信息，请访问[储存库](https://github.com/webpack-contrib/karma-webpack)。
+获取更多信息，请访问[源码库](https://github.com/webpack-contrib/karma-webpack)。
