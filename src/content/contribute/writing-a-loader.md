@@ -8,7 +8,7 @@ contributors:
 
 插件是导出一个函数的node模块。该函数在loader转换翻译资源的时候调用。给定的函数经通过this上下文访问[Loader API](/api/loaders/)
 
-## 安装
+## 设置
 
 
 在深入研究不同loader以及他们的用法和例子之前，我们先看三种本地开发测试的方法。
@@ -49,7 +49,7 @@ resolveLoader: {
 
 同步loader可以简单的返回一个代表模块的转化后的值。在更复杂的情况下，loader也可以通过使用`this.callback(err, values...)`函数，返回任意数量的值。错误要么传递给这个`this.callback`函数，要么扔进同步loader中。
 
-loader会返回一个或者两个值。第一个值类型是JavaScript代码的字符串或者buffer。第二个参数值是SourceMap，他是个JavaScript对象。
+loader会返回一个或者两个值。第一个值类型是JavaScript代码的字符串或者buffer。第二个参数值是SourceMap，它是个JavaScript对象。
 
 
 ## 复杂使用
@@ -87,7 +87,7 @@ __webpack.config.js__sourp
 - 解决模块依赖关系
 - 提取公共代码。
 - 避免绝对路径
-- 使用相同依赖
+- 使用peer dependencie
 
 ### 简单
 
@@ -101,7 +101,7 @@ Loaders应该只做单一任务。这不仅使每个loader易维护，也可以�
 
 - `jade-loader`: 导出一个函数，把模板转换为模块 
 - `apply-loader`: 根据loader选项执行函数，返回原生HTMl
-- `html-loader`: 接收HTMl产出一个有效的模块
+- `html-loader`: 接收HTMl，输出一个合法的 JS 模块
 
 T>loader可以被链式调用意味着不一定要产出JavaScript。只要下一个loader可以处理这个产出，这个loader就可以返回任意类型的模块。
 
@@ -145,7 +145,7 @@ export default function(source) {
 
 ### Loader依赖
 
-如果一个loader使用拓展资源（例如 从文件系统读取），必须声明它。这些信息在观察模式用于无效缓存loaders和重编译。这有一个关于如何使用`addDependency`方法的例子；
+如果一个loader使用外部资源（例如 从文件系统读取），必须声明它。这些信息在观察模式用于无效缓存loaders和重编译。这有一个关于如何使用`addDependency`方法的例子；
 __loader.js__
 
 ``` js
@@ -202,7 +202,7 @@ T> 如果语言只接受相对路径（例如`url(file)`总是指`./file`），�
 
 ## 测试
 
-当你按照以上规则写了一个loader，并且可以在本地运行。下一步该做什么呢？让我们用一个简单的单元测试来保证loader的正确运行。我们间使用[Jest](https://facebook.github.io/jest/)框架。让我们安装并且保存为`devDependencies`。
+当你按照以上规则写了一个loader，并且可以在本地运行。下一步该做什么呢？让我们用一个简单的单元测试来保证loader的正确运行。我们建议使用[Jest](https://facebook.github.io/jest/)框架。让我们安装并且保存为`devDependencies`。
 
 ``` bash
 npm i --save-dev jest babel-jest babel-preset-env
