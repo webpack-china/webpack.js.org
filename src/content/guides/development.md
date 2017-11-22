@@ -58,7 +58,7 @@ __src/print.js__
 ``` diff
   export default function printMe() {
 -   console.log('I get called from print.js!');
-+   cosnole.log('I get called from print.js!');
++   console.error('I get called from print.js!');
   }
 ```
 
@@ -151,7 +151,7 @@ __src/print.js__
 
 ``` diff
   export default function printMe() {
--   cosnole.log('I get called from print.js!');
+-   console.error('I get called from print.js!');
 +   console.log('I get called from print.js!');
   }
 ```
@@ -234,7 +234,7 @@ __package.json__
   }
 ```
 
-现在，我们可以在命令行中运行 `npm start`，就会看到浏览器自动加载页面。如果现在修改和保存任意源文件，web 服务器就会自动重新加载编译后的代码。试一下！
+现在，我们可以在命令行中运行 `npm run start`，就会看到浏览器自动加载页面。如果现在修改和保存任意源文件，web 服务器就会自动重新加载编译后的代码。试一下！
 
 `webpack-dev-server` 带有许多可配置的选项。转到[相关文档](/configuration/dev-server)以了解更多。
 
