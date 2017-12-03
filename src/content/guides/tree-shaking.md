@@ -147,7 +147,7 @@ T> 注意，也可以在命令行接口中使用 `--optimize-minimize` 标记，
 
 ## 警告
 
-请注意，webpack 本身并不会执行 tree-shaking。它需要依赖于像 [UglifyJS](/plugins/uglifyjs-webpack-plugin/) 这样的第三方插件来执行实际的未引用代码(dead code)删除工作。有些情况下，tree-shaking 可能不会生效。例如，考虑以下模块：
+请注意，webpack 本身并不会执行 tree-shaking。它需要依赖于像 [UglifyJS](/plugins/uglifyjs-webpack-plugin/) 这样的第三方工具来执行实际的未引用代码(dead code)删除工作。有些情况下，tree-shaking 可能不会生效。例如，考虑以下模块：
 
 __transforms.js__
 
