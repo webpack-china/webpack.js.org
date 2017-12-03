@@ -147,7 +147,7 @@ T> 注意，也可以在命令行接口中使用 `--optimize-minimize` 标记，
 
 ## 警告
 
-请注意，webpack 本身并不执行 tree-shaking。它需要依靠像 [UglifyJS](/plugins/uglifyjs-webpack-plugin/) 这样的三方插件来执行实际的未用代码删除工作。有些情况下，tree-shaking 可能是无效的。例如，考虑以下模块：
+请注意，webpack 本身并不会执行 tree-shaking。它需要依赖于像 [UglifyJS](/plugins/uglifyjs-webpack-plugin/) 这样的第三方插件来执行实际的未引用代码(dead code)删除工作。有些情况下，tree-shaking 可能不会生效。例如，考虑以下模块：
 
 __transforms.js__
 
@@ -170,12 +170,12 @@ import { someVar } from './transforms.js';
 
 // Use `someVar`...
 ```
-在上面的代码中，webpack 不能确定是否调用 `mylib.transform` 会引发任何副作用。因此，它会在安全的范围内出现错误，并在 bundle 代码中留下`someOtherVar`。
 
+在上面的代码中，webpack 不能确定是否调用 `mylib.transform` 会引发任何副作用(side-effects)。因此，它会在安全的范围内出现错误，并在 bundle 代码中保留 `someOtherVar`。
 
-一般来说，当一个工具不能保证某个特定的代码路径不会导致副作用时，即使您确信它不应该存在于打好的包中，但这个代码仍然可以保留在生成的 bundle 中。常见的情况有：从第三方模块中调用一个函数，该模块由webpack 和/或 缩小器（minifier）不能检查；从第三方模块导入的函数被重新导出，等等。
+一般来说，当一个工具不能保证某些特定的代码路径(path)不会导致副作用(side-effects)时，即使你确信它不应该存在生成的 bundle 中，但这个代码仍然会保留。常见的情况有：从第三方模块中调用一个函数，webpack 和/或 压缩工具(minifier)无法检查此模块；从第三方模块导入的函数被重新导出，等等。
 
-本指南中使用的代码假设您使用 UglifyJS 插件来执行 tree-shaking。然而,还有其他工具,如[webpack-rollup-loader](https://github.com/erikdesjardins/webpack-rollup-loader)或[Babel Minify Webpack Plugin](/plugins/babel-minify-webpack-plugin)，它们根据您的设置可能产生不同的结果。
+本指南中使用的代码假设你使用 UglifyJS 插件来执行 tree-shaking。然而，还有其他工具，如 [webpack-rollup-loader](https://github.com/erikdesjardins/webpack-rollup-loader) 或 [Babel Minify Webpack Plugin](/plugins/babel-minify-webpack-plugin)，根据你的设置它们可能产生不同的结果。
 
 
 ## 结论
