@@ -24,7 +24,7 @@ contributors:
 
 ## Grunt
 
-对于那些使用Grunt的人，我们推荐使用 [`grunt-webpack`](https://www.npmjs.com/package/grunt-webpack) 软件包。使用 `grunt-webpack` 你可以运行 webpack或 [webpack-dev-server](https://github.com/webpack/webpack-dev-server) 作为一项任务，访问[模板标签](https://gruntjs.com/api/grunt.template)中的统计信息，拆分开发和生产配置等等。如果您尚未安装 `grunt-webpack` 以及 `webpack` 本身，请首先安装：
+对于那些使用 Grunt 的人，我们推荐使用 [`grunt-webpack`](https://www.npmjs.com/package/grunt-webpack) 包(package)。使用 `grunt-webpack` 你可以将 webpack 或 [webpack-dev-server](https://github.com/webpack/webpack-dev-server) 作为一项任务(task)执行，访问[模板标签(template tags)](https://gruntjs.com/api/grunt.template)中的统计信息，拆分开发和生产配置等等。如果你还没有安装过 `grunt-webpack` 和 `webpack`，请先安装它们：
 
 ``` bash
 npm i --save-dev grunt-webpack webpack
@@ -52,18 +52,18 @@ module.exports = function(grunt) {
 };
 ```
 
-获取更多信息，请查看[知识库](https://github.com/webpack-contrib/grunt-webpack)。
+获取更多信息，请查看[本仓库](https://github.com/webpack-contrib/grunt-webpack)。
 
 
 ## Gulp
 
-在 [`webpack-stream`](https://github.com/shama/webpack-stream)包（a.k.a. `gulp-webpack`） 的帮助下，Gulp也可以很方便的完成集成。在这种情况下，不需要单独安装 `webpack` ，因为它是`webpack-stream`的直接依赖：
+在 [`webpack-stream`](https://github.com/shama/webpack-stream) 包(package)（也称作 `gulp-webpack`） 的帮助下，也可以很简单方便的将 Gulp 与 webpack 集成。在这种情况下，不需要单独安装 `webpack` ，因为它是 `webpack-stream` 直接依赖：
 
 ``` bash
 npm i --save-dev webpack-stream
 ```
 
-只需要把 `webpack`（'webpack-stream'）替换为 `require('webpack-stream')`，并传递一个配置文件就可以了：
+只需要把 `webpack` 替换为 `require('webpack-stream')`，并传递一个配置文件就可以了：
 
 __gulpfile.js__
 
@@ -79,24 +79,24 @@ gulp.task('default', function() {
 });
 ```
 
-获取更多信息，请查看[知识库](https://github.com/shama/webpack-stream)。
+获取更多信息，请查看[本仓库](https://github.com/shama/webpack-stream)。
+
 
 ## Mocha
 
-[`mocha-webpack`](https://github.com/zinserjan/mocha-webpack) 可以用来与 Mocha 整合。
-知识库提供了很多关于工具优缺点的细节，但 `mocha-webpack` 还算一个简单的封装，提供与 Mocha 几乎相同的CLI，并提供各种 webpack 功能，如改进了 watch 模式和优化了路径的分析。这里是一个如何安装并使用它来运行测试套件的小例子（在./test中找到）：
+[`mocha-webpack`](https://github.com/zinserjan/mocha-webpack) 可以用来将 Mocha 与 webpack 完全集成。这个仓库提供了很多关于工具优势和缺点方面的细节，但 `mocha-webpack` 还算是一层简单的封装，提供与 Mocha 几乎相同的 CLI，并提供各种 webpack 功能，例如改进了 watch 模式和优化了路径分析(path resolution)。这里是一个如何安装并使用它来运行测试套件的小例子（在 `./test` 中找到）：
 
 ``` bash
 npm i --save-dev webpack mocha mocha-webpack
 mocha-webpack 'test/**/*.js'
 ```
 
-获取更多信息，请查看[知识库](https://github.com/zinserjan/mocha-webpack)。
+获取更多信息，请查看[本仓库](https://github.com/zinserjan/mocha-webpack)。
 
 
 ## Karma
 
-[`karma-webpack`](https://github.com/webpack-contrib/karma-webpack) 软件包允许您使用webpack预处理 [Karma](http://karma-runner.github.io/1.0/index.html) 中的文件。它也可以使用[`webpack-dev-middleware`](https://github.com/webpack/webpack-dev-middleware)，并允许传递两者的配置。下面是一个简单的例子：
+[`karma-webpack`](https://github.com/webpack-contrib/karma-webpack) 包(package)允许你使用 webpack 预处理 [Karma](http://karma-runner.github.io/1.0/index.html) 中的文件。它也可以使用 [`webpack-dev-middleware`](https://github.com/webpack/webpack-dev-middleware)，并允许传递两者的配置。下面是一个简单的示例：
 
 ``` bash
 npm i --save-dev webpack karma karma-webpack
@@ -116,13 +116,17 @@ module.exports = function(config) {
       'test/**/*_test.js': [ 'webpack' ]
     },
     webpack: {
-      // 一些自定义的webpack配置……
+      // 一些自定义的 webpack 配置……
     },
     webpackMiddleware: {
-      // 一些定制的webpack-dev-middleware配置……
+      // 一些自定义的 webpack-dev-middleware 配置……
     }
   });
 };
 ```
 
-获取更多信息，请访问[源码库](https://github.com/webpack-contrib/karma-webpack)。
+获取更多信息，请访问[本仓库](https://github.com/webpack-contrib/karma-webpack)。
+
+***
+
+> 原文：https://webpack.js.org/guides/integrations/
