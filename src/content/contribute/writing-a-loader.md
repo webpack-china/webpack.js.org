@@ -13,7 +13,7 @@ contributors:
 
 在深入研究不同 loader 以及他们的用法和例子之前，我们先看三种本地开发测试的方法。
 
-测试一个单独 loader，你可以简单通过在 rule 对象设置 `path.resolve` 指向这个本地文件
+匹配(test)单个 loader，你可以简单通过在 rule 对象设置 `path.resolve` 指向这个本地文件
 
 __webpack.config.js__
 
@@ -29,7 +29,7 @@ __webpack.config.js__
 }
 ```
 
-测试多个 loaders 的使用，你可以利用 `resolveLoader.modules` 的配置来更新 webpack 将会搜索寻找的 loaders。举例：如果你本地工程有 `/loaders` 文件
+匹配(test)多个 loaders，你可以使用 `resolveLoader.modules` 配置，webpack 将会从这些目录中搜索这些 loaders。例如，如果你的项目中有一个 `/loaders` 本地目录：
 
 __webpack.config.js__
 
@@ -42,25 +42,25 @@ resolveLoader: {
 }
 ```
 
-最后，如果你已经为 loader 创建了独立的库或者包，你可以使用 [`npm link`](https://docs.npmjs.com/cli/link)，来关联你要测试的项目
+最后，相当重要的是，如果你已经为 loader 创建了独立的库和包，你可以使用 [`npm link`](https://docs.npmjs.com/cli/link)，来将其关联到你要测试的项目。
 
 
-## 简单使用
+## 简单用法
 
-当一个 loader 在资源中使用，这个 loader 只能传入一个参数————包含资源文件内容的字符串
+当一个 loader 在资源中使用，这个 loader 只能传入一个参数 - 包含资源文件内容的字符串
 
-同步 loader 可以简单的返回一个代表模块的转化后的值。在更复杂的情况下，loader 也可以通过使用 `this.callback(err, values...)` 函数，返回任意数量的值。错误要么传递给这个 `this.callback` 函数，要么扔进同步 loader 中。
+同步 loader 可以简单的返回一个代表模块转化后的值。在更复杂的情况下，loader 也可以通过使用 `this.callback(err, values...)` 函数，返回任意数量的值。错误要么传递给这个 `this.callback` 函数，要么扔进同步 loader 中。
 
 loader 会返回一个或者两个值。第一个值类型是 JavaScript 代码的字符串或者 buffer。第二个参数值是 SourceMap，它是个 JavaScript 对象。
 
 
-## 复杂使用
+## 复杂用法
 
-当链式调用多个 loader 的时候，他们会反向执行。根据数组格式，从右向左或者从下向上执行。
+当链式调用多个 loader 的时候，请记住它们会以相反的顺序执行。取决于数组写法格式，从右向左或者从下向上执行。
 
-- 最后的 loader 最早调用，将会传入原始资源内容。.
-- 第一个 loader，最后调用，将会传出 JavaScript 和 source map（可选）
-- 中间的 loader 执行时被传入之前 loader 传出的结果
+- 最后的 loader 最早调用，将会传入原始资源内容。
+- 第一个 loader 最后调用，期望值是传出 JavaScript 和 source map（可选）。
+- 中间的 loader 执行时，会传入前一个 loader 传出的结果。
 
 所以，在接下来的例子，`foo-loader` 被传入原始资源，`bar-loader` 将接收 `foo-loader` 的产出，返回最终转化后的模块和一个 source map（可选）
 
@@ -77,20 +77,20 @@ __webpack.config.js__
 ```
 
 
-## 引导
+## 用法引导
 
-编写 loader 时应该遵循以下准则。它们按重要性排序，有些仅适用于某些场景，请阅读下面详细的章节以获得更多信息。
+编写 loader 时应该遵循以下准则。它们按重要程度排序，有些仅适用于某些场景，请阅读下面详细的章节以获得更多信息。
 
-- 简单易用。
-- 支持链式传递。
-- 模块化到的输出。
-- 确保他们无状态。
+- __简单易用__。
+- 使用__链式__传递。
+- __模块化__的输出。
+- 确保__无状态__。
 - 使用 __loader utilities__。
-- 记录 loader 的依赖。
-- 解决模块依赖关系。
-- 提取公共代码。
-- 避免绝对路径。
-- 使用 peer dependencie。
+- 记录 __loader 的依赖__。
+- 解析__模块依赖关系__。
+- 提取__公共代码__。
+- 避免__绝对路径__。
+- 使用 __peer dependencies__。
 
 ### 简单
 
