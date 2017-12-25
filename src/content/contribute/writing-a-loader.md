@@ -100,26 +100,26 @@ Loaders 应该只做单一任务。这不仅使每个 loader 易维护，也可�
 
 利用 loader 可以链式调用的优势。写五个简单的 loader 实现五项任务，而不是一个 loader 实现五项任务。功能隔离不仅是 loader 更简单，也让 loader 可以使用自己本身不具备的功能。
 
-以通过 loader 选项或者查询参数得到的数据渲染模板为例。可以把源代码编译为模板，执行并输出包含 HTML 代码的字符串写到一个 loader 中。但是根据指南，一个简单的 `apply-loader` 可以被其它开源 loader 链式调用。
+以通过 loader 选项或者查询参数得到的数据渲染模板为例。可以把源代码编译为模板，执行并输出包含 HTML 代码的字符串写到一个 loader 中。但是根据用法引导，一个简单的 `apply-loader` 可以被其它开源 loader 链式调用。
 
-- `jade-loader`：导出一个函数，把模板转换为模块
-- `apply-loader`：根据 loader 选项执行函数，返回原生 HTMl
-- `html-loader`：接收 HTMl，输出一个合法的 JS 模块
+- `jade-loader`：导出一个函数，把模板转换为模块。
+- `apply-loader`：根据 loader 选项执行函数，返回原生 HTML。
+- `html-loader`：接收 HTML，输出一个合法的 JS 模块。
 
-T>loader 可以被链式调用意味着不一定要产出 JavaScript。只要下一个 loader 可以处理这个产出，这个 loader 就可以返回任意类型的模块。
+T> loader 可以被链式调用意味着不一定要输出 JavaScript。只要下一个 loader 可以处理这个输出，这个 loader 就可以返回任意类型的模块。
 
 ### 模块化
 
-保证输出模块化。loader 生成的模块与普通模块遵循相同的原则。
+保证输出模块化。loader 生成的模块与普通模块遵循相同的设计原则。
 
 ### 无状态
 
-确保 laoder 在模块转换之间不保存状态。每次运行都应该独立于其他编译模块以及相同模块之前的编译结果。
+确保 loader 在不同模块转换之间不保存状态。每次运行都应该独立于其他编译模块以及相同模块之前的编译结果。
 
 ### loader 工具库
 
-充分利用 [`loader-utils`](https://github.com/webpack/loader-utils) 包。它提供了许多有用的工具，但最常用的一种方法是获取传递给 loader 的选项。
-[`schema-utils`](https://github.com/webpack-contrib/schema-utils)包配合 `loader-utils`，基于对 loader 选项的验证，用于 JSON Schema 一致性。这有一个简单使用两者的例子：
+充分利用 [`loader-utils`](https://github.com/webpack/loader-utils) 包。它提供了许多有用的工具，但最常用的一种方法是获取传递给 loader 的选项。[`schema-utils`](https://github.com/webpack-contrib/schema-utils) 包配合 `loader-utils`，用于保证 loader 选项，进行与 JSON Schema 结构一致的校验。这里有一个简单使用两者的例子：
+
 __loader.js__
 
 ``` js
@@ -140,7 +140,7 @@ export default function(source) {
 
   validateOptions(schema, options, 'Example Loader');
 
-  // Apply some transformations to the source...
+  // 对资源应用一些转换……
 
   return `export default ${ JSON.stringify(source) }`;
 };
@@ -148,7 +148,7 @@ export default function(source) {
 
 ### loader 依赖
 
-如果一个 loader 使用外部资源（例如 从文件系统读取），必须声明它。这些信息在观察模式用于无效缓存 loaders 和重编译。这有一个关于如何使用 `addDependency` 方法的例子；
+如果一个 loader 使用外部资源（例如，从文件系统读取），__必须__声明它。这些信息用于使缓存 loaders 无效，以及在观察模式(watch mode)下重编译。下面是一个简单示例，说明如何使用 `addDependency` 方法实现上述声明：
 
 __loader.js__
 
