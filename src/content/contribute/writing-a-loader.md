@@ -206,7 +206,7 @@ T> 如果语言只支持相对 url（例如 `url(file)` 总是指向 `./file`）
 
 ## 测试
 
-当你按照以上规则写了一个 loader，并且可以在本地运行。下一步该做什么呢？让我们用一个简单的单元测试来保证 loader 的正确运行。我们建议使用 [Jest](https://facebook.github.io/jest/) 框架。让我们安装并且保存为 `devDependencies`。
+当你遵循上面的用法引导编写了一个 loader，并且可以在本地运行。下一步该做什么呢？让我们用一个简单的单元测试，来保证 loader 能够按照我们预期的方式正确运行。我们将使用 [Jest](https://facebook.github.io/jest/) 框架。然后还需要安装 `babel-jest` 和允许我们使用 `import` / `export` 和 `async` / `await` 的一些预设环境(presets)。让我们开始安装，并且将这些依赖保存为 `devDependencies`：
 
 ``` bash
 npm i --save-dev jest babel-jest babel-preset-env
@@ -227,7 +227,7 @@ __.babelrc__
 }
 ```
 
-我们的 loader 将会处理 `.txt` 文件，并且简单替换任何实例中的 `[name]` 为 loader 选项中设置的 `name`。然后返回包含默认导出文本的 JavaScript 模块。
+我们的 loader 将会处理 `.txt` 文件，并且将任何实例中的 `[name]` 直接替换为 loader 选项中设置的 `name`。然后返回包含默认导出文本的 JavaScript 模块。
 
 __src/loader.js__
 
@@ -243,7 +243,7 @@ export default function loader(source) {
 };
 ```
 
-我们将会使用这个 loader 处理一下文件：
+我们将会使用这个 loader 处理以下文件：
 
 __test/example.txt__
 
@@ -251,7 +251,7 @@ __test/example.txt__
 Hey [name]!
 ```
 
-关注下一步，我们将会使用 [Node.js API](/api/node)和 [`memory-fs`](https://github.com/webpack/memory-fs) 去执行 webpack。这让我们避免像磁盘写入写出，并允许我们访问获取转换模块的统计数据 `stats`
+请注意留心接下来的步骤，我们将会使用 [Node.js API](/api/node) 和 [`memory-fs`](https://github.com/webpack/memory-fs) 去执行 webpack。这让我们避免向磁盘产生`输出文件`，并允许我们访问获取转换模块的统计数据 `stats`：
 
 ``` bash
 npm i --save-dev webpack memory-fs
@@ -299,7 +299,7 @@ export default (fixture, options = {}) => {
 
 T> 这种情况下，我们可以内联 webpack 配置，也可以把配置作为参数传给导出的函数。这允许我们使用相同的编译模块测试多个设置。
 
-最后我们我们写测试并且添加 npm script 来运行它。
+最后，我们来编写测试，并且添加 npm script 运行它。
 
 __test/loader.test.js__
 
@@ -322,7 +322,7 @@ __package.json__
 }
 ```
 
-一切准备好了，我们可以运行它来看新的 loader 是否能通过测试：
+准备就绪后，我们可以运行它，然后看新的 loader 是否能通过测试：
 
 ``` bash
  PASS  test/loader.test.js
@@ -335,7 +335,7 @@ Time:        1.853s, estimated 2s
 Ran all test suites.
 ```
 
-生效了！现在你应该准备好开始开发、测试、部署你的 loaders 了。我们希望你可以在社区分享你的 loader！
+一切正常！现在，你应该准备开始开发、测试、部署你的 loaders 了。我们希望你可以在社区分享你的 loader！
 
 ***
 
