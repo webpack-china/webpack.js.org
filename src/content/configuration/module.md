@@ -115,16 +115,15 @@ W> 小心！resource 是文件的_解析_路径，这意味着符号链接的资
 
 ## `Rule.issuer`
 
-A [`Condition`](#condition) to match against the module that issued the request. In the following example, the `issuer` for the `a.js` request would be the path to the `index.js` file.
+使用 `Rule.issuer`，使某个模块 [loader 规则](#condition) 只在特定的文件执行。  
+`issuser` 可以理解为「引入模块资源的文件名」。  
+比如下面的例子，在 `index.js` 文件里引入 `a.js` 模块，这个时候 `issuer` 就是 `index.js` 文件的路径。  
 
 __index.js__
 
 ``` js
 import A from './a.js'
 ```
-
-This option can be used to apply loaders to the dependencies of a specific module or set of modules.
-
 
 ## `Rule.loader`
 
