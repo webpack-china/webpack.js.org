@@ -30,13 +30,13 @@ webpack2支持原生的ES6模块语法，意味着你可以在不引入babel的�
 import MyModule from './my-module.js';
 import { NamedExport } from './other-module.js';
 ```
+
 W> 这里的import导入的为相应的关键字（变量名）。标准的 `import` 中，无法使用其他动态的语法逻辑和隐含变量。[点击这里](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)，查看更多关于 `import` 的信息。关于 `import()` 的动态使用，请看下面的方法。
 
 
 ### `export`
 
 使用 `export default` 默认导出或者使用 `export` 具名导出。
-Export anything as a `default` or named export.
 
 ``` javascript
 // Named exports
@@ -67,6 +67,7 @@ if ( module.hot ) {
   })
 }
 ```
+
 W> `import()`依赖于内部的[`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)。如果想在低版本浏览器使用 `import()` ，请使用例如 [es6-promise](https://github.com/stefanpenner/es6-promise) 或者 [promise-polyfill](https://github.com/taylorhakes/promise-polyfill) 的第三方库。
 
 标准的 `import` 不允许控制模块的名字或其他属性，因为 `块` 在webpack中只是一个概念。幸运的是，webpack中可以传入一些参数来不打破这种规范。
@@ -92,7 +93,7 @@ T> 请注意，两个选项都可以像`/ * webpackMode：“lazy-once”，webp
 
 W> 完全动态的语句，例如 `import(foo)` ，由于webpack需要一些文件的路径信息，而 `foo` 可能是系统或项目中任何文件的任何路径，因此`foo`将不会被加载。 `import()`必须至少包含模块的路径信息，所以绑定可以限制在一个特定的目录或一组文件中。
 
-W> 包含可能在 `import()` 调用中请求的每个模块。 例如，``import（`./locale / $ {language} .json`）`` 会导致`locale`目录中的每个`.json`文件被捆绑到新的块中。 在运行时，当计算变量`language`时，任何文件（如`english.json`或`german.json`）都可以使用。
+W> 包含可能在 `import()` 调用中请求的每个模块。 例如，``import(`./locale/${language}.json`)`` 会导致`./locale`目录中的每个`.json`文件被捆绑到新的块中。 在运行时，当计算变量`language`时，任何文件（如`english.json`或`german.json`）都可以使用。
 
 W> 在webpack中[不建议使用`System.import`](https://github.com/webpack/webpack/issues/2163)，所以在[webpack 2.1.0-beta.28](https://github.com/webpack/webpack/releases/tag/v2.1.0-beta.28)建议使用`import()`。
 
@@ -107,6 +108,7 @@ CommonJS致力于为浏览器之外的JavaScript指定一个生态系统。webpa
 ``` javascript
 require(dependency: String)
 ```
+
 以同步的方式检索其他模块的导出，编译器将确保依赖项在输出包中可用。
 
 ``` javascript
@@ -123,7 +125,7 @@ W> 使用异步可能不会达到预期的效果。
 require.resolve(dependency: String)
 ```
 
-同步检索模块的ID。编译器将会确保依赖项在导出模块可用。更多关于模块的信息，请点击这里[`请点击这里`](/api/module-variables#module-id-commonjs-)
+同步检索模块的ID。编译器将会确保依赖项在导出模块可用。更多关于模块的信息，请点击这里[`module.id`](/api/module-variables#module-id-commonjs-)。
 
 W> webpack中模块ID是一个数字(相反，在NodeJS中是一个字符串 -- 文件名)
 
@@ -157,12 +159,7 @@ require.cache[module.id] !== module
 W> `require.ensure()`是webpack专用的，并且被 `import()` 取代。
 
 ``` javascript
-require.ensure(
-  dependencies: String[], 
-  callback: function(require), 
-  errorCallback: function(error), 
-  chunkName: String
-)
+require.ensure(dependencies: String[], callback: function(require), errorCallback: function(error), chunkName: String)
 ```
 
 将给定的依赖关系拆分成一个单独的包，它将被异步加载。当使用CommonJS语法的时候，这是唯一动态加载依赖的方法。意味着代码可以在执行的时候加载，只有在满足某些条件时才加载依赖项。
@@ -202,6 +199,7 @@ AMD是一种定义了写入和加载模块的JavaScript规范。webpack支持以
 ``` javascript
 define([name: String], [dependencies: String[]], factoryMethod: function(...))
 ```
+
 如果提供依赖关系，每个依赖的导出将会调用 `factoryMethod` 方法(以相同的顺序)。如果未提供依赖关系，则使用`require`, `exports` 和 `module`调用 `factoryMethod` 方法(为了兼容性)。如果此方法返回一个值，则返回值会被该模块导出。编译器将确保每个依赖都可用。
 
 W> 注意：webpack忽略 `name` 参数。
@@ -256,6 +254,7 @@ require(['b'], function(b) {
 W> 这里没有提供模块名称的选项。
 
 
+
 ## Labeled Modules
 
 webpack内部的 `LabeledModulesPlugin` 允许使用下面的方法导入或者导出模块
@@ -299,7 +298,6 @@ method(...);
 ## Webpack
 
 webpack除了支持上述的语法之外，也允许使用一些特定于webpack的方法。
-Aside from the module syntaxes described above, webpack also allows a few custom, webpack-specific methods:
 
 
 ### `require.context`
@@ -356,6 +354,7 @@ if(require.cache[require.resolveWeak('module')]) {
 const page = 'Foo';
 __webpack_modules__[require.resolveWeak(`./page/${page}`)]
 ```
+
 T> `require.resolveWeak` 是通用渲染(SSR + Code Splitting)的基础。例如在[react-universal-component](https://github.com/faceyspacey/react-universal-component) 等包中使用。它允许代码在服务器端和客户端初始页面加载上同步呈现。它要求手动或以某种方式提供模块。
 它可以在不需要指示应该被打包的情况下引入模块。它与`import()`一起使用，当用户导航触发额外的导入时它会接管。
 
