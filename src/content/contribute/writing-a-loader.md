@@ -6,7 +6,7 @@ contributors:
   - michael-ciniawsky
 ---
 
-一个loader就是一个node模块，这个node模块export一个函数。该函数在 该loader 需要转换资源的时候调用。该函数通过 `this` 上下文可以调用 [loader API](/api/loaders/)。
+loader 是导出为一个函数的 node 模块。该函数在 loader 转换资源的时候调用。给定的函数将调用 [loader API](/api/loaders/)，并通过 `this` 上下文访问。
 
 
 ## 设置
@@ -47,7 +47,7 @@ resolveLoader: {
 
 ## 简单用法
 
-当一个 loader 在资源中使用，这个 loader 只能传入一个参数， 这个参数是一个包含资源文件内容的字符串
+当一个 loader 在资源中使用，这个 loader 只能传入一个参数 - 这个参数是一个包含包含资源文件内容的字符串
 
 同步 loader 可以简单的返回一个代表模块转化后的值。在更复杂的情况下，loader 也可以通过使用 `this.callback(err, values...)` 函数，返回任意数量的值。错误要么传递给这个 `this.callback` 函数，要么扔进同步 loader 中。
 
@@ -77,7 +77,7 @@ __webpack.config.js__
 ```
 
 
-## 用法准则 （Guidelines）
+## 用法准则(Guidelines)
 
 编写 loader 时应该遵循以下准则。它们按重要程度排序，有些仅适用于某些场景，请阅读下面详细的章节以获得更多信息。
 
@@ -118,19 +118,19 @@ T> loader 可以被链式调用意味着不一定要输出 JavaScript。只要�
 
 ### loader 工具库(Loader Utilities)
 
-充分利用 [`loader-utils`](https://github.com/webpack/loader-utils) 包。它提供了许多有用的工具，但最常用的一种工具是获取传递给 loader 的选项（options）。[`schema-utils`](https://github.com/webpack-contrib/schema-utils) 包配合 `loader-utils`，用于保证 loader 选项，进行与 JSON Schema 结构一致的校验。这里有一个简单使用两者的例子：
+充分利用 [`loader-utils`](https://github.com/webpack/loader-utils) 包。它提供了许多有用的工具，但最常用的一种工具是获取传递给 loader 的选项。[`schema-utils`](https://github.com/webpack-contrib/schema-utils) 包配合 `loader-utils`，用于保证 loader 选项，进行与 JSON Schema 结构一致的校验。这里有一个简单使用两者的例子：
 
 __loader.js__
 
 ``` js
 import { getOptions } from 'loader-utils';
-import { validateOptions } from 'schema-utils';
+import validateOptions from 'schema-utils';
 
 const schema = {
-  type: object,
+  type: 'object',
   properties: {
     test: {
-      type: string
+      type: 'string'
     }
   }
 }
@@ -206,10 +206,10 @@ T> 如果语言只支持相对 url（例如 `url(file)` 总是指向 `./file`）
 
 ## 测试
 
-当你遵循上面的用法引导编写了一个 loader，并且可以在本地运行。下一步该做什么呢？让我们用一个简单的单元测试，来保证 loader 能够按照我们预期的方式正确运行。我们将使用 [Jest](https://facebook.github.io/jest/) 框架。然后还需要安装 `babel-jest` 和允许我们使用 `import` / `export` 和 `async` / `await` 的一些预设环境(presets)。让我们开始安装，并且将这些依赖保存为 `devDependencies`：
+当你遵循上面的用法准则编写了一个 loader，并且可以在本地运行。下一步该做什么呢？让我们用一个简单的单元测试，来保证 loader 能够按照我们预期的方式正确运行。我们将使用 [Jest](https://facebook.github.io/jest/) 框架。然后还需要安装 `babel-jest` 和允许我们使用 `import` / `export` 和 `async` / `await` 的一些预设环境(presets)。让我们开始安装，并且将这些依赖保存为 `devDependencies`：
 
 ``` bash
-npm i --save-dev jest babel-jest babel-preset-env
+npm install --save-dev jest babel-jest babel-preset-env
 ```
 
 __.babelrc__
@@ -254,7 +254,7 @@ Hey [name]!
 请注意留心接下来的步骤，我们将会使用 [Node.js API](/api/node) 和 [`memory-fs`](https://github.com/webpack/memory-fs) 去执行 webpack。这让我们避免向磁盘产生`输出文件`，并允许我们访问获取转换模块的统计数据 `stats`：
 
 ``` bash
-npm i --save-dev webpack memory-fs
+npm install --save-dev webpack memory-fs
 ```
 
 __test/compiler.js__
