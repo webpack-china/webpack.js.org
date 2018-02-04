@@ -24,7 +24,7 @@ webpack 2 支持原生的 ES6 模块语法，意味着你可以无须额外引�
 
 ### `import`
 
-通过 `import` 以静态的方式，导入另一个模块通过 `export` 导出的。
+通过 `import` 以静态的方式，导入另一个通过 `export` 导出的模块。
 
 ``` javascript
 import MyModule from './my-module.js';
@@ -72,8 +72,6 @@ W> import() 特性依赖于内置的 [`Promise`](https://developer.mozilla.org/e
 
 `import` 规范不允许控制模块的名称或其他属性，因为 "chunks" 只是 webpack 中的一个概念。幸运的是，webpack 中可以通过注释接收一些特殊的参数，而无须破坏规定：
 
-标准的 `import` 不允许控制模块的名字或其他属性，因为 `块` 在webpack中只是一个概念。幸运的是，webpack中可以传入一些参数来不打破这种规范。
-
 ``` js
 import(
   /* webpackChunkName: "my-chunk-name" */
@@ -82,14 +80,14 @@ import(
 );
 ```
 
-`webpackChunkName`: 对导入的模块重新命名。
+`webpackChunkName`：新 chunk 的名称。从 webpack 2.6.0 开始，`[index]` and `[request]` 占位符，分别支持赋予一个递增的数字和实际解析的文件名。
 
-`webpackMode`: 自从webpack 2.6.0后,可以指定不同的模式来解决动态导入的问题。支持以下选项：
+`webpackMode`：从 webpack 2.6.0 开始，可以指定以不同的模式解析动态导入。支持以下选项：
 
-- `"lazy"` (默认): 为每个 `import()` 导入的模块生成一个可延迟加载的模块。
-- `"lazy-once"`:生成一个可以满足 `import()` 调用的单独的lazy-loadable模块。将在第一次调用 `import()` 的时候获取，随后的 `import()` 将使用相同的网络响应。注意：这仅在部分动态声明的情况下才有意义，e.g. ``import(`./locales/${language}.json`)``,其中有可能有多个被请求的路径。
-- `"eager"`: 不会产生额外的模块，所有模块都包含在当前模块中，并且没有附加的网络请求，但是仍会返回 ` promise`。 与静态导入相反，在调用import（）之前，该模块不会被执行。
-- `"weak"`: 尝试加载模块，如果该模块函数已经以其他方式加载（即另一个块导入它或包含模块的脚本被加载）。只有在客户端上已经有该膜块时才成功解析，并且返回 `Promise`。如果该模块不可用，`Promise` 将会被决绝，并且网络请求永远不会执行。这对于通用渲染(SSR)是非常有用的，当需要的模块始终在初始请求（嵌入在页面中）中手动提供时，而不是在应用程序导航触发最初没有提供的模块导入的情况下。
+- `"lazy"`（默认）：为每个 `import()` 导入的模块，生成一个可延迟加载(lazy-loadable) chunk。
+- `"lazy-once"`：生成一个可以满足所有 `import()` 调用的单个可延迟加载(lazy-loadable) chunk。此 chunk 将在第一次 `import()` 调用时获取，随后的 `import()` 调用将使用相同的网络响应。注意，这种模式仅在部分动态语句中有意义，例如 ``import(`./locales/${language}.json`)``，其中可能含有多个被请求的模块路径。
+- `"eager"`：不会生成额外的 chunk，所有模块都被当前 chunk 引入，并且没有额外的网络请求。仍然会返回 `Promise`，但是是 resolved 状态。和静态导入相对比，在调用 import（）完成之前，该模块不会被执行。
+- `"weak"`：尝试加载模块，如果该模块函数已经以其他方式加载（即，另一个 chunk 导入过此模块，或包含模块的脚本被加载）。仍然会返回 `Promise`，但是只有在客户端上已经有该 chunk 时才成功解析。如果该模块不可用，`Promise` 将会是 rejected 状态，并且网络请求永远不会执行。当需要的 chunks 始终在（嵌入在页面中的）初始请求中手动提供，而不是在应用程序导航在最初没有提供的模块导入的情况触发，这对于通用渲染（SSR）是非常有用的。
 
 T> 请注意，两个选项都可以像`/ * webpackMode：“lazy-once”，webpackChunkName：“all-i18n-data”* /`结合使用，这被解析为没有大括号的JSON5对象。
 
