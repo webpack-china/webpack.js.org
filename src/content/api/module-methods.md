@@ -24,28 +24,28 @@ webpack 2 支持原生的 ES6 模块语法，意味着你可以无须额外引�
 
 ### `import`
 
-使用 `import` 导入 `export` 导出的模块。
+通过 `import` 以静态的方式，导入另一个模块通过 `export` 导出的。
 
 ``` javascript
 import MyModule from './my-module.js';
 import { NamedExport } from './other-module.js';
 ```
 
-W> 这里的import导入的为相应的关键字（变量名）。标准的 `import` 中，无法使用其他动态的语法逻辑和隐含变量。[点击这里](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)，查看更多关于 `import` 的信息。关于 `import()` 的动态使用，请看下面的方法。
+W> 这里的关键词是__静态的__。标准的 `import` 语句中，模块语句中不能以「具有逻辑或含有变量」的动态方式去引入其他模块。关于 import 的更多信息和 `import()` 动态用法，请查看这里的[说明](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)。
 
 
 ### `export`
 
-使用 `export default` 默认导出或者使用 `export` 具名导出。
+`默认`导出整个模块，或具名导出模块
 
 ``` javascript
-// Named exports
+// 具名导出
 export var Count = 5;
 export function Multiply(a, b) {
   return a * b;
 }
 
-// Default export
+// 默认导出
 export default {
   // Some data...
 }
@@ -56,9 +56,9 @@ export default {
 
 `import('path/to/module') -> Promise`
 
-动态加载模块。使用 `import()` 处理分割的模块，意思是请求的模块和它内部的模块被分解为一个单独的模块。
+动态地加载模块。调用 `import()` 之处，被作为分离的模块起点，意思是，被请求的模块和它引用的所有子模块，会分离到一个单独的 chunk 中。
 
-T> [ES2015 Loader spec](https://whatwg.github.io/loader/)规定可以加载动态运行时的 ES2015 模块。
+T> [ES2015 loader 规范](https://whatwg.github.io/loader/) 定义了 `import()` 方法，可以在运行时动态地加载 ES2015 模块。
 
 ``` javascript
 if ( module.hot ) {
@@ -68,7 +68,9 @@ if ( module.hot ) {
 }
 ```
 
-W> `import()`依赖于内部的[`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)。如果想在低版本浏览器使用 `import()` ，请使用例如 [es6-promise](https://github.com/stefanpenner/es6-promise) 或者 [promise-polyfill](https://github.com/taylorhakes/promise-polyfill) 的第三方库。
+W> import() 特性依赖于内置的 [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)。如果想在低版本浏览器使用 import()，记得使用像 [es6-promise](https://github.com/stefanpenner/es6-promise) 或者 [promise-polyfill](https://github.com/taylorhakes/promise-polyfill) 这样 polyfill 库，来预先填充(shim) `Promise` 环境。
+
+`import` 规范不允许控制模块的名称或其他属性，因为 "chunks" 只是 webpack 中的一个概念。幸运的是，webpack 中可以通过注释接收一些特殊的参数，而无须破坏规定：
 
 标准的 `import` 不允许控制模块的名字或其他属性，因为 `块` 在webpack中只是一个概念。幸运的是，webpack中可以传入一些参数来不打破这种规范。
 
