@@ -1,5 +1,5 @@
 ---
-title: Module Methods
+title: 模块方法(Module Methods)
 group: Modules
 sort: 3
 contributors:
@@ -12,14 +12,14 @@ related:
     url: https://en.wikipedia.org/wiki/Asynchronous_module_definition
 ---
 
-本节涵盖了使用webpack编译代码的所有方法。webpack可以使用 [ES6](https://en.wikipedia.org/wiki/ECMAScript#6th_Edition_-_ECMAScript_2015), [CommonJS](https://en.wikipedia.org/wiki/CommonJS) 和 [AMD](https://en.wikipedia.org/wiki/Asynchronous_module_definition) 编译应用。
+本节涵盖了使用 webpack 编译代码的所有方法。在 webpack 打包应用程序时，你可以选择各种模块语法风格，包括 [ES6](https://en.wikipedia.org/wiki/ECMAScript#6th_Edition_-_ECMAScript_2015), [CommonJS](https://en.wikipedia.org/wiki/CommonJS) 和 [AMD](https://en.wikipedia.org/wiki/Asynchronous_module_definition)。
 
-W> 虽然webpack支持多种模块语法，但我们建议使用一种规范的语法避免一些奇怪的BUG.这是一个混合使用了ES6 和 CommonJS的 [例子](https://github.com/webpack/webpack.js.org/issues/552),但我们确定还有其他BUG的会产生。
+W> 虽然 webpack 支持多种模块语法，但我们建议尽量遵循一致的语法，避免一些奇怪的行为和 bug。这是一个混合使用了 ES6 和 CommonJS 的[示例](https://github.com/webpack/webpack.js.org/issues/552)，但我们确定还有其他的 BUG 会产生。
 
 
-## ES6 (推荐)
+## ES6（推荐）
 
-webpack2支持原生的ES6模块语法，意味着你可以在不引入babel的情况下使用 `import` 和 `export` 。如果使用其他的ES6+模块，可能需要引入babel。以下的方法支持webpack：
+webpack 2 支持原生的 ES6 模块语法，意味着你可以无须额外引入 babel 这样的工具，就可以使用 `import` 和 `export`。但是注意，如果使用其他的 ES6+ 特性，仍然需要引入 babel。webpack 支持以下的方法：
 
 
 ### `import`
