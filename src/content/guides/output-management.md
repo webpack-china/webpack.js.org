@@ -5,9 +5,10 @@ contributors:
   - skipjack
   - TheDutchCoder
   - sudarsangp
+  - JGJP
 ---
 
-T> 本指南继续延伸[`管理资源`](/guides/asset-management)指南中的代码示例。
+T> 本指南继续沿用[`管理资源`](/guides/asset-management)指南中的代码示例。
 
 到目前为止，我们在 `index.html` 文件中手动引入所有资源，然而随着应用程序增长，并且一旦开始对[文件名使用哈希(hash)](/guides/caching)]并输出[多个 bundle](/guides/code-splitting)，手动地对 `index.html` 文件进行管理，一切就会变得困难起来。然而，可以通过一些插件，会使这个过程更容易操控。
 
@@ -89,11 +90,11 @@ __webpack.config.js__
   const path = require('path');
 
   module.exports = {
-    entry: {
--     index: './src/index.js',
+-   entry: './src/index.js',
++   entry: {
 +     app: './src/index.js',
 +     print: './src/print.js'
-    },
++   },
     output: {
 -     filename: 'bundle.js',
 +     filename: '[name].bundle.js',
