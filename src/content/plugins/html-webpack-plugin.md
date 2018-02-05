@@ -47,7 +47,8 @@ var webpackConfig = {
   </body>
 </html>
 ```
-如果你有多个webpack入口点，他们都会在生成的HTML文件中的`script`标签内。
+
+如果你有多个 webpack 入口点，他们都会在生成的HTML文件中的 `script` 标签内。
 
 如果你有任何CSS assets 在webpack的输出中（例如，利用[ExtractTextPlugin](/plugins/extract-text-webpack-plugin)提取CSS），那么这些将被包含在HTML head中的`<link>`标签内。
 
