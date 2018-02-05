@@ -89,13 +89,13 @@ import(
 - `"eager"`：不会生成额外的 chunk，所有模块都被当前 chunk 引入，并且没有额外的网络请求。仍然会返回 `Promise`，但是是 resolved 状态。和静态导入相对比，在调用 import（）完成之前，该模块不会被执行。
 - `"weak"`：尝试加载模块，如果该模块函数已经以其他方式加载（即，另一个 chunk 导入过此模块，或包含模块的脚本被加载）。仍然会返回 `Promise`，但是只有在客户端上已经有该 chunk 时才成功解析。如果该模块不可用，`Promise` 将会是 rejected 状态，并且网络请求永远不会执行。当需要的 chunks 始终在（嵌入在页面中的）初始请求中手动提供，而不是在应用程序导航在最初没有提供的模块导入的情况触发，这对于通用渲染（SSR）是非常有用的。
 
-T> 请注意，两个选项都可以像`/ * webpackMode：“lazy-once”，webpackChunkName：“all-i18n-data”* /`结合使用，这被解析为没有大括号的JSON5对象。
+T> 请注意，这两个选项可以组合起来使用，如 `/* webpackMode: "lazy-once", webpackChunkName: "all-i18n-data" */`，这会按没有花括号的 JSON5 对象去解析。
 
-W> 完全动态的语句，例如 `import(foo)` ，由于webpack需要一些文件的路径信息，而 `foo` 可能是系统或项目中任何文件的任何路径，因此`foo`将不会被加载。 `import()`必须至少包含模块的路径信息，所以绑定可以限制在一个特定的目录或一组文件中。
+W> 完全动态的语句（如 `import(foo)`），因为 webpack 至少需要一些文件的路径信息，而 `foo` 可能是系统或项目中任何文件的任何路径，因此 `foo` 将会解析失败。`import()` 必须至少包含模块位于何处的路径信息，所以打包应当限制在一个指定目录或一组文件中。
 
-W> 包含可能在 `import()` 调用中请求的每个模块。 例如，``import(`./locale/${language}.json`)`` 会导致`./locale`目录中的每个`.json`文件被捆绑到新的块中。 在运行时，当计算变量`language`时，任何文件（如`english.json`或`german.json`）都可以使用。
+W> 调用 `import()` 时，包含在其中的动态表达式 request，会潜在的请求的每个模块。例如，``import(`./locale/${language}.json`)`` 会导致 `./locale` 目录下的每个 `.json` 文件，都被打包到新的 chunk 中。在运行时，当计算出变量 `language` 时，任何文件（如 `english.json` 或 `german.json`）都可能会被用到。
 
-W> 在webpack中[不建议使用`System.import`](https://github.com/webpack/webpack/issues/2163)，所以在[webpack 2.1.0-beta.28](https://github.com/webpack/webpack/releases/tag/v2.1.0-beta.28)建议使用`import()`。
+W> 在 webpack 中使用 `System.import` [不符合提案规范](https://github.com/webpack/webpack/issues/2163)，所以在[2.1.0-beta.28](https://github.com/webpack/webpack/releases/tag/v2.1.0-beta.28) 后被弃用，并且建议使用 `import()`。
 
 
 ## CommonJS
