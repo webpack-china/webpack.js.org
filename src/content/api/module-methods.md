@@ -98,53 +98,6 @@ W> 调用 `import()` 时，包含在其中的动态表达式 request，会潜在
 W> 在 webpack 中使用 `System.import` [不符合提案规范](https://github.com/webpack/webpack/issues/2163)，所以在[2.1.0-beta.28](https://github.com/webpack/webpack/releases/tag/v2.1.0-beta.28) 后被弃用，并且建议使用 `import()`。
 
 
-## CommonJS
-
-CommonJS致力于为浏览器之外的JavaScript指定一个生态系统。webpack支持以下的CommonJS方法：
-
-
-### `require`
-
-``` javascript
-require(dependency: String)
-```
-
-以同步的方式检索其他模块的导出，编译器将确保依赖项在输出包中可用。
-
-``` javascript
-var $ = require("jquery");
-var myModule = require("my-module");
-```
-
-W> 使用异步可能不会达到预期的效果。
-
-
-### `require.resolve`
-
-``` javascript
-require.resolve(dependency: String)
-```
-
-同步检索模块的ID。编译器将会确保依赖项在导出模块可用。更多关于模块的信息，请点击这里[`module.id`](/api/module-variables#module-id-commonjs-)。
-
-W> webpack中模块ID是一个数字(相反，在NodeJS中是一个字符串 -- 文件名)
-
-
-### `require.cache`
-
-多个需要相同的模块导致只有一个运行和输出，所以运行的时候存在缓存，删除缓存会导致新的模块运行。
-
-W> 只有很少数的情况需要兼容性!
-
-``` javascript
-var d1 = require("dependency");
-require("dependency") === d1
-delete require.cache[require.resolve("dependency")];
-require("dependency") !== d1
-```
-
-``` javascript
-// in file.js
 CommonJS 致力于为浏览器之外的 JavaScript 指定一个生态系统。webpack 支持以下的 CommonJS 方法：
 
 
