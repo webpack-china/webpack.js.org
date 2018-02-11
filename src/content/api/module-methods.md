@@ -98,6 +98,8 @@ W> 调用 `import()` 时，包含在其中的动态表达式 request，会潜在
 W> 在 webpack 中使用 `System.import` [不符合提案规范](https://github.com/webpack/webpack/issues/2163)，所以在[2.1.0-beta.28](https://github.com/webpack/webpack/releases/tag/v2.1.0-beta.28) 后被弃用，并且建议使用 `import()`。
 
 
+## CommonJS
+
 CommonJS 致力于为浏览器之外的 JavaScript 指定一个生态系统。webpack 支持以下的 CommonJS 方法：
 
 
