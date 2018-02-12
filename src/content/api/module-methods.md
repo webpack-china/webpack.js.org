@@ -255,14 +255,14 @@ W> 这里没有提供命名 chunk 名称的选项。
 
 
 
-## Labeled Modules
+## 标签模块(Labeled Modules)
 
-webpack内部的 `LabeledModulesPlugin` 允许使用下面的方法导入或者导出模块
+webpack 内置的 `LabeledModulesPlugin` 插件，允许使用下面的方法导出和导入模块：
 
 
-### `export` label
+### `export` 标签
 
-导出给定的值。 `export` 可以出现在变量声明跟函数声明前边。函数名或者变量名是导出该值的标识符。
+导出给定的 `value`。`export` 标记可以出现在函数声明或变量声明之前。函数名或变量名是导出值的标识符。
 
 ``` javascript
 export: var answer = 42;
@@ -271,19 +271,19 @@ export: function method(value) {
 };
 ```
 
-W> 使用异步可能不会达到预期的效果。
+W> 以异步的方式使用，可能不会达到预期的效果。
 
 
-### `require` label
+### `require` 标签
 
-从生产环境导出的所有的依赖项在当前作用域都可以用。 `require` 标签可以出现在字符串之前。依赖项名称必须使用 `export` 标签的导出值。 CommonJS 或者 AMD 模块中不可以这样使用。
+使当前作用域下，可访问所依赖模块的所有导出。`require` 标签可以放置在一个字符串之前。依赖模块必须使用 `export` 标签导出值。CommonJS 或 AMD 模块无法通过这种方式，使用标签模块的导出。
 
 __some-dependency.js__
 
 ``` javascript
 export: var answer = 42;
 export: function method(value) {
-  // Do something...
+  // 执行一些操作……
 };
 ```
 
@@ -295,18 +295,18 @@ method(...);
 
 
 
-## Webpack
+## webpack
 
-webpack除了支持上述的语法之外，也允许使用一些特定于webpack的方法。
+webpack 除了支持上述的语法之外，还可以使用一些 webpack 特定的方法：
 
 
 ### `require.context`
 
 ``` javascript
-require.context(directory:String, includeSubdirs:Boolean /* optional, default true */, filter:RegExp /* optional */)
+require.context(directory:String, includeSubdirs:Boolean /* 可选的，默认值是 true */, filter:RegExp /* 可选的 */)
 ```
 
-使用 `directory` 的路径，参数 `includeSubdirs` 和 `filter` 指定一组依赖关系，对包含的模块进行更多的控制。
+使用 `directory` 路径、`includeSubdirs` 选项和 `filter` 来指定一系列完整的依赖关系，便于更细粒度的控制模块引入。后面可以很容易地进行解析：
 
 ```javascript
 var context = require.context('components', true, /\.html$/);
@@ -320,7 +320,7 @@ var componentA = context.resolve('componentA');
 require.include(dependency: String)
 ```
 
-引入一个不需要执行的依赖，这样的话可以用于优化输出模块中的依赖模块的位置。
+引入一个不需要执行的`依赖`，这可以用于优化输出 chunk 中的依赖模块的位置。
 
 ``` javascript
 require.include('a');
@@ -328,35 +328,34 @@ require.ensure(['a', 'b'], function(require) { /* ... */ });
 require.ensure(['a', 'c'], function(require) { /* ... */ });
 ```
 
-这样会出现一下输出:
+这会产生以下输出:
 
 - entry chunk: `file.js` and `a`
 - anonymous chunk: `b`
 - anonymous chunk: `c`
 
-如果不使用 `require.include('a')` ，将会输出的两个模块中都有模块a。
+如果不使用 `require.include('a')`，输出的两个匿名 chunk 都有模块 a。
 
 
 ### `require.resolveWeak`
 
-与 `require.resolve` 类似，但这样将不会把模块进行打包，这就是所谓的弱依赖。
+与 `require.resolve` 类似，但是这不会将 `module` 引入到 bundle 中。这就是所谓的"弱(weak)"依赖。
 
 ``` javascript
 if(__webpack_modules__[require.resolveWeak('module')]) {
-  // Do something when module is available...
+  // 模块可用时，执行一些操作……
 }
 if(require.cache[require.resolveWeak('module')]) {
-  // Do something when module was loaded before...
+  // 在模块被加载之前，执行一些操作……
 }
 
-// You can perform dynamic resolves ("context")
-// just as with other require/import methods.
+// 你可以像执行其他 require/import 方法一样，
+// 执行动态解析（“上下文”）。
 const page = 'Foo';
 __webpack_modules__[require.resolveWeak(`./page/${page}`)]
 ```
 
-T> `require.resolveWeak` 是通用渲染(SSR + Code Splitting)的基础。例如在[react-universal-component](https://github.com/faceyspacey/react-universal-component) 等包中使用。它允许代码在服务器端和客户端初始页面加载上同步呈现。它要求手动或以某种方式提供模块。
-它可以在不需要指示应该被打包的情况下引入模块。它与`import()`一起使用，当用户导航触发额外的导入时它会接管。
+T> `require.resolveWeak` 是*通用渲染*（SSR + 代码分离）的基础，例如在 [react-universal-component](https://github.com/faceyspacey/react-universal-component) 等包中的用法。它允许代码在服务器端和客户端初始页面的加载上同步渲染。它要求手动或以某种方式提供 chunk。它可以在不需要指示应该被打包的情况下引入模块。它与 `import()` 一起使用，当用户导航触发额外的导入时，它会被接管。
 
 ***
 
