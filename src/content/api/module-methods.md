@@ -191,40 +191,40 @@ W> 虽然我们将 `require` 的实现，作为参数传递给回调函数，然
 
 ## AMD
 
-AMD是一种定义了写入和加载模块的JavaScript规范。webpack支持以下的AMD方法：
+AMD(Asynchronous Module Definition) 是一种定义了写入模块接口和加载模块接口的 JavaScript 规范。webpack 支持以下的 AMD 方法：
 
 
-### `define` (with factory)
+### `define`（通过 factory 方法导出）
 
 ``` javascript
 define([name: String], [dependencies: String[]], factoryMethod: function(...))
 ```
 
-如果提供依赖关系，每个依赖的导出将会调用 `factoryMethod` 方法(以相同的顺序)。如果未提供依赖关系，则使用`require`, `exports` 和 `module`调用 `factoryMethod` 方法(为了兼容性)。如果此方法返回一个值，则返回值会被该模块导出。编译器将确保每个依赖都可用。
+如果提供 `dependencies` 参数，将会调用 `factoryMethod` 方法，并（以相同的顺序）传入每个依赖项的导出。如果未提供 `dependencies` 参数，则调用 `factoryMethod` 方法时传入 `require`, `exports` 和 `module`（用于兼容）。如果此方法返回一个值，则返回值会作为此模块的导出。由编译器(compiler)来确保依赖项在最终输出 bundle 中可用。
 
-W> 注意：webpack忽略 `name` 参数。
+W> 注意：webpack 会忽略 `name` 参数。
 
 ``` javascript
 define(['jquery', 'my-module'], function($, myModule) {
-  // Do something with $ and myModule...
+  // 使用 $ 和 myModule 做一些操作……
 
-  // Export a function
+  // 导出一个函数
   return function doSomething() {
     // ...
   };
 });
 ```
 
-W> 上述方法不能在异步函数中使用。
+W> 此 define 导出方式不能在异步函数中调用。
 
 
-### `define` (with value)
+### `define`（通过 value 导出）
 
 ``` javascript
 define(value: !Function)
 ```
 
-这里只会导出传入的值，这里的值可以是除了函数意外的任何值。
+只会将提供的 `value` 导出。这里的 `value` 可以是除函数外的任何值。
 
 ``` javascript
 define({
@@ -232,18 +232,18 @@ define({
 });
 ```
 
-W> 上述方法不能在异步函数中使用。
+W> 此 define 导出方式不能在异步函数中调用。
 
 
-### `require` (amd-version)
+### `require`（AMD 版本）
 
 ``` javascript
 require(dependencies: String[], [callback: function(...)])
 ```
 
-与 `require.ensure` 类似，这将会把给定的依赖拆成一个单独的包，然后会被异步加载。回掉函数将会在每个依赖导出后被调用。
+与 `require.ensure` 类似，给定 `dependencies` 参数，将其对应的文件拆分到一个单独的 bundle 中，此 bundle 会被异步加载。然后会调用 `callback` 回调函数，并传入 `dependencies` 数组中每一项的导出。
 
-W> 该功能在内部依赖于 [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)。如果想在低版本浏览器使用 AMD ，请使用例如 es6-promise 或者 promise-polyfill 的第三方库。
+W> 这个特性依赖于内置的 [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)。如果想在低版本浏览器使用 `require.ensure`，记得使用像 [es6-promise](https://github.com/stefanpenner/es6-promise) 或者 [promise-polyfill](https://github.com/taylorhakes/promise-polyfill) 这样 polyfill 库，来预先填充(shim) `Promise` 环境。
 
 ``` javascript
 require(['b'], function(b) {
@@ -251,7 +251,7 @@ require(['b'], function(b) {
 });
 ```
 
-W> 这里没有提供模块名称的选项。
+W> 这里没有提供命名 chunk 名称的选项。
 
 
 
