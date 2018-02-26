@@ -3,7 +3,7 @@ title: 插件模式
 sort: 5
 ---
 
-插件授予无限的机会在webpack构建系统中执行自定义。 这使您可以创建自定义资产类型，执行独特的构建修改，甚至可以在使用中间件时增强webpack运行时。 以下是在编写插件时变得有用的webpack的一些功能。
+插件授予无限的机会在webpack构建系统中执行自定义。 这使您可以创建自定义资源类型，执行独特的构建修改，甚至可以在使用中间件时增强webpack运行时。 以下是在编写插件时变得有用的webpack的一些功能。
 
 ## 探索资源，块，模块和依赖关系
 
@@ -47,7 +47,7 @@ module.exports = MyPlugin;
 
 ### Monitoring the watch graph
 
-While running webpack middleware, each compilation includes a `fileDependencies` array (what files are being watched) and a `fileTimestamps` hash that maps watched file paths to a timestamp. These are extremely useful for detecting what files have changed within the compilation:
+运行webpack中间件时，每个编译包括一个`fileDependencies`数组（正在监视哪些文件）和一个`fileTimestamps`哈希，它将观察到的文件路径映射到时间戳。 这些对于检测编译中哪些文件已经改变非常有用：
 
 ```javascript
 function MyPlugin() {
@@ -70,11 +70,11 @@ MyPlugin.prototype.apply = function(compiler) {
 module.exports = MyPlugin;
 ```
 
-You may also feed new file paths into the watch graph to receive compilation triggers when those files change. Simply push valid filepaths into the `compilation.fileDependencies` array to add them to the watch. Note: the `fileDependencies` array is rebuilt in each compilation, so your plugin must push its own watched dependencies into each compilation to keep them under watch.
+您也可以将新文件路径添加到监听中，以在这些文件更改时接收编译触发器。 只需将有效的文件路径推送到`compilation.fileDependencies`数组中即可将其添加到监听中。 注意：`fileDependencies`数组在每次编译时都会重建，因此您的插件必须将自己的监视依赖关系推送到每个编译中以保持它们不受监视。
 
 ## Changed chunks
 
-Similar to the watch graph, it's fairly simple to monitor changed chunks (or modules, for that matter) within a compilation by tracking their hashes.
+类似于监视图，在监视编译过程中通过跟踪它们的散列哈希，更容易去监视被更改的块（or modules, for that matter）。
 
 ```javascript
 function MyPlugin() {
