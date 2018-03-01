@@ -144,7 +144,7 @@ __dist/index.html__
 可以这样说，执行 `npx webpack`，会将我们的脚本作为[入口起点](/concepts/entry-points)，然后[输出](/concepts/output)为 `bundle.js`。Node 8.2+ 版本提供的 `npx` 命令，可以运行在初始安装的 webpack 包(package)的 webpack 二进制文件（`./node_modules/.bin/webpack`）：
 
 ``` bash
-npx webpack src/index.js dist/bundle.js
+npx webpack src/index.js --output dist/bundle.js
 
 Hash: 857f878815ce63ad5b4f
 Version: webpack 3.9.1
