@@ -293,6 +293,15 @@ __src/index.js__
   });
 ```
 
+## dynamic import 所需的plugin
+如果想使用dynamic import，还需要使用以下插件:babel-plugin-syntax-dynamic-import
+``` npm
+npm install --save-dev babel-plugin-syntax-dynamic-import
+```
+在`.babelrc`中增加以下配置：
+``` Json
+"plugins": ["syntax-dynamic-import"]
+```
 
 ## bundle 分析(bundle analysis)
 
