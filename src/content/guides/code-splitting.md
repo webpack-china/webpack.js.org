@@ -111,7 +111,7 @@ another.bundle.js  544 kB       1  [emitted]  [big]  another
 
 
 ## 防止重复(prevent duplication)
-
+`webpack 4` 已经将CommonsChunkPlugin弃用，并使用`config.optimization.splitChunks`代替，详见原文[webpack 4: Code Splitting, chunk graph and the splitChunks optimization](https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366)
 [`CommonsChunkPlugin`](/plugins/commons-chunk-plugin) 插件可以将公共的依赖模块提取到已有的入口 chunk 中，或者提取到一个新生成的 chunk。让我们使用这个插件，将之前的示例中重复的 `lodash` 模块去除：
 
 __webpack.config.js__
