@@ -33,6 +33,7 @@ T> 本指南继续沿用[起步](/guides/getting-started)和[管理输出](/guid
 
 - 入口起点：使用 [`entry`](/configuration/entry-context) 配置手动地分离代码。
 - 防止重复：使用 [`CommonsChunkPlugin`](/plugins/commons-chunk-plugin) 去重和分离 chunk。
+  注意:在webpack4.0中已经弃用了CommonsChunkPlugin,而是增加了一个属性:optimization来达到这个目标。[详情](https://github.com/webpack/webpack/releases/tag/v4.0.0)
 - 动态导入：通过模块的内联函数调用来分离代码。
 
 
