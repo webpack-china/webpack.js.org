@@ -25,7 +25,7 @@ webpack 用于编译 JavaScript 模块。一旦完成[安装](/guides/installati
 ``` bash
 mkdir webpack-demo && cd webpack-demo
 npm init -y
-npm install --save-dev webpack
+npm install --save-dev webpack webpack-cli
 ```
 
 现在我们将创建以下目录结构和内容：
