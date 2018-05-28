@@ -8,29 +8,29 @@ related:
     url: https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
 ---
 
-Originally, chunks (and modules imported inside them) were connected by a parent-child relationship in the internal webpack graph. The `CommonsChunkPlugin` was used to avoid duplicated dependencies across them, but further optimizations where not possible
+最初, 块 (和模块内部引入的模块)通过内部webpack图谱中的父子关系进行关联.  `CommonsChunkPlugin` 用来避免重复的依赖关系, 并在复杂的情况下进一步优化
 
-Since version 4 the `CommonsChunkPlugin` was removed in favor of `optimization.splitChunks` and `optimization.runtimeChunk` options. Here is how the new flow works.
+从版本4之后 `CommonsChunkPlugin` 被移除以支持 `optimization.splitChunks` 和 `optimization.runtimeChunk` 选项. 这是新流程的工作原理
 
 
-## Defaults
+## 默认
 
-Out of the box `SplitChunksPlugin` should work great for most users.
+开箱即用的 `SplitChunksPlugin` 应该适合大部分用户。
 
-By default it only affects on-demand chunks because changing initial chunks would affect the script tags the HTML file should include to run the project.
+默认情况下他影响按需块因为更改初始模块会影响HTML文件运行时应包含的脚本标记。
 
-webpack will automatically split chunks based on these conditions:
+webpack将会根据以下条件自动分块：
 
-* New chunk can be shared OR modules are from the `node_modules` folder
-* New chunk would be bigger than 30kb (before min+gz)
-* Maximum number of parallel requests when loading chunks on demand would be lower or equal to 5
-* Maximum number of parallel requests at initial page load would be lower or equal to 3
+* 新块可以被共享或者来自`node_modules`文件夹的可以被共享
+* 新块大于 30kb (before min+gz)
+* 按需加载块时，并行请求的最大数量要小于等于5
+* 初始页面加载时的最大并行请求数量要小于等于3
 
-When trying to fulfill the last two conditions, bigger chunks are preferred.
+当试图满足最后两个条件时，更大的块是首选
 
-Let's take a look at some examples.
+让我们看几个例子：
 
-### Defaults: Example 1
+### 默认: 例1
 
 ``` js
 // index.js
@@ -46,18 +46,18 @@ import "react";
 // ...
 ```
 
-**Result:** A separate chunk would be created containing `react`. At the import call this chunk is loaded in parallel to the original chunk containing `./a`.
+**结论:** 创建一个包含`react`的单独的块. 在导入调用时，该块与包含块`./a`的原始块并行加载.
 
-Why:
+为什么:
 
-* Condition 1: The chunk contains modules from `node_modules`
-* Condition 2: `react` is bigger than 30kb
-* Condition 3: Number of parallel requests at the import call is 2
-* Condition 4: Doesn't affect request at initial page load
+* 条件 1: 该块包含来自`node_modules`的模块
+* 条件 2: `react`模块大于30k
+* 条件 3: 导入模块的并行请求数是2
+* 条件 4: 不影响初始页面加载请求
 
-What's the reasoning behind this? `react` probably won't change as often as your application code. By moving it into a separate chunk this chunk can be cached separately from your app code (assuming you are using chunkhash, records, Cache-Control or other long term cache approach).
+背后的原理是什么? `react` 或许没有你应用代码的改动那么频繁. 通过将他移动到单独的块中，可以将此块和应用代码单独缓存(假设你正在使用chunkhash, records, Cache-Control 或其他长期缓存方法).
 
-### Defaults: Example 2
+### 默认: 例2
 
 ``` js
 // entry.js
@@ -82,90 +82,90 @@ import "./more-helpers"; // more-helpers is also 40kb in size
 // ...
 ```
 
-**Result:** A separate chunk would be created containing `./helpers` and all dependencies of it. At the import calls this chunk is loaded in parallel to the original chunks.
+**结论:** 将创建一个单独的块，其中包含`./helpers`块和他的所有依赖. 在调用时，该块和原始块并行加载。
 
-Why:
+为什么:
 
-* Condition 1: The chunk is shared between both import calls
-* Condition 2: `helpers` is bigger than 30kb
-* Condition 3: Number of parallel requests at the import calls is 2
-* Condition 4: Doesn't affect request at initial page load
+* 条件 1: 该块在两个导入调用之间共存
+* 条件 2: `helpers` 大于30kb
+* 条件 3: 导入的并发请求数为2
+* 条件 4: 不影响初始页面加载请求
 
-Putting the content of `helpers` into each chunk will result into its code being downloaded twice. By using a separate chunk this will only happen once. We pay the cost of an additional request, which could be considered a tradeoff. That's why there is a minimum size of 30kb.
+将`helpers`的内容放到每个块中将导致他的代码被下载两次. 通过使用单独的块只会下载一次. 我们支付额外请求的成本,这被认为是一种这种方案. 这就是为什么最小为30kb的原因.
 
 
-## Configuration
+## 配置项
 
-For developers that want to have more control over this functionality, webpack provides a set of options to better fit your needs.
+对于想更多控制此功能的开发者, webpack 提供了一组选项更好的满足你的需求
 
-If you are manually changing the split configuration, measure the impact of the changes to see and make sure there's a real benefit.
+如果你手动的改变分割配置, 请衡量改变的影响并确保有真正的用处.
 
-W> Default configuration was chosen to fit web performance best practices but the optimum strategy for your project might defer depending on the nature of it.
+W> 默认选择的配置适合web性能的最佳实践，但是项目的最佳策略会根据其性质而推迟.
 
-### Configuring cache groups
+### 配置缓存组
 
-The defaults assign all modules from `node_modules` to a cache group called `vendors` and all modules duplicated in at least 2 chunks to a cache group `default`.
+缺省值将`node_modules`中的所有模块跟配给一个称为 `vendors` 缓存组，并且所有的模块至少在两个块中缓存到`default`组.
 
-A module can be assigned to multiple cache groups. The optimization then prefers the cache group with the higher `priority` (`priority` option) or that one that forms bigger chunks.
+一个模块可以分配给多个缓存组. `optimization`配置会优化选择具有高优先级 `priority` (`priority` option)的高速缓存组或者形成更大块的告诉缓存组.
 
-### Conditions
+### 条件
 
-Modules from the same chunks and cache group will form a new chunk when all conditions are fulfilled.
+当条件满足时，从相同块中引入的模块和缓存组将形成一个新的块.
 
-There are 4 options to configure the conditions:
+可配置的四个选项:
 
-* `minSize` (default: 30000) Minimum size for a chunk.
-* `minChunks` (default: 1) Minimum number of chunks that share a module before splitting
-* `maxInitialRequests` (default 3) Maximum number of parallel requests at an entrypoint
-* `maxAsyncRequests` (default 5) Maximum number of parallel requests at on-demand loading
+* `minSize` (default: 30000) 块的最小大小.
+* `minChunks` (default: 1) 分割之前共享模块的最小块数
+* `maxInitialRequests` (default 3) 一个入口点的最大并行请求数
+* `maxAsyncRequests` (default 5) 按需加载时最大并行请求数量
 
-### Naming
+### 命名
 
-To control the chunk name of the split chunk the `name` option can be used.
+要控制拆分块的块名称，可以用`name`选项.
 
-W> When assigning equal names to different split chunks, all vendor modules are placed into a single shared chunk, though it's not recommend since it can result in more code downloaded.
+W> 为不同的拆分块分配相同的名字时, 所有的vendor模块会被替换成一个分享模块,但不推荐使用，因为可能会导致更多的代码下载.
 
-The magic value `true` automatically chooses a name based on chunks and cache group key, otherwise a string or function can be passed.
+魔术值 `true` 自动根据块和缓存组件选择一个名称, 除此之外也可以传递 string 和 function.
 
-When the name matches an entry point name, the entry point is removed.
+当命名匹配入口文件名的时候, 入口点被删除.
 
 #### `optimization.splitChunks.automaticNameDelimiter`
 
-By default webpack will generate names using origin and name of the chunk, like `vendors~main.js`.
+默认情况下webpack将会根据源和块名字生成名称，像 `vendors~main.js`.
 
-If your project has a conflict with the `~` character, it can be changed by setting this option to any other value that works for your project: `automaticNameDelimiter: "-"`.
+如果你的项目跟`~` 字符有冲突, 可以通过此选项设置为适用于你项目的其他值: `automaticNameDelimiter: "-"` 通过这样的方式更改.
 
-Then the resulting names will look like `vendors-main.js`.
+最终生成的文件名为 `vendors-main.js`.
 
-### Select modules
+### 选择模块
 
-The `test` option controls which modules are selected by this cache group. Omitting it selects all modules. It can be a RegExp, string or function.
+`test` 选项控制被缓存组选中哪个模块. 省略此选项会选择所有模块. 他可以是正则, 字符串 或者 函数.
 
-It can match the absolute module resource path or chunk names. When a chunk name is matched, all modules in this chunk are selected.
+他可以匹配绝对模块资源路径或者块名称. 当块名被匹配的时候, 这个块里的所有模块都会被选中.
 
-### Select chunks
+### 选择块
 
-With the `chunks` option the selected chunks can be configured.
+使用`chunks` 选项可以配置选定的块.
 
-There are 3 values possible `"initial"`, `"async"` and `"all"`. When configured the optimization only selects initial chunks, on-demand chunks or all chunks.
+有三个值可能是 `"initial"`, `"async"` 和 `"all"`. 配置时三个值分别对应初始块，按需加载的块和所有的块.
 
-The option `reuseExistingChunk` allows to reuse existing chunks instead of creating a new one when modules match exactly.
+`reuseExistingChunk` 配置允许重复使用现有的块而不是模块完全匹配时创建一个新的块.
 
-This can be controlled per cache group.
+这样就可以控制缓存组.
 
 
 ### `optimization.splitChunks.chunks: all`
 
-As it was mentioned before this plugin will affect dynamic imported modules. Setting the `optimization.splitChunks.chunks` option to `"all"` initial chunks will get affected by it (even the ones not imported dynamically). This way chunks can even be shared between entry points and on-demand loading.
+正如之前提到的，这个插件会影响动态导入模块. 把 `optimization.splitChunks.chunks` 这个选项设置为 `"all"` 初始块将受其影响 (即使不是动态导入也会被影响). 这种方式甚至可以在入口点和按需加载之间共享.
 
-This is the recommended configuration.
+这是推荐的配置.
 
-T> You can combine this configuration with the [HtmlWebpackPlugin](/plugins/html-webpack-plugin/), it will inject all the generated vendor chunks for you.
+T> 你可以将次配置跟 [HtmlWebpackPlugin](/plugins/html-webpack-plugin/)结合使用, 他将会注入到所有生成的vendor块中.
 
 
 ## `optimization.splitChunks`
 
-This configuration object represents the default behavior of the `SplitChunksPlugin`.
+此配置对象表现 `SplitChunksPlugin` 的默认行为.
 
 ```js
 splitChunks: {
@@ -190,19 +190,19 @@ splitChunks: {
 }
 ```
 
-By default cache groups inherit options from `splitChunks.*`, but `test`, `priority` and `reuseExistingChunk` can only be configured on cache group level.
+默认情况下，缓存组将继承 `splitChunks.*`的配置, 但是 `test`, `priority` 和 `reuseExistingChunk` 配置只能在缓存组级别配置.
 
-`cacheGroups` is an object where keys are the cache group names. All options from the ones listed above are possible: `chunks`, `minSize`, `minChunks`, `maxAsyncRequests`, `maxInitialRequests`, `name`.
+`cacheGroups` 是一个对象，其中键是缓存组名. 可配置字段为: `chunks`, `minSize`, `minChunks`, `maxAsyncRequests`, `maxInitialRequests`, `name`.
 
-You can set `optimization.splitChunks.cacheGroups.default` to `false` to disable the default cache group, same for `vendors` cache group.
+你可以设置 `optimization.splitChunks.cacheGroups.default` 为 `false` 禁用默认缓存组, 对 `vendors` 缓存组也是如此.
 
-The priority of the default groups are negative to allow any custom cache group to take higher priority (the default value is `0`).
+默认组的优先级为负数以允许任何一个自定义组有更高的优先级 (默认优先级的值为 `0`).
 
-Here are some examples and their effect:
+以下是示例和效果:
 
-### Split Chunks: Example 1
+### 拆分块: 示例 1
 
-Create a `commons` chunk, which includes all code shared between entry points.
+创建一个`commons` 块, 包括所有的入口共享代码.
 
 ```js
 splitChunks: {
@@ -216,11 +216,11 @@ splitChunks: {
 }
 ```
 
-W> This configuration can enlarge your initial bundles, it is recommended to use dynamic imports when a module is not immediately needed.
+W> 此配置可以扩展你的初始捆绑包, 当一个模块不直接需要的话，我们推荐动态引入.
 
-### Split Chunks: Example 2
+### 拆分块: 示例 2
 
-Create a `vendors` chunk, which includes all code from `node_modules` in the whole application.
+创建一个 `vendors` 块, 包含整个应用程序中 `node_modules` 文件夹里所有的代码.
 
 ``` js
 splitChunks: {
@@ -234,11 +234,11 @@ splitChunks: {
 }
 ```
 
-W> This might result in a large chunk containing all external packages. It is recommended to only include your core frameworks and utilities and dynamically load the rest of the dependencies.
+W> 这可能会导致生成一个包含所有扩展文件的很大的块. 建议只包含核心框架和实用程序，并动态加载依赖关系.
 
 
 ## `optimization.runtimeChunk`
 
-Setting `optimization.runtimeChunk` to `true` adds an additonal chunk to each entrypoint containing only the runtime.
+设置 `optimization.runtimeChunk` 字段为 `true` 会为每个入口添加一个附加块.
 
-The value `single` instead creates a runtime file to be shared for all generated chunks.
+值 `single` 代替创建一个运行时文件，以便所有生成的块共享.
