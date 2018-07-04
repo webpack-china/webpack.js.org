@@ -19,7 +19,7 @@ Node.js 从最一开始就支持模块化编程。然而，在 web，_模块化_
 
 ## 什么是 webpack 模块
 
-对比 [Node.js 模块](https://nodejs.org/api/modules.html)，webpack _模块_能够以各种方式表达它们的依赖关系，几个例子如下：
+对比 [Node.js 模块](https://nodejs.org/api/modules.html)，webpack _模块_可以转换（express）各种各样的依赖关系，几个例子如下：
 
 * [ES2015 `import`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import) 语句
 * [CommonJS](http://www.commonjs.org/specs/modules/1.0/) `require()` 语句
