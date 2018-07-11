@@ -30,7 +30,7 @@ T> 本指南继续沿用[起步](/guides/getting-started)、[管理输出](/guid
 
 ## 输出文件的文件名(Output Filenames)
 
-通过使用 `output.filename` 进行[文件名替换](/configuration/output#output-filename)，可以确保浏览器获取到修改后的文件。`[hash]` 替换可以用于在文件名中包含一个构建相关(build-specific)的 hash，但是更好的方式是使用 `[chunkhash]` 替换，在文件名中包含一个 chunk 相关(chunk-specific)的哈希。
+通过使用 `output.filename` 进行[文件名替换](/configuration/output#output-filename)，可以确保浏览器获取到修改后的文件。`[hash]` 替换可以用于在文件名中包含一个构建相关(build-specific)的 hash，但是更好的方式是使用 `[hash]` 替换，在文件名中包含一个 chunk 相关(chunk-specific)的哈希。
 
 让我们使用[起步](/guides/getting-started) 中的示例，以及[管理输出](/guides/output-management) 中的 `plugins` 来作为项目的基础，所以我们不必手动处理维护 `index.html` 文件：
 
@@ -64,7 +64,7 @@ __webpack.config.js__
     ],
     output: {
 -     filename: 'bundle.js',
-+     filename: '[name].[chunkhash].js',
++     filename: '[name].[hash].js',
       path: path.resolve(__dirname, 'dist')
     }
   };
