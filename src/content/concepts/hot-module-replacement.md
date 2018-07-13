@@ -55,7 +55,7 @@ HMR 是可选功能，只会影响包含 HMR 代码的模块。举个例子，�
 
 ### 在 HMR Runtime 中
 
-这些事情比较有技术性……如果你对其内部不感兴趣，可以随时跳到 [HMR API 页面](/api/hot-module-replacement)或 [HMR 指南](/guides/hot-module-replacement)。
+这些事情比较有技术性……如果你对其内部感兴趣，可以随时跳到 [HMR API 页面](/api/hot-module-replacement)或 [HMR 指南](/guides/hot-module-replacement)。
 
 对于模块系统的 runtime，附加的代码被发送到 `parents` 和 `children` 跟踪模块。在管理方面，runtime 支持两个方法 `check` 和 `apply`。
 
