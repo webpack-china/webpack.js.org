@@ -616,7 +616,9 @@ path: path.resolve(__dirname, 'dist/assets')
 
 `boolean`
 
-告诉 webpack 在 bundle 中引入「所包含模块信息」的相关注释。此选项默认值是 `false`，并且**不应该**用于生产环境(production)，但是对阅读开发环境(development)中的生成代码(generated code)极其有用。
+告知 webpack 在 bundle 中引入「所包含模块信息」的相关注释。此选项在 `development` [模式](/concepts/mode/)时的默认值是 `true`，而在 `production` [模式](/concepts/mode/)时的默认值是 `false`。
+
+W> 对于在开发环境(development)下阅读生成代码时，虽然通过这些注释可以提供非常有用的数据信息，但在生产环境(production)下，**不应该**使用。
 
 ``` js
 pathinfo: true

@@ -8,7 +8,8 @@
       { "title": "API", "url": "api" },
       { "title": "指南", "url": "guides" },
       { "title": "loaders", "url": "loaders" },
-      { "title": "插件", "url": "plugins" }
+      { "title": "插件", "url": "plugins" },
+      { "title": "迁移", "url": "migrate" }
     ]
   },
   {

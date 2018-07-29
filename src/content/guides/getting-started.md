@@ -13,6 +13,10 @@ contributors:
   - TheDutchCoder
   - sudarsangp
   - Vanguard90
+  - EugeneHlushko
+  - ATGardner
+  - ayvarot
+  - bjarki
 ---
 
 webpack 用于编译 JavaScript 模块。一旦完成[安装](/guides/installation)，你就可以通过 webpack 的 [CLI](/api/cli) 或 [API](/api/node) 与其配合交互。如果你还不熟悉 webpack，请阅读[核心概念](/concepts)和[打包器对比](/comparison)，了解为什么你要使用 webpack，而不是社区中的其他工具。
@@ -167,14 +171,14 @@ __dist/index.html__
    </head>
    <body>
 -    <script src="./src/index.js"></script>
-+    <script src="main.js"></script>
++    <script src="bundle.js"></script>
    </body>
   </html>
 ```
 
 在这个设置中，`index.js` 显式要求引入的 `lodash` 必须存在，然后将它绑定为 `_`（没有全局作用域污染）。通过声明模块所需的依赖，webpack 能够利用这些信息去构建依赖图，然后使用图生成一个优化过的，会以正确顺序执行的 bundle。
 
-可以这样说，执行 `npx webpack`，会将我们的脚本作为[入口起点](/concepts/entry-points)，然后 [输出](/concepts/output) 为 `main.js`。Node 8.2+ 版本提供的 `npx` 命令，可以运行在初始安装的 webpack 包(package)的 webpack 二进制文件（`./node_modules/.bin/webpack`）：
+可以这样说，执行 `npx webpack`，会将我们的脚本作为[入口起点](/concepts/entry-points)，然后 [输出](/concepts/output) 为 `bundle.js`。Node 8.2+ 版本提供的 `npx` 命令，可以运行在初始安装的 webpack 包(package)的 webpack 二进制文件（`./node_modules/.bin/webpack`）：
 
 ``` bash
 npx webpack
@@ -184,8 +188,8 @@ Version: webpack 4.0.1
 Time: 3003ms
 Built at: 2018-2-26 22:42:11
     Asset      Size  Chunks             Chunk Names
-main.js  69.6 KiB       0  [emitted]  main
-Entrypoint main = main.js
+bundle.js  69.6 KiB       0  [emitted]  main
+Entrypoint main = bundle.js
    [1] (webpack)/buildin/module.js 519 bytes {0} [built]
    [2] (webpack)/buildin/global.js 509 bytes {0} [built]
    [3] ./src/index.js 256 bytes {0} [built]

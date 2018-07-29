@@ -237,9 +237,9 @@ __src/index.js__
 ```
 
 
-## Split CSS
+## 压缩 CSS
 
-正如在__管理资源__中最后的 [加载 CSS](/guides/asset-management#loading-css) 小节中所提到的，通常最好的做法是使用 `ExtractTextPlugin` 将 CSS 分离成单独的文件。在插件[文档](/plugins/extract-text-webpack-plugin)中有一些很好的实现例子。`disable` 选项可以和 `--env` 标记结合使用，以允许在开发中进行内联加载，推荐用于热模块替换和构建速度。
+将生产环境下的 CSS 进行压缩会非常重要，请查看 [在生产环境下压缩](/plugins/mini-css-extract-plugin/#minimizing-for-production) 章节。
 
 
 ## CLI 替代选项

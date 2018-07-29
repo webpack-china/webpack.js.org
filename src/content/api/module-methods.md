@@ -73,10 +73,20 @@ W> import() 特性依赖于内置的 [`Promise`](https://developer.mozilla.org/e
 `import` 规范不允许控制模块的名称或其他属性，因为 "chunks" 只是 webpack 中的一个概念。幸运的是，webpack 中可以通过注释接收一些特殊的参数，而无须破坏规定：
 
 ``` js
+// 单个目标
 import(
   /* webpackChunkName: "my-chunk-name" */
   /* webpackMode: "lazy" */
   'module'
+);
+
+// 多个可能目标
+import(
+  /* webpackInclude: /\.json$/ */
+  /* webpackExclude: /\.noimport\.json$/ */
+  /* webpackChunkName: "my-chunk-name" */
+  /* webpackMode: "lazy" */
+  `./locale/${language}`
 );
 ```
 
@@ -91,9 +101,15 @@ import(
 
 T> 请注意，这两个选项可以组合起来使用，如 `/* webpackMode: "lazy-once", webpackChunkName: "all-i18n-data" */`，这会按没有花括号的 JSON5 对象去解析。
 
+`webpackInclude`：在导入解析(import resolution)过程中，用于匹配的正则表达式，只有匹配到的模块__才会被打包__。
+
+`webpackExclude`：在导入解析(import resolution)过程中，用于匹配的正则表达式，所有匹配到的模块__都不会被打包__。
+
+T> 注意，`webpackInclude` 和 `webpackExclude` 选项不会影响到前缀，例如：`./locale`。
+
 W> 完全动态的语句（如 `import(foo)`），因为 webpack 至少需要一些文件的路径信息，而 `foo` 可能是系统或项目中任何文件的任何路径，因此 `foo` 将会解析失败。`import()` 必须至少包含模块位于何处的路径信息，所以打包应当限制在一个指定目录或一组文件中。
 
-W> 调用 `import()` 时，包含在其中的动态表达式 request，会潜在的请求的每个模块。例如，``import(`./locale/${language}.json`)`` 会导致 `./locale` 目录下的每个 `.json` 文件，都被打包到新的 chunk 中。在运行时，当计算出变量 `language` 时，任何文件（如 `english.json` 或 `german.json`）都可能会被用到。
+W> 调用 `import()` 时，包含在其中的动态表达式 request，会潜在的请求的每个模块。例如，``import(`./locale/${language}.json`)`` 会导致 `./locale` 目录下的每个 `.json` 文件，都被打包到新的 chunk 中。在运行时，当计算出变量 `language` 时，任何文件（如 `english.json` 或 `german.json`）都可能会被用到。 Using the `webpackInclude` and `webpackExclude` options allows us to add regex patterns that reduce the files that webpack will bundle for this import.
 
 W> 在 webpack 中使用 `System.import` [不符合提案规范](https://github.com/webpack/webpack/issues/2163)，所以在[2.1.0-beta.28](https://github.com/webpack/webpack/releases/tag/v2.1.0-beta.28) 后被弃用，并且建议使用 `import()`。
 

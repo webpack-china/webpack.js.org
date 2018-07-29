@@ -26,12 +26,13 @@ module.exports = {
 webpack --mode=production
 ```
 
-支持以下字符串值：
+如果不设置，webpack 会将 `production` 设为 `mode` 的默认值。mode 支持以下值：
 
 选项                | 描述
 --------------------- | -----------------------
 `development`         | 会将 `process.env.NODE_ENV` 的值设为 `development`。启用 `NamedChunksPlugin` 和 `NamedModulesPlugin`。
 `production`          | 会将 `process.env.NODE_ENV` 的值设为 `production`。启用 `FlagDependencyUsagePlugin`, `FlagIncludedChunksPlugin`, `ModuleConcatenationPlugin`, `NoEmitOnErrorsPlugin`, `OccurrenceOrderPlugin`, `SideEffectsFlagPlugin` 和 `UglifyJsPlugin`.
+`none`                | 不选用任何默认优化选项
 
 T> 记住，只设置 `NODE_ENV`，则不会自动设置 `mode`。
 
@@ -63,6 +64,19 @@ module.exports = {
 -    new webpack.DefinePlugin({ "process.env.NODE_ENV": JSON.stringify("production") }),
 -    new webpack.optimize.ModuleConcatenationPlugin(),
 -    new webpack.NoEmitOnErrorsPlugin()
+-  ]
+}
+```
+
+
+### mode: none
+
+
+```diff
+// webpack.custom.config.js
+module.exports = {
++  mode: 'none',
+-  plugins: [
 -  ]
 }
 ```
