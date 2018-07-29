@@ -107,12 +107,12 @@ another.bundle.js  544 kB       1  [emitted]  [big]  another
 - 如果入口 chunks 之间包含重复的模块，那些重复模块都会被引入到各个 bundle 中。
 - 这种方法不够灵活，并且不能将核心应用程序逻辑进行动态拆分代码。
 
-以上两点中，第一点对我们的示例来说无疑是个问题，因为之前我们在 `./src/index.js` 中也引入过 `lodash`，这样就在两个 bundle 中造成重复引用。接着，我们通过使用 `CommonsChunkPlugin` 来移除重复的模块。
+以上两点中，第一点对我们的示例来说无疑是个问题，因为之前我们在 `./src/index.js` 中也引入过 `lodash`，这样就在两个 bundle 中造成重复引用。接着，我们通过配置`optimization`来移除重复的模块。
 
 
 ## 防止重复(prevent duplication)
 
-[`CommonsChunkPlugin`](/plugins/commons-chunk-plugin) 插件可以将公共的依赖模块提取到已有的入口 chunk 中，或者提取到一个新生成的 chunk。让我们使用这个插件，将之前的示例中重复的 `lodash` 模块去除：
+配置optimization，将之前的示例中重复的 `lodash` 模块去除：
 
 __webpack.config.js__
 
@@ -129,12 +129,19 @@ __webpack.config.js__
     plugins: [
       new HTMLWebpackPlugin({
         title: 'Code Splitting'
--     })
-+     }),
-+     new webpack.optimize.CommonsChunkPlugin({
-+       name: 'common' // 指定公共 bundle 的名称。
-+     })
+     })
     ],
++   optimization: {
++     splitChunks: {
++        cacheGroups: {
++             commons: {
++                 name: "commons",
++                 chunks: "initial",
++                 minChunks: 2
++             }
++         }
++     }
++   },
     output: {
       filename: '[name].bundle.js',
       path: path.resolve(__dirname, 'dist')
@@ -142,7 +149,7 @@ __webpack.config.js__
   };
 ```
 
-这里我们使用 [`CommonsChunkPlugin`](/plugins/commons-chunk-plugin) 之后，现在应该可以看出，`index.bundle.js` 中已经移除了重复的依赖模块。需要注意的是，CommonsChunkPlugin 插件将 `lodash` 分离到单独的 chunk，并且将其从 main bundle 中移除，减轻了大小。执行 `npm run build` 查看效果：
+这里我们配置optimization之后，现在应该可以看出，`index.bundle.js` 中已经移除了重复的依赖模块。需要注意的是，CommonsChunkPlugin 插件将 `lodash` 分离到单独的 chunk，并且将其从 main bundle 中移除，减轻了大小。执行 `npm run build` 查看效果：
 
 ``` bash
 Hash: 70a59f8d46ff12575481
