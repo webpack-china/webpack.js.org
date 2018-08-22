@@ -3,39 +3,40 @@ title: SplitChunksPlugin
 contributors:
   - sokra
   - jeremenichelli
+  - masquevil
 related:
   - title: "webpack 4: Code Splitting, chunk graph and the splitChunks optimization"
     url: https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
 ---
 
-Originally, chunks (and modules imported inside them) were connected by a parent-child relationship in the internal webpack graph. The `CommonsChunkPlugin` was used to avoid duplicated dependencies across them, but further optimizations where not possible
+Chunks (以及其中引入的模块) 在 webpack 内部结构里被一种父-子的数据结构表示。 `CommonsChunkPlugin`插件是用来避免其中的产生重复依赖的，但更进一步的优化就不可能了。
 
-Since version 4 the `CommonsChunkPlugin` was removed in favor of `optimization.splitChunks` and `optimization.runtimeChunk` options. Here is how the new flow works.
+从 webpack4 以后，`CommonsChunkPlugin`已经被移除，并由`optimization.splitChunks`和`optimization.runtimeChunk`选项代替。下面我们来看看新的流程是如何工作的。
 
 
-## Defaults
+## 默认值
 
-Out of the box `SplitChunksPlugin` should work great for most users.
+无需经过配置的`SplitChunksPlugin`对于大多数用户来说已经足够使用了。
 
-By default it only affects on-demand chunks because changing initial chunks would affect the script tags the HTML file should include to run the project.
+使用默认的配置，只有那些异步加载的组件会受到处理，因为如果改变原始 chunks 会造成 script 标签的改变，需要将 html 文件也包含进整个项目里才能使用。
 
-webpack will automatically split chunks based on these conditions:
+webpack 会根据这些条件自动分离 chunks：
 
-* New chunk can be shared OR modules are from the `node_modules` folder
-* New chunk would be bigger than 30kb (before min+gz)
-* Maximum number of parallel requests when loading chunks on demand would be lower or equal to 5
-* Maximum number of parallel requests at initial page load would be lower or equal to 3
+* 新的 chunk 可以被复用或者是来自 `node_modules` 目录下
+* 新的 chunk 体积大于 30kb（压缩+gzip前）
+* 异步加载 chunks 时，最大同时网络请求数小于或等于 5
+* 入口页的最大同时网络请求数小于或等于 3
 
-When trying to fulfill the last two conditions, bigger chunks are preferred.
+为了满足最后两条条件，chunks 的体积会变得大一些。
 
-Let's take a look at some examples.
+我们来看一些例子。
 
-### Defaults: Example 1
+### 默认配置: Example 1
 
 ``` js
 // index.js
 
-// dynamically import a.js
+// 动态加载 a.js
 import("./a");
 ```
 
@@ -46,30 +47,30 @@ import "react";
 // ...
 ```
 
-**Result:** A separate chunk would be created containing `react`. At the import call this chunk is loaded in parallel to the original chunk containing `./a`.
+**结果：**会创建一个包含 `react` 的独立的 chunk。这个 chunk 会在动态加载`./a`的同时被加载。
 
-Why:
+原因：
 
-* Condition 1: The chunk contains modules from `node_modules`
-* Condition 2: `react` is bigger than 30kb
-* Condition 3: Number of parallel requests at the import call is 2
-* Condition 4: Doesn't affect request at initial page load
+* 条件1: 这个 chunk 包含来自 `node_modules` 的模块
+* 条件2: `react` 超过 30kb
+* 条件3: import 被调用时的最大同时请求数为 2
+* 条件4: 不影响页面加载时的请求
 
-What's the reasoning behind this? `react` probably won't change as often as your application code. By moving it into a separate chunk this chunk can be cached separately from your app code (assuming you are using chunkhash, records, Cache-Control or other long term cache approach).
+这么做的原因是什么？在你的应用代码中， `react` 一般不会频繁的更改。把它分离到一个单独的 chunk 里，可以与你的应用代码分开缓存（这里假设你使用了 chunkhash、records、Cache-Control 或者其它长时间缓存策略）。
 
-### Defaults: Example 2
+### 默认配置: Example 2
 
 ``` js
 // entry.js
 
-// dynamically import a.js and b.js
+// 动态加载 a.js 和 b.js
 import("./a");
 import("./b");
 ```
 
 ``` js
 // a.js
-import "./helpers"; // helpers is 40kb in size
+import "./helpers"; // helpers 的大小为 40kb
 
 // ...
 ```
@@ -77,30 +78,30 @@ import "./helpers"; // helpers is 40kb in size
 ``` js
 // b.js
 import "./helpers";
-import "./more-helpers"; // more-helpers is also 40kb in size
+import "./more-helpers"; // more-helpers 的大小为 40kb
 
 // ...
 ```
 
-**Result:** A separate chunk would be created containing `./helpers` and all dependencies of it. At the import calls this chunk is loaded in parallel to the original chunks.
+**结果：** 会创建一个包含 `./helpers` 和其所有依赖的独立的 chunk。这个 chunk 会在原始 chunks 被调用的同时进行加载。
 
-Why:
+原因：
 
-* Condition 1: The chunk is shared between both import calls
-* Condition 2: `helpers` is bigger than 30kb
-* Condition 3: Number of parallel requests at the import calls is 2
-* Condition 4: Doesn't affect request at initial page load
+* 条件1: 这个模块被不同模块复用
+* 条件2: `helpers` 的体积大于 30kb
+* 条件3: import 被调用时的最大同时请求数为 2
+* 条件4: 不影响页面加载时的请求
 
-Putting the content of `helpers` into each chunk will result into its code being downloaded twice. By using a separate chunk this will only happen once. We pay the cost of an additional request, which could be considered a tradeoff. That's why there is a minimum size of 30kb.
+将 `helpers` 分别放到每个 chunk 里会导致这部分代码被重复下载两次，使用分离的 chunk 则只会下载一次。我们为此产生了一次额外的请求，而这一点看起来是可以接受的。这就是为什么我们会有体积超过 30kb 的限制。
 
 
-## Configuration
+## 配置
 
-For developers that want to have more control over this functionality, webpack provides a set of options to better fit your needs.
+有些开发者希望对这个功能有更多的控制，webpack 为此提供了一系列选项来更好的满足你的需求。
 
-If you are manually changing the split configuration, measure the impact of the changes to see and make sure there's a real benefit.
+如果你选择手动更改代码分离的配置，请观察评估这些改动所带来的影响，并确定它真的能带来好处。
 
-W> Default configuration was chosen to fit web performance best practices but the optimum strategy for your project might defer depending on the nature of it.
+> 默认配置是根据网站性能的最佳实践而被选择的，但你的项目的最佳体验可能会因为你的需求而有所不同
 
 ### Configuring cache groups
 
