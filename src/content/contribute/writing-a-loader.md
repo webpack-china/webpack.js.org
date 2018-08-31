@@ -47,7 +47,7 @@ resolveLoader: {
 
 ## 简单用法
 
-当一个 loader 在资源中使用，这个 loader 只能传入一个参数 - 这个参数是一个包含包含资源文件内容的字符串
+当一个 loader 在资源中使用，这个 loader 只能传入一个参数 - 这个参数是一个包含资源文件内容的字符串。
 
 同步 loader 可以简单的返回一个代表模块转化后的值。在更复杂的情况下，loader 也可以通过使用 `this.callback(err, values...)` 函数，返回任意数量的值。错误要么传递给这个 `this.callback` 函数，要么扔进同步 loader 中。
 
