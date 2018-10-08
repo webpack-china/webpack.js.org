@@ -201,7 +201,6 @@ __webpack.prod.js__
       new UglifyJSPlugin({
         sourceMap: true
 -     })
-+     }),
 +     new webpack.DefinePlugin({
 +       'process.env.NODE_ENV': JSON.stringify('production')
 +     })
