@@ -73,7 +73,7 @@
     "lodash": "^4.17.4",
     "markdown-loader": "^2.0.1",
     "markdownlint": "^0.6.0",
-    "markdownlint-cli": "^0.3.1",
+    "markdownlint-cli": "^0.13.0",
     "marked": "^0.3.7",
     "mini-css-extract-plugin": "^0.2.0",
     "mkdirp": "^0.5.1",

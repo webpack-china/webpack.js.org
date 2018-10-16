@@ -9,7 +9,7 @@ Extract text from a bundle, or bundles, into a separate file.
 ## 安装
 
 ```bash
-
+# for webpack 3
 npm install --save-dev extract-text-webpack-plugin
 # 对于 webpack 2
 npm install --save-dev extract-text-webpack-plugin@2.1.2
@@ -18,6 +18,8 @@ npm install --save-dev extract-text-webpack-plugin@1.0.1
 ```
 
 ## 用法
+
+> :警告: 从webpack v4开始，`extract-text-webpack-plugin`不应该用于css。请改用[mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin)。
 
 > :警告: 对于 webpack v1, 请看 [分支为 webpack-1 的 README 文档](https://github.com/webpack/extract-text-webpack-plugin/blob/webpack-1/README.md)。
 
@@ -149,6 +151,45 @@ module.exports = {
     //  filename: 'style.css'
     //})
   ]
+}
+```
+
+### `url()`解析
+
+如果您在运行webpack时发现url没有正确解析。您可以使用loader的选项扩展功能。 设置属性`url: false`允许您的路径无需任何更改即可解析。
+
+```js
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.scss$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+                loader: 'css-loader',
+                options: {
+                    // 如果您在使用url解析时遇到问题而无法解决，请添加此设置。
+                    // 查看 https://github.com/webpack-contrib/css-loader#url
+                    url: false,
+                    minimize: true,
+                    sourceMap: true
+                }
+            },
+            {
+                loader: 'sass-loader',
+                options: {
+                    sourceMap: true
+                }
+            }
+          ]
+        })
+      }
+    ]
+  }
 }
 ```
 
