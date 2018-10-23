@@ -59,7 +59,7 @@ __src/print.js__
 ``` diff
   export default function printMe() {
 -   console.log('I get called from print.js!');
-+   cosnole.error('I get called from print.js!');
++   console.error('I get called from print.js!');
   }
 ```
 
@@ -87,7 +87,7 @@ Child html-webpack-plugin for "index.html":
 现在在浏览器打开最终生成的 `index.html` 文件，点击按钮，并且在控制台查看显示的错误。错误应该如下：
 
  ``` bash
- Uncaught ReferenceError: cosnole is not defined
+ Uncaught ReferenceError: console is not defined
     at HTMLButtonElement.printMe (print.js:2)
  ```
 
@@ -152,7 +152,7 @@ __src/print.js__
 
 ``` diff
   export default function printMe() {
--   cosnole.log('I get called from print.js!');
+-   console.log('I get called from print.js!');
 +   console.log('I get called from print.js!');
   }
 ```
