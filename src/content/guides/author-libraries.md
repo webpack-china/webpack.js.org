@@ -281,6 +281,35 @@ __webpack.config.js__
 
 W> 在 webpack 3.5.5 中，使用 `libraryTarget: { root:'_' }` 将无法正常工作（参考 [issue 4824](https://github.com/webpack/webpack/issues/4824)) 所述）。然而，可以设置 `libraryTarget: { var: '_' }` 来将 library 作为全局变量。
 
+### 把this暴露为全局变量
+
+把this暴露为全局变量，不同环境全局变量不同，如果没有设置则默认是window，会导致node环境下引入失效
+
+__webpack.config.js__
+
+``` diff
+  var path = require('path');
+
+  module.exports = {
+    entry: './src/index.js',
+    output: {
+      path: path.resolve(__dirname, 'dist'),
+      filename: 'webpack-numbers.js',
+      library: 'webpackNumbers',
+      libraryTarget: 'umd',
++     globalObject: 'this'
+    },
+    externals: {
+      lodash: {
+        commonjs: 'lodash',
+        commonjs2: 'lodash',
+        amd: 'lodash',
+        root: '_'
+      }
+    }
+  };
+```
+
 
 ### 最终步骤
 
