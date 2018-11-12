@@ -22,6 +22,7 @@ T> 可以从[这里](/concepts/modules)了解更多关于 JavaScript 模块和 w
 - 输出(output)
 - loader
 - 插件(plugins)
+- 模式(mode)
 
 本文档旨在给出这些概念的**高度**概述，同时提供具体概念的详尽相关用例。
 
