@@ -6,7 +6,7 @@ contributors:
   - rishantagarwal
 ---
 
-`Compiler` 模块是 webpack 的支柱引擎，它通过 [CLI](/api/cli) 或 [Node API](/api/node) 传递的所有选项，创建出一个 compilation 实例。它扩展(extend)自 `Tapable` 类，以便注册和调用插件。大多数面向用户的插件首，会先在 `Compiler` 上注册。
+`Compiler` 模块是 webpack 的支柱引擎，它通过 [CLI](/api/cli) 或 [Node API](/api/node) 传递的所有选项，创建出一个 compilation 实例。它扩展(extend)自 `Tapable` 类，以便注册和调用插件。大多数面向用户的插件首先会在 `Compiler` 上注册。
 
 T> 此模块会暴露在 `webpack.Compiler`，可以直接通过这种方式使用。关于更多信息，请查看[这个示例](https://github.com/pksjce/webpack-internal-examples/tree/master/compiler-example)。
 
@@ -21,17 +21,17 @@ T> 此模块会暴露在 `webpack.Compiler`，可以直接通过这种方式使�
 以下生命周期钩子函数，是由 `compiler` 暴露，可以通过如下方式访问：
 
 ``` js
-compiler.hooks.someHook.tap(...)
+compiler.hooks.someHook.tap(/* ... */);
 ```
 
 取决于不同的钩子类型，也可以在某些钩子上访问 `tapAsync` 和 `tapPromise`。
-
+对钩子类型的解释可以参看[Tapable的相关文档](https://github.com/webpack/tapable#hook-types)。
 
 ### `entryOption`
 
 `SyncBailHook`
 
-在 `entry` 配置项处理过之后，执行插件。
+在 [ `entry`](/configuration/entry-context/#entry) 配置项处理过之后，执行插件。
 
 
 ### `afterPlugins`
@@ -56,7 +56,7 @@ resolver 安装完成之后，执行插件。
 
 `SyncHook`
 
-environment 准备好之后，执行插件。
+environment 准备好之前，执行插件。
 
 
 ### `afterEnvironment`
