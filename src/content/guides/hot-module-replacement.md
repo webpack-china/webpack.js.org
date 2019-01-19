@@ -248,7 +248,7 @@ __webpack.config.js__
 +     ]
 +   },
     plugins: [
-      new CleanWebpackPlugin(['dist'])
+      new CleanWebpackPlugin(['dist']),
       new HtmlWebpackPlugin({
         title: 'Hot Module Replacement'
       }),
