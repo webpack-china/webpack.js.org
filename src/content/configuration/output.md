@@ -119,7 +119,7 @@ chunk 请求到期之前的毫秒数，默认为 120 000。从 webpack 2.6.0 开
 
 `boolean | object`
 
-> 避免使用此选项，因为它们已废弃，并将很快删除。 it is __deprecated__ and will soon be removed.
+> 避免使用此选项，因为它们已废弃，并将很快删除。 
 
 对所有或某些模块启用「行到行映射(line to line mapping)」。这将生成基本的源映射(source map)，即生成资源(generated source)的每一行，映射到原始资源(original source)的同一行。这是一个性能优化点，并且应该只需要输入行(input line)和生成行(generated line)相匹配时才使用。
 
