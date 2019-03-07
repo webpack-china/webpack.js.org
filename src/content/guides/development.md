@@ -186,7 +186,8 @@ __webpack.config.js__
     },
     devtool: 'inline-source-map',
 +   devServer: {
-+     contentBase: './dist'
++     contentBase: './dist',
++     port:8080
 +   },
     plugins: [
       new CleanWebpackPlugin(['dist']),
