@@ -29,7 +29,8 @@ __dist/index.html__
 +    <title>Asset Management</title>
     </head>
     <body>
-      <script src="./bundle.js"></script>
+-     <script src="./main.js"></script>
++     <script src="./bundle.js"></script>
     </body>
   </html>
 ```
@@ -51,7 +52,8 @@ __webpack.config.js__
   module.exports = {
     entry: './src/index.js',
     output: {
-      filename: 'bundle.js',
+-     filename: 'main.js',
++     filename: 'bundle.js',
       path: path.resolve(__dirname, 'dist')
     },
 +   module: {
