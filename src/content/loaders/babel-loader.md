@@ -6,7 +6,7 @@ repo: https://github.com/babel/babel-loader
 ---
 
 
-转译加载器，该加载器允许使用 [Babel](https://github.com/babel/babel) 和 [webpack](https://github.com/webpack/webpack) 转译 JavaScript 文件。
+该加载器允许使用 [Babel](https://github.com/babel/babel) 和 [webpack](https://github.com/webpack/webpack) 转译 JavaScript 文件。
 
 __注意:__ 输出 (output) 相关问题请提交至 babel [问题跟踪](https://github.com/babel/babel/issues)。
 

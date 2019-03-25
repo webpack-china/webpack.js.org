@@ -4,7 +4,7 @@ source: https://raw.githubusercontent.com/webpack-contrib/cache-loader/master/RE
 edit: https://github.com/webpack-contrib/cache-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/cache-loader
 ---
-缓存加载器，用于缓存后面加载器的结果，写入本地默认磁盘或数据库。
+用于缓存后面加载器的结果，写入本地默认磁盘或数据库。
 
 ## 安装
 
