@@ -12,7 +12,7 @@ repo: https://github.com/peerigon/extract-loader
 [![Build Status](https://travis-ci.org/peerigon/extract-loader.svg?branch=master)](https://travis-ci.org/peerigon/extract-loader)
 [![Coverage Status](https://img.shields.io/coveralls/peerigon/extract-loader.svg)](https://coveralls.io/r/peerigon/extract-loader?branch=master)
 
-extract-loader 可以动态地评估给定的源代码，并以字符串形式返回结果。主要作用是解析 HTML 和 CSS 中来自各自 loader 的 urls.  使用 [file-loader](/loaders/file-loader/) 将 extract-loader 的结果以单独文件发出。
+extract-loader 可以动态地评估给定的源代码，并以字符串形式返回结果。主要作用是解析 HTML 和 CSS 中来自各自 loader 的 urls.  使用 [file-loader](/loaders/file-loader/) 将 extract-loader 的结果以单独文件发布。
 ```javascript
 import stylesheetUrl from "file-loader!extract-loader!css-loader!main.css";
 // stylesheetUrl will now be the hashed url to the final stylesheet
