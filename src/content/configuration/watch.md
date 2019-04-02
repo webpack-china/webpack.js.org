@@ -71,7 +71,7 @@ ignored: "files/**/*.js"
 通过传递 `true` 开启 [polling](https://whatis.techtarget.com/definition/polling)，或者指定毫秒为单位进行轮询。
 
 ```js
-poll: 1000 // 每秒检查一次变动
+poll: 1000 // 每秒检查更改的次数
 ```
 
 T> 如果监听没生效，试试这个选项吧。Watch 在 NFS 和 VirtualBox 机器上不适用。
