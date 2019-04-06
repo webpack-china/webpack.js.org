@@ -10,20 +10,29 @@ contributors:
   - TheDutchCoder
   - adambraimbridge
   - EugeneHlushko
+  - jeremenichelli
+  - arjunsajeev
+  - byzyk
+  - yairhaimo
+  - EugeneHlushko
+  - farskid
+  - LukeMwila
 ---
 
-本质上，*webpack* 是一个用于现代 JavaScript 应用程序的_静态模块打包器(module bundler)_。当 webpack 处理应用程序时，它会递归地构建一个_依赖关系图(dependency graph)_，其中包含应用程序需要的每个模块，然后将所有这些模块打包成一个或多个 _bundle_。
+本质上，__webpack__ 是一个用于现代 JavaScript 应用程序的_静态模块打包工具_。当 webpack 处理应用程序时，它会在内部构建一个 [依赖图(dependency graph)](/concepts/dependency-graph/)，此依赖图会映射项目所需的每个模块，并生成一个或多个 _bundle_。
 
 T> 可以从[这里](/concepts/modules)了解更多关于 JavaScript 模块和 webpack 模块的信息。
 
-从 webpack v4.0.0 开始，可以不用引入一个配置文件。然而，webpack 仍然还是[高度可配置的](/configuration)。在开始前你需要先理解四个**核心概念**：
+从 v4.0.0 开始，__webpack 可以不用再引入一个配置文件__来打包项目，然而，但它仍然有着 [高度可配置性](/configuration)，可以很好满足你的需求。
 
-- 入口(Entry)
-- 出口(Output)
-- 加载器(Loaders)
-- 插件(Plugins)
-- 模式(Mode)
-- 浏览器兼容性(Browser Compatibility)
+在开始前你需要先理解一些__核心概念__：
+
+- [入口(entry)](#entry)
+- [输出(output)](#output)
+- [loader](#loaders)
+- [插件(plugin)](#plugins)
+- [模式(mode)](#mode)
+- [浏览器兼容性(browser compatibility)](#browser-compatibility)
 
 本文档旨在给出这些概念的**高度**概述，同时提供具体概念的详尽相关用例。
 
@@ -82,7 +91,7 @@ T> `output` 属性还有[更多可配置的特性](/configuration/output)，如�
 
 W> 注意，loader 能够 `import` 导入任何类型的模块（例如 `.css` 文件），这是 webpack 特有的功能，其他打包程序或任务执行器的可能并不支持。我们认为这种语言扩展是很有必要的，因为这可以使开发人员创建出更准确的依赖关系图。
 
-在较高的版本中，在 webpack 的配置中 __loader__ 有两个属性：
+在更高层面，在 webpack 的配置中 __loader__ 有两个属性：
 
 1. `test` 属性，用于标识出应该被对应的 loader 进行转换的某个或某些文件。
 2. `use` 属性，表示进行转换时，应该使用哪个 loader。
@@ -152,7 +161,7 @@ webpack 提供许多开箱可用的插件！查阅我们的[插件列表](/plugi
 
 ## 模式
 
-通过设置`mode`参数的值为 `development` 、 `production` 或`none`之中的一个，你可以启用和每个环境对应相应的 webpack 内置的优化，默认的是是production。
+通过选择 `development`, `production` 或 `none` 之中的一个，来设置 `mode` 参数，你可以启用 webpack 内置在相应环境下的优化。其默认值为 `production`。
 
 ```javascript
 module.exports = {
@@ -162,5 +171,6 @@ module.exports = {
 
 [了解更多！](/concepts/mode)
 
-## 浏览器兼容性
-webpack支持所有兼容ES5的浏览器（不支持IE8及以下版本）。对于`import()`和`require.ensurewebpack`webpack需要`Promise`.如果你想要支持更老的浏览器，你需要在使用这些表达式前`加载一个polyfill`。
+## 浏览器兼容性(browser compatibility)
+
+webpack 支持所有符合 [ES5 标准](https://kangax.github.io/compat-table/es5/) 的浏览器（不支持 IE8 及以下版本）。webpack 的 `import()` 和 `require.ensure()` 需要 `Promise`。如果你想要支持旧版本浏览器，在使用这些表达式之前，还需要 [提前加载 polyfill](/guides/shimming/)。
