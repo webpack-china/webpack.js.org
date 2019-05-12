@@ -211,6 +211,11 @@ __webpack.config.js__
     },
     plugins: [
 +     new CleanWebpackPlugin(),
+/*另一种写法：参数必须是一个对象
+      new CleanWebpackPlugin({
+            dist: 'dist'
+        })
+*/
       new HtmlWebpackPlugin({
         title: 'Output Management'
       })
