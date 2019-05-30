@@ -80,10 +80,27 @@ module.exports = {
 ```js
 import Styles from 'style-loader!css-loader?modules!./styles.css';
 ```
+可以通过为内联(inline)`import`语句添加前缀来覆盖配置中的任意普通 loader，前置 loader(preLoaders) 和 后置 loader(postLoaders)。
 
-通过前置所有规则及使用 `!`，可以对应覆盖到配置中的任意 loader。
+* 添加前缀 `!` 禁用所有已配置的普通 loader。
 
-选项可以传递查询参数，例如 `?key=value&foo=bar`，或者一个 JSON 对象，例如 `?{"key":"value","foo":"bar"}`。
+ ```js
+ import Styles from '!style-loader!css-loader?modules!./styles.css';
+ ```
+ 
+ * 添加前缀 `!!` 将禁用所有已配置的 loader（前置，普通和后置 loader)。
+ 
+ ```js
+ import Styles from '!!style-loader!css-loader?modules!./styles.css';
+ ```
+ 
+ * 添加前缀 `- ！` 将禁用所有已配置的前置和普通 loader，但不禁用后置 loader。
+ 
+ ```js
+ import Styles from '-!style-loader!css-loader?modules!./styles.css';
+ ```
+ 
+options 可以传递查询参数，例如 `?key=value&foo=bar`，或者一个 JSON 对象，例如 `?{"key":"value","foo":"bar"}`。
 
 T> 尽可能使用 `module.rules`，因为这样可以减少源码中的代码量，并且可以在出错时，更快地调试和定位 loader 中的问题。
 
