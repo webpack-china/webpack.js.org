@@ -31,7 +31,7 @@ __webpack.config.js__
 ``` diff
   const path = require('path');
   const HtmlWebpackPlugin = require('html-webpack-plugin');
-  const CleanWebpackPlugin = require('clean-webpack-plugin');
+  const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
   module.exports = {
     entry: {
@@ -40,7 +40,7 @@ __webpack.config.js__
     },
 +   devtool: 'inline-source-map',
     plugins: [
-      new CleanWebpackPlugin(['dist']),
+      new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         title: 'Development'
       })
@@ -177,7 +177,7 @@ __webpack.config.js__
 ``` diff
   const path = require('path');
   const HtmlWebpackPlugin = require('html-webpack-plugin');
-  const CleanWebpackPlugin = require('clean-webpack-plugin');
+  const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
   module.exports = {
     entry: {
@@ -189,7 +189,7 @@ __webpack.config.js__
 +     contentBase: './dist'
 +   },
     plugins: [
-      new CleanWebpackPlugin(['dist']),
+      new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         title: 'Development'
       })
@@ -259,7 +259,7 @@ __webpack.config.js__
 ``` diff
   const path = require('path');
   const HtmlWebpackPlugin = require('html-webpack-plugin');
-  const CleanWebpackPlugin = require('clean-webpack-plugin');
+  const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
   module.exports = {
     entry: {
@@ -268,7 +268,7 @@ __webpack.config.js__
     },
     devtool: 'inline-source-map',
     plugins: [
-      new CleanWebpackPlugin(['dist']),
+      new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         title: 'Output Management'
       })

@@ -64,7 +64,7 @@ __webpack.config.js__
 ``` diff
   const path = require('path');
   const HtmlWebpackPlugin = require('html-webpack-plugin');
-  const CleanWebpackPlugin = require('clean-webpack-plugin');
+  const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 + const WorkboxPlugin = require('workbox-webpack-plugin');
 
   module.exports = {
@@ -73,7 +73,7 @@ __webpack.config.js__
       print: './src/print.js'
     },
   plugins: [
-    new CleanWebpackPlugin(['dist']),
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
 -     title: 'Output Management'
 +     title: 'Progressive Web Application'

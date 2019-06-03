@@ -54,7 +54,7 @@ __webpack.common.js__
 
 ``` diff
 + const path = require('path');
-+ const CleanWebpackPlugin = require('clean-webpack-plugin');
++ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 + const HtmlWebpackPlugin = require('html-webpack-plugin');
 +
 + module.exports = {
@@ -62,7 +62,7 @@ __webpack.common.js__
 +     app: './src/index.js'
 +   },
 +   plugins: [
-+     new CleanWebpackPlugin(['dist']),
++     new CleanWebpackPlugin(),
 +     new HtmlWebpackPlugin({
 +       title: 'Production'
 +     })
