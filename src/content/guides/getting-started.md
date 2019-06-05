@@ -63,7 +63,7 @@ __index.html__
 <!doctype html>
 <html>
   <head>
-    <title>起步</title>
+    <title>getting start</title>
     <script src="https://unpkg.com/lodash@4.16.6"></script>
   </head>
   <body>
