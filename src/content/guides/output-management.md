@@ -202,7 +202,7 @@ __webpack.config.js__
 ``` diff
   const path = require('path');
   const HtmlWebpackPlugin = require('html-webpack-plugin');
-+ const CleanWebpackPlugin = require('clean-webpack-plugin');
++ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
   module.exports = {
     entry: {
@@ -210,7 +210,8 @@ __webpack.config.js__
       print: './src/print.js'
     },
     plugins: [
-+     new CleanWebpackPlugin(),
++     // new CleanWebpackPlugin(['dist']), clean-webpack-plugin v2 版本以下使用
+      new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         title: 'Output Management'
       })
