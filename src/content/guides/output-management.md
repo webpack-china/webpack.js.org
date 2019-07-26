@@ -221,6 +221,8 @@ __webpack.config.js__
     }
   };
 ```
+> 关于 `const CleanWebpackPlugin = require('clean-webpack-plugin')`,不同的版本引入方式有所不同。
+> 如果出现报错`TypeError: CleanWebpackPlugin is not a constructor`,请更改引入方式为`const { CleanWebpackPlugin } = require('clean-webpack-plugin')`
 
 现在执行 `npm run build`，再检查 `/dist` 文件夹。如果一切顺利，你现在应该不会再看到旧的文件，只有构建后生成的文件！
 
