@@ -186,7 +186,7 @@ __webpack.config.js__
 ``` diff
   const path = require('path');
   const HtmlWebpackPlugin = require('html-webpack-plugin');
-+ const CleanWebpackPlugin = require('clean-webpack-plugin');
++ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
   module.exports = {
     entry: {
@@ -194,7 +194,9 @@ __webpack.config.js__
       print: './src/print.js'
     },
     plugins: [
-+     new CleanWebpackPlugin(),
++     new CleanWebpackPlugin({
+        cleanOnceBeforeBuildPatterns: ['dist/*']
+      }),
       new HtmlWebpackPlugin({
         title: '管理输出'
       })
@@ -207,6 +209,8 @@ __webpack.config.js__
 ```
 
 现在，执行 `npm run build`，检查 `/dist` 文件夹。如果一切顺利，现在只会看到构建后生成的文件，而没有旧文件！
+
+W> 注意：现在引入 CleanWebpackPlugin 需要进行解构赋值，详见 [`clean-webpack-plugin`](https://github.com/johnagan/clean-webpack-plugin#usage) 官方文档
 
 
 ## manifest
