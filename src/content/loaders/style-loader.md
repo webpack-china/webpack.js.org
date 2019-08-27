@@ -65,7 +65,7 @@ import url from 'file.css';
     rules: [
       {
         test: /\.css$/,
-        use: [{ loader: 'style-loader/url' }, { loader: 'file-loader' }],
+        use: [{ loader: 'style-loader', options: { injectType: 'linkTag' } }, { loader: 'file-loader' }],
       },
     ];
   }
@@ -237,7 +237,7 @@ import link from './file.css';
 {
   test: /\.css$/,
   use: [
-    { loader: 'style-loader/url', options: { attrs: { id: 'id' } } }
+    { loader: 'style-loader', options: { { injectType: 'linkTag' }, attrs: { id: 'id' } } }
     { loader: 'file-loader' }
   ]
 }
