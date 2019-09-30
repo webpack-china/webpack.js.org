@@ -5,37 +5,30 @@ edit: https://github.com/webpack-contrib/url-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/url-loader
 ---
 
+该文档适用于：`v2.1.0`
 
-[![npm][npm]][npm-url]
-[![node][node]][node-url]
-[![deps][deps]][deps-url]
-[![tests][tests]][tests-url]
-[![chat][chat]][chat-url]
-[![size][size]][size-url]
+一个将文件转换成 `base64 URIs` 的 `webpack` `loader`。
 
+## 用法
 
-
-A loader for webpack which transforms files into base64 URIs.
-
-## Getting Started
-
-To begin, you'll need to install `url-loader`:
+首先，你需要安装 `url-loader`:
 
 ```console
 $ npm install url-loader --save-dev
 ```
 
-`url-loader` works like
-[`file-loader`](/loaders/file-loader/), but can return
-a DataURL if the file is smaller than a byte limit.
+`url-loader` 功能类似于
+[`file-loader`](https://github.com/webpack-contrib/file-loader), 但是在文件大小（byte）小于某个阈值时，可以返回一个 `DataURL`。
 
+**index.js**
 
 ```js
-import img from './image.png'
+import img from './image.png';
 ```
 
+**webpack.config.js**
+
 ```js
-// webpack.config.js
 module.exports = {
   module: {
     rules: [
@@ -45,120 +38,174 @@ module.exports = {
           {
             loader: 'url-loader',
             options: {
-              limit: 8192
-            }
-          }
-        ]
-      }
-    ]
-  }
-}
+              limit: 8192,
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
 ```
 
-And run `webpack` via your preferred method.
+配置完成后，通过你喜欢的方式运行 `webpack` 。
 
-## Options
+## 选项（Options）
 
 ### `fallback`
 
-Type: `String`
-Default: `'file-loader'`
+类型: `String`
+默认值: `'file-loader'`
 
-Specifies an alternative loader to use when a target file's size exceeds the
-limit set in the `limit` option.
+当目标文件的大小超过设置的阈值（通过 `limit` 选项设置）时，指定一个替代 `url-loader` 的 `loader`。
+
+**webpack.config.js**
 
 ```js
-// webpack.config.js
-{
-  loader: 'url-loader',
-  options: {
-    fallback: 'responsive-loader'
-  }
-}
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.(png|jpg|gif)$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              fallback: 'responsive-loader',
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
 ```
 
-The fallback loader will receive the same configuration options as url-loader.
+通过 `fallback` 指定的 `loader` 将会接收和 `url-loader` 一样的配置项。
 
-For example, to set the quality option of a responsive-loader above use:
+例如，在 `url-loader` 上的配置 `quality: 85` 也会传递给 `responsive-loader`。
+
+**webpack.config.js**
 
 ```js
-{
-  loader: 'url-loader',
-  options: {
-    fallback: 'responsive-loader',
-    quality: 85
-  }
-}
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.(png|jpg|gif)$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              fallback: 'responsive-loader',
+              quality: 85,
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
 ```
 
 ### `limit`
 
-Type: `Number`
-Default: `undefined`
+类型: `Number|Boolean|String`
+默认值: `undefined`
 
-A `Number` specifying the maximum size of a file in bytes. If the file is
-greater than the limit,
-[`file-loader`](/loaders/file-loader/) is used by
-default and all query parameters are passed to it. Using an alternative to
-`file-loader` is enabled via the `fallback` option.
+通过配置 `limit` 选项，可以为 `url-loader` 指定一个阈值，当文件大小小于该阈值或者没设置该选项时使用 `url-loader`。
 
-The limit can be specified via loader options and defaults to no limit.
+#### `Number`
+
+如果 `limit` 配置了一个数值型的值，则表示文件最大大小（阈值）。
+
+如果文件真实大小大于或等于 `limit`，将会使用 `file-loader` （默认）来处理文件，并且所有参数都会传递过去。
+
+通过 `fallback` 选项可以设置其它 `loader` 来替代 `url-loader`。
+
+**webpack.config.js**
 
 ```js
-// webpack.config.js
-{
-  loader: 'url-loader',
-  options: {
-    limit: 8192
-  }
-}
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.(png|jpg|gif)$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192,
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+```
+
+#### `Boolean`
+
+如果 `limit` 配置了一个布尔型的值，则表示是否转成 `base64`。
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.(png|jpg|gif)$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: false,
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
 ```
 
 ### `mimetype`
 
-Type: `String`
-Default: `(file extension)`
+类型: `String`
+默认值: `(file extension)`
 
-Sets the MIME type for the file to be transformed. If unspecified the file
-extensions will be used to lookup the MIME type.
+设置要转换文件的 `MIME` 类型。如果没有指定，则使用文件扩展名来查找 `MIME` 类型。
+
+**webpack.config.js**
 
 ```js
-// webpack.config.js
-{
-  loader: 'url-loader',
-  options: {
-    mimetype: 'image/png'
-  }
-}
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.(png|jpg|gif)$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              mimetype: 'image/png',
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
 ```
 
 ## Contributing
 
 Please take a moment to read our contributing guidelines if you haven't yet done so.
 
-[CONTRIBUTING](https://raw.githubusercontent.com/webpack-contrib/url-loader/master/.github/CONTRIBUTING.md)
+[CONTRIBUTING](./.github/CONTRIBUTING.md)
 
 ## License
 
-[MIT](https://raw.githubusercontent.com/webpack-contrib/url-loader/master/LICENSE)
-
-[npm]: https://img.shields.io/npm/v/url-loader.svg
-[npm-url]: https://npmjs.com/package/url-loader
-
-[node]: https://img.shields.io/node/v/url-loader.svg
-[node-url]: https://nodejs.org
-
-[deps]: https://david-dm.org/webpack-contrib/url-loader.svg
-[deps-url]: https://david-dm.org/webpack-contrib/url-loader
-
-[tests]: 	https://img.shields.io/circleci/project/github/webpack-contrib/url-loader.svg
-[tests-url]: https://circleci.com/gh/webpack-contrib/url-loader
-
-[cover]: https://codecov.io/gh/webpack-contrib/url-loader/branch/master/graph/badge.svg
-[cover-url]: https://codecov.io/gh/webpack-contrib/url-loader
-
-[chat]: https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg
-[chat-url]: https://gitter.im/webpack/webpack
-
-[size]: https://packagephobia.now.sh/badge?p=url-loader
-[size-url]: https://packagephobia.now.sh/result?p=url-loader
+[MIT](./LICENSE)
