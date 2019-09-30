@@ -169,7 +169,7 @@ module.exports = {
 
 查看 [模式配置](/concepts/mode) 章节了解其详细内容和每个值所作的优化。
 
-
+aaa
 ## 浏览器兼容性(browser compatibility)
 
 webpack 支持所有符合 [ES5 标准](https://kangax.github.io/compat-table/es5/) 的浏览器（不支持 IE8 及以下版本）。webpack 的 `import()` 和 `require.ensure()` 需要 `Promise`。如果你想要支持旧版本浏览器，在使用这些表达式之前，还需要 [提前加载 polyfill](/guides/shimming/)。
