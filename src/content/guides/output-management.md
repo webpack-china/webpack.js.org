@@ -211,7 +211,7 @@ __webpack.config.js__
 
 ## manifest
 
-你可能会很感兴趣，webpack 和 webpack 插件似乎“知道”应该哪些文件生成。答案是，webpack 通过 manifest，可以追踪所有模块到输出 bundle 之间的映射。如果你想要知道如何以其他方式来控制 webpack [`输出`](/configuration/output)，了解 manifest 是个好的开始。
+你可能会很感兴趣，webpack 和 webpack 插件似乎“知道”应该生成哪些文件。答案是，webpack 通过 manifest，可以追踪所有模块到输出 bundle 之间的映射。如果你想要知道如何以其他方式来控制 webpack [`输出`](/configuration/output)，了解 manifest 是个好的开始。
 
 通过 [`WebpackManifestPlugin`](https://github.com/danethurber/webpack-manifest-plugin) 插件，可以将 manifest 数据提取为一个容易使用的 json 文件。
 
