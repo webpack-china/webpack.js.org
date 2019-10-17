@@ -450,7 +450,7 @@ T> 注意，必须有 [`webpack.HotModuleReplacementPlugin`](/plugins/hot-module
 
 `boolean`
 
-Enables Hot Module Replacement (see [`devServer.hot`](#devserver-hot)) without page refresh as fallback in case of build failures.
+启用热模块替换 (请参阅[`devServer.hot`](#devserver-hot)) 而不将页面刷新作为生成失败时的回退。
 
 __webpack.config.js__
 
