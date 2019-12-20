@@ -93,7 +93,7 @@ W> 注意，loader 能够 `import` 导入任何类型的模块（例如 `.css` �
 
 在更高层面，在 webpack 的配置中 __loader__ 有两个属性：
 
-1. `test` 属性，用于标识出应该被对应的 loader 进行转换的某个或某些文件。
+1. `test` 属性，定义了那个或哪些文件将被转换。
 2. `use` 属性，表示进行转换时，应该使用哪个 loader。
 
 __webpack.config.js__
