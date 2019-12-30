@@ -52,7 +52,7 @@ module.exports = {
 
 ## `watchOptions.aggregateTimeout`
 
-`number = 300`
+`number = 200`
 
 Add a delay before rebuilding once the first file changed. This allows webpack to aggregate any other changes made during this time period into one rebuild. Pass a value in milliseconds:
 
