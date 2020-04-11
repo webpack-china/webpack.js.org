@@ -62,6 +62,22 @@ export function cube(x) {
   return x * x * x;
 }
 ```
+你需要设置开发模式(development mode)，来确保 bundle 是没有压缩过的(minified)：
+
+__webpack.config.js__
+```
+const path = require('path');
+
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist')
+- }
++ },
++ mode: "development"
+};
+```
 
 将 `mode` 配置选项设置为 [development](/configuration/mode/#mode-development) 以确保 bundle 是未压缩版本：
 

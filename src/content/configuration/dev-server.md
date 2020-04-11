@@ -911,7 +911,7 @@ module.exports = {
 };
 ```
 
-注意，默认情况下，根请求不会被代理。要启用根代理，应该将 `devServer.index` 选项指定为 falsy 值：
+注意，默认情况下，根请求不会被代理。要启用根代理，应该将 `devServer.index` 选项指定为 false 值：
 
 __webpack.config.js__
 
