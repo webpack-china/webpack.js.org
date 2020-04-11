@@ -1,11 +1,13 @@
 ---
 title: webpack
+sort: 0
 ---
 
 ## 编写代码
 
 <div class="splash__wrap">
 <div class="splash__left">
+
 __src/index.js__
 
 ```js
@@ -16,6 +18,7 @@ bar();
 
 </div>
 <div class="splash__right">
+
 __src/bar.js__
 
 ```js
@@ -28,10 +31,11 @@ export default function bar() {
 </div>
 
 
-## 使用 webpack 打包
+## 打包
 
 <div class="splash__wrap">
 <div class="splash__left">
+
 __[Without config](https://youtu.be/3Nv9muOkb6k?t=21293)__ or provide custom __webpack.config.js__
 
 ```js
@@ -48,6 +52,7 @@ module.exports = {
 
 </div>
 <div class="splash__right">
+
 __page.html__
 
 ```html
@@ -64,11 +69,10 @@ __page.html__
 ```
 
 </div>
+</div>
 
 然后在命令行运行 `webpack` 就会创建 `bundle.js`。
 
-## 让一切变得简单
+## 非常有趣？让我们深入其中！
 
 __[立即开始](/guides/getting-started)__更多关于 webpack 核心概念的高级信息，请通过快速查阅__指南__部分，或深入__[概念](/concepts)__部分来了解。
-
-</div>

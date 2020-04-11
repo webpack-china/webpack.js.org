@@ -1,6 +1,6 @@
 ---
 title: 代码分离
-sort: 9
+sort: 5
 contributors:
   - pksjce
   - pastelsky
@@ -26,6 +26,8 @@ contributors:
   - EugeneHlushko
   - Tiendo1011
   - byzyk
+  - AnayaDesign
+  - wizardofhogwarts
 related:
   - title: <link rel=”prefetch/preload”> in webpack
     url: https://medium.com/webpack/link-rel-prefetch-preload-in-webpack-51a52358f84c
@@ -48,7 +50,7 @@ T> 本指南继续沿用 [起步](/guides/getting-started) 和 [管理输出](/g
 
 ## 入口起点(entry points)
 
-这是迄今为止最简单、最直观的分离代码的方式。不过，这种方式手动配置较多，并有一些隐患，我们将会解决这些问题。先来看看如何从 main bundle 中分离 another module(另一个模块)：
+这是迄今为止最简单直观的分离代码的方式。不过，这种方式手动配置较多，并有一些隐患，我们将会解决这些问题。先来看看如何从 main bundle 中分离 another module(另一个模块)：
 
 __project__
 
@@ -162,7 +164,7 @@ Entrypoint another = vendors~another~index.bundle.js another.bundle.js
 
 ## 动态导入(dynamic imports)
 
-当涉及到动态代码拆分时，webpack 提供了两个类似的技术。第一种，也是推荐选择的方式是，使用符合 [ECMAScript 提案](https://github.com/tc39/proposal-dynamic-import) 的 [`import()` 语法](/api/module-methods#import-) 来实现动态导入。第二种，则是 webpack 的遗留功能，使用 webpack 特定的 [`require.ensure`](/api/module-methods#require-ensure)。让我们先尝试使用第一种……
+当涉及到动态代码拆分时，webpack 提供了两个类似的技术。第一种，也是推荐选择的方式是，使用符合 [ECMAScript 提案](https://github.com/tc39/proposal-dynamic-import) 的 [`import()` 语法](/api/module-methods#import-) 来实现动态导入。第二种，则是 webpack 的遗留功能，使用 webpack 特定的 [`require.ensure`](/api/module-methods#requireensure)。让我们先尝试使用第一种……
 
 W> `import()` 调用会在内部用到 [promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)。如果在旧版本浏览器中使用 `import()`，记得使用一个 polyfill 库（例如 [es6-promise](https://github.com/stefanpenner/es6-promise) 或 [promise-polyfill](https://github.com/taylorhakes/promise-polyfill)），来 shim `Promise`。
 
@@ -217,12 +219,12 @@ __src/index.js__
 -
 - function component() {
 + function getComponent() {
--   var element = document.createElement('div');
+-   const element = document.createElement('div');
 -
 -   // Lodash, now imported by this script
 -   element.innerHTML = _.join(['Hello', 'webpack'], ' ');
 +   return import(/* webpackChunkName: "lodash" */ 'lodash').then(({ default: _ }) => {
-+     var element = document.createElement('div');
++     const element = document.createElement('div');
 +
 +     element.innerHTML = _.join(['Hello', 'webpack'], ' ');
 +
@@ -237,7 +239,7 @@ __src/index.js__
 + })
 ```
 
-这里我们需要使用 `default` 的原因是，从 webpack v4 开始，在 import CommonJS 模块时，不会再将导入模块解析为 `module.exports` 的值，而是为 CommonJS 模块创建一个 artificial namespace object(人工命名空间对象)，关于其背后原因的更多信息，请阅读 [webpack 4: import() 和 CommonJs](https://medium.com/webpack/webpack-4-import-and-commonjs-d619d626b655)。
+这里我们需要使用 `default` 的原因是，从 webpack v4 开始，在 import CommonJS 模块时，不会再将导入模块解析为 `module.exports` 的值，而是为 CommonJS 模块创建一个 artificial namespace object(人工命名空间对象)。关于其背后原因的更多信息，请阅读 [webpack 4: import() 和 CommonJs](https://medium.com/webpack/webpack-4-import-and-commonjs-d619d626b655)。
 
 注意，在注释中我们提供了 `webpackChunkName`。这样会将拆分出来的 bundle 命名为 `lodash.bundle.js`，而不是 `[id].bundle.js`。想了解更多关于 `webpackChunkName` 和其他可用选项，请查看 [`import()`](/api/module-methods/#import-) 文档。让我们执行 webpack，看到 `lodash` 分离出一个单独的 bundle：
 
@@ -258,14 +260,14 @@ __src/index.js__
 - function getComponent() {
 + async function getComponent() {
 -   return import(/* webpackChunkName: "lodash" */ 'lodash').then({ default: _ } => {
--     var element = document.createElement('div');
+-     const element = document.createElement('div');
 -
 -     element.innerHTML = _.join(['Hello', 'webpack'], ' ');
 -
 -     return element;
 -
 -   }).catch(error => 'An error occurred while loading the component');
-+   var element = document.createElement('div');
++   const element = document.createElement('div');
 +   const { default: _ } = await import(/* webpackChunkName: "lodash" */ 'lodash');
 +
 +   element.innerHTML = _.join(['Hello', 'webpack'], ' ');
@@ -277,6 +279,9 @@ __src/index.js__
     document.body.appendChild(component);
   });
 ```
+
+T> It is possible to provide a [dynamic expression](/api/module-methods/#dynamic-expressions-in-import) to `import()` when you might need to import specific module based on a computed variable later.
+T> 在稍后示例中，可能会根据计算后的变量(computed variable)导入特定模块时，可以通过向 `import()` 传入一个 [动态表达式](/api/module-methods/#dynamic-expressions-in-import)。
 
 
 ## 预取/预加载模块(prefetch/preload module)
@@ -330,10 +335,10 @@ T> 不正确地使用 webpackPreload 会有损性能，请谨慎使用。
 
 - [webpack-chart](https://alexkuz.github.io/webpack-chart/)：webpack stats 可交互饼图。
 - [webpack-visualizer](https://chrisbateman.github.io/webpack-visualizer/)：可视化并分析你的 bundle，检查哪些模块占用空间，哪些可能是重复使用的。
-- [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer)：一个 plugin 和 CLI 工具，它将 bundle 内容展示为便捷的、交互式、可缩放的树状图形式。
+- [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer)：一个 plugin 和 CLI 工具，它将 bundle 内容展示为一个便捷的、交互式、可缩放的树状图形式。
 - [webpack bundle optimize helper](https://webpack.jakoblind.no/optimize)：此工具会分析你的 bundle，并为你提供可操作的改进措施建议，以减少 bundle 体积大小。
-
+- [bundle-stats](https://github.com/bundle-stats/bundle-stats)：生成一个 bundle 报告（bundle 大小、资源、模块），并比较不同构建之间的结果。
 
 ## 下一步
 
-接下来，查看 [延迟加载](/guides/lazy-loading) 来学习如何在实际一个真实应用程序中使用 `import()` 的具体示例，以及查看 [缓存](/guides/caching) 来学习如何有效地分离代码。
+接下来，查看 [延迟加载](/guides/lazy-loading/) 来学习如何在实际一个真实应用程序中使用 `import()` 的具体示例，以及查看 [缓存](/guides/caching/) 来学习如何有效地分离代码。

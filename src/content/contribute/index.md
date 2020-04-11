@@ -1,12 +1,13 @@
 ---
 title: 参与贡献
-sort: 1
+sort: 0
 contributors:
   - rouzbeh84
   - scottdj92
   - harrynewsome
   - dhedgecock
   - tbroadley
+  - EugeneHlushko
 ---
 
 为 webpack 做出贡献的群体，通常热衷于开源项目、关心用户体验和关注软件生态系统，对这些人来说，更具有意义的事情是，获得共同推动着 web 向前发展的成就感。由于我们使用 [Open Collective](https://opencollective.com/webpack) 资金模型，公开透明地积累和管理资金，所以我们能够通过贡献人员、依赖项目和核心团队获得支持和资金。想要捐款，只需点击下面的按钮……
@@ -29,8 +30,8 @@ contributors:
 任何人都可以通过以下方式来帮助 webpack：
 
 - 要求雇主在项目中使用 webpack。
-- 帮助我们编写和维护本网站上的内容（请查看[作者指南](/writers-guide)）。
-- 向[核心仓库](https://github.com/webpack/webpack)贡献代码。
+- 帮助我们编写和维护本网站上的内容（请查看 [作者指南](/contribute/writers-guide/)）。
+- 向 [核心仓库](https://github.com/webpack/webpack) 贡献代码。
 - 成为 [open collective](https://opencollective.com/webpack#support) 的筹款人员(backer)或赞助人员(sponsor)。
 
 ### 要求雇主使用 webpack
@@ -43,10 +44,11 @@ contributors:
 
 本章节的其余部分，是专门针对那些「希望成为我们持续增长社区的一部分」的开发人员编写：
 
-- [编写一个 loader](./writing-a-loader)
-- [编写一个 plugin](./writing-a-plugin)
-- [插件模式](./plugin-patterns)
-- [发布流程](./release-process)
+- [编写一个 loader](/contribute/writing-a-loader)
+- [编写一个 plugin](/contribute/writing-a-plugin)
+- [编写一个脚手架](/contribute/writing-a-scaffold)
+- [插件模式](/contribute/plugin-patterns)
+- [发布流程](/contribute/release-process)
 
 
 ## 管理人员

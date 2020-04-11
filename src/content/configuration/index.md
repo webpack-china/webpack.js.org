@@ -13,8 +13,7 @@ contributors:
   - sterlingvix
   - jeremenichelli
   - dasarianudeep
-  - byzyk
-  - kennetvu
+  - lukasgeiter
 ---
 
 webpack 开箱即用，可以无需使用任何配置文件。然而，webpack 会假定项目的入口起点为 `src/index`，然后会在 `dist/main.js` 输出结果，并且在生产环境开启压缩和优化。
@@ -23,7 +22,21 @@ webpack 开箱即用，可以无需使用任何配置文件。然而，webpack �
 
 下面指定了所有可用的配置选项。
 
-T> 刚开始学习 webpack？请查看我们提供的指南，从 webpack 一些 [核心概念](/concepts/) 开始学习吧！
+T> 刚开始学习 webpack？请查看我们提供的指南，从 webpack 一些 [核心概念](/concepts) 开始学习吧！
+
+
+## Use different config file
+
+If for some reason you want to use different config file depending on certain situations you can change this via command line by using the `--config` flag.
+
+**package.json**
+
+```json
+"scripts": {
+  "build": "webpack --config prod.config.js"
+}
+```
+
 
 ## 选项
 
@@ -33,101 +46,126 @@ T> 注意整个配置中我们使用 Node 内置的 [path 模块](https://nodejs
 
 __webpack.config.js__
 
-```js-with-links-with-details
+```js-with-links-details
 const path = require('path');
 
 module.exports = {
-  <details><summary>[mode](/concepts/mode): "production", // "production" | "development" | "none"</summary>
-  [mode](/concepts/mode): "production", // enable many optimizations for production builds
-  [mode](/concepts/mode): "development", // enabled useful tools for development
-  [mode](/concepts/mode): "none", // no defaults
-  </details>
+  <mode "/configuration/mode">
+    <default>
+      mode: "production", // "production" | "development" | "none"
+    </default>
+    mode: "production", // enable many optimizations for production builds
+    mode: "development", // enabled useful tools for development
+    mode: "none", // no defaults
+  </mode>
   // Chosen mode tells webpack to use its built-in optimizations accordingly.
-  <details><summary>[entry](/configuration/entry-context#entry): "./app/entry", // string | object | array</summary>
-  [entry](/configuration/entry-context#entry): ["./app/entry1", "./app/entry2"],
-  [entry](/configuration/entry-context#entry): {
-    a: "./app/entry-a",
-    b: ["./app/entry-b1", "./app/entry-b2"]
-  },
-  </details>
-  // 默认为 './src'
+  <entry "/configuration/entry-context#entry">
+    <default>
+      entry: "./app/entry", // string | object | array
+    </default>
+    entry: ["./app/entry1", "./app/entry2"],
+    entry: {
+      a: "./app/entry-a",
+      b: ["./app/entry-b1", "./app/entry-b2"]
+    },
+  </entry>
+  // 默认为 ./src
   // 这里应用程序开始执行
   // webpack 开始打包
-  [output](/configuration/output): {
+  <link "/configuration/output">
+    <default>
+      output: {
+    </default>
+  </link>
     // webpack 如何输出结果的相关选项
-    [path](/configuration/output#output-path): path.resolve(__dirname, "dist"), // string
+    path: path.resolve(__dirname, "dist"), // string
     // 所有输出文件的目标路径
     // 必须是绝对路径（使用 Node.js 的 path 模块）
-    <details><summary>[filename](/configuration/output#output-filename): "bundle.js", // string</summary>
-    [filename](/configuration/output#output-filename): "[name].js", // 用于多个入口点(entry point)（出口点？）
-    [filename](/configuration/output#output-filename): "[chunkhash].js", // 用于[长效缓存](/guides/caching)
-    </details>
-    // 「入口分块(entry chunk)」的文件名模板
-    <details><summary>[publicPath](/configuration/output#output-publicpath): "/assets/", // string</summary>
-    [publicPath](/configuration/output#output-publicpath): "",
-    [publicPath](/configuration/output#output-publicpath): "https://cdn.example.com/",
-    </details>
+    <filename "/configuration/output#output-filename">
+      <default>
+        filename: "bundle.js", // string
+      </default>
+      filename: "[name].js", // 用于多个入口起点(entry point)
+      filename: "[chunkhash].js", // 用于长效缓存
+    </filename>
+    // 入口分块(entry chunk)的文件名模板
+    <publicPath "/configuration/output#output-publicpath">
+      <default>
+        publicPath: "/assets/", // string
+      </default>
+      publicPath: "",
+      publicPath: "https://cdn.example.com/",
+    </publicPath>
     // 输出解析文件的目录，url 相对于 HTML 页面
-    [library](/configuration/output#output-library): "MyLibrary", // string,
+    library: "MyLibrary", // string,
     // 导出库(exported library)的名称
-    <details><summary>[libraryTarget](/configuration/output#output-librarytarget): "umd", // 通用模块定义</summary>
-        [libraryTarget](/configuration/output#output-librarytarget): "umd2", // 通用模块定义
-        [libraryTarget](/configuration/output#output-librarytarget): "commonjs2", // exported with module.exports
-        [libraryTarget](/configuration/output#output-librarytarget): "commonjs", // 作为 exports 的属性导出
-        [libraryTarget](/configuration/output#output-librarytarget): "amd", // 使用 AMD 定义方法来定义
-        [libraryTarget](/configuration/output#output-librarytarget): "this", // 在 this 上设置属性
-        [libraryTarget](/configuration/output#output-librarytarget): "var", // 变量定义于根作用域下
-        [libraryTarget](/configuration/output#output-librarytarget): "assign", // 盲分配(blind assignment)
-        [libraryTarget](/configuration/output#output-librarytarget): "window", // 在 window 对象上设置属性
-        [libraryTarget](/configuration/output#output-librarytarget): "global", // property set to global object
-        [libraryTarget](/configuration/output#output-librarytarget): "jsonp", // jsonp wrapper
-    </details>
+    <libraryTarget "/configuration/output#output-librarytarget">
+      <default>
+        libraryTarget: "umd", // 通用模块定义
+      </default>
+      libraryTarget: "umd2", // 通用模块定义
+      libraryTarget: "commonjs2", // 使用 module.exports 导出
+      libraryTarget: "commonjs", // 作为 exports 的属性导出
+      libraryTarget: "amd", // 使用 AMD 定义方法来定义
+      libraryTarget: "this", // 在 this 上设置属性
+      libraryTarget: "var", // 变量定义于根作用域下
+      libraryTarget: "assign", // 盲分配(blind assignment)
+      libraryTarget: "window", // 在 window 对象上设置属性
+      libraryTarget: "global", // 在 global 对象上设置属性
+      libraryTarget: "jsonp", // jsonp 包裹
+    </libraryTarget>
     // 导出库(exported library)的类型
-    <details><summary>/* 高级输出配置（点击显示） */</summary>
-    [pathinfo](/configuration/output#output-pathinfo): true, // boolean
-    // 在生成代码时，引入相关的模块、导出、请求等有帮助的路径信息。
-    [chunkFilename](/configuration/output#output-chunkfilename): "[id].js",
-    [chunkFilename](/configuration/output#output-chunkfilename): "[chunkhash].js", // 长效缓存(/guides/caching)
-    // 「附加分块(additional chunk)」的文件名模板
-    [jsonpFunction](/configuration/output#output-jsonpfunction): "myWebpackJsonp", // string
-    // 用于加载分块的 JSONP 函数名
-    [sourceMapFilename](/configuration/output#output-sourcemapfilename): "[file].map", // string
-    [sourceMapFilename](/configuration/output#output-sourcemapfilename): "sourcemaps/[file].map", // string
-    // 「source map 位置」的文件名模板
-    [devtoolModuleFilenameTemplate](/configuration/output#output-devtoolmodulefilenametemplate): "webpack:///[resource-path]", // string
-    // 「devtool 中模块」的文件名模板
-    [devtoolFallbackModuleFilenameTemplate](/configuration/output#output-devtoolfallbackmodulefilenametemplate): "webpack:///[resource-path]?[hash]", // string
-    // 「devtool 中模块」的文件名模板（用于冲突）
-    [umdNamedDefine](/configuration/output#output-umdnameddefine): true, // boolean
-    // 在 UMD 库中使用命名的 AMD 模块
-    [crossOriginLoading](/configuration/output#output-crossoriginloading): "use-credentials", // 枚举
-    [crossOriginLoading](/configuration/output#output-crossoriginloading): "anonymous",
-    [crossOriginLoading](/configuration/output#output-crossoriginloading): false,
-    // 指定运行时如何发出跨域请求问题
-    <details><summary>/* 专家级输出配置（自行承担风险） */</summary>
-    [devtoolLineToLine](/configuration/output#output-devtoollinetoline): {
-      test: /\.jsx$/
-    },
-    // 为这些模块使用 1:1 映射 SourceMaps（快速）
-    [hotUpdateMainFilename](/configuration/output#output-hotupdatemainfilename): "[hash].hot-update.json", // string
-    // 「HMR 清单」的文件名模板
-    [hotUpdateChunkFilename](/configuration/output#output-hotupdatechunkfilename): "[id].[hash].hot-update.js", // string
-    // 「HMR 分块」的文件名模板
-    [sourcePrefix](/configuration/output#output-sourceprefix): "\t", // string
-    // 包内前置式模块资源具有更好可读性
-    </details>
-    </details>
+    <advancedOutput "#">
+      <default>
+        /* 高级输出配置（点击显示） */
+      </default>
+      pathinfo: true, // boolean
+      // 在生成代码时，引入相关的模块、导出、请求等有帮助的路径信息。
+      chunkFilename: "[id].js",
+      chunkFilename: "[chunkhash].js", // 长效缓存
+      // 附加分块(additional chunk)的文件名模板
+      jsonpFunction: "myWebpackJsonp", // string
+      // 用于加载分块的 JSONP 函数名
+      sourceMapFilename: "[file].map", // string
+      sourceMapFilename: "sourcemaps/[file].map", // string
+      // source map location 的文件名模板
+      devtoolModuleFilenameTemplate: "webpack:///[resource-path]", // string
+      // 「devtool 中模块」的文件名模板
+      devtoolFallbackModuleFilenameTemplate: "webpack:///[resource-path]?[hash]", // string
+      // 「devtool 中模块」的文件名模板（用于冲突）
+      umdNamedDefine: true, // boolean
+      // 在 UMD 库中使用命名的 AMD 模块
+      crossOriginLoading: "use-credentials", // 枚举
+      crossOriginLoading: "anonymous",
+      crossOriginLoading: false,
+      // 指定运行时如何发出跨域请求问题
+    </advancedOutput>
+    <expert "#">
+      <default>
+        /* 专家级输出配置（自行承担风险） */
+      </default>
+      devtoolLineToLine: {
+        test: /\\.jsx$/
+      },
+      // 为这些模块使用 1:1 映射 SourceMaps（快速）
+      hotUpdateMainFilename: "[hash].hot-update.json", // string
+      // HMR manifest 的文件名模板
+      hotUpdateChunkFilename: "[id].[hash].hot-update.js", // string
+      // HMR chunks 的文件名模板
+      sourcePrefix: "\\t", // string
+      // bundle 内前置式模块资源具有更好可读性
+    </expert>
   },
-  [module](/configuration/module): {
+  module: {
     // 关于模块配置
-    [rules](/configuration/module#module-rules): [
+    rules: [
       // 模块规则（配置 loader、解析器等选项）
       {
-        [test](/configuration/module#rule-test): /\.jsx?$/,
-        [include](/configuration/module#rule-include): [
+        test: /\\.jsx?$/,
+        include: [
           path.resolve(__dirname, "app")
         ],
-        [exclude](/configuration/module#rule-exclude): [
+        exclude: [
           path.resolve(__dirname, "app/demo-files")
         ],
         // 这里是匹配条件，每个选项都接收一个正则表达式或字符串
@@ -137,23 +175,23 @@ module.exports = {
         // - 只在 test 和 文件名匹配 中使用正则表达式
         // - 在 include 和 exclude 中使用绝对路径数组
         // - 尽量避免 exclude，更倾向于使用 include
-        [issuer](/configuration/module#rule-issuer): { test, include, exclude },
+        issuer: { test, include, exclude },
         // issuer 条件（导入源）
-        [enforce](/configuration/module#rule-enforce): "pre",
-        [enforce](/configuration/module#rule-enforce): "post",
+        enforce: "pre",
+        enforce: "post",
         // 标识应用这些规则，即使规则覆盖（高级选项）
-        [loader](/configuration/module#rule-loader): "babel-loader",
+        loader: "babel-loader",
         // 应该应用的 loader，它相对上下文解析
         // 为了更清晰，`-loader` 后缀在 webpack 2 中不再是可选的
         // 查看 [webpack 1 升级指南](/migrate/3/#automatic-loader-module-name-extension-removed)。
-        [options](/configuration/module#rule-options-rule-query): {
+        options: {
           presets: ["es2015"]
         },
         // loader 的可选项
       },
       {
-        [test](/configuration/module#rule-test): /\.html$/,
-        [use](/configuration/module#rule-use): [
+        test: /\\.html$/,
+        use: [
           // 应用多个 loader 和选项
           "htmllint-loader",
           {
@@ -164,48 +202,51 @@ module.exports = {
           }
         ]
       },
-      { [oneOf](/configuration/module#rule-oneof): [ /* rules */ ] },
+      { oneOf: [ /* rules */ ] },
       // 只使用这些嵌套规则之一
-      { [rules](/configuration/module#rule-rules): [ /* rules */ ] },
+      { rules: [ /* rules */ ] },
       // 使用所有这些嵌套规则（合并可用条件）
-      { [resource](/configuration/module#rule-resource): { [and](/configuration/module#condition): [ /* 条件 */ ] } },
+      { resource: { and: [ /* 条件 */ ] } },
       // 仅当所有条件都匹配时才匹配
-      { [resource](/configuration/module#rule-resource): { [or](/configuration/module#condition): [ /* 条件 */ ] } },
-      { [resource](/configuration/module#rule-resource): [ /* 条件 */ ] },
+      { resource: { or: [ /* 条件 */ ] } },
+      { resource: [ /* 条件 */ ] },
       // 任意条件匹配时匹配（默认为数组）
-      { [resource](/configuration/module#rule-resource): { [not](/configuration/module#condition): /* 条件 */ } }
+      { resource: { not: /* 条件 */ } }
       // 条件不匹配时匹配
     ],
-    <details><summary>/* 高级模块配置（点击展示） */</summary>
-    [noParse](/configuration/module#module-noparse): [
-      /special-library\.js$/
-    ],
-    // 不解析这里的模块
-    unknownContextRequest: ".",
-    unknownContextRecursive: true,
-    unknownContextRegExp: /^\.\/.*$/,
-    unknownContextCritical: true,
-    exprContextRequest: ".",
-    exprContextRegExp: /^\.\/.*$/,
-    exprContextRecursive: true,
-    exprContextCritical: true,
-    wrappedContextRegExp: /.*/,
-    wrappedContextRecursive: true,
-    wrappedContextCritical: false,
-    // specifies default behavior for dynamic requests
-    </details>
+    <advancedModule "#">
+      <default>
+        /* 高级模块配置（点击展示） */
+      </default>
+      noParse: [
+        /special-library\\.js$/
+      ],
+      // 不解析这里的模块
+      unknownContextRequest: ".",
+      unknownContextRecursive: true,
+      unknownContextRegExp: /^\\.\\/.*$/,
+      unknownContextCritical: true,
+      exprContextRequest: ".",
+      exprContextRegExp: /^\\.\\/.*$/,
+      exprContextRecursive: true,
+      exprContextCritical: true,
+      wrappedContextRegExp: /.*/,
+      wrappedContextRecursive: true,
+      wrappedContextCritical: false,
+      // specifies default behavior for dynamic requests
+    </advancedModule>
   },
-  [resolve](/configuration/resolve): {
+  resolve: {
     // 解析模块请求的选项
     // （不适用于对 loader 解析）
-    [modules](/configuration/resolve#resolve-modules): [
+    modules: [
       "node_modules",
       path.resolve(__dirname, "app")
     ],
     // 用于查找模块的目录
-    [extensions](/configuration/resolve#resolve-extensions): [".js", ".json", ".jsx", ".css"],
+    extensions: [".js", ".json", ".jsx", ".css"],
     // 使用的扩展名
-    [alias](/configuration/resolve#resolve-alias): {
+    alias: {
       // 模块别名列表
       "module": "new-module",
       // 起别名："module" -> "new-module" 和 "module/path/file" -> "new-module/path/file"
@@ -215,62 +256,81 @@ module.exports = {
       // 起别名 "module" -> "./app/third/module.js" 和 "module/file" 会导致错误
       // 模块别名相对于当前上下文导入
     },
-    <details><summary>/* 可供选择的别名语法（点击展示） */</summary>
-    [alias](/configuration/resolve#resolve-alias): [
-      {
-        name: "module",
-        // 旧的请求
-        alias: "new-module",
-        // 新的请求
-        onlyModule: true
-        // 如果为 true，只有 "module" 是别名
-        // 如果为 false，"module/inner/path" 也是别名
-      }
-    ],
-    </details>
-    <details><summary>/* 高级解析选项（点击展示） */</summary>
-    [symlinks](/configuration/resolve#resolve-symlinks): true,
-    // 遵循符号链接(symlinks)到新位置
-    [descriptionFiles](/configuration/resolve#resolve-descriptionfiles): ["package.json"],
-    // 从 package 描述中读取的文件
-    [mainFields](/configuration/resolve#resolve-mainfields): ["main"],
-    // 从描述文件中读取的属性
-    // 当请求文件夹时
-    [aliasFields](/configuration/resolve#resolve-aliasfields): ["browser"],
-    // 从描述文件中读取的属性
-    // 以对此 package 的请求起别名
-    [enforceExtension](/configuration/resolve#resolve-enforceextension): false,
-    // 如果为 true，请求必不包括扩展名
-    // 如果为 false，请求可以包括扩展名
-    [moduleExtensions](/configuration/resolve#resolveloader-moduleextensions): ["-module"],
-    [enforceModuleExtension](/configuration/resolve#resolve-enforcemoduleextension): false,
-    // 类似 extensions/enforceExtension，但是用模块名替换文件
-    [unsafeCache](/configuration/resolve#resolve-unsafecache): true,
-    [unsafeCache](/configuration/resolve#resolve-unsafecache): {},
-    // 为解析的请求启用缓存
-    // 这是不安全，因为文件夹结构可能会改动
-    // 但是性能改善是很大的
-    [cachePredicate](/configuration/resolve#resolve-cachepredicate): (path, request) => true,
-    // predicate function which selects requests for caching
-    [plugins](/configuration/resolve#resolve-plugins): [
-      // ...
-    ]
-    // 应用于解析器的附加插件
-    </details>
+    <alias "/configuration/resolve#resolve-alias">
+      <default>
+        /* 可供选择的别名语法（点击展示） */
+      </default>
+      alias: [
+        {
+          name: "module",
+          // 旧的请求
+          alias: "new-module",
+          // 新的请求
+          onlyModule: true
+          // 如果为 true，只有 "module" 是别名
+          // 如果为 false，"module/inner/path" 也是别名
+        }
+      ],
+    </alias>
+    <advancedResolve "#">
+      <default>
+        /* 高级解析选项（点击展示） */
+      </default>
+      symlinks: true,
+      // 遵循符号链接(symlinks)到新位置
+      descriptionFiles: ["package.json"],
+      // 从 package 描述中读取的文件
+      mainFields: ["main"],
+      // 从描述文件中读取的属性
+      // 当请求文件夹时
+      aliasFields: ["browser"],
+      // 从描述文件中读取的属性
+      // 以对此 package 的请求起别名
+      enforceExtension: false,
+      // 如果为 true，请求必不包括扩展名
+      // 如果为 false，请求可以包括扩展名
+      moduleExtensions: ["-module"],
+      enforceModuleExtension: false,
+      // 类似 extensions/enforceExtension，但是用模块名替换文件
+      unsafeCache: true,
+      unsafeCache: {},
+      // 为解析的请求启用缓存
+      // 这是不安全，因为文件夹结构可能会改动
+      // 但是性能改善是很大的
+      cachePredicate: (path, request) => true,
+      // predicate function which selects requests for caching
+      plugins: [
+        // ...
+      ]
+      // 应用于解析器的附加插件
+    </advancedResolve>
   },
-  [performance](/configuration/performance): {
-    <details><summary>[hints](/configuration/performance#performance-hints): "warning", // 枚举 </summary>
-    [hints](/configuration/performance#performance-hints): "error", // 性能提示中抛出错误
-    [hints](/configuration/performance#performance-hints): false, // 关闭性能提示
-    </details>
-    [maxAssetSize](/configuration/performance#performance-maxassetsize): 200000, // 整数类型（以字节为单位）
-    [maxEntrypointSize](/configuration/performance#performance-maxentrypointsize): 400000, // 整数类型（以字节为单位）
-    [assetFilter](/configuration/performance#performance-assetfilter): function(assetFilename) {
+  performance: {
+    <hints "/configuration/performance#performance-hints">
+      <default>
+        hints: "warning", // 枚举
+      </default>
+      hints: "error", // 性能提示中抛出错误
+      hints: false, // 关闭性能提示
+    </hints>
+    maxAssetSize: 200000, // 整数类型（以字节为单位）
+    maxEntrypointSize: 400000, // 整数类型（以字节为单位）
+    assetFilter: function(assetFilename) {
       // 提供资源文件名的断言函数
       return assetFilename.endsWith('.css') || assetFilename.endsWith('.js');
     }
   },
-  <details><summary>[devtool](/configuration/devtool): "source-map", // enum </summary>
+  <devtool "/configuration/devtool">
+    <default>
+      devtool: "source-map", // enum
+    </default>
+    devtool: "inline-source-map", // inlines SourceMap into original file
+    devtool: "eval-source-map", // inlines SourceMap per module
+    devtool: "hidden-source-map", // SourceMap without reference in original file
+    devtool: "cheap-source-map", // cheap-variant of SourceMap without module mappings
+    devtool: "cheap-module-source-map", // cheap-variant of SourceMap with module mappings
+    devtool: "eval", // no SourceMap, but named modules. Fastest at the expense of detail.
+  </devtool>
   [devtool](/configuration/devtool): "inline-source-map", // 嵌入到源文件中
   [devtool](/configuration/devtool): "eval-source-map", // 将 SourceMap 嵌入到每个模块中
   [devtool](/configuration/devtool): "hidden-source-map", // SourceMap 不在源文件中引用

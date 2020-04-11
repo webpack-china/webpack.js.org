@@ -1,6 +1,6 @@
 ---
 title: 编写一个插件
-sort: 4
+sort: 3
 contributors:
   - tbroadley
   - nveenjain
@@ -75,7 +75,7 @@ module.exports = {
 
 ## compiler 和 compilation
 
-在插件开发中最重要的两个资源就是 `compiler` 和 `compilation` 对象。理解它们的角色是扩展 webpack 引擎重要的第一步。
+在插件开发中最重要的两个资源就是 [`compiler`](/api/node/#compiler-instance) 和 [`compilation`](/api/compilation-hooks/) 对象。理解它们的角色是扩展 webpack 引擎重要的第一步。
 
 ```javascript
 class HelloCompilationPlugin {
@@ -181,7 +181,7 @@ module.exports = FileListPlugin;
 
 ## 不同插件形状
 
-根据插件所能触及到的 event hook(事件钩子)，对其进行分类。每个 event hook 都被预先定义为 synchronous hook(同步), asynchronous hook(异步), waterfall hook(瀑布), parallel hook(并行)，而在 webpack 内部会使用 call/callAsync 方法调用这些 hook。通常在 this.hooks 属性中指定可以支持或可以触及的 hooks 列表。
+根据插件所能触及到的 event hook(事件钩子)，对其进行分类。每个 event hook 都被预先定义为 synchronous hook(同步), asynchronous hook(异步), waterfall hook(瀑布), parallel hook(并行)，而在 webpack 内部会使用 call/callAsync 方法调用这些 hook。通常在 `this.hooks` 属性中指定可以支持或可以触及的 hooks 列表。
 
 示例：
 
@@ -246,18 +246,8 @@ this.hooks = {
     - 使用 `tap`/`tapAsync`/`tapPromise` 方法触及。
     - 使用 `callAsync(...params)` 方法调用。
 
-  someMethod() {
-  // 调用一个 hook:
-  this.hooks.compilation.call();
-
 - __Async Parallel__
 
     - 通过 `AsyncParallelHook[params]` 定义。
-    - 使用 `tap`/`tapAsync`/`tapPromise` 方法触及。
-    - 使用 `callAsync(...params)` 方法调用。
-
-- __Async Series Bail__
-
-    - 通过 `AsyncSeriesBailHook[params]` 定义。
     - 使用 `tap`/`tapAsync`/`tapPromise` 方法触及。
     - 使用 `callAsync(...params)` 方法调用。

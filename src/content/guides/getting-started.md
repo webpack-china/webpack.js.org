@@ -1,6 +1,6 @@
 ---
 title: 起步
-sort: 2
+sort: 1
 contributors:
   - bebraw
   - varunjayaraman
@@ -9,7 +9,6 @@ contributors:
   - johnstew
   - simon04
   - aaronang
-  - jecoopr
   - TheDutchCoder
   - sudarsangp
   - Vanguard90
@@ -21,6 +20,7 @@ contributors:
   - ztomaszes
   - Spiral90210
   - byzyk
+  - wizardofhogwarts
 ---
 
 webpack 用于编译 JavaScript 模块。一旦完成 [安装](/guides/installation)，你就可以通过 webpack [CLI](/api/cli) 或 [API](/api/node) 与其配合交互。如果你还不熟悉 webpack，请阅读 [核心概念](/concepts) 和 [对比](/comparison)，了解为什么要使用 webpack，而不是社区中的其他工具。
@@ -29,19 +29,21 @@ webpack 用于编译 JavaScript 模块。一旦完成 [安装](/guides/installat
 
 首先我们创建一个目录，初始化 npm，然后 [在本地安装 webpack](/guides/installation#local-installation)，接着安装 webpack-cli（此工具用于在命令行中运行 webpack）：
 
-``` bash
-mkdir webpack-demo && cd webpack-demo
+```bash
+mkdir webpack-demo
+cd webpack-demo
 npm init -y
-npm install webpack webpack-cli --save-dev
+npm install webpack --save-dev
+npm install webpack-cli --save-dev
 ```
 
 T> 贯穿整个指南的是，我们将使用 `diff` 块，来展示对目录、文件和代码所做的修改。
 
 现在，我们将创建以下目录结构、文件和内容：
 
-__project__
+**project**
 
-``` diff
+```diff
   webpack-demo
   |- package.json
 + |- index.html
@@ -49,14 +51,14 @@ __project__
 +   |- index.js
 ```
 
-__src/index.js__
+**src/index.js**
 
-``` javascript
+```javascript
 function component() {
-  let element = document.createElement('div');
+  const element = document.createElement("div");
 
   // lodash（目前通过一个 script 引入）对于执行这一行是必需的
-  element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+  element.innerHTML = _.join(["Hello", "webpack"], " ");
 
   return element;
 }
@@ -64,10 +66,10 @@ function component() {
 document.body.appendChild(component());
 ```
 
-__index.html__
+**index.html**
 
-``` html
-<!doctype html>
+```html
+<!DOCTYPE html>
 <html>
   <head>
     <title>起步</title>
@@ -83,9 +85,9 @@ __index.html__
 
 T> 如果你想要了解 `package.json` 内在机制的更多信息，我们推荐阅读 [npm 文档](https://docs.npmjs.com/files/package.json)。
 
-__package.json__
+**package.json**
 
-``` diff
+```diff
   {
     "name": "webpack-demo",
     "version": "1.0.0",
@@ -99,8 +101,8 @@ __package.json__
     "author": "",
     "license": "ISC",
     "devDependencies": {
-    "webpack": "^4.20.2",
-    "webpack-cli": "^3.1.2"
+      "webpack": "^4.20.2",
+      "webpack-cli": "^3.1.2"
     },
     "dependencies": {}
   }
@@ -118,11 +120,11 @@ __package.json__
 
 ## 创建一个 bundle
 
-首先，我们稍微调整下目录结构，将“源”代码(`/src`)从我们的“分发”代码(`/dist`)中分离出来。源代码是用于书写和编辑的代码。分发代码是构建过程产生的代码最小化和优化后的 `输出(output)` 目录，最终将在浏览器中加载：
+首先，我们稍微调整下目录结构，将“源”代码(`/src`)从我们的“分发”代码(`/dist`)中分离出来。源代码是用于书写和编辑的代码。分发代码是构建过程产生的代码最小化和优化后的 `输出(output)` 目录，最终将在浏览器中加载。调整目录结构如下：
 
-__project__
+**project**
 
-``` diff
+```diff
   webpack-demo
   |- package.json
 + |- /dist
@@ -134,7 +136,7 @@ __project__
 
 要在 `index.js` 中装入 `lodash` 依赖，我们需要在本地安装 library：
 
-``` bash
+```bash
 npm install --save lodash
 ```
 
@@ -142,13 +144,13 @@ T> 在安装一个 package，而此 package 要打包到生产环境 bundle 中�
 
 现在，在我们的 script 中 import `lodash`：
 
-__src/index.js__
+**src/index.js**
 
-``` diff
+```diff
 + import _ from 'lodash';
 +
   function component() {
-    let element = document.createElement('div');
+    const element = document.createElement('div');
 
 -   // lodash（目前通过一个 script 引入）对于执行这一行是必需的
     element.innerHTML = _.join(['Hello', 'webpack'], ' ');
@@ -161,9 +163,9 @@ __src/index.js__
 
 现在，我们将会打包所有脚本，我们必须更新 `index.html` 文件。由于现在是通过 `import` 引入 lodash，所以要将 lodash `<script>` 删除，然后修改另一个 `<script>` 标签来加载 bundle，而不是原始的 `/src` 文件：
 
-__dist/index.html__
+**dist/index.html**
 
-``` diff
+```diff
   <!doctype html>
   <html>
    <head>
@@ -181,7 +183,7 @@ __dist/index.html__
 
 可以这样说，执行 `npx webpack`，会将我们的脚本 `src/index.js` 作为 [入口起点](/concepts/entry-points)，也会生成 `dist/main.js` 作为 [输出](/concepts/output)。Node 8.2/npm 5.2.0 以上版本提供的 `npx` 命令，可以运行在开始安装的 webpack package 中的 webpack 二进制文件（即 `./node_modules/.bin/webpack`）：
 
-``` bash
+```bash
 npx webpack
 
 ...
@@ -192,30 +194,30 @@ main.js  70.4 KiB       0  [emitted]  main
 
 WARNING in configuration(配置警告)
 The 'mode' option has not been set, webpack will fallback to 'production' for this value. Set 'mode' option to 'development' or 'production' to enable defaults for each environment.
-You can also set it to 'none' to disable any default behavior. Learn more: https://webpack.js.org/concepts/mode/('mode' 选项还未设置，webpack 会将其值回退至 'production'。将 'mode' 选项设置为 'development' 或 'production'，来启用对应环境的默认优化设置。)
+You can also set it to 'none' to disable any default behavior. Learn more: https://webpack.js.org/configuration/mode/('mode' 选项还未设置，webpack 会将其值回退至 'production'。将 'mode' 选项设置为 'development' 或 'production'，来启用对应环境的默认优化设置。)
 ```
 
 T> 输出可能会稍有不同，但是只要构建成功，那么你就可以放心继续。并且不要担心警告，稍后我们就会解决。
 
 在浏览器中打开 `index.html`，如果一切正常，你应该能看到以下文本：'Hello webpack'。
 
+W> 在浏览器中打开 `index.html`，如果在压缩过后的 JavaScript 中出现语法错误，请设置 [`development 模式`](/configuration/mode/#mode-development)，并再次运行 `npx webpack`。这与最新版本 Node.js (v12.5+) 上运行 `npx webpack` 有关，和 [LTS 版本](https://nodejs.org/en/) 无关。
 
 ## 模块
 
-[ES2015](https://babel.docschina.org/docs/en/learn/) 中的 [`import`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import) 和 [`export`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export) 语句已经被标准化，并且 [多数浏览器已经能够支持](https://caniuse.com/#search=modules)。一些旧版本浏览器虽然无法支持它们，但是通过 webpack 开箱即用的模块支持，我们也可以使用这些ES2015 模块标准。
+[ES2015](https://babel.docschina.org/docs/en/learn/) 中的 [`import`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import) 和 [`export`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export) 语句已经被标准化。目前大多数浏览器都支持它们，然而有些浏览器无法识别新语法。不过不用担心，webpack 提供开箱即用的模块支持。
 
-在幕后，webpack 实际上会将代码进行 transpile(转译)，因此旧版本浏览器也可以执行。如果检查 `dist/main.js`，你就可以看到 webpack 是如何实现，这是独创精巧的设计！除了 `import` 和 `export`，webpack 还能够很好地支持各种其他模块语法，更多信息请查看 [模块 API](/api/module-methods)。
+事实上，webpack 在幕后会将代码“转译”，以便旧版本浏览器可以执行。如果你检查 `dist/main.js`，你可以看到 webpack 具体如何实现，这是独创精巧的设计！除了 `import` 和 `export`，webpack 还能够很好地支持多种其他模块语法，更多信息请查看[模块 API](/api/module-methods)。
 
 注意，webpack 不会更改代码中除 `import` 和 `export` 语句以外的部分。如果你在使用其它 [ES2015 特性](http://es6-features.org/)，请确保你在 webpack [loader 系统](/concepts/loaders/) 中使用了一个像是 [Babel](https://babel.docschina.org/) 或 [Bublé](https://buble.surge.sh/guide/) 的 [transpiler(转译器)](/loaders/#transpiling)。
-
 
 ## 使用一个配置文件
 
 在 webpack v4 中，可以无须任何配置，然而大多数项目会需要很复杂的设置，这就是为什么 webpack 仍然要支持 [配置文件](/concepts/configuration)。这比在 terminal(终端) 中手动输入大量命令要高效的多，所以让我们创建一个配置文件：
 
-__project__
+**project**
 
-``` diff
+```diff
   webpack-demo
   |- package.json
 + |- webpack.config.js
@@ -225,23 +227,38 @@ __project__
     |- index.js
 ```
 
-__webpack.config.js__
+**dist/index.html**
 
-``` javascript
-const path = require('path');
+```diff
+  <!doctype html>
+  <html>
+   <head>
+     <title>起步</title>
+   </head>
+   <body>
+-    <script src="main.js"></script>
++    <script src="bundle.js"></script>
+   </body>
+  </html>
+```
+
+**webpack.config.js**
+
+```javascript
+const path = require("path");
 
 module.exports = {
-  entry: './src/index.js',
+  entry: "./src/index.js",
   output: {
-    filename: 'main.js',
-    path: path.resolve(__dirname, 'dist')
-  }
+    filename: "main.js",
+    path: path.resolve(__dirname, "dist"),
+  },
 };
 ```
 
 现在，让我们通过新的配置文件再次执行构建：
 
-``` bash
+```bash
 npx webpack --config webpack.config.js
 
 ...
@@ -251,28 +268,28 @@ main.js  70.4 KiB       0  [emitted]  main
 
 WARNING in configuration(配置警告)
 The 'mode' option has not been set, webpack will fallback to 'production' for this value. Set 'mode' option to 'development' or 'production' to enable defaults for each environment.('mode' 选项还未设置，webpack 会将其值回退至 'production'。将 'mode' 选项设置为 'development' 或 'production'，来启用对应环境的默认优化设置。)
-You can also set it to 'none' to disable any default behavior. Learn more: https://webpack.js.org/concepts/mode/(你也可以将其设置为 'none'，以禁用所有默认行为。了解更多 https://webpack.js.org/concepts/mode/)
+You can also set it to 'none' to disable any default behavior. Learn more: https://webpack.js.org/configuration/mode/(你也可以将其设置为 'none'，以禁用所有默认行为。了解更多 https://webpack.js.org/configuration/mode/)
 ```
 
 T> 如果 `webpack.config.js` 存在，则 `webpack` 命令将默认选择使用它。我们在这里使用 `--config` 选项只是向你表明，可以传递任何名称的配置文件。这对于需要拆分成多个文件的复杂配置是非常有用。
 
 比起 CLI 这种简单直接的使用方式，配置文件具有更多的灵活性。我们可以通过配置方式指定 loader 规则(loader rule)、插件(plugin)、resolve 选项，以及许多其他增强功能。更多详细信息请查看 [配置文档](/configuration)。
 
-
 ## npm scripts
 
 考虑到用 CLI 这种方式来运行本地的 webpack 副本并不是特别方便，我们可以设置一个快捷方式。调整 _package.json_ 文件，添加在 [npm scripts](https://docs.npmjs.com/misc/scripts) 中添加一个 npm 命令：
 
-__package.json__
+**package.json**
 
-``` diff
+```diff
   {
     "name": "webpack-demo",
     "version": "1.0.0",
     "description": "",
     "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1",
-+     "build": "webpack"
+-      "test": "echo \"Error: no test specified\" && exit 1"
++      "test": "echo \"Error: no test specified\" && exit 1",
++      "build": "webpack"
     },
     "keywords": [],
     "author": "",
@@ -291,7 +308,7 @@ __package.json__
 
 现在运行以下命令，然后看看你的脚本别名是否正常运行：
 
-``` bash
+```bash
 npm run build
 
 ...
@@ -301,19 +318,18 @@ main.js  70.4 KiB       0  [emitted]  main
 
 WARNING in configuration(配置警告)
 The 'mode' option has not been set, webpack will fallback to 'production' for this value. Set 'mode' option to 'development' or 'production' to enable defaults for each environment.('mode' 选项还未设置，webpack 会将其值回退至 'production'。将 'mode' 选项设置为 'development' 或 'production'，来启用对应环境的默认优化设置。)
-You can also set it to 'none' to disable any default behavior. Learn more: https://webpack.js.org/concepts/mode/(你也可以将其设置为 'none'，以禁用所有默认行为。了解更多 https://webpack.js.org/concepts/mode/)
+You can also set it to 'none' to disable any default behavior. Learn more: https://webpack.js.org/configuration/mode/。(你也可以将其设置为 'none'，以禁用所有默认行为。了解更多 https://webpack.js.org/configuration/mode/)
 ```
 
 T> 通过在 `npm run build` 命令和你的参数之间添加两个中横线，可以将自定义参数传递给 webpack，例如：`npm run build -- --colors`。
-
 
 ## 结论
 
 现在，你已经有了一个基础构建配置，你应该移至下一章节 [`资源管理`](/guides/asset-management) 指南，以了解如何通过 webpack 来管理资源，例如 images、fonts。此刻你的项目看起来应该如下：
 
-__project__
+**project**
 
-``` diff
+```diff
 webpack-demo
 |- package.json
 |- webpack.config.js

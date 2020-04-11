@@ -1,6 +1,8 @@
 ---
 title: 作者指引
-sort: 2
+sort: 1
+contributors:
+  - pranshuchittora
 ---
 
 以下部分包含编辑(edit)和格式化(format)网站内容的所有必需知识。请确保在开始编辑或添加之前，你已经进行过一些研究。有时候最困难的地方在于，找到内容应该存在的位置和确定它是否存在。
@@ -72,6 +74,28 @@ function foo () {
 foo();
 ```
 
+#### Quotation
+
+Use single quotes in code snippets and project files (`.jsx`, `.scss` etc):
+
+
+```diff
+- import webpack from "webpack";
++ import webpack from 'webpack';
+```
+
+
+And in inline backticks:
+
+__correct__
+
+Set value to `'index.md'`...
+
+__incorrect__
+
+Set value to `"index.md"`...
+
+
 ### 列表
 
 - Boo
@@ -119,3 +143,19 @@ W> 这是一个警告.
 __语法：?\>__
 
 ?> 这个一个 todo 待办项.
+
+### Assumptions and simplicity
+
+Do not make assumptions when writing the documentation.
+
+```diff
+- You might already know how to optimize bundle for production...
++ As we've learned in [production guide](/guides/production/)...
+```
+
+Please do not assume things are simple. Avoid words like 'just', 'simply'.
+
+```diff
+- Simply run command...
++ Run the `command-name` command...
+```

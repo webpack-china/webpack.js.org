@@ -1,11 +1,12 @@
 ---
 title: 管理依赖
-sort: 20
+sort: 12
 contributors:
   - ndelangen
   - chrisVillanueva
   - sokra
   - byzyk
+  - AnayaDesign
 ---
 
 > es6 modules
@@ -34,7 +35,7 @@ Regular expression: /^.*\.ejs$/
 
 __context module__
 
-生成一个 context module(上下文模块)。它包含__目录下的所有模块__的引用，是通过一个 request 解析出来的正则表达式，去匹配目录下所有符合的模块，然后都 require 进来。此 context module 包含一个 map 对象，会把 request 中所有模块翻译成对应的模块 id。（译者注：request 参考 [概念术语](https://webpack.docschina.org/glossary/) 文档）
+会生成一个 context module(上下文模块)。它包含__目录下的所有模块__的引用，如果一个 request 符合正则表达式，就能 require 进来。此 context module 包含一个 map 对象，会把 requests 翻译成对应的模块 id。（译者注：request 参考 [概念术语](https://webpack.docschina.org/glossary/) 文档）
 
 示例：
 
@@ -101,7 +102,7 @@ importAll(require.context('../components/', true, /\.js$/));
 ```
 
 ```javascript
-var cache = {};
+const cache = {};
 
 function importAll (r) {
   r.keys().forEach(key => cache[key] = r(key));
@@ -111,4 +112,4 @@ importAll(require.context('../components/', true, /\.js$/));
 // 在构建时(build-time)，所有被 require 的模块都会被填充到 cache 对象中。
 ```
 
-- `id` 是 context module 里面所包含的模块 id. 它可能在你使用 `module.hot.accept` 时会用到。
+- `id` 是 context module 的模块 id. 它可能在你使用 `module.hot.accept` 时会用到。

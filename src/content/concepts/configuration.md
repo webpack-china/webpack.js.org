@@ -1,6 +1,6 @@
 ---
 title: 配置(configuration)
-sort: 6
+sort: 5
 contributors:
   - TheLarkInn
   - simon04
@@ -47,7 +47,7 @@ module.exports = {
 };
 ```
 
-_See_: [Configuration section](/configuration/) for the all supported configuration options
+_See_: [Configuration section](/configuration/) for all supported configuration options
 
 ## 多个 target
 

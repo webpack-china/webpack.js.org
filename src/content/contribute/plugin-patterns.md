@@ -19,7 +19,7 @@ class MyPlugin {
       // 检索每个（构建输出的）chunk：
       compilation.chunks.forEach(chunk => {
         // 检索 chunk 中（内置输入的）的每个模块：
-        chunk.modules.forEach(module => {
+        chunk.getModules().forEach(module => {
           // 检索模块中包含的每个源文件路径：
           module.fileDependencies.forEach(filepath => {
             // 我们现在已经对源结构有不少了解……
@@ -43,7 +43,7 @@ module.exports = MyPlugin;
 - `compilation.modules`：编译后的（内置输入的）模块数组。每个模块管理控制来源代码库(source library)中的原始文件(raw file)的构建。
 - `module.fileDependencies`：模块中引入的源文件路径构成的数组。这包括源 JavaScript 文件本身（例如：index.js）以及它所需的所有依赖资源文件（样式表、图像等）。审查依赖，可以用于查看一个模块有哪些从属的源文件。
 - `compilation.chunks`：编译后的（构建输出的）chunk 数组。每个 chunk 所管理控制的最终渲染资源的组合。
-- `chunk.modules`：chunk 中引入的模块构成的数组。通过扩展(extension)可以审查每个模块的依赖，来查看哪些原始源文件被注入到 chunk 中。
+- `chunk.getModules()`：chunk 中引入的模块构成的数组。通过扩展(extension)可以审查每个模块的依赖，来查看哪些原始源文件被注入到 chunk 中。
 - `chunk.files`：chunk 生成的输出文件名构成的数组。你可以从 `compilation.assets` 表中访问这些资源来源。
 
 ### 监听观察图(watch graph)的修改

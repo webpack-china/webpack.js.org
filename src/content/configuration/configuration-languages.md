@@ -11,7 +11,7 @@ contributors:
   - byzyk
 ---
 
-webpack 接受以多种编程和数据语言编写的配置文件。支持的文件扩展名列表，可以在 [node-interpret](https://github.com/js-cli/js-interpret) 包中找到。使用 [node-interpret](https://github.com/js-cli/js-interpret)，webpack 可以处理许多不同类型的配置文件。
+webpack 接受以多种编程和数据语言编写的配置文件。支持的文件扩展名列表，可以在 [node-interpret](https://github.com/gulpjs/interpret) 包中找到。使用 [node-interpret](https://github.com/gulpjs/interpret)，webpack 可以处理许多不同类型的配置文件。
 
 
 ## TypeScript
@@ -75,9 +75,9 @@ __tsconfig-for-webpack-config.json__
 }
 ```
 
-T> `ts-node` 可以使用 `tsconfig-path` 提供的环境变量来解析 `tsconfig.json` 文件。
+T> `ts-node` 可以使用 `tsconfig-paths` 提供的环境变量来解析 `tsconfig.json` 文件。
 
-然后，设置 `tsconfig-path` 提供的环境变量 `process.env.TS_NODE_PROJECT`，如下所示：
+然后，设置 `tsconfig-paths` 提供的环境变量 `process.env.TS_NODE_PROJECT`，如下所示：
 
 __package.json__
 
@@ -94,7 +94,7 @@ W> We had been getting reports that `TS_NODE_PROJECT` might not work with `"TS_N
 
 ## CoffeeScript
 
-类似的，为了使用 [CoffeeScript](http://coffeescript.org/) 来书写配置文件, 同样需要安装相关的依赖：
+类似的，为了使用 [CoffeeScript](https://coffeescript.org/) 来书写配置文件, 同样需要安装相关的依赖：
 
 ``` bash
 npm install --save-dev coffee-script
@@ -176,4 +176,4 @@ export default (
 );
 ```
 
-W> 如果你在其他地方也使用了 Babel 并且把`模块(modules)`设置为了 `false`，那么你要么同时维护两份单独的 `.babelrc` 文件，要么使用 `conts jsxobj = requrie('jsxobj');` 并且使用 `moduel.exports` 而不是新版本的 `import` 和 `export` 语法。这是因为尽管 Node.js 已经支持了许多 ES6 的新特性，然而还无法支持 ES6 模块语法。
+W> 如果你在其他地方也使用了 Babel 并且把`模块(modules)`设置为了 `false`，那么你要么同时维护两份单独的 `.babelrc` 文件，要么使用 `const jsxobj = requrie('jsxobj');` 并且使用 `moduel.exports` 而不是新版本的 `import` 和 `export` 语法。这是因为尽管 Node.js 已经支持了许多 ES6 的新特性，然而还无法支持 ES6 模块语法。

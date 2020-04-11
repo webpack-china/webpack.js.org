@@ -1,6 +1,6 @@
 ---
 title: loader
-sort: 1
+sort: 0
 contributors:
   - simon04
   - bajras
@@ -77,6 +77,6 @@ loader 通过在 `require()` 语句中使用 `loadername!` 前缀来激活，或
 - [`polymer-loader`](https://github.com/webpack-contrib/polymer-webpack-loader) 使用选择预处理器(preprocessor)处理，并且 `require()` 类似一等模块(first-class)的 Web 组件
 - [`angular2-template-loader`](https://github.com/TheLarkInn/angular2-template-loader) 加载和转译 [Angular](https://angular.io/) 组件
 
+## Awesome
 
-![Awesome](../assets/awesome-badge.svg)
 更多第三方 loader，查看 [awesome-webpack](https://github.com/webpack-contrib/awesome-webpack#loaders) 列表。

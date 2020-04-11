@@ -34,7 +34,7 @@ module.exports = {
 
 `string | [string] | object { <key>: string | [string] } | (function: () => string | [string] | object { <key>: string | [string] })`
 
-起点或是应用程序的起点入口。从这个起点开始，应用程序启动执行。如果传递一个数组，那么数组的每一项都会执行。
+开始应用程序打包过程的一个或多个起点。如果传递数组，则会处理所有条目。
 
 动态加载的模块__不是__入口起点。
 
@@ -91,4 +91,4 @@ module.exports = {
 };
 ```
 
-当结合 [`output.library`](/configuration/output#output-library) 选项时：如果传入数组，则只导出最后一项。
+当结合 [`output.library`](/configuration/output#outputlibrary) 选项时：如果传入数组，则只导出最后一项。

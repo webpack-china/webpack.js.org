@@ -1,6 +1,6 @@
 ---
 title: 部署目标(target)
-sort: 10
+sort: 9
 contributors:
   - TheLarkInn
   - rouzbeh84
@@ -30,7 +30,7 @@ module.exports = {
 
 每个 _target_ 都有各种部署(deployment)/环境(environment)特定的附加项，以支持满足其需求。查看 [target 可用值](/configuration/target/)。
 
-?>Further expansion for other popular target values
+?> Further expansion for other popular target values
 
 ## 多个 target
 

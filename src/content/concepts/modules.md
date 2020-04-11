@@ -1,6 +1,6 @@
 ---
 title: 模块(module)
-sort: 7
+sort: 6
 contributors:
   - TheLarkInn
   - simon04
@@ -32,7 +32,7 @@ webpack 基于从这些系统获得的经验教训，并将_模块_的概念应�
 - css/sass/less 文件中的 [`@import` 语句](https://developer.mozilla.org/en-US/docs/Web/CSS/@import)。
 - 样式(`url(...)`)或 HTML 文件(`<img src=...>`)中的图片链接
 
-T> webpack 1 需要特定的 loader 来转换 ES2015 `import`，然而在 webpack 2 中，这一切都是开箱即用的。
+T> webpack 1 需要特定的 loader 来转换 ES2015 `import`。然而在 webpack 2 中，这一切都是开箱即用的。
 
 ## 支持的模块类型
 

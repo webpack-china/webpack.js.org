@@ -1,6 +1,6 @@
 ---
 title: 编写一个 loader
-sort: 3
+sort: 2
 contributors:
   - asulaiman
   - michael-ciniawsky
@@ -226,7 +226,7 @@ T> 如果语言只支持相对 url（例如 `url(file)` 总是指向 `./file`）
 
 ## 测试
 
-当你遵循上面的用法准则编写了一个 loader，并且可以在本地运行。下一步该做什么呢？让我们用一个简单的单元测试，来保证 loader 能够按照我们预期的方式正确运行。我们将使用 [Jest](https://facebook.github.io/jest/) 框架。然后还需要安装 `babel-jest` 和允许我们使用 `import` / `export` 和 `async` / `await` 的一些预设环境(presets)。让我们开始安装，并且将这些依赖保存为 `devDependencies`：
+当你遵循上面的用法准则编写了一个 loader，并且可以在本地运行。下一步该做什么呢？让我们用一个简单的单元测试，来保证 loader 能够按照我们预期的方式正确运行。我们将使用 [Jest](https://jestjs.io/) 框架。然后还需要安装 `babel-jest` 和允许我们使用 `import` / `export` 和 `async` / `await` 的一些预设环境(presets)。让我们开始安装，并且将这些依赖保存为 `devDependencies`：
 
 ``` bash
 npm install --save-dev jest babel-jest babel-preset-env
@@ -267,7 +267,7 @@ export default function loader(source) {
 
 __test/example.txt__
 
-``` text
+``` bash
 Hey [name]!
 ```
 
@@ -309,7 +309,8 @@ export default (fixture, options = {}) => {
 
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {
-      if (err || stats.hasErrors()) reject(err);
+      if (err) reject(err);
+      if (stats.hasErrors()) reject(new Error(stats.toJson().errors));
 
       resolve(stats);
     });
