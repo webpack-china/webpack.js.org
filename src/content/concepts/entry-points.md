@@ -1,12 +1,13 @@
 ---
 title: 入口起点(entry points)
-sort: 2
+sort: 1
 contributors:
   - TheLarkInn
   - chrisVillanueva
   - byzyk
   - sokra
   - EugeneHlushko
+  - Zearin
 ---
 
 正如我们在 [起步](/guides/getting-started/#using-a-configuration) 中提到的，在 webpack 配置中有多种方式定义 `entry` 属性。除了解释为什么它可能非常有用，我们还将向你展示__如何去__配置 `entry` 属性。
@@ -67,7 +68,7 @@ T> __“webpack 配置的可扩展”__是指，这些配置可以重复使用�
 
 ### 分离 app(应用程序) 和 vendor(第三方库) 入口
 
-T> 在 webpack < 4 的版本中，通常将 vendor 作为单独的入口起点添加到 entry 选项中，以将其编译为单独的文件（与 `CommonsChunkPlugin` 结合使用）。而在 webpack 4 中不鼓励这样做。而是使用 `optimization.splitChunks` 选项，将 vendor 和 app(应用程序) 模块分开，并为其创建一个单独的文件。__不要__ 为 vendor 或其他不是执行起点创建 entry。
+T> 在 webpack < 4 的版本中，通常将 vendor 作为一个单独的入口起点添加到 entry 选项中，以将其编译为一个单独的文件（与 `CommonsChunkPlugin` 结合使用）。<br><br>而在 webpack 4 中不鼓励这样做。而是使用 `optimization.splitChunks` 选项，将 vendor 和 app(应用程序) 模块分开，并为其创建一个单独的文件。__不要__ 为 vendor 或其他不是执行起点创建 entry。
 
 ### 多页面应用程序
 
@@ -87,6 +88,6 @@ __这是什么？__我们告诉 webpack 需要三个独立分离的依赖图（�
 
 __为什么？__在多页面应用程序中，服务器会传输一个新的 HTML 文档给你的客户端。页面重新加载此新文档，并且资源被重新下载。然而，这给了我们特殊的机会去做很多事：
 
-- 使用 `optimization.splitChunks` 为页面间共享的应用程序代码创建 bundle。由于入口起点增多，多页应用能够复用入口起点之间的大量代码/模块，从而可以极大地从这些技术中受益。
+- 使用 `optimization.splitChunks` 为页面间共享的应用程序代码创建 bundle。由于入口起点数量的增多，多页应用能够复用入口起点之间的大量代码/模块，从而可以极大地从这些技术中受益。
 
 T> 根据经验：每个 HTML 文档只使用一个入口起点。

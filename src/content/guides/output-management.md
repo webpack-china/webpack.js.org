@@ -1,12 +1,13 @@
 ---
 title: 管理输出
-sort: 4
+sort: 3
 contributors:
   - skipjack
   - TheDutchCoder
   - sudarsangp
   - JGJP
   - EugeneHlushko
+  - AnayaDesign
 ---
 
 T> 本指南继续沿用 [`管理资源`](/guides/asset-management) 指南中的代码示例。
@@ -49,8 +50,8 @@ __src/index.js__
 + import printMe from './print.js';
 
   function component() {
-    var element = document.createElement('div');
-+   var btn = document.createElement('button');
+    const element = document.createElement('div');
++   const btn = document.createElement('button');
 
     element.innerHTML = _.join(['Hello', 'webpack'], ' ');
 
@@ -186,7 +187,7 @@ __webpack.config.js__
 ``` diff
   const path = require('path');
   const HtmlWebpackPlugin = require('html-webpack-plugin');
-+ const CleanWebpackPlugin = require('clean-webpack-plugin');
++ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
   module.exports = {
     entry: {
@@ -211,7 +212,7 @@ __webpack.config.js__
 
 ## manifest
 
-你可能会很感兴趣，webpack 和 webpack 插件似乎“知道”应该哪些文件生成。答案是，webpack 通过 manifest，可以追踪所有模块到输出 bundle 之间的映射。如果你想要知道如何以其他方式来控制 webpack [`输出`](/configuration/output)，了解 manifest 是个好的开始。
+你可能会很感兴趣，webpack 和 webpack 插件似乎“知道”应该生成哪些文件。答案是，webpack 通过 manifest，可以追踪所有模块到输出 bundle 之间的映射。如果你想要知道如何以其他方式来控制 webpack [`输出`](/configuration/output)，了解 manifest 是个好的开始。
 
 通过 [`WebpackManifestPlugin`](https://github.com/danethurber/webpack-manifest-plugin) 插件，可以将 manifest 数据提取为一个容易使用的 json 文件。
 

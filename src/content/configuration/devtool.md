@@ -1,16 +1,17 @@
 ---
 title: devtool
-sort: 10
+sort: 12
 contributors:
   - sokra
   - skipjack
   - SpaceK33z
   - lricoy
   - madhavarshney
+  - wizardofhogwarts
 related:
   - title: 启用 Source Maps
     url: https://survivejs.com/webpack/developing-with-webpack/enabling-sourcemaps/
-  - title: 在 webpack 的 devtool 中配置 source map
+  - title: webpack 的 Devtool Source Map
     url: http://cheng.logdown.com/posts/2016/03/25/679045
 ---
 

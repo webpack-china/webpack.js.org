@@ -1,9 +1,9 @@
 ---
 title: loader
-sort: 4
+sort: 3
 contributors:
   - manekinekko
-  - ev1stensberg
+  - evenstensberg
   - SpaceK33z
   - gangachris
   - TheLarkInn
@@ -12,6 +12,9 @@ contributors:
   - byzyk
   - debs-obrien
   - EugeneHlushko
+  - wizardofhogwarts
+  - lukasgeiter
+  - furkle
 ---
 
 loader 用于对模块的源代码进行转换。loader 可以使你在 `import` 或"加载"模块时预处理文件。因此，loader 类似于其他构建工具中“任务(task)”，并提供了处理前端构建步骤的强大方法。loader 可以将文件从不同的语言（如 TypeScript）转换为 JavaScript 或将内联图像转换为 data URL。loader 甚至允许你直接在 JavaScript 模块中 `import` CSS文件！
@@ -34,8 +37,8 @@ __webpack.config.js__
 module.exports = {
   module: {
     rules: [
-      { test: /\.css$/, use: 'css-loader' },
-      { test: /\.ts$/, use: 'ts-loader' }
+      { test: /\\.css$/, use: 'css-loader' },
+      { test: /\\.ts$/, use: 'ts-loader' }
     ]
   }
 };
@@ -56,23 +59,26 @@ module.exports = {
 [`module.rules`](/configuration/module/#module-rules) 允许你在 webpack 配置中指定多个 loader。
 这种方式是展示 loader 的一种简明方式，并且有助于使代码变得简洁和易于维护。同时让你对各个 loader 有个全局概览：
 
-loader 从右到左地取值(evaluate)/执行(execute)。在下面的示例中，从 sass-loader 开始执行，然后继续执行 css-loader，最后以 style-loader 为结束。查看 [loader 功能](/concepts/loaders/#loader-features) 了解有关 loader 顺序的更多信息。
+loader 从右到左（或从下到上）地取值(evaluate)/执行(execute)。在下面的示例中，从 sass-loader 开始执行，然后继续执行 css-loader，最后以 style-loader 为结束。查看 [loader 功能](/concepts/loaders/#loader-features) 了解有关 loader 顺序的更多信息。
 
-```js-with-links-with-details
+``` js-with-links
 module.exports = {
   module: {
     rules: [
       {
-        test: /\.css$/,
+        test: /\\.css$/,
         use: [
-          { loader: ['style-loader'](/loaders/style-loader) },
+          // [style-loader](/loaders/style-loader)
+          { loader: 'style-loader' },
+          // [css-loader](/loaders/css-loader)
           {
-            loader: ['css-loader'](/loaders/css-loader),
+            loader: 'css-loader',
             options: {
               modules: true
             }
           },
-          { loader: ['sass-loader'](/loaders/sass-loader) }
+          // [sass-loader](/loaders/sass-loader)
+          { loader: 'sass-loader' }
         ]
       }
     ]
@@ -89,7 +95,25 @@ module.exports = {
 import Styles from 'style-loader!css-loader?modules!./styles.css';
 ```
 
-使用 `!` 为整个规则添加前缀，可以覆盖配置中的所有 loader 定义。
+通过为内联 `import` 语句添加前缀，可以覆盖 [配置](/configuration) 中的所有 loaders, preLoaders 和 postLoaders：
+
+- 使用 `!` 前缀，将禁用所有已配置的普通 loaders
+
+```js
+import Styles from '!style-loader!css-loader?modules!./styles.css';
+```
+
+- 使用 `!!` 前缀，将禁用所有已配置的 loaders（preLoaders, loaders, postLoaders）
+
+```js
+import Styles from '!!style-loader!css-loader?modules!./styles.css';
+```
+
+- 使用 `-!` 前缀，将禁用所有已配置的 preLoaders 和 loaders（但是不禁用 postLoaders）
+
+```js
+import Styles from '-!style-loader!css-loader?modules!./styles.css';
+```
 
 选项可以传递查询参数，例如 `?key=value&foo=bar`，或者一个 JSON 对象，例如 `?{"key":"value","foo":"bar"}`。
 
@@ -100,7 +124,7 @@ T> 尽可能使用 `module.rules`，因为这样可以减少源码中样板文�
 
 还可以通过 CLI 使用 loader：
 
-```sh
+```bash
 webpack --module-bind jade-loader --module-bind 'css=style-loader!css-loader'
 ```
 
@@ -125,4 +149,4 @@ webpack --module-bind jade-loader --module-bind 'css=style-loader!css-loader'
 
 loader 遵循 [模块解析](/concepts/module-resolution/) 标准。多数情况下，loader 将从 [模块路径](/concepts/module-resolution/#module-paths) 加载（通常是从 `npm install`, `node_modules` 进行加载）。
 
-通常使用 npm 进行管理，但是也可以将自定义 loader 作为应用程序中的文件。按照约定，loader 通常被命名为 `xxx-loader`（例如 `json-loader`）。更多详细信息请查看 [如何编写 loader？](/contribute/writing-a-loader)。
+通常使用 npm 进行管理，但是也可以将自定义 loader 作为应用程序中的文件。按照约定，loader 通常被命名为 `xxx-loader`（例如 `json-loader`）。更多详细信息请查看 [编写一个 loader](/contribute/writing-a-loader/)。

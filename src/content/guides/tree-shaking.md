@@ -1,6 +1,6 @@
 ---
 title: tree shaking
-sort: 7
+sort: 16
 contributors:
   - simon04
   - zacanger
@@ -14,6 +14,7 @@ contributors:
   - byzyk
   - pnevares
   - EugeneHlushko
+  - AnayaDesign
   - torifat
 related:
   - title: "webpack 4 beta — try it today!"
@@ -61,8 +62,24 @@ export function cube(x) {
   return x * x * x;
 }
 ```
+你需要设置开发模式(development mode)，来确保 bundle 是没有压缩过的(minified)：
 
-将 `mode` 配置选项设置为 [development](/concepts/mode/#mode-development) 以确保 bundle 是未压缩版本：
+__webpack.config.js__
+```
+const path = require('path');
+
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist')
+- }
++ },
++ mode: "development"
+};
+```
+
+将 `mode` 配置选项设置为 [development](/configuration/mode/#mode-development) 以确保 bundle 是未压缩版本：
 
 __webpack.config.js__
 
@@ -92,8 +109,8 @@ __src/index.js__
 + import { cube } from './math.js';
 
   function component() {
--   var element = document.createElement('div');
-+   var element = document.createElement('pre');
+-   const element = document.createElement('div');
++   const element = document.createElement('pre');
 
 -   // lodash 是由当前 script 脚本 import 进来的
 -   element.innerHTML = _.join(['Hello', 'webpack'], ' ');
@@ -175,9 +192,144 @@ T> 注意，所有导入文件都会受到 tree shaking 的影响。这意味着
 
 最后，还可以在 [`module.rules` 配置选项](/configuration/module/#module-rules) 中设置 `"sideEffects"`。
 
+## Clarifying tree shaking and `sideEffects`
+
+The [`sideEffects`](/configuration/optimization/#optimizationsideeffects) and [`usedExports`](/configuration/optimization/#optimizationusedexports) (more known as tree shaking) optimizations are two different things.
+
+__`sideEffects` is much more effective__ since it allows to skip whole modules/files and the complete subtree.
+
+`usedExports` relies on [terser](https://github.com/terser-js/terser) to detect side effects in statements. It is a difficult task in JavaScript and not as effective as straighforward `sideEffects` flag. It also can't skip subtree/dependencies since the spec says that side effects need to be evaluated. While exporting function works fine, React's Higher Order Components (HOC) are problematic in this regard.
+
+Let's make an example:
+
+```javascript
+import { Button } from '@shopify/polaris';
+```
+
+The pre-bundled version looks like this:
+
+```javascript
+import hoistStatics from 'hoist-non-react-statics';
+
+function Button(_ref) {
+  // ...
+}
+
+function merge() {
+  var _final = {};
+
+  for (var _len = arguments.length, objs = new Array(_len), _key = 0; _key < _len; _key++) {
+    objs[_key] = arguments[_key];
+  }
+
+  for (var _i = 0, _objs = objs; _i < _objs.length; _i++) {
+    var obj = _objs[_i];
+    mergeRecursively(_final, obj);
+  }
+
+  return _final;
+}
+
+function withAppProvider() {
+  return function addProvider(WrappedComponent) {
+    var WithProvider =
+    /*#__PURE__*/
+    function (_React$Component) {
+      // ...
+      return WithProvider;
+    }(Component);
+
+    WithProvider.contextTypes = WrappedComponent.contextTypes ? merge(WrappedComponent.contextTypes, polarisAppProviderContextTypes) : polarisAppProviderContextTypes;
+    var FinalComponent = hoistStatics(WithProvider, WrappedComponent);
+    return FinalComponent;
+  };
+}
+
+var Button$1 = withAppProvider()(Button);
+
+export {
+  // ...,
+  Button$1
+};
+```
+
+When `Button` is unused you can effectively remove the `export { Button$1 };` which leaves all the remaining code. So the question is "Does this code have any side effects or can it be safely removed?". Difficult to say, especially because of this line `withAppProvider()(Button)`. `withAppProvider` is called and the return value is also called. Are there any side effects when calling `merge` or `hoistStatics`? Are there side effects when assigning `WithProvider.contextTypes` (Setter?) or when reading `WrappedComponent.contextTypes` (Getter?).
+
+Terser actually tries to figure it out, but it doesn't know for sure in many cases. This doesn't mean that terser is not doing its job well because it can't figure it out. It's just too difficult to determine it reliably in a dynamic language like JavaScript.
+
+But we can help terser by using the `/*#__PURE__*/` annotation. It flags a statement as side effect free. So a simple change would make it possible to tree-shake the code:
+
+`var Button$1 = /*#__PURE__*/ withAppProvider()(Button);`
+
+This would allow to remove this piece of code. But there are still questions with the imports which need to be included/evaluated because they could contain side effects.
+
+To tackle this, we use [`"sideEffects"`](/guides/tree-shaking/#mark-the-file-as-side-effect-free) property in `package.json`.
+
+It similar to `/*#__PURE__*/` but on a module level instead of a statement level. It says (`"sideEffects"` property): "If no direct export from a module flagged with no-sideEffects is used, the bundler can skip evaluating the module for side effects.".
+
+In the Shopify's Polaris example original modules look like this:
+
+__index.js__
+
+```javascript
+import './configure';
+export * from './types';
+export * from './components';
+```
+
+__components/index.js__
+
+```javascript
+// ...
+export { default as Breadcrumbs } from './Breadcrumbs';
+export { default as Button, buttonFrom, buttonsFrom, } from './Button';
+export { default as ButtonGroup } from './ButtonGroup';
+// ...
+```
+
+__package.json__
+
+```json
+// ...
+"sideEffects": [
+  "**/*.css",
+  "**/*.scss",
+  "./esnext/index.js",
+  "./esnext/configure.js"
+],
+// ...
+```
+
+For `import { Button } from "@shopify/polaris";` this has the following implications:
+
+- include it: include the module, evaluate it and continue analysing dependencies
+- skip over: don't include it, don't evaluate it but continue analysing dependencies
+- exclude it: don't include it, don't evaluate it and don't analyse dependencies
+
+Specifically per matching resource(s):
+
+- `index.js`: No direct export is used, but flagged with sideEffects -> include it
+- `configure.js`: No export is used, but flagged with sideEffects -> include it
+- `types/index.js`: No export is used, not flagged with sideEffects -> exclude it
+- `components/index.js`: No direct export is used, not flagged with sideEffects, but reexported exports are used -> skip over
+- `components/Breadcrumbs.js`: No export is used, not flagged with sideEffects -> exclude it. This also excluded all dependencies like `components/Breadcrumbs.css` even if they are flagged with sideEffects.
+- `components/Button.js`: Direct export is used, not flagged with sideEffects -> include it
+- `components/Button.css`: No export is used, but flagged with sideEffects -> include it
+
+In this case only 4 modules are included into the bundle:
+
+- `index.js`: pretty much empty
+- `configure.js`
+- `components/Button.js`
+- `components/Button.css`
+
+After this optimization, other optimizations can still apply. For example: `buttonFrom` and `buttonsFrom` exports from `Button.js` are unused too. `usedExports` optimization will pick it up and terser may be able to drop some statements from the module.
+
+Module Concatenation also applies. So that these 4 modules plus the entry module (and probably more dependencies) can be concatenated. __`index.js` has no code generated in the end__.
+
 ## 压缩输出结果
 
-通过 `import` 和 `export`  语法，我们已经找出需要删除的“未引用代码(dead code)”，然而，不仅仅是要找出，还要在 bundle 中删除它们。为此，我们需要将 `mode` 配置选项设置为 [`production`](/concepts/mode/#mode-production)。
+通过 `import` 和 `export`  语法，我们已经找出需要删除的“未引用代码(dead code)”，然而，不仅仅是要找出，还要在 bundle 中删除它们。为此，我们需要将 `mode` 配置选项设置为 [`production`](/configuration/mode/#mode-production)。
 
 __webpack.config.js__
 
@@ -213,7 +365,7 @@ T> 运行 tree shaking 需要 [ModuleConcatenationPlugin](/plugins/module-concat
 - 使用 ES2015 模块语法（即 `import` 和 `export`）。
 - 确保没有 compiler 将 ES2015 模块语法转换为 CommonJS 模块（这也是流行的 Babel preset 中 @babel/preset-env 的默认行为 - 更多详细信息请查看 [文档](https://babel.docschina.org/docs/en/babel-preset-env#modules)）。
 - 在项目 `package.json` 文件中，添加一个 "sideEffects" 属性。
-- 通过将 `mode` 选项设置为 [`production`](/concepts/mode/#mode-production)，启用 minification(代码压缩) 和 tree shaking。
+- 通过将 `mode` 选项设置为 [`production`](/configuration/mode/#mode-production)，启用 [多种优化](/configuration/mode/#usage)，包括 minification(代码压缩) 和 tree shaking。
 
 你可以将应用程序想象成一棵树。绿色表示实际用到的 source code(源码) 和 library(库)，是树上活的树叶。灰色表示未引用代码，是秋天树上枯萎的树叶。为了除去死去的树叶，你必须摇动这棵树，使它们落下。
 

@@ -1,18 +1,21 @@
 ---
 title: 环境变量
-sort: 16
+sort: 8
 contributors:
   - simon04
   - grisanu
   - tbroadley
   - legalcodes
   - byzyk
+  - jceipek
 related:
   - title: The Fine Art of the webpack 3 Config
     url: https://blog.flennik.com/the-fine-art-of-the-webpack-2-config-dc4d19d7f172#d60a
 ---
 
 想要消除 [开发环境](/guides/development) 和 [生产环境](/guides/production) 之间的 `webpack.config.js` 差异，你可能需要环境变量(environment variable)。
+
+T> webpack 环境变量，与操作系统中的 `bash` 和 `CMD.exe` 这些 shell [环境变量](https://en.wikipedia.org/wiki/Environment_variable) 不同。
 
 webpack 命令行 [环境配置](/api/cli/#environment-options) 的 `--env` 参数，可以允许你传入任意数量的环境变量。而在 `webpack.config.js` 中可以访问到这些环境变量。例如，`--env.production` 或 `--env.NODE_ENV=local`（`NODE_ENV` 通常约定用于定义环境类型，查看 [这里](https://dzone.com/articles/what-you-should-know-about-node-env)）。
 

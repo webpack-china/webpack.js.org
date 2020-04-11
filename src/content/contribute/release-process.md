@@ -17,7 +17,7 @@ contributors:
 
 ## 发布
 
-```sh
+```bash
 npm version patch && git push --follow-tags && npm publish
 npm version minor && git push --follow-tags && npm publish
 npm version major && git push --follow-tags && npm publish

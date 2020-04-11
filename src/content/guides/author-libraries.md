@@ -1,6 +1,6 @@
 ---
 title: 创建 library
-sort: 12
+sort: 7
 contributors:
   - pksjce
   - johnstew
@@ -9,7 +9,9 @@ contributors:
   - marioacc
   - byzyk
   - EugeneHlushko
+  - AnayaDesign
   - chenxsan
+  - wizardofhogwarts
 ---
 
 除了打包应用程序，webpack 还可以用于打包 JavaScript library。以下指南适用于希望简化打包策略的 library 作者。
@@ -101,7 +103,7 @@ webpackNumbers.wordToNum('Two');
 - __CommonJS module require:__
 
 ``` js
-var webpackNumbers = require('webpack-numbers');
+const webpackNumbers = require('webpack-numbers');
 // ...
 webpackNumbers.wordToNum('Two');
 ```
@@ -109,7 +111,7 @@ webpackNumbers.wordToNum('Two');
 - __AMD module require:__
 
 ``` js
-require(['webpackNumbers'], function ( webpackNumbers) {
+require(['webpackNumbers'], function (webpackNumbers) {
   // ...
   webpackNumbers.wordToNum('Two');
 });
@@ -161,7 +163,7 @@ consumer(使用者) 还可以通过一个 script 标签来加载和使用此 lib
 __webpack.config.js__
 
 ``` js
-var path = require('path');
+const path = require('path');
 
 module.exports = {
   entry: './src/index.js',
@@ -182,7 +184,7 @@ module.exports = {
 __webpack.config.js__
 
 ``` diff
-  var path = require('path');
+  const path = require('path');
 
   module.exports = {
     entry: './src/index.js',
@@ -240,7 +242,7 @@ module.exports = {
 __webpack.config.js__
 
 ``` diff
-  var path = require('path');
+  const path = require('path');
 
   module.exports = {
     entry: './src/index.js',
@@ -263,12 +265,12 @@ __webpack.config.js__
 
 T> 注意，`library` 设置绑定到 `entry` 配置。对于大多数 library，指定一个入口起点就足够了。虽然 [一次打包暴露多个库](https://github.com/webpack/webpack/tree/master/examples/multi-part-library) 也是也可以的，然而，通过 [index script(索引脚本)（仅用于访问一个入口起点）](https://stackoverflow.com/questions/34072598/es6-exporting-importing-in-index-file) 暴露部分导出则更为简单。我们__不推荐__使用`数组`作为 library 的 `entry`。
 
-这会将你的 library bundle 暴露为名为 `webpackNumbers` 的全局变量，consumer 通过此名称来 import。为了让 library 和其他环境兼容，则需要在配置中添加 `libraryTarget` 属性。这个选项可以控制以不同形式暴露 library。
+这会将你的 library bundle 暴露为名为 `webpackNumbers` 的全局变量，consumer 通过此名称来 import。为了让 library 和其他环境兼容，则需要在配置中添加 `libraryTarget` 属性。这个选项可以控制以多种形式暴露 library。
 
 __webpack.config.js__
 
 ``` diff
-  var path = require('path');
+  const path = require('path');
 
   module.exports = {
     entry: './src/index.js',
@@ -297,14 +299,14 @@ __webpack.config.js__
 - window：在浏览器中通过 `window` 对象访问（`libraryTarget:'window'`）。
 - UMD：在 AMD 或 CommonJS `require` 之后可访问（`libraryTarget:'umd'`）。
 
-如果设置了 `library` 但没有设置 `libraryTarget`，则 `libraryTarget` 默认指定为 `var`，详细说明请查看 [output ](/configuration/output) 文档。查看 [`output.libraryTarget`](/configuration/output#output-librarytarget) 文档，以获取所有可用选项的详细列表。
+如果设置了 `library` 但没有设置 `libraryTarget`，则 `libraryTarget` 默认指定为 `var`，详细说明请查看 [output ](/configuration/output) 文档。查看 [`output.libraryTarget`](/configuration/output#outputlibrarytarget) 文档，以获取所有可用选项的详细列表。
 
 W> 在 webpack v3.5.5 中，使用 `libraryTarget: { root:'_' }` 将无法正常工作（参考 [issue 4824](https://github.com/webpack/webpack/issues/4824)) 所述）。然而，可以设置 `libraryTarget: { var: '_' }` 来将 library 作为全局变量。
 
 
 ### 最终步骤
 
-遵循 [生产环境](/guides/production) 指南中的步骤，来优化生产环境下的输出结果。那么，我们还需要将生成 bundle 的文件路径，添加到 `package.json` 中的 `main` 字段中。
+遵循 [生产环境](/guides/production) 指南中提到的步骤，来优化生产环境下的输出结果。那么，我们还需要将生成 bundle 的文件路径，添加到 `package.json` 中的 `main` 字段中。
 
 __package.json__
 

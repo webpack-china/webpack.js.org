@@ -80,7 +80,7 @@ webpack src/index.js -o dist/bundle.js
 ```
 
 ```bash
-webpack index=./src/index.js entry2=./src/index2.js dist/bundle.js
+webpack index=./src/index.js -o entry2=./src/index2.js dist/bundle.js
 ```
 
 以多个入口的方式打包文件

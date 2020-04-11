@@ -1,10 +1,12 @@
 ---
 title: 渐进式网络应用程序
-sort: 14
+sort: 21
 contributors:
   - johnnyreilly
   - chenxsan
   - EugeneHlushko
+  - benschac
+  - aholzner
 ---
 
 T> 本指南继续沿用 [管理输出](/guides/output-management) 中的代码示例。
@@ -33,6 +35,8 @@ __package.json__
   ...
 }
 ```
+
+注意：默认情况下，[webpack DevServer](/configuration/dev-server/) 会写入到内存。我们需要启用 [writeToDisk](/configuration/dev-server#devserverwritetodisk-) 选项，来让 http-server 处理 `./dist` 目录中的文件。
 
 如果你之前没有操作过，先得运行命令 `npm run build` 来构建你的项目。然后运行命令 `npm start`。应该产生以下输出：
 
@@ -65,7 +69,7 @@ __webpack.config.js__
 ``` diff
   const path = require('path');
   const HtmlWebpackPlugin = require('html-webpack-plugin');
-  const CleanWebpackPlugin = require('clean-webpack-plugin');
+  const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 + const WorkboxPlugin = require('workbox-webpack-plugin');
 
   module.exports = {
@@ -74,6 +78,7 @@ __webpack.config.js__
       print: './src/print.js'
     },
     plugins: [
+      // 对于 CleanWebpackPlugin 的 v2 versions 以下版本，使用 new CleanWebpackPlugin(['dist/*'])
       new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
 -       title: '管理输出'
@@ -133,7 +138,7 @@ __index.js__
 + }
 ```
 
-再次运行 `npm build build` 来构建包含注册代码版本的应用程序。然后用 `npm start` 将构建结果 serve 到服务下。导航至 `http://localhost:8080` 并查看 console 控制台。应该看到：
+再次运行 `npm run build` 来构建包含注册代码版本的应用程序。然后用 `npm start` 启动服务。访问 `http://localhost:8080` 并查看 console 控制台。在那里你应该看到：
 
 ``` bash
 SW registered

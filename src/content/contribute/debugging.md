@@ -5,6 +5,7 @@ contributors:
   - skipjack
   - tbroadley
   - madhavarshney
+  - bhavya9107
 related:
   - title: Learn and Debug webpack with Chrome DevTools!
     url: https://medium.com/webpack/webpack-bits-learn-and-debug-webpack-with-chrome-dev-tools-da1c5b19554
@@ -54,7 +55,7 @@ npm install --global node-nightly
 node-nightly
 ```
 
-现在，我们可以直接使用带有 `--inspect` 标记的 `node-nightly`，在任何基于 webpack 的项目中开始构建。注意，我们不应该运行 NPM `scripts`，例如 `npm run build`，所以我们需要指定完整的 `node_modules` 路径：
+现在，我们可以直接使用带有 `--inspect` 标记的 `node-nightly`，在任何基于 webpack 的项目中开始构建。注意，我们不应该运行 NPM `scripts`，例如 `npm run build`，所以我们必须指定完整的 `node_modules` 路径：
 
 ``` bash
 node-nightly --inspect ./node_modules/webpack/bin/webpack.js

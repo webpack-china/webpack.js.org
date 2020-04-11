@@ -63,7 +63,7 @@ contributors:
 ## M
 
 - [__模块(Module)__](/concepts/modules): 提供比完整程序接触面(surface area)更小的离散功能块。精心编写的模块提供了可靠的抽象和封装界限，使得应用程序中每个模块都具有条理清楚的设计和明确的目的。
-- [__模块解析(Module Resolution)__](/concepts/module-resolution/): 一个模块可以作为另一个模块的依赖模块，resolver 是一个库( library )用于帮助找到模块的绝对路径... 模块将在 `resolve.modules` 中指定的所有目录内搜索。
+- [__模块解析(Module Resolution)__](/concepts/module-resolution/): 一个模块可以作为另一个模块的依赖模块，resolver 是一个库( library )用于帮助找到模块的绝对路径。模块将在 `resolve.modules` 中指定的所有目录内搜索。
 
 
 ## N

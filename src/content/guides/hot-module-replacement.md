@@ -1,11 +1,10 @@
 ---
 title: 模块热替换
-sort: 6
+sort: 15
 contributors:
   - jmreidy
   - jhnns
   - sararubin
-  - aiduryagin
   - rohannair
   - joshsantos
   - drpicox
@@ -16,7 +15,11 @@ contributors:
   - caryli
   - xgirma
   - EugeneHlushko
+  - AnayaDesign
   - aviyacohen
+  - dhruvdutt
+  - wizardofhogwarts
+  - aholzner
 
 related:
   - title: 概念 - 模块热替换(hot module replacement)
@@ -43,8 +46,7 @@ __webpack.config.js__
 ``` diff
   const path = require('path');
   const HtmlWebpackPlugin = require('html-webpack-plugin');
-  const CleanWebpackPlugin = require('clean-webpack-plugin');
-+ const webpack = require('webpack');
+  const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
   module.exports = {
     entry: {
@@ -58,11 +60,11 @@ __webpack.config.js__
 +     hot: true
     },
     plugins: [
+      // 对于 CleanWebpackPlugin 的 v2 versions 以下版本，使用 new CleanWebpackPlugin(['dist/*'])
       new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         title: '模块热替换'
-      }),
-+     new webpack.HotModuleReplacementPlugin()
+      })
     ],
     output: {
       filename: '[name].bundle.js',
@@ -82,8 +84,8 @@ __index.js__
   import printMe from './print.js';
 
   function component() {
-    var element = document.createElement('div');
-    var btn = document.createElement('button');
+    const element = document.createElement('div');
+    const btn = document.createElement('button');
 
     element.innerHTML = _.join(['Hello', 'webpack'], ' ');
 
@@ -105,7 +107,7 @@ __index.js__
 + }
 ```
 
-修改 `print.js` 中 `console.log` 语句，你将会在浏览器中看到如下的输出（暂时不要担心 `button.onclick = printMe()` 输出，我们稍后也会更新这部分）。
+修改 `print.js` 中 `console.log` 语句，你将会在浏览器中看到如下的输出（暂时不要担心 `button.onclick = printMe` 输出，我们稍后也会更新这部分）。
 
 __print.js__
 
@@ -179,8 +181,8 @@ __index.js__
   import printMe from './print.js';
 
   function component() {
-    var element = document.createElement('div');
-    var btn = document.createElement('button');
+    const element = document.createElement('div');
+    const btn = document.createElement('button');
 
     element.innerHTML = _.join(['Hello', 'webpack'], ' ');
 
@@ -201,7 +203,6 @@ __index.js__
       console.log('Accepting the updated printMe module!');
 -     printMe();
 +     document.body.removeChild(element);
-+     element = component(); // Re-render the "component" to update the click handler
 +     element = component(); // 重新渲染 "component"，以便更新 click 事件处理函数
 +     document.body.appendChild(element);
     })
@@ -228,8 +229,7 @@ __webpack.config.js__
 ```diff
   const path = require('path');
   const HtmlWebpackPlugin = require('html-webpack-plugin');
-  const CleanWebpackPlugin = require('clean-webpack-plugin');
-  const webpack = require('webpack');
+  const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
   module.exports = {
     entry: {
@@ -249,11 +249,11 @@ __webpack.config.js__
 +     ]
 +   },
     plugins: [
+      // 对于 CleanWebpackPlugin 的 v2 versions 以下版本，使用 new CleanWebpackPlugin(['dist/*'])
       new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         title: '模块热替换'
-      }),
-      new webpack.HotModuleReplacementPlugin()
+      })
     ],
     output: {
       filename: '[name].bundle.js',
@@ -294,8 +294,8 @@ __index.js__
 + import './styles.css';
 
   function component() {
-    var element = document.createElement('div');
-    var btn = document.createElement('button');
+    const element = document.createElement('div');
+    const btn = document.createElement('button');
 
     element.innerHTML = _.join(['Hello', 'webpack'], ' ');
 
@@ -339,7 +339,7 @@ __styles.css__
 
 - [React Hot Loader](https://github.com/gaearon/react-hot-loader)：实时调整 react 组件。
 - [Vue Loader](https://github.com/vuejs/vue-loader)：此 loader 支持 vue 组件的 HMR，提供开箱即用体验。
-- [Elm Hot Loader](https://github.com/fluxxu/elm-hot-loader)：支持 Elm 编程语言的 HMR。
+- [Elm Hot webpack Loader](https://github.com/klazuka/elm-hot-webpack-loader)：支持 Elm 编程语言的 HMR。
 - [Angular HMR](https://github.com/gdi2290/angular-hmr)：没有必要使用 loader！直接修改 NgModule 主文件就够了，它可以完全控制 HMR API。
 
 T> 如果你知道任何其他 loader 或 plugin，能够有助于或增强模块热替换(hot module replacement)，请提交一个 pull request 以添加到此列表中！
