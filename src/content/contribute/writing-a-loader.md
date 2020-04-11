@@ -1,9 +1,10 @@
 ---
 title: 编写一个 loader
-sort: 3
+sort: 2
 contributors:
   - asulaiman
   - michael-ciniawsky
+  - byzyk
 ---
 
 loader 是导出为一个函数的 node 模块。该函数在 loader 转换资源的时候调用。给定的函数将调用 [loader API](/api/loaders/)，并通过 `this` 上下文访问。
@@ -17,29 +18,39 @@ loader 是导出为一个函数的 node 模块。该函数在 loader 转换资�
 
 __webpack.config.js__
 
-``` js
-{
-  test: /\.js$/
-  use: [
-    {
-      loader: path.resolve('path/to/loader.js'),
-      options: {/* ... */}
-    }
-  ]
-}
+```js
+module.exports = {
+  //...
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        use: [
+          {
+            loader: path.resolve('path/to/loader.js'),
+            options: {/* ... */}
+          }
+        ]
+      }
+    ]
+  }
+};
 ```
 
 匹配(test)多个 loaders，你可以使用 `resolveLoader.modules` 配置，webpack 将会从这些目录中搜索这些 loaders。例如，如果你的项目中有一个 `/loaders` 本地目录：
 
 __webpack.config.js__
 
-``` js
-resolveLoader: {
-  modules: [
-    'node_modules',
-    path.resolve(__dirname, 'loaders')
-  ]
-}
+```js
+module.exports = {
+  //...
+  resolveLoader: {
+    modules: [
+      'node_modules',
+      path.resolve(__dirname, 'loaders')
+    ]
+  }
+};
 ```
 
 最后，相当重要的是，如果你已经为 loader 创建了独立的库和包，你可以使用 [`npm link`](https://docs.npmjs.com/cli/link)，来将其关联到你要测试的项目。
@@ -66,18 +77,25 @@ loader 会返回一个或者两个值。第一个值的类型是 JavaScript 代�
 
 __webpack.config.js__
 
-``` js
-{
-  test: /\.js/,
-  use: [
-    'bar-loader',
-    'foo-loader'
-  ]
-}
+```js
+module.exports = {
+  //...
+  module: {
+    rules: [
+      {
+        test: /\.js/,
+        use: [
+          'bar-loader',
+          'foo-loader'
+        ]
+      }
+    ]
+  }
+};
 ```
 
 
-## 用法准则(Guidelines)
+## 用法准则(guidelines)
 
 编写 loader 时应该遵循以下准则。它们按重要程度排序，有些仅适用于某些场景，请阅读下面详细的章节以获得更多信息。
 
@@ -92,11 +110,11 @@ __webpack.config.js__
 - 避免__绝对路径__。
 - 使用 __peer dependencies__。
 
-### 简单(Simple)
+### 简单(simple)
 
 loaders 应该只做单一任务。这不仅使每个 loader 易维护，也可以在更多场景链式调用。
 
-### 链式(Chaining)
+### 链式(chaining)
 
 利用 loader 可以链式调用的优势。写五个简单的 loader 实现五项任务，而不是一个 loader 实现五项任务。功能隔离不仅使 loader 更简单，可能还可以将它们用于你原先没有想到的功能。
 
@@ -108,11 +126,11 @@ loaders 应该只做单一任务。这不仅使每个 loader 易维护，也可�
 
 T> loader 可以被链式调用意味着不一定要输出 JavaScript。只要下一个 loader 可以处理这个输出，这个 loader 就可以返回任意类型的模块。
 
-### 模块化(Modular)
+### 模块化(modular)
 
 保证输出模块化。loader 生成的模块与普通模块遵循相同的设计原则。
 
-### 无状态(Stateless)
+### 无状态(stateless)
 
 确保 loader 在不同模块转换之间不保存状态。每次运行都应该独立于其他编译模块以及相同模块之前的编译结果。
 
@@ -122,7 +140,7 @@ T> loader 可以被链式调用意味着不一定要输出 JavaScript。只要�
 
 __loader.js__
 
-``` js
+```js
 import { getOptions } from 'loader-utils';
 import validateOptions from 'schema-utils';
 
@@ -133,7 +151,7 @@ const schema = {
       type: 'string'
     }
   }
-}
+};
 
 export default function(source) {
   const options = getOptions(this);
@@ -143,16 +161,16 @@ export default function(source) {
   // 对资源应用一些转换……
 
   return `export default ${ JSON.stringify(source) }`;
-};
+}
 ```
 
-### loader 依赖(Loader Dependencies)
+### loader 依赖(loader dependencies)
 
 如果一个 loader 使用外部资源（例如，从文件系统读取），__必须__声明它。这些信息用于使缓存 loaders 无效，以及在观察模式(watch mode)下重编译。下面是一个简单示例，说明如何使用 `addDependency` 方法实现上述声明：
 
 __loader.js__
 
-``` js
+```js
 import path from 'path';
 
 export default function(source) {
@@ -163,12 +181,12 @@ export default function(source) {
 
   fs.readFile(headerPath, 'utf-8', function(err, header) {
     if(err) return callback(err);
-    callback(null, header + "\n" + source);
+    callback(null, header + '\n' + source);
   });
-};
+}
 ```
 
-### 模块依赖(Module Dependencies)
+### 模块依赖(module dependencies)
 
 根据模块类型，可能会有不同的模式指定依赖关系。例如在 CSS 中，使用 `@import` 和 `url(...)` 语句来声明依赖。这些依赖关系应该由模块系统解析。
 
@@ -183,30 +201,32 @@ export default function(source) {
 
 T> 如果语言只支持相对 url（例如 `url(file)` 总是指向 `./file`），通过使用 `~` 来指定已安装模块（例如，引用 `node_modules` 中的那些模块）。所以对于 `url`，相当于 `url('~some-library/image.jpg')`。
 
-### 通用代码(Common Code)
+### 通用代码(common code)
 
 避免在 loader 处理的每个模块中生成通用代码。相反，你应该在 loader 中创建一个运行时文件，并生成 `require` 语句以引用该共享模块。
 
-### 绝对路径(Absolute Paths)
+### 绝对路径(absolute paths)
 
 不要在模块代码中插入绝对路径，因为当项目根路径变化时，文件绝对路径也会变化。`loader-utils` 中的 [`stringifyRequest`](https://github.com/webpack/loader-utils#stringifyrequest) 方法，可以将绝对路径转化为相对路径。
 
-### 同等依赖(Peer Dependencies)
+### 同等依赖(peer dependencies)
 
 如果你的 loader 简单包裹另外一个包，你应该把这个包作为一个 `peerDependency` 引入。这种方式允许应用程序开发者在必要情况下，在 `package.json` 中指定所需的确定版本。
 
 例如，`sass-loader` [指定 `node-sass`](https://github.com/webpack-contrib/sass-loader/blob/master/package.json) 作为同等依赖，引用如下：
 
-``` js
-"peerDependencies": {
-  "node-sass": "^4.0.0"
+```json
+{
+  "peerDependencies": {
+    "node-sass": "^4.0.0"
+  }
 }
 ```
 
 
 ## 测试
 
-当你遵循上面的用法准则编写了一个 loader，并且可以在本地运行。下一步该做什么呢？让我们用一个简单的单元测试，来保证 loader 能够按照我们预期的方式正确运行。我们将使用 [Jest](https://facebook.github.io/jest/) 框架。然后还需要安装 `babel-jest` 和允许我们使用 `import` / `export` 和 `async` / `await` 的一些预设环境(presets)。让我们开始安装，并且将这些依赖保存为 `devDependencies`：
+当你遵循上面的用法准则编写了一个 loader，并且可以在本地运行。下一步该做什么呢？让我们用一个简单的单元测试，来保证 loader 能够按照我们预期的方式正确运行。我们将使用 [Jest](https://jestjs.io/) 框架。然后还需要安装 `babel-jest` 和允许我们使用 `import` / `export` 和 `async` / `await` 的一些预设环境(presets)。让我们开始安装，并且将这些依赖保存为 `devDependencies`：
 
 ``` bash
 npm install --save-dev jest babel-jest babel-preset-env
@@ -214,7 +234,7 @@ npm install --save-dev jest babel-jest babel-preset-env
 
 __.babelrc__
 
-``` json
+```json
 {
   "presets": [[
     "env",
@@ -231,7 +251,7 @@ __.babelrc__
 
 __src/loader.js__
 
-``` js
+```js
 import { getOptions } from 'loader-utils';
 
 export default function loader(source) {
@@ -240,14 +260,14 @@ export default function loader(source) {
   source = source.replace(/\[name\]/g, options.name);
 
   return `export default ${ JSON.stringify(source) }`;
-};
+}
 ```
 
 我们将会使用这个 loader 处理以下文件：
 
 __test/example.txt__
 
-``` text
+``` bash
 Hey [name]!
 ```
 
@@ -259,7 +279,7 @@ npm install --save-dev webpack memory-fs
 
 __test/compiler.js__
 
-``` js
+```js
 import path from 'path';
 import webpack from 'webpack';
 import memoryfs from 'memory-fs';
@@ -290,11 +310,12 @@ export default (fixture, options = {}) => {
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {
       if (err) reject(err);
+      if (stats.hasErrors()) reject(new Error(stats.toJson().errors));
 
       resolve(stats);
     });
   });
-}
+};
 ```
 
 T> 这种情况下，我们可以内联 webpack 配置，也可以把配置作为参数传给导出的函数。这允许我们使用相同的编译模块测试多个设置。
@@ -303,22 +324,24 @@ T> 这种情况下，我们可以内联 webpack 配置，也可以把配置作�
 
 __test/loader.test.js__
 
-``` js
+```js
 import compiler from './compiler.js';
 
 test('Inserts name and outputs JavaScript', async () => {
   const stats = await compiler('example.txt');
   const output = stats.toJson().modules[0].source;
 
-  expect(output).toBe(`export default "Hey Alice!\\n"`);
+  expect(output).toBe('export default "Hey Alice!\\n"');
 });
 ```
 
 __package.json__
 
-``` js
-"scripts": {
-  "test": "jest"
+```json
+{
+  "scripts": {
+    "test": "jest"
+  }
 }
 ```
 

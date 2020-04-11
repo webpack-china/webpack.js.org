@@ -12,7 +12,7 @@ import '../Sidebar/Sidebar.scss';
 import '../Gitter/Gitter.scss';
 
 const Page = ({ page, section }) => {
-  let { contributors, title, related } = page.file.attributes;
+  let { contributors, translators, title, related } = page.file.attributes;
   let indexPage = section.title !== 'Home' ? require(`page-loader!../../content/${section.name}/index.md`) : null;
   let pages = (
     section.pages()
@@ -85,6 +85,14 @@ const Page = ({ page, section }) => {
             <hr />
             <h3>贡献人员</h3>
             <Contributors contributors={ contributors } />
+          </div>
+        )}
+
+        { translators && translators.length > 0 && (
+          <div>
+            <hr />
+            <h3>Translators</h3>
+            <Contributors contributors={ translators } />
           </div>
         )}
 

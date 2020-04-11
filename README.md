@@ -22,7 +22,10 @@
 
 webpack 中文文档
 ========
-[![Travis](https://img.shields.io/travis/docschina/webpack.js.org.svg)](https://travis-ci.org/docschina/webpack.js.org)
+<!--[![Travis](https://img.shields.io/travis/docschina/webpack.js.org.svg)](https://travis-ci.org/docschina/webpack.js.org)-->
+
+[![CircleCI](https://img.shields.io/circleci/token/5917ed1a8019c7e3987cfc2d2c181688ccfca5b2/project/github/QC-L/webpack.js.org/cn.svg?style=flat-square)](https://circleci.com/gh/QC-L/webpack.js.org)
+
 
 ## 翻译 ##
 
@@ -46,7 +49,7 @@ webpack 中文文档
 ```javascript
 npm install
 npm start
-打开 localhost:3000
+open -a "/Applications/Safari.app"  http://localhost:3000
 ```
 
 

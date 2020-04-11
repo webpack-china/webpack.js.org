@@ -107,6 +107,8 @@ module: {
 }
 ```
 
+See [html-minifier](https://github.com/kangax/html-minifier#options-quick-reference)'s documentation for more information on the available options.
+
 The enabled rules for minimizing by default are the following ones:
  - removeComments
  - removeCommentsFromCDATA
@@ -258,7 +260,7 @@ html-loader 将解析 URL，并请求图片和你所期望的一切资源。extr
 ```js
 {
   test: /\.html$/,
-  use: [ 'file-loader?name=[path][name].[ext]!extract-loader!html-loader' ]
+  use: ['file-loader?name=[name].[ext]', 'extract-loader', 'html-loader'],
 }
 ```
 

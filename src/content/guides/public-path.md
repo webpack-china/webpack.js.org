@@ -1,29 +1,29 @@
 ---
-title: 公共路径(public path)
-sort: 24
+title: 公共路径
+sort: 22
 contributors:
   - rafaelrinaldi
   - chrisVillanueva
   - gonzoyumo
 ---
 
-webpack 提供一个非常有用的配置，该配置能帮助你为项目中的所有资源指定一个基础路径。它被称为`公共路径(publicPath)`。
+`publicPath` 配置选项在各种场景中都非常有用。你可以通过它来指定应用程序中所有资源的基础路径。
 
 
 ## 示例
 
-这里提供一些示例，在实际应用中，这些示例的特性在实现的同时，还能保持高度整洁。
+下面提供一些用于实际应用程序的示例，通过这些示例，此功能显得极其简单。实质上，发送到 `output.path` 目录的每个文件，都将从 `output.publicPath` 位置引用。这也包括（通过 [代码分离](/guides/code-splitting/) 创建的）子 chunk 和作为依赖图一部分的所有其他资源（例如 image, font 等）。
 
-### 在构建项目时设置路径值
+### 基于环境设置
 
-在开发模式中，我们通常有一个 `assets/` 文件夹，它往往存放在和首页一个级别的目录下。这样是挺方便；但是如果在生产环境下，你想把这些静态文件统一使用CDN加载，那该怎么办？
+在开发环境中，我们通常有一个 `assets/` 文件夹，它与索引页面位于同一级别。这没太大问题，但是，如果我们将所有静态资源托管至 CDN，然后想在生产环境中使用呢？
 
-想要解决这个问题，你可以使用有着悠久历史的环境变量。比如说，我们设置了一个名为 `ASSET_PATH` 的变量：
+想要解决这个问题，可以直接使用一个有着悠久历史的 environment variable(环境变量)。假设我们有一个变量 `ASSET_PATH`：
 
 ``` js
 import webpack from 'webpack';
 
-// 如果预先定义过环境变量，就将其赋值给`ASSET_PATH`变量，否则赋值为根目录
+// 尝试使用环境变量，否则使用根路径
 const ASSET_PATH = process.env.ASSET_PATH || '/';
 
 export default {
@@ -32,7 +32,7 @@ export default {
   },
 
   plugins: [
-    // 该插件帮助我们安心地使用环境变量
+    // 这可以帮助我们在代码中安全地使用环境变量
     new webpack.DefinePlugin({
       'process.env.ASSET_PATH': JSON.stringify(ASSET_PATH)
     })
@@ -40,19 +40,19 @@ export default {
 };
 ```
 
-### 即时设定路径值
+### 在运行时设置
 
-另一个可能出现的情况是，我们需要即时设置公共路径。webpack 提供一个全局变量供你设置，它名叫 `__webpack_public_path__`。所以在你的项目入口，你可以简单地设置如下：
+另一个可能出现的情况是，需要在运行时设置 `publicPath`。webpack 暴露了一个名为 `__webpack_public_path__` 的全局变量。所以在应用程序的 entry point 中，可以直接如下设置：
 
 ```js
 __webpack_public_path__ = process.env.ASSET_PATH;
 ```
 
-一切设置完成。因为我们已经在我们的配置项中使用了`DefinePlugin`，
-`process.env.ASSET_PATH` 就已经被定义了，
-所以让我们能够安心地使用它了。
+这些内容就是你所需要的。由于我们已经在配置中使用了 `DefinePlugin`，
+`process.env.ASSET_PATH` 将始终都被定义，
+因此我们可以安全地使用。
 
-**警告：**请注意，如果你在入口文件中使用 ES6 模块导入，则在导入后对 `__webpack_public_path__` 进行赋值。在这种情况下，你必须将公共路径(public path)赋值移至自己的专属模块，然后将其导入到你的 entry.js 之上：
+W> 注意，如果在 entry 文件中使用 ES2015 module import，则会在 import 之后进行 `__webpack_public_path__` 赋值。在这种情况下，你必须将 public path 赋值移至一个专用模块中，然后将它的 import 语句放置到 entry.js 最上面：
 
 ```js
 // entry.js

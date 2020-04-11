@@ -1,6 +1,7 @@
 ---
 title: MinChunkSizePlugin
 contributors:
+  - byzyk
 sort: 1
 ---
 
@@ -9,5 +10,5 @@ sort: 1
 ``` js
 new webpack.optimize.MinChunkSizePlugin({
   minChunkSize: 10000 // Minimum number of characters
-})
+});
 ```

@@ -6,7 +6,7 @@ sort: 3
 
 resolver 是由 `enhanced-resolve` package 创建出来的。`Resolver` 类继承了 `tapable` 类，并且使用 `tapable` 提供的一些钩子。可以直接使用 `enhanced-resolve` package 创建一些新的 resolver，然而，所有的 [`compiler` 实例](/api/node/#compiler-instance) 都有一些可以接触(tap into)到的 resolver 实例。
 
-在继续阅读之前，请确保至少了解过 [`enhanced-resolve`](https://github.com/webpack/enhanced-resolve) 和 [`tapable`](/api/tapable/) 文档。
+在继续阅读之前，请确保至少了解过 [`enhanced-resolve`](https://github.com/webpack/enhanced-resolve) 和 [`tapable`](/api/plugins/#tapable) 文档。
 
 
 ## 类型
@@ -23,8 +23,8 @@ resolver 是由 `enhanced-resolve` package 创建出来的。`Resolver` 类继�
 compiler.resolverFactory.plugin('resolver [type]', resolver => {
   resolver.hooks.resolve.tapAsync('MyPlugin', params => {
     // ...
-  })
-})
+  });
+});
 ```
 
 其中 `[type]` 是上面提到的三个 resolver 之一，指定为：
@@ -32,6 +32,7 @@ compiler.resolverFactory.plugin('resolver [type]', resolver => {
 - `normal`
 - `context`
 - `loader`
+
 
 完整的钩子和描述列表，请查看 `enhanced-resolve` [文档](https://github.com/webpack/enhanced-resolve)。
 

@@ -4,17 +4,17 @@ contributors:
   - simon04
   - einarlove
   - rouzbeh84
+  - byzyk
 ---
 
 `EnvironmentPlugin` 是一个通过 [`DefinePlugin`](/plugins/define-plugin) 来设置 [`process.env`](https://nodejs.org/api/process.html#process_process_env) 环境变量的快捷方式。
 
 ## 用法
 
-The `EnvironmentPlugin` accepts either an array of keys.
 `EnvironmentPlugin` 可以接收键数组或将键映射到其默认值的对象。（译者注：键是指要设定的环境变量名）
 
 ```javascript
-new webpack.EnvironmentPlugin(['NODE_ENV', 'DEBUG'])
+new webpack.EnvironmentPlugin(['NODE_ENV', 'DEBUG']);
 ```
 
 上面的写法和下面这样使用 `DefinePlugin` 的效果相同：
@@ -23,7 +23,7 @@ new webpack.EnvironmentPlugin(['NODE_ENV', 'DEBUG'])
 new webpack.DefinePlugin({
   'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
   'process.env.DEBUG': JSON.stringify(process.env.DEBUG)
-})
+});
 ```
 
 T> 使用不存在的环境变量会导致一个 "`EnvironmentPlugin` - `${key}` environment variable is undefined" 错误。
@@ -36,7 +36,7 @@ T> 使用不存在的环境变量会导致一个 "`EnvironmentPlugin` - `${key}`
 new webpack.EnvironmentPlugin({
   NODE_ENV: 'development', // 除非有定义 process.env.NODE_ENV，否则就使用 'development'
   DEBUG: false
-})
+});
 ```
 
 W> 从 `process.env` 中取到的值类型均为字符串。
@@ -45,12 +45,11 @@ T> 不同于 [`DefinePlugin`](/plugins/define-plugin)，默认值将被 `Environ
 
 T> 如果要指定一个未设定的默认值，使用 `null` 来代替 `undefined`。
 
-** 示例:**
-
+__示例：__
 
 让我们看一下对下面这个用来试验的文件 `entry.js` 执行前面配置的 `EnvironmentPlugin` 的结果：
 
-```js
+```javascript
 if (process.env.NODE_ENV === 'production') {
   console.log('Welcome to production');
 }
@@ -93,8 +92,8 @@ S3_API=mysecretkey
 ```
 
 ```javascript
- new Dotenv({
+new Dotenv({
   path: './.env', // Path to .env file (this is the default)
   safe: true // load .env.example (defaults to "false" which does not use dotenv-safe)
-})
+});
 ```

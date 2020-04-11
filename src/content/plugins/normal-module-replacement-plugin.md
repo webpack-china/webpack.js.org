@@ -2,6 +2,7 @@
 title: NormalModuleReplacementPlugin
 contributors:
   - gonzoyumo
+  - byzyk
 ---
 
 `NormalModuleReplacementPlugin` 允许你用 `newResource` 替换与 `resourceRegExp` 匹配的资源。如果 `newResource` 是相对路径，它会相对于先前的资源被解析。如果 `newResource` 是函数，它将会覆盖之前被提供资源的请求。
@@ -12,7 +13,7 @@ contributors:
 new webpack.NormalModuleReplacementPlugin(
   resourceRegExp,
   newResource
-)
+);
 ```
 
 
@@ -47,9 +48,9 @@ module.exports = function(env) {
         resource.request = resource.request.replace(/-APP_TARGET/, `-${appTarget}`);
       })
     ]
-  }
+  };
 
-}
+};
 ```
 
 创建两个配置文件：
@@ -59,7 +60,7 @@ __app/config-VERSION_A.js__
 ``` javascript
 export default {
   title : 'I am version A'
-}
+};
 ```
 
 __app/config-VERSION_B.js__
@@ -67,7 +68,7 @@ __app/config-VERSION_B.js__
 ``` javascript
 export default {
   title : 'I am version B'
-}
+};
 ```
 
 然后使用在正则中查找的关键字来引入配置：

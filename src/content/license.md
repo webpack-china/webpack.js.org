@@ -1,6 +1,9 @@
 ---
 title: 遵循许可
-sort: 4
+sort: 5
+contributors:
+  - EugeneHlushko
+  - pranshuchittora
 ---
 
 ## webpack

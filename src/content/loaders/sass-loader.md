@@ -4,9 +4,9 @@ source: https://raw.githubusercontent.com/webpack-contrib/sass-loader/master/REA
 edit: https://github.com/webpack-contrib/sass-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/sass-loader
 ---
-Loads a SASS/SCSS file and compiles it to CSS.
+Loads a Sass/SCSS file and compiles it to CSS.
 
-Use the [css-loader](/loaders/css-loader/) or the [raw-loader](/loaders/raw-loader/) to turn it into a JS module and the [ExtractTextPlugin](/plugins/extract-text-webpack-plugin/) to extract it into a separate file.
+Use the [css-loader](/loaders/css-loader/) or the [raw-loader](/loaders/raw-loader/) to turn it into a JS module and the [mini-css-extract-plugin](/plugins/mini-css-extract-plugin/) to extract it into a separate file.
 Looking for the webpack 1 loader? Check out the [archive/webpack-1 branch](https://github.com/webpack-contrib/sass-loader/tree/archive/webpack-1).
 
 ## 安装
@@ -15,32 +15,41 @@ Looking for the webpack 1 loader? Check out the [archive/webpack-1 branch](https
 npm install sass-loader node-sass webpack --save-dev
 ```
 
-[node-sass](https://github.com/sass/node-sass) 和 [webpack](https://github.com/webpack) 是 sass-loader 的 [`peerDependency`](https://docs.npmjs.com/files/package.json#peerdependencies)，因此能够精确控制它们的版本。
+[webpack](https://github.com/webpack) 是 sass-loader 的 [`peerDependency`](https://docs.npmjs.com/files/package.json#peerdependencies)，
+并且还需要你预先安装
+[Node Sass](https://github.com/sass/node-sass) 或 [Dart Sass](https://github.com/sass/dart-sass)。
+这可以控制所有依赖的版本，
+并选择要使用的 Sass 实现。
+
+[Node Sass]：https://github.com/sass/node-sass
+[Dart Sass]：http://sass-lang.com/dart-sass
 
 ## 示例
 
 通过将 [style-loader](https://github.com/webpack-contrib/style-loader) 和 [css-loader](https://github.com/webpack-contrib/css-loader) 与 sass-loader 链式调用，可以立刻将样式作用在 DOM 元素。
 
+```bash
+npm install style-loader css-loader --save-dev
+```
+
 ```js
 // webpack.config.js
 module.exports = {
-  ...
-  module: {
-    rules: [{
-      test: /\.scss$/,
-      use: [{
-          loader: "style-loader" // 将 JS 字符串生成为 style 节点
-      }, {
-          loader: "css-loader" // 将 CSS 转化成 CommonJS 模块
-      }, {
-          loader: "sass-loader" // 将 Sass 编译成 CSS
-      }]
-    }]
-  }
+	...
+    module: {
+        rules: [{
+            test: /\.scss$/,
+            use: [
+                "style-loader", // 将 JS 字符串生成为 style 节点
+                "css-loader", // 将 CSS 转化成 CommonJS 模块
+                "sass-loader" // 将 Sass 编译成 CSS，默认使用 Node Sass
+            ]
+        }]
+    }
 };
 ```
 
-也可以通过指定 `options` 参数，向 [node-sass](https://github.com/andrew/node-sass) 传递选项参数。例如：
+也可以直接将选项传递给 [Node Sass][] 或 [Dart Sass][]：
 
 ```js
 // webpack.config.js
@@ -64,47 +73,125 @@ module.exports = {
 };
 ```
 
-Sass 的更多选项参见 [node-sass](https://github.com/andrew/node-sass)。
+更多 Sass 可用选项，查看 [Node Sass 文档](https://github.com/sass/node-sass/blob/master/README.md#options) for all available Sass options.
 
-##
+By default the loader resolve the implementation based on your dependencies.
+Just add required implementation to `package.json`
+(`node-sass` or `sass` package) and install dependencies.
 
-通常，生产环境下比较推荐的做法是，使用 [ExtractTextPlugin](https://github.com/webpack-contrib/extract-text-webpack-plugin) 将样式表抽离成专门的单独文件。这样，样式表将不再依赖于 JavaScript：
+Example where the `sass-loader` loader uses the `sass` (`dart-sass`) implementation:
+
+**package.json**
+
+```json
+{
+   "devDependencies": {
+      "sass-loader": "*",
+      "sass": "*"
+   }
+}
+```
+
+Example where the `sass-loader` loader uses the `node-sass` implementation:
+
+**package.json**
+
+```json
+{
+   "devDependencies": {
+      "sass-loader": "*",
+      "node-sass": "*"
+   }
+}
+```
+
+Beware the situation
+when `node-sass` and `sass` was installed, by default the `sass-loader`
+prefers `node-sass`, to avoid this situation use the `implementation` option.
+
+The special `implementation` option determines which implementation of Sass to
+use. It takes either a [Node Sass][] or a [Dart Sass][] module. For example, to
+use Dart Sass, you'd pass:
 
 ```js
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+// ...
+    {
+        loader: "sass-loader",
+        options: {
+            implementation: require("sass")
+        }
+    }
+// ...
+```
 
-const extractSass = new ExtractTextPlugin({
-    filename: "[name].[contenthash].css",
-    disable: process.env.NODE_ENV === "development"
-});
+Note that when using Dart Sass, **synchronous compilation is twice as fast as
+asynchronous compilation** by default, due to the overhead of asynchronous
+callbacks. To avoid this overhead, you can use the
+[`fibers`](https://www.npmjs.com/package/fibers) package to call asynchronous
+importers from the synchronous code path. To enable this, pass the `Fiber` class
+to the `fiber` option:
+
+```js
+// webpack.config.js
+const Fiber = require('fibers');
 
 module.exports = {
     ...
     module: {
         rules: [{
             test: /\.scss$/,
-            use: extractSass.extract({
-                use: [{
-                    loader: "css-loader"
-                }, {
-                    loader: "sass-loader"
-                }],
-                // 在开发环境使用 style-loader
-                fallback: "style-loader"
-            })
+            use: [{
+                loader: "style-loader"
+            }, {
+                loader: "css-loader"
+            }, {
+                loader: "sass-loader",
+                options: {
+                    implementation: require("sass"),
+                    fiber: Fiber
+                }
+            }]
+        }]
+    }
+};
+```
+
+##
+
+通常，生产环境下比较推荐的做法是，使用 [mini-css-extract-plugin](/plugins/mini-css-extract-plugin/) 将样式表抽离成专门的单独文件。这样，样式表将不再依赖于 JavaScript：
+
+```js
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+module.exports = {
+	...
+    module: {
+        rules: [{
+            test: /\.scss$/,
+            use: [
+                // fallback to style-loader in development
+                process.env.NODE_ENV !== 'production' ? 'style-loader' : MiniCssExtractPlugin.loader,
+                "css-loader",
+                "sass-loader"
+            ]
         }]
     },
     plugins: [
-        extractSass
+        new MiniCssExtractPlugin({
+            // Options similar to the same options in webpackOptions.output
+            // both options are optional
+            filename: "[name].css",
+            chunkFilename: "[id].css"
+        })
     ]
 };
 ```
 
-## 使用
+## 用法
 
-### 导入(Import)
+### 导入(import)
 
-webpack 提供一种[解析文件的高级的机制](https://webpack.js.org/concepts/module-resolution/)。sass-loader 使用 node-sass 的 custom importer 特性，将所有的 query 传递给 webpack 的解析引擎(resolving engine)。只要它们前面加上 `~`，告诉 webpack 它不是一个相对路径，这样就可以 import 导入 `node_modules` 目录里面的 sass 模块：
+webpack 提供一种[解析文件的高级的机制](https://webpack.js.org/concepts/module-resolution/)。sass-loader 使用 Sass 的 custom importer 特性，将所有的 query 传递给 webpack 的解析引擎(resolving engine)。只要它们前面加上 `~`，告诉 webpack 它不是一个相对路径，这样就可以 import 导入 `node_modules` 目录里面的 sass 模块：
 
 ```css
 @import "~bootstrap/dist/css/bootstrap";
@@ -121,7 +208,7 @@ webpack 提供一种[解析文件的高级的机制](https://webpack.js.org/conc
 
 第二种情况可能会带来一些问题。正常情况下我们期望相对路径的引用是相对于 `.scss` 去解析（如同在 `.css` 文件一样）。幸运的是，有2个方法可以解决这个问题：
 
-- 将 [resolve-url-loader](https://github.com/bholloway/resolve-url-loader) 设置于 loader 链中的 sass-loader 之后，就可以重写 url。
+- 将 [resolve-url-loader](https://github.com/bholloway/resolve-url-loader) 设置于 loader 链中的 sass-loader 之前，就可以重写 url。
 - Library 作者一般都会提供变量，用来设置资源路径，如 [bootstrap-sass](https://github.com/twbs/bootstrap-sass) 可以通过 `$icon-font-path` 来设置。参见[this working bootstrap example](https://github.com/webpack-contrib/sass-loader/tree/master/test/bootstrapSass)。
 
 ### 提取样式表
@@ -131,7 +218,7 @@ webpack 提供一种[解析文件的高级的机制](https://webpack.js.org/conc
 从 bundle 中提取样式表，有2种可用的方法：
 
 - [extract-loader](https://github.com/peerigon/extract-loader) （简单，专门针对 css-loader 的输出）
-- [extract-text-webpack-plugin](https://github.com/webpack-contrib/extract-text-webpack-plugin) (复杂，但能够处理足够多的场景)
+- [mini-css-extract-plugin](/plugins/mini-css-extract-plugin/) (use this, when using webpack 4 configuration. Works in all use-cases)
 
 ### Source maps
 
@@ -145,7 +232,9 @@ module.exports = {
         rules: [{
             test: /\.scss$/,
             use: [{
-                loader: "style-loader"
+                loader: "style-loader", options: {
+                    sourceMap: true
+                }
             }, {
                 loader: "css-loader", options: {
                     sourceMap: true
@@ -171,6 +260,27 @@ module.exports = {
     loader: "sass-loader",
     options: {
         data: "$env: " + process.env.NODE_ENV + ";"
+    }
+}
+```
+
+The `data` option supports `Function` notation:
+
+```javascript
+{
+    loader: "sass-loader",
+    options: {
+        data: (loaderContext) => {
+          // More information about avalaible options https://webpack.js.org/api/loaders/
+          const { resourcePath, rootContext } = loaderContext;
+          const relativePath = path.relative(rootContext,resourcePath);
+
+          if (relativePath === "styles/foo.scss") {
+             return "$value: 100px;"
+          }
+
+          return "$value: 200px;"
+        }
     }
 }
 ```

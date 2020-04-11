@@ -2,6 +2,9 @@
 title: compilation 钩子
 group: Plugins
 sort: 2
+contributors:
+  - byzyk
+  - madhavarshney
 ---
 
 `Compilation` 模块会被 `Compiler` 用来创建新的编译（或新的构建）。`compilation` 实例能够访问所有的模块和它们的依赖（大部分是循环依赖）。它会对应用程序的依赖图中所有模块进行字面上的编译(literal compilation)。在编译阶段，模块会被加载(loaded)、封存(sealed)、优化(optimized)、分块(chunked)、哈希(hashed)和重新创建(restored)。
@@ -9,7 +12,7 @@ sort: 2
 `Compilation` 类扩展(extend)自 `Tapable`，并提供了以下生命周期钩子。可以按照 compiler 钩子的相同方式，调用 tap：
 
 ``` js
-compilation.hooks.someHook.tap(...)
+compilation.hooks.someHook.tap(/* ... */);
 ```
 
 和 `compiler` 用法相同，取决于不同的钩子类型，也可以在某些钩子上访问 `tapAsync` 和 `tapPromise`。
@@ -471,7 +474,7 @@ compilation.hooks.additionalAssets.tapAsync('MyPlugin', callback => {
     } else {
       callback(new Error('[webpack-example-plugin] Unable to download the image'));
     }
-  })
+  });
 });
 ```
 
@@ -516,7 +519,7 @@ chunk 资源(asset)已经被优化。
 这里是一个来自 [@boopathi](https://github.com/boopathi) 的示例插件，详细地输出每个 chunk 里有什么。
 
 ``` js
-compilation.hooks.afterOptimizeChunkAssets.tap(chunks => {
+compilation.hooks.afterOptimizeChunkAssets.tap('MyPlugin', chunks => {
   chunks.forEach(chunk => {
     console.log({
       id: chunk.id,
@@ -619,3 +622,11 @@ compilation.hooks.afterOptimizeChunkAssets.tap(chunks => {
 普通模块 loader，真正（一个接一个地）加载模块图(graph)中所有模块的函数。
 
 参数：`loaderContext` `module`
+
+### `dependencyReference`
+
+`SyncWaterfallHook`
+
+`Compilation.hooks.dependencyReference(depRef, dependency, module)` allows to change the references reported by dependencies.
+
+Parameters: `depRef` `dependency` `module`

@@ -4,142 +4,160 @@ source: https://raw.githubusercontent.com/webpack-contrib/jshint-loader/master/R
 edit: https://github.com/webpack-contrib/jshint-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/jshint-loader
 ---
-Runs <a href="http://jshint.com/">JSHint</a> on required JavaScript files.
 
-## 安装
 
-```bash
-npm i jshint-loader --save
+[![npm][npm]][npm-url]
+[![node][node]][node-url]
+[![deps][deps]][deps-url]
+[![tests][tests]][tests-url]
+[![chat][chat]][chat-url]
+
+
+
+处理 JSHint 模块的 webpack loader。
+在构建时(build-time)，对 bundle 中的 JavaScript 文件，执行 [JSHint](http://jshint.com/) 检查。
+
+## 要求
+
+此模块需要 Node v6.9.0+ 和 webpack v4.0.0+。
+
+## 起步
+
+你需要预先安装 `jshint-loader`：
+
+```console
+$ npm install jshint-loader --save-dev
 ```
 
-## 用法
+然后，在 `webpack` 配置中添加 loader。例如：
 
-在 webpack 配置中启用 jshint loader：
-
-``` javascript
+```js
+// webpack.config.js
 module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/, // 涵盖 .js 文件
-        enforce: "pre", // 预先加载好 jshint loader
-        exclude: /node_modules/, // 排除掉 node_modules 文件夹下的所有文件
+        test: /.js/,
+        enforce: 'pre',
+        exclude: /node_modules/,
         use: [
           {
-            loader: "jshint-loader"
+            loader: `jshint-loader`,
+            options: {...options}
           }
         ]
       }
     ]
-  },
-
-  // 更多 jslint 的配置项
-  jshint: {
-    // 查询 jslint 配置项，请参考 http://www.jshint.com/docs/options/
-    // 例如
-    camelcase: true,
-
-    //jslint 的错误信息在默认情况下会显示为 warning（警告）类信息
-    //将 emitErrors 参数设置为 true 可使错误显示为 error（错误）类信息
-    emitErrors: false,
-
-    //jshint 默认情况下不会打断webpack编译
-    //如果你想在 jshint 出现错误时，立刻停止编译
-    //请设置 failOnHint 参数为true
-    failOnHint: false,
-
-    // 自定义报告函数
-    reporter: function(errors) { }
   }
 }
 ```
 
-## 自定义报告函数
 
-在默认情况下，`jshint-loader` 会提供一个默认的报告方法。
+然后，通过你偏爱的方式去运行 `webpack`。
 
-然而，如果你想自定义报告函数，你可以在 `jshint` 配置下 key 为 `report` 下的配置项里传入自定义的函数。（参考上文的*用法*）
+## 选项
 
-然后，jshint 将会生成与以下示例结构一致的
-错误/警告信息（数组）给报告函数。
+除了下面列出的自定义 loader 选项外，
+所有有效的 JSHint 选项在此对象中都有效：
+
+delete options.;
+delete options.;
+delete options.;
+
+### `emitErrors`
+
+类型：`Boolean`
+默认值：`undefined`
+
+命令 loader，将所有 JSHint 警告和错误，都作为 webpack 错误触发。
+
+### `failOnHint`
+
+类型：`Boolean`
+默认值：`undefined`
+
+命令 loader，在所有 JSHint 发生警告和错误时，
+都产生 webpack 构建失败。
+
+### `reporter`
+
+类型：`Function`
+默认值：`undefined`
+
+此函数用于对 JSHint 输出进行格式化，也可以发出警告和错误。
+
+## 自定义报告函数(custom reporter)
+
+默认情况下，`jshint-loader` 自带一个默认报告函数。
+
+然而，如果你想设置自定义的报告函数，
+向 `jshint` 选项的 `reporter` 属性传递一个函数（查看*上面*用法）
+
+报告函数执行时，会传入一个 JSHint 产生的，
+由错误/警告构成的数组，结构如下：
 ```js
 [
 {
-    id:        [字符串, 通常是 '(error)'],
-    code:      [字符串, 错误/警告（error/warning）编码],
-    reason:    [字符串, 错误/警告（error/warning）信息],
-    evidence:  [字符串, 对应生成此错误的编码]
+    id:        [字符串，通常是 '(error)'],
+    code:      [字符串，错误/警告编码(error/warning code)],
+    reason:    [字符串，错误/警告消息(error/warning message)],
+    evidence:  [字符串，产生此错误的那段代码]
     line:      [数字]
     character: [数字]
-    scope:     [字符串, 消息作用域;
-                通常是 '(main)' 除非代码被解析(eval)了]
+    scope:     [字符串，消息作用域；
+                通常是 '(main)' 除非代码被解析过(eval)]
 
-    [+ 还有一些旧有的参数，一般用户不必了解]
+    [+ 还有一些旧有字段，不必关心。]
 },
 // ...
 // 更多的错误/警告
 ]
 ```
 
-报告函数会将 loader 的上下文信息保存在 `this` 后执行。你可以使用 `this.emitWarning(...)` 或者 `this.emitError(...)` 方法，手动触发信息的报告。请参考[关于 loader 上下文的 webpack 文档](https://webpack.js.org/api/loaders/#the-loader-context).
+报告函数执行时，loader context 会作为函数中的 `this`。
+你可以使用 `this.emitWarning(...)` 或 `this.emitError(...)` 来发出消息。
+查看 [webpack 文档中关于 loader context 的部分](https://webpack.js.org/api/loaders/#the-loader-context)。
 
-**注意：**`jshint reporters` 是与 `jshint-loader` **不兼容**的！
-这是因为 reporter 的输入来源，只能从一个文件，而不能同时从多个文件读取。在这种方式下的错误报告，是与 jshint 的[传统 reporters](http://www.jshint.com/docs/reporters/)  不一样的，
-因为 loader 插件（例如 jshint-loader）是会在每一个源文件上执行的，因此它们的报告函数也会分别对应每一个源文件上执行。
+_注意：JSHint reporter **并不兼容** JSHint-loader！
+这是因为，事实上 reporter 的输入，
+只能处理一个文件，而不能处理多个文件。
+以这种方式报告的错误，不同于用于 JSHint 的 [传统 reporter](http://www.jshint.com/docs/reporters/) 报告的错误，
+这是因为，会对每个资源文件执行 loader plugin（也就是 JSHint-loader），
+因此 reporter 函数也会被每个文件执行。_
 
-webpack 控制台输出的格式大致如下：
+webpack CLI 中的输出通常是：
 ```js
 ...
-
 WARNING in ./path/to/file.js
 <reporter output>
-
 ...
 ```
 `
 
-## 维护人员
+## 贡献
 
-<table>
-  <tbody>
-    <tr>
-      <td align="center">
-        <img width="150" height="150"
-        src="https://avatars3.githubusercontent.com/u/166921?v=3&s=150">
-        </br>
-        <a href="https://github.com/bebraw">Juho Vepsäläinen</a>
-      </td>
-      <td align="center">
-        <img width="150" height="150"
-        src="https://avatars2.githubusercontent.com/u/8420490?v=3&s=150">
-        </br>
-        <a href="https://github.com/d3viant0ne">Joshua Wiens</a>
-      </td>
-      <td align="center">
-        <img width="150" height="150"
-        src="https://avatars3.githubusercontent.com/u/533616?v=3&s=150">
-        </br>
-        <a href="https://github.com/SpaceK33z">Kees Kluskens</a>
-      </td>
-      <td align="center">
-        <img width="150" height="150"
-        src="https://avatars3.githubusercontent.com/u/3408176?v=3&s=150">
-        </br>
-        <a href="https://github.com/TheLarkInn">Sean Larkin</a>
-      </td>
-    </tr>
-  <tbody>
-</table>
+如果你从未阅读过我们的贡献指南，请在上面花点时间。
 
+#### [贡献指南](https://raw.githubusercontent.com/webpack-contrib/jshint-loader/master/.github/CONTRIBUTING)
+
+## License
+
+#### [MIT](https://raw.githubusercontent.com/webpack-contrib/jshint-loader/master/LICENSE)
 
 [npm]: https://img.shields.io/npm/v/jshint-loader.svg
 [npm-url]: https://npmjs.com/package/jshint-loader
 
+[node]: https://img.shields.io/node/v/jshint-loader.svg
+[node-url]: https://nodejs.org
+
 [deps]: https://david-dm.org/webpack-contrib/jshint-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/jshint-loader
 
+[tests]: 	https://img.shields.io/circleci/project/github/webpack-contrib/jshint-loader.svg
+[tests-url]: https://circleci.com/gh/webpack-contrib/jshint-loader
+
+[cover]: https://codecov.io/gh/webpack-contrib/jshint-loader/branch/master/graph/badge.svg
+[cover-url]: https://codecov.io/gh/webpack-contrib/jshint-loader
+
 [chat]: https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg
 [chat-url]: https://gitter.im/webpack/webpack
-
-[test]: http://img.shields.io/travis/webpack-contrib/jshint-loader.svg
-[test-url]: https://travis-ci.org/webpack-contrib/jshint-loader

@@ -36,12 +36,14 @@ module.exports = {
 
 #### pluginOpts
 
-+ `test`: JS文件扩展名正则表达式。 默认: `/\.js($|\?)/i`
-+ `comments`: 保留注释。 默认: `/^\**!|@preserve|@license|@cc_on/`, `falsy` 值将移除所有注释。可以接受函数，带有测试属性的（正则）的对象和值。
-+ `sourceMap`: 默认: 使用 [webpackConfig.devtool](https://webpack.js.org/configuration/devtool/)。 这里的设置会覆写`devtool`的设置。
-+ `parserOpts`: 配置具有特殊解析器选项的babel。
-+ `babel`: 传入一个自定义的 babel-core，代替原来的。 `require("babel-core")`
-+ `minifyPreset`: 传入一个自定义的 minify preset，代替原来的。 - `require("babel-preset-minify")`.
++ `test`: Test to match files against. Default: `/\.js($|\?)/i`
++ `include`: Files to `include`. Default: `undefined`
++ `exclude`: Files to `exclude`. Default: `undefined`
++ `comments`: 保留注释。默认：`/^\**!|@preserve|@license|@cc_on/`，falsy 值将移除所有注释。可以接受函数，带有属性匹配（正则）的对象和值。
++ `sourceMap`: Configure a sourcemap style. 默认：[webpackConfig.devtool](https://webpack.js.org/configuration/devtool/)
++ `parserOpts`: 配置具有特殊解析器选项的 babel。
++ `babel`: 传入一个自定义的 `babel-core`。默认：`require("babel-core")`
++ `minifyPreset`: 传入一个自定义 `babel-minify` preset 代替原来的。默认：`require("babel-preset-minify")`
 
 ## 为什么
 
