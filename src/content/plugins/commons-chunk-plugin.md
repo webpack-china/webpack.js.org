@@ -7,22 +7,26 @@ contributors:
   - kevinzwhuang
   - jdbevan
   - jeremenichelli
+  - byzyk
+  - madhavarshney
 ---
 
 `CommonsChunkPlugin` 插件，是一个可选的用于建立一个独立文件(又称作 chunk)的功能，这个文件包括多个入口 `chunk` 的公共模块。
 
 W> The CommonsChunkPlugin 已经从 webpack v4 legato 中移除。想要了解在最新版本中如何处理 chunk，请查看 [SplitChunksPlugin](/plugins/split-chunks-plugin/)。
 
-通过将公共模块拆出来，最终合成的文件能够在最开始的时候加载一次，便存到缓存中供后续使用。这个带来速度上的提升，因为浏览器会迅速将公共的代码从缓存中取出来，而不是每次访问一个新页面时，再去加载一个更大的文件。
+通过将公共模块拆出来，最终合成的文件能够在最开始的时候加载一次，便存到缓存中供后续使用。这个带来页面速度上的提升，因为浏览器会迅速将公共的代码从缓存中取出来，而不是每次访问一个新页面时，再去加载一个更大的文件。
 
 ```javascript
-new webpack.optimize.CommonsChunkPlugin(options)
+new webpack.optimize.CommonsChunkPlugin(options);
 ```
 
 
 ## 配置
 
-```javascript
+<!-- eslint-skip -->
+
+```js
 {
   name: string, // or
   names: string[],
@@ -38,7 +42,7 @@ new webpack.optimize.CommonsChunkPlugin(options)
   // 如果被忽略，原本的文件名不会被修改(通常是 `output.filename` 或者 `output.chunkFilename`)。
   // This option is not permitted if you're using `options.async` as well, see below for more details.
 
-  minChunks: number|Infinity|function(module, count) -> boolean,
+  minChunks: number|Infinity|function(module, count) => boolean,
   // 在传入  公共chunk(commons chunk) 之前所需要包含的最少数量的 chunks 。
   // 数量必须大于等于2，或者少于等于 chunks的数量
   // 传入 `Infinity` 会马上生成 公共chunk，但里面没有模块。
@@ -76,18 +80,18 @@ T> webpack1 构造函数 `new webpack.optimize.CommonsChunkPlugin(options, filen
 
 ```javascript
 new webpack.optimize.CommonsChunkPlugin({
-  name: "commons",
-  // ( 公共chunk(commnons chunk) 的名称)
+  name: 'commons',
+  // (公共 chunk(commnon chunk) 的名称)
 
-  filename: "commons.js",
-  // ( 公共chunk 的文件名)
+  filename: 'commons.js',
+  // (公共chunk 的文件名)
 
   // minChunks: 3,
   // (模块必须被3个 入口chunk 共享)
 
   // chunks: ["pageA", "pageB"],
   // (只使用这些 入口chunk)
-})
+});
 ```
 
 你必须在 入口chunk 之前加载生成的这个 公共chunk:
@@ -103,21 +107,24 @@ new webpack.optimize.CommonsChunkPlugin({
 将你的代码拆分成公共代码和应用代码。
 
 ```javascript
-entry: {
-  vendor: ["jquery", "other-lib"],
-  app: "./entry"
-},
-plugins: [
-  new webpack.optimize.CommonsChunkPlugin({
-    name: "vendor",
-    // filename: "vendor.js"
-    // (给 chunk 一个不同的名字)
+module.exports = {
+  //...
+  entry: {
+    vendor: ['jquery', 'other-lib'],
+    app: './entry'
+  },
+  plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      // filename: "vendor.js"
+      // (给 chunk 一个不同的名字)
 
-    minChunks: Infinity,
-    // (随着 entry chunk 越来越多，
-    // 这个配置保证没其它的模块会打包进 vendor chunk)
-  })
-]
+      minChunks: Infinity,
+      // (随着 entry chunk 越来越多，
+      // 这个配置保证没其它的模块会打包进 vendor chunk)
+    })
+  ]
+};
 ```
 
 ```html
@@ -142,7 +149,7 @@ new webpack.optimize.CommonsChunkPlugin({
 
   // minChunks: 3,
   // (在提取之前需要至少三个子 chunk 共享这个模块)
-})
+});
 ```
 
 
@@ -152,9 +159,9 @@ new webpack.optimize.CommonsChunkPlugin({
 
 ```javascript
 new webpack.optimize.CommonsChunkPlugin({
-  name: "app",
+  name: 'app',
   // or
-  names: ["app", "subPageA"]
+  names: ['app', 'subPageA'],
   // the name or list of names must match the name or names
   // of the entry points that create the async chunks
 
@@ -166,7 +173,7 @@ new webpack.optimize.CommonsChunkPlugin({
 
   minChunks: 3,
   // (在提取之前需要至少三个子 chunk 共享这个模块)
-})
+});
 ```
 
 
@@ -186,8 +193,8 @@ new webpack.optimize.CommonsChunkPlugin({
 
 ```javascript
 new webpack.optimize.CommonsChunkPlugin({
-  name: "my-single-lib-chunk",
-  filename: "my-single-lib-chunk.js",
+  name: 'my-single-lib-chunk',
+  filename: 'my-single-lib-chunk.js',
   minChunks: function(module, count) {
     // 如果模块是一个路径，而且在路径中有 "somelib" 这个名字出现，
     // 而且它还被三个不同的 chunks/入口chunk 所使用，那请将它拆分到
@@ -203,28 +210,28 @@ This concept may be used to obtain implicit common vendor chunks:
 
 ```javascript
 new webpack.optimize.CommonsChunkPlugin({
-  name: "vendor",
+  name: 'vendor',
   minChunks: function (module) {
     // this assumes your vendor imports exist in the node_modules directory
-    return module.context && module.context.includes("node_modules");
+    return module.context && module.context.includes('node_modules');
   }
-})
+});
 ```
 
 In order to obtain a single CSS file containing your application and vendor CSS, use the following `minChunks` function together with [`ExtractTextPlugin`](/plugins/extract-text-webpack-plugin/):
 
 ```javascript
 new webpack.optimize.CommonsChunkPlugin({
-  name: "vendor",
+  name: 'vendor',
   minChunks: function (module) {
     // This prevents stylesheet resources with the .css or .scss extension
     // from being moved from their original chunk to the vendor chunk
     if(module.resource && (/^.*\.(css|scss)$/).test(module.resource)) {
       return false;
     }
-    return module.context && module.context.includes("node_modules");
+    return module.context && module.context.includes('node_modules');
   }
-})
+});
 ```
 
 ## Manifest file
@@ -233,9 +240,9 @@ To extract the webpack bootstrap logic into a separate file, use the `CommonsChu
 
 ```javascript
 new webpack.optimize.CommonsChunkPlugin({
-  name: "manifest",
+  name: 'manifest',
   minChunks: Infinity
-})
+});
 ```
 
 ## Combining implicit common vendor chunks and manifest file
@@ -245,16 +252,16 @@ Since the `vendor` and `manifest` chunk use a different definition for `minChunk
 ```javascript
 [
   new webpack.optimize.CommonsChunkPlugin({
-    name: "vendor",
+    name: 'vendor',
     minChunks: function(module){
-      return module.context && module.context.includes("node_modules");
+      return module.context && module.context.includes('node_modules');
     }
   }),
   new webpack.optimize.CommonsChunkPlugin({
-    name: "manifest",
+    name: 'manifest',
     minChunks: Infinity
   }),
-]
+];
 ```
 
 ## More Examples

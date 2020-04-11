@@ -2,12 +2,13 @@
 title: WatchIgnorePlugin
 contributors:
   - skipjack
+  - byzyk
 ---
 
 无视指定的文件。换句话说，当处于[监视模式(watch mode)](/configuration/watch)下，符合给定地址的文件或者满足给定正则表达式的文件的改动不会触发重编译。
 
 ``` javascript
-new webpack.WatchIgnorePlugin(paths)
+new webpack.WatchIgnorePlugin(paths);
 ```
 
 

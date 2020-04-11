@@ -4,6 +4,7 @@ sort: 3
 contributors:
   - sallar
   - rynclark
+  - byzyk
 ---
 
 webpack 提供了 Node.js API，可以在 Node.js 运行时下直接使用。
@@ -22,10 +23,13 @@ npm install --save-dev webpack
 然后在 Node.js 脚本中 `require` webpack module：
 
 ``` js
-const webpack = require("webpack");
+const webpack = require('webpack');
+```
 
-// 或者如果你喜欢 ES2015:
-import webpack from "webpack";
+或者如果你喜欢 ES2015：
+
+``` js
+import webpack from 'webpack';
 ```
 
 
@@ -46,7 +50,7 @@ webpack({
 });
 ```
 
-T> 编译错误**不**在 `err` 对象内，而是需要使用 `stats.hasErrors()` 单独处理，你可以在指南的 [错误处理](#错误处理-error-handling-) 部分查阅到更多细节。`err` 对象只会包含 webpack 相关的问题，比如配置错误等。
+T> 编译错误__不__在 `err` 对象内，而是需要使用 `stats.hasErrors()` 单独处理，你可以在指南的 [错误处理](#错误处理-error-handling-) 部分查阅到更多细节。`err` 对象只会包含 webpack 相关的问题，比如配置错误等。
 
 T> 你可以向 `webpack` 函数提供一个由配置选项对象构成的数组。更多详细信息，请查看 [MultiCompiler](#multicompiler) 章节。
 
@@ -90,7 +94,7 @@ compiler.run((err, [stats](#stats-object)) => {
 调用 `watch` 方法会触发 webpack 执行器，但之后会监听变更（很像 CLI 命令: `webpack --watch`），一旦 webpack 检测到文件变更，就会重新执行编译。该方法返回一个 `Watching` 实例。
 
 ``` js
-watch(watchOptions, callback)
+watch(watchOptions, callback);
 ```
 
 ``` js-with-links
@@ -121,7 +125,7 @@ W> 文件系统不正确的问题，可能会对单次修改触发多次构建�
 
 ``` js
 watching.close(() => {
-  console.log("Watching Ended.");
+  console.log('Watching Ended.');
 });
 ```
 
@@ -278,8 +282,8 @@ webpack({
 默认情况下，webpack 使用普通文件系统来读取文件并将文件写入磁盘。但是，还可以使用不同类型的文件系统（内存(memory), webDAV 等）来更改输入或输出行为。为了实现这一点，可以改变 `inputFileSystem` 或 `outputFileSystem`。例如，可以使用 [`memory-fs`](https://github.com/webpack/memory-fs) 替换默认的 `outputFileSystem`，以将文件写入到内存中，而不是写入到磁盘：
 
 ``` js
-const MemoryFS = require("memory-fs");
-const webpack = require("webpack");
+const MemoryFS = require('memory-fs');
+const webpack = require('webpack');
 
 const fs = new MemoryFS();
 const compiler = webpack({ /* options*/ });
@@ -287,7 +291,7 @@ const compiler = webpack({ /* options*/ });
 compiler.outputFileSystem = fs;
 compiler.run((err, stats) => {
   // 之后读取输出：
-  const content = fs.readFileSync("...");
+  const content = fs.readFileSync('...');
 });
 ```
 

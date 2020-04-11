@@ -19,7 +19,9 @@ npm install --save-dev extract-text-webpack-plugin@1.0.1
 
 ## 用法
 
-> :警告: 对于 webpack v1, 请看 [分支为 webpack-1 的 README 文档](https://github.com/webpack/extract-text-webpack-plugin/blob/webpack-1/README.md)。
+> :warning: Since webpack v4 the `extract-text-webpack-plugin` should not be used for css. Use [mini-css-extract-plugin](/plugins/mini-css-extract-plugin/) instead.
+
+> :warning: 对于 webpack v1, 请看 [分支为 webpack-1 的 README 文档](https://github.com/webpack/extract-text-webpack-plugin/blob/webpack-1/README.md)。
 
 ```js
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
@@ -136,7 +138,6 @@ module.exports = {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          //如果需要，可以在 sass-loader 之前将 resolve-url-loader 链接进来
           use: ['css-loader', 'sass-loader']
         })
       }
@@ -149,6 +150,45 @@ module.exports = {
     //  filename: 'style.css'
     //})
   ]
+}
+```
+
+### `url()` Resolving
+
+If you are finding that urls are not resolving properly when you run webpack. You can expand your loader functionality with options. The `url: false` property allows your paths resolved without any changes.
+
+```js
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.scss$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+                loader: 'css-loader',
+                options: {
+                    // If you are having trouble with urls not resolving add this setting.
+                    // See https://github.com/webpack-contrib/css-loader#url
+                    url: false,
+                    minimize: true,
+                    sourceMap: true
+                }
+            },
+            {
+                loader: 'sass-loader',
+                options: {
+                    sourceMap: true
+                }
+            }
+          ]
+        })
+      }
+    ]
+  }
 }
 ```
 

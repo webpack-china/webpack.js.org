@@ -6,6 +6,8 @@ contributors:
   - thelarkinn
   - pksjce
   - e-cloud
+  - byzyk
+  - EugeneHlushko
 ---
 
 插件是 webpack 生态系统的重要组成部分，为社区用户提供了一种强大方式来直接触及 webpack 的编译过程(compilation process)。插件能够 [钩入(hook)](/api/compiler-hooks/#hooks) 到在每个编译(compilation)中触发的所有关键事件。在编译的每一步，插件都具备完全访问 `compiler` 对象的能力，如果情况合适，还可以访问当前 `compilation` 对象。
@@ -30,23 +32,28 @@ tapable 这个小型 library 是 webpack 的一个核心工具，但也可用于
 
 ``` js
 compiler.hooks.compile.tap('MyPlugin', params => {
-  console.log('以同步方式触及 compile 钩子。')
+  console.log('以同步方式触及 compile 钩子。');
 })
 ```
 
 然而，对于能够使用了 `AsyncHook(异步钩子)` 的 `run`，我们可以使用 `tapAsync` 或 `tapPromise`（以及 `tap`）：
 
 ``` js
-compiler.hooks.run.tapAsync('MyPlugin', (compiler, callback) => {
-  console.log('以异步方式触及 run 钩子。')
-  callback()
-})
+compiler.hooks.run.tapAsync('MyPlugin', (source, target, routesList, callback) => {
+  console.log('以异步方式触及 run 钩子。');
+  callback();
+});
 
-compiler.hooks.run.tapPromise('MyPlugin', compiler => {
+compiler.hooks.run.tapPromise('MyPlugin', (source, target, routesList) => {
   return new Promise(resolve => setTimeout(resolve, 1000)).then(() => {
-    console.log('以具有延迟的异步方式触及 run 钩子')
-  })
-})
+    console.log('以具有延迟的异步方式触及 run 钩子。');
+  });
+});
+
+compiler.hooks.run.tapPromise('MyPlugin', async (source, target, routesList) => {
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  console.log('以具有延迟的异步方式触及 run 钩子。');
+});
 ```
 
 这些需求(story)的含义在于，可以有多种方式将 `hook` 钩入到 `compiler` 中，可以让各种插件都以合适的方式去运行。
@@ -61,7 +68,7 @@ const SyncHook = require('tapable').SyncHook;
 
 // 具有 `apply` 方法……
 if (compiler.hooks.myCustomHook) throw new Error('Already in use');
-compiler.hooks.myCustomHook = new SyncHook(['a', 'b', 'c'])
+compiler.hooks.myCustomHook = new SyncHook(['a', 'b', 'c']);
 
 // 在你想要触发钩子的位置/时机下调用……
 compiler.hooks.myCustomHook.call(a, b, c);
@@ -69,6 +76,38 @@ compiler.hooks.myCustomHook.call(a, b, c);
 
 再次声明，查看 `tapable` [文档](/api/tapable/) 来，了解更多不同的钩子类(hook class)，以及它们是如何工作的。
 
+## Reporting Progress
+
+Plugins can report progress via [`ProgressPlugin`](/plugins/progress-plugin/), which prints progress messages to stderr by default. In order to enable progress reporting, pass a `--progress` argument when running the [webpack CLI](/api/cli/).
+
+It is possible to customize the printed output by passing different arguments to the `reportProgress` function of [`ProgressPlugin`](/plugins/progress-plugin/).
+
+To report progress, a plugin must `tap` into a hook using the `context: true` option:
+
+```js
+compiler.hooks.emit.tapAsync({
+  name: 'MyPlugin',
+  context: true
+}, (context, compiler, callback) => {
+  const reportProgress = context && context.reportProgress;
+  if (reportProgress) reportProgress(0.95, 'Starting work');
+  setTimeout(() => {
+    if (reportProgress) reportProgress(0.95, 'Done work');
+    callback();
+  }, 1000);
+});
+```
+
+The `reportProgress` function may be called with these arguments:
+
+```js
+reportProgress(percentage, ...args);
+```
+
+- `percentage`: This argument is unused; instead, [`ProgressPlugin`](/plugins/progress-plugin/) will calculate a percentage based on the current hook.
+- `...args`: Any number of strings, which will be passed to the `ProgressPlugin` handler to be reported to the user.
+
+Note that only a subset of compiler and compilation hooks support the `reportProgress` function. See [`ProgressPlugin`](/plugins/progress-plugin/#supported-hooks) for a full list.
 
 ## 下一步
 

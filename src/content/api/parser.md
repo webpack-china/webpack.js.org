@@ -2,18 +2,21 @@
 title: parser
 group: Plugins
 sort: 4
+contributors:
+  - byzyk
+  - DeTeam
 ---
 
 `parser` 实例，是用来解析由 webpack 处理过的每个模块。`parser` 也是扩展自 `tapable` 的 webpack 类，并且提供多种 `tapable` 钩子，插件作者可以使用它来自定义解析过程。
 
-以下示例中，`parser` 位于 [normalModuleFactory](/api/compiler-hooks/#normalmodulefactory) 这个中，因此需要调用额外钩子来进行获取：
+以下示例中，`parser` 位于 [module factories](/api/compiler-hooks/#normalmodulefactory) 这个中，因此需要调用额外钩子来进行获取：
 
 ``` js
-compiler.hooks.normalModuleFactory.tap(factory => {
-  factory.hooks.parser.tap((parser, options) => {
-    parser.hooks.someHook.tap(...)
-  })
-})
+compiler.hooks.normalModuleFactory.tap('MyPlugin', factory => {
+  factory.hooks.parser.for('javascript/auto').tap('MyPlugin', (parser, options) => {
+    parser.hooks.someHook.tap(/* ... */);
+  });
+});
 ```
 
 和 `compiler` 用法相同，取决于不同的钩子类型，也可以在某些钩子上访问 `tapAsync` 和 `tapPromise`。

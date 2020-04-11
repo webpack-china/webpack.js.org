@@ -12,7 +12,7 @@ webpack 的 bundle loader
 npm i bundle-loader --save
 ```
 
-## <a href="https://webpack.docschina.org/concepts/loaders">用法</a>
+## 用法
 
 **webpack.config.js**
 ```js

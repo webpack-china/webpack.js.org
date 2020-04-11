@@ -4,25 +4,43 @@ source: https://raw.githubusercontent.com/webpack-contrib/react-proxy-loader/mas
 edit: https://github.com/webpack-contrib/react-proxy-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/react-proxy-loader
 ---
-Wraps a react component in a proxy component to enable Code Splitting (loads a react component and its dependencies on demand).
 
-## 安装
 
-```bash
-npm install react-proxy-loader
+[![npm][npm]][npm-url]
+[![node][node]][node-url]
+[![deps][deps]][deps-url]
+
+[![chat][chat]][chat-url]
+
+
+
+通过将 react 组件包裹在一个代理组件中，来启用代码分离(code splitting)功能，
+可以按需加载 react 组件和它的依赖。
+
+## 要求
+
+此模块需要 Node v6.9.0+ 和 webpack v4.0.0+。
+
+## 起步
+
+你需要预先安装 `react-proxy-loader`：
+
+```console
+$ npm install react-proxy-loader --save-dev
 ```
 
-## <a href="https://webpack.js.org/concepts/loaders">用法</a>
+然后，在 `webpack` 配置中添加 loader。例如：
 
 ``` js
-var Component = require("react-proxy-loader!./Component");
-// => 返回代理组件（它按需加载。）
-// （webpack 为此组件及其依赖项创建一个额外的 chunk）
+// 返回代理组件，并按需加载
+// webpack 会为此组件和它的依赖创建一个额外的 chunk
+const Component = require('react-proxy-loader!./Component');
 
-var ComponentProxyMixin = require("react-proxy-loader!./Component").Mixin;
-// => 返回代理组件的 mixin
-// （这允许你为 proxy 的加载状态设置渲染）
-var ComponentProxy = React.createClass({
+// 返回代理组件的 mixin
+// 可以在这里设置代理组件的加载中状态
+const ComponentProxyMixin = require('react-proxy-loader!./Component').Mixin;
+
+const ComponentProxy = React.createClass({
 	mixins: [ComponentProxyMixin],
 	renderUnavailable: function() {
 		return <p>Loading...</p>;
@@ -30,22 +48,19 @@ var ComponentProxy = React.createClass({
 });
 ```
 
-代理是一个react组件。所有属性都将传输到包装组件。
-
-## 配置
-
-代替（或除了）内联 loader 调用之外，还可以在配置中指定代理组件：
+或者，在配置中指定需要代理的组件：
 
 ``` js
+// webpack.config.js
 module.exports = {
 	module: {
 		loaders: [
 			/* ... */
 			{
 				test: [
-					/component\.jsx$/, // select component by RegExp
-					/\.async\.jsx$/, // select component by extension
-					"/abs/path/to/component.jsx" // absolute path to component
+					/component\.jsx$/, // 通过正则表达式(RegExp)匹配选择组件
+					/\.async\.jsx$/, // 通过扩展名(extension)匹配选择组件
+					"/abs/path/to/component.jsx" // 通过绝对路径(absolute path)匹配选择组件
 				],
 				loader: "react-proxy-loader"
 			}
@@ -54,53 +69,33 @@ module.exports = {
 };
 ```
 
-##
-
-你可以使用 `name` 查询参数为该 chunk 提供名称：
+或者，在 `name` 查询参数中提供一个 chunk 名称：
 
 ``` js
 var Component = require("react-proxy-loader?name=chunkName!./Component");
 ```
 
-## 维护人员
+然后，通过你偏爱的方式去运行 `webpack`。
 
-<table>
-  <tbody>
-    <tr>
-      <td align="center">
-        <img width="150" height="150"
-        src="https://avatars3.githubusercontent.com/u/166921?v=3&s=150">
-        </br>
-        <a href="https://github.com/bebraw">Juho Vepsäläinen</a>
-      </td>
-      <td align="center">
-        <img width="150" height="150"
-        src="https://avatars2.githubusercontent.com/u/8420490?v=3&s=150">
-        </br>
-        <a href="https://github.com/d3viant0ne">Joshua Wiens</a>
-      </td>
-      <td align="center">
-        <img width="150" height="150"
-        src="https://avatars3.githubusercontent.com/u/533616?v=3&s=150">
-        </br>
-        <a href="https://github.com/SpaceK33z">Kees Kluskens</a>
-      </td>
-      <td align="center">
-        <img width="150" height="150"
-        src="https://avatars3.githubusercontent.com/u/3408176?v=3&s=150">
-        </br>
-        <a href="https://github.com/TheLarkInn">Sean Larkin</a>
-      </td>
-    </tr>
-  <tbody>
-</table>
 
+## License
+
+#### [MIT](https://raw.githubusercontent.com/webpack-contrib/react-proxy-loader/master/LICENSE)
 
 [npm]: https://img.shields.io/npm/v/react-proxy-loader.svg
 [npm-url]: https://npmjs.com/package/react-proxy-loader
 
+[node]: https://img.shields.io/node/v/react-proxy-loader.svg
+[node-url]: https://nodejs.org
+
 [deps]: https://david-dm.org/webpack-contrib/react-proxy-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/react-proxy-loader
+
+[tests]: 	https://img.shields.io/circleci/project/github/webpack-contrib/react-proxy-loader.svg
+[tests-url]: https://circleci.com/gh/webpack-contrib/react-proxy-loader
+
+[cover]: https://codecov.io/gh/webpack-contrib/react-proxy-loader/branch/master/graph/badge.svg
+[cover-url]: https://codecov.io/gh/webpack-contrib/react-proxy-loader
 
 [chat]: https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg
 [chat-url]: https://gitter.im/webpack/webpack

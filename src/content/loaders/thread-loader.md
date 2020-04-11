@@ -39,7 +39,7 @@ module.exports = {
         include: path.resolve("src"),
         use: [
           "thread-loader",
-          "expensive-loader"
+          // your expensive loader (e.g babel-loader)
         ]
       }
     ]
@@ -55,15 +55,21 @@ use: [
     loader: "thread-loader",
     // 有同样配置的 loader 会共享一个 worker 池(worker pool)
     options: {
-      // 产生的 worker 的数量，默认是 cpu 的核心数
+      // 产生的 worker 的数量，默认是 (cpu 核心数 - 1)
+      // 或者，在 require('os').cpus() 是 undefined 时回退至 1
       workers: 2,
 
       // 一个 worker 进程中并行执行工作的数量
       // 默认为 20
       workerParallelJobs: 50,
 
-      // 额外的 node.js 参数
-      workerNodeArgs: ['--max-old-space-size', '1024'],
+      // 额外的 Node.js 参数
+      workerNodeArgs: ['--max-old-space-size=1024'],
+
+      // Allow to respawn a dead worker pool
+      // respawning slows down the entire compilation
+      // and should be set to false for development
+      poolRespawn: false,
 
       // 闲置时定时删除 worker 进程
       // 默认为 500ms
@@ -80,7 +86,7 @@ use: [
       name: "my-pool"
     }
   },
-  "expensive-loader"
+  // your expensive loader (e.g babel-loader)
 ]
 ```
 

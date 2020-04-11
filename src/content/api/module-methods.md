@@ -1,10 +1,13 @@
 ---
-title: 模块方法(module methods)
+title: 模块方法
 group: Modules
 sort: 3
 contributors:
   - skipjack
   - sokra
+  - fadysamirsadek
+  - byzyk
+  - debs-obrien
 related:
   - title: CommonJS Wikipedia
     url: https://en.wikipedia.org/wiki/CommonJS
@@ -48,7 +51,7 @@ export function Multiply(a, b) {
 // 默认导出
 export default {
   // Some data...
-}
+};
 ```
 
 
@@ -64,23 +67,45 @@ T> [ES2015 loader 规范](https://whatwg.github.io/loader/) 定义了 `import()`
 if ( module.hot ) {
   import('lodash').then(_ => {
     // Do something with lodash (a.k.a '_')...
-  })
+  });
 }
 ```
 
 W> import() 特性依赖于内置的 [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)。如果想在低版本浏览器使用 import()，记得使用像 [es6-promise](https://github.com/stefanpenner/es6-promise) 或者 [promise-polyfill](https://github.com/taylorhakes/promise-polyfill) 这样 polyfill 库，来预先填充(shim) `Promise` 环境。
 
-`import` 规范不允许控制模块的名称或其他属性，因为 "chunks" 只是 webpack 中的一个概念。幸运的是，webpack 中可以通过注释接收一些特殊的参数，而无须破坏规定：
+## Magic Comments
+
+Inline comments to make features work. By adding comments to the import we can do things such as name our chunk or select different modes. For a full list of these magic comments see the code below followed by an explanation of what these comments do.
 
 ``` js
+// 单个目标
 import(
   /* webpackChunkName: "my-chunk-name" */
   /* webpackMode: "lazy" */
   'module'
 );
+
+// 多个可能目标
+import(
+  /* webpackInclude: /\.json$/ */
+  /* webpackExclude: /\.noimport\.json$/ */
+  /* webpackChunkName: "my-chunk-name" */
+  /* webpackMode: "lazy" */
+  /* webpackPrefetch: true */
+  /* webpackPreload: true */
+  `./locale/${language}`
+);
 ```
 
-`webpackChunkName`：新 chunk 的名称。从 webpack 2.6.0 开始，`[index]` and `[request]` 占位符，分别支持赋予一个递增的数字和实际解析的文件名。
+```js
+import(/* webpackIgnore: true */ 'ignored-module.js');
+```
+
+`webpackIgnore`: Disables dynamic import parsing when set to `true`.
+
+W> Note that setting `webpackIgnore` to `true` opts out of code splitting.
+
+`webpackChunkName`：新 chunk 的名称。从 webpack 2.6.0 开始，`[index]` and `[request]` 占位符，分别支持赋予一个递增的数字和实际解析的文件名。Adding this comment will cause our separate chunk to be named [my-chunk-name].js instead of [id].js.
 
 `webpackMode`：从 webpack 2.6.0 开始，可以指定以不同的模式解析动态导入。支持以下选项：
 
@@ -89,11 +114,21 @@ import(
 - `"eager"`：不会生成额外的 chunk，所有模块都被当前 chunk 引入，并且没有额外的网络请求。仍然会返回 `Promise`，但是是 resolved 状态。和静态导入相对比，在调用 import（）完成之前，该模块不会被执行。
 - `"weak"`：尝试加载模块，如果该模块函数已经以其他方式加载（即，另一个 chunk 导入过此模块，或包含模块的脚本被加载）。仍然会返回 `Promise`，但是只有在客户端上已经有该 chunk 时才成功解析。如果该模块不可用，`Promise` 将会是 rejected 状态，并且网络请求永远不会执行。当需要的 chunks 始终在（嵌入在页面中的）初始请求中手动提供，而不是在应用程序导航在最初没有提供的模块导入的情况触发，这对于通用渲染（SSR）是非常有用的。
 
-T> 请注意，这两个选项可以组合起来使用，如 `/* webpackMode: "lazy-once", webpackChunkName: "all-i18n-data" */`，这会按没有花括号的 JSON5 对象去解析。
+`webpackPrefetch`: Tells the browser that the resource is probably needed for some navigation in the future. Check out the guide for more information on [how webpackPrefetch works](/guides/code-splitting/#prefetching-preloading-modules).
+
+`webpackPreload`: Tells the browser that the resource might be needed during the current navigation. Check out the guide for more information on [how webpackPreload works](/guides/code-splitting/#prefetching-preloading-modules).
+
+T> 注意，所有这些选项都可以组合起来使用，如 `/* webpackMode: "lazy-once", webpackChunkName: "all-i18n-data" */`，这会按没有花括号的 JSON5 对象去解析。它会被包裹在 JavaScript 对象中，并使用 [node VM](https://nodejs.org/dist/latest-v8.x/docs/api/vm.html) 执行。所有你不需要添加花括号。
+
+`webpackInclude`：在导入解析(import resolution)过程中，用于匹配的正则表达式。只有匹配到的模块__才会被打包__。
+
+`webpackExclude`：在导入解析(import resolution)过程中，用于匹配的正则表达式。所有匹配到的模块__都不会被打包__。
+
+T> 注意，`webpackInclude` 和 `webpackExclude` 选项不会影响到前缀，例如：`./locale`。
 
 W> 完全动态的语句（如 `import(foo)`），因为 webpack 至少需要一些文件的路径信息，而 `foo` 可能是系统或项目中任何文件的任何路径，因此 `foo` 将会解析失败。`import()` 必须至少包含模块位于何处的路径信息，所以打包应当限制在一个指定目录或一组文件中。
 
-W> 调用 `import()` 时，包含在其中的动态表达式 request，会潜在的请求的每个模块。例如，``import(`./locale/${language}.json`)`` 会导致 `./locale` 目录下的每个 `.json` 文件，都被打包到新的 chunk 中。在运行时，当计算出变量 `language` 时，任何文件（如 `english.json` 或 `german.json`）都可能会被用到。
+W> 调用 `import()` 时，包含在其中的动态表达式 request，会潜在的请求的每个模块。例如，``import(`./locale/${language}.json`)`` 会导致 `./locale` 目录下的每个 `.json` 文件，都被打包到新的 chunk 中。在运行时，当计算出变量 `language` 时，任何文件（如 `english.json` 或 `german.json`）都可能会被用到。 Using the `webpackInclude` and `webpackExclude` options allows us to add regex patterns that reduce the files that webpack will bundle for this import.
 
 W> 在 webpack 中使用 `System.import` [不符合提案规范](https://github.com/webpack/webpack/issues/2163)，所以在[2.1.0-beta.28](https://github.com/webpack/webpack/releases/tag/v2.1.0-beta.28) 后被弃用，并且建议使用 `import()`。
 
@@ -106,14 +141,14 @@ CommonJS 致力于为浏览器之外的 JavaScript 指定一个生态系统。we
 ### `require`
 
 ``` javascript
-require(dependency: String)
+require(dependency: String);
 ```
 
 以同步的方式检索其他模块的导出。由编译器(compiler)来确保依赖项在最终输出 bundle 中可用。
 
 ``` javascript
-var $ = require("jquery");
-var myModule = require("my-module");
+var $ = require('jquery');
+var myModule = require('my-module');
 ```
 
 W> 以异步的方式使用，可能不会达到预期的效果。
@@ -122,7 +157,7 @@ W> 以异步的方式使用，可能不会达到预期的效果。
 ### `require.resolve`
 
 ``` javascript
-require.resolve(dependency: String)
+require.resolve(dependency: String);
 ```
 
 以同步的方式获取模块的 ID。由编译器(compiler)来确保依赖项在最终输出 bundle 中可用。更多关于模块的信息，请点击这里 [`module.id`](/api/module-variables#module-id-commonjs-)。
@@ -137,20 +172,20 @@ W> webpack 中模块 ID 是一个数字（而在 NodeJS 中是一个字符串 --
 W> 只有很少数的情况需要考虑兼容性！
 
 ``` javascript
-var d1 = require("dependency");
-require("dependency") === d1
-delete require.cache[require.resolve("dependency")];
-require("dependency") !== d1
+var d1 = require('dependency');
+require('dependency') === d1;
+delete require.cache[require.resolve('dependency')];
+require('dependency') !== d1;
 ```
 
 ``` javascript
 // in file.js
-require.cache[module.id] === module
-require("./file.js") === module.exports
+require.cache[module.id] === module;
+require('./file.js') === module.exports;
 delete require.cache[module.id];
-require.cache[module.id] === undefined
-require("./file.js") !== module.exports // 这是理论上的操作不相等；在实际运行中，会导致栈溢出
-require.cache[module.id] !== module
+require.cache[module.id] === undefined;
+require('./file.js') !== module.exports; // 这是理论上的操作不相等；在实际运行中，会导致栈溢出
+require.cache[module.id] !== module;
 ```
 
 
@@ -158,8 +193,15 @@ require.cache[module.id] !== module
 
 W> `require.ensure()` 是 webpack 特有的，已经被 `import()` 取代。
 
-``` javascript
-require.ensure(dependencies: String[], callback: function(require), errorCallback: function(error), chunkName: String)
+<!-- eslint-skip -->
+
+```js
+require.ensure(
+  dependencies: String[],
+  callback: function(require),
+  errorCallback: function(error),
+  chunkName: String
+)
 ```
 
 给定 `dependencies` 参数，将其对应的文件拆分到一个单独的 bundle 中，此 bundle 会被异步加载。当使用 CommonJS 模块语法时，这是动态加载依赖的唯一方法。意味着，可以在模块执行时才运行代码，只有在满足某些条件时才加载`依赖项`。
@@ -196,7 +238,9 @@ AMD(Asynchronous Module Definition) 是一种定义了写入模块接口和加�
 
 ### `define`（通过 factory 方法导出）
 
-``` javascript
+<!-- eslint-skip -->
+
+```js
 define([name: String], [dependencies: String[]], factoryMethod: function(...))
 ```
 
@@ -220,7 +264,9 @@ W> 此 define 导出方式不能在异步函数中调用。
 
 ### `define`（通过 value 导出）
 
-``` javascript
+<!-- eslint-skip -->
+
+```js
 define(value: !Function)
 ```
 
@@ -237,7 +283,9 @@ W> 此 define 导出方式不能在异步函数中调用。
 
 ### `require`（AMD 版本）
 
-``` javascript
+<!-- eslint-skip -->
+
+```js
 require(dependencies: String[], [callback: function(...)])
 ```
 
@@ -247,7 +295,7 @@ W> 这个特性依赖于内置的 [`Promise`](https://developer.mozilla.org/en-U
 
 ``` javascript
 require(['b'], function(b) {
-  var c = require("c");
+  var c = require('c');
 });
 ```
 
@@ -264,7 +312,9 @@ webpack 内置的 `LabeledModulesPlugin` 插件，允许使用下面的方法导
 
 导出给定的 `value`。`export` 标记可以出现在函数声明或变量声明之前。函数名或变量名是导出值的标识符。
 
-``` javascript
+<!-- eslint-skip -->
+
+```js
 export: var answer = 42;
 export: function method(value) {
   // 做一些操作……
@@ -280,14 +330,18 @@ W> 以异步的方式使用，可能不会达到预期的效果。
 
 __some-dependency.js__
 
-``` javascript
+<!-- eslint-skip -->
+
+```js
 export: var answer = 42;
 export: function method(value) {
   // 执行一些操作……
 };
 ```
 
-``` javascript
+<!-- eslint-skip -->
+
+```js
 require: 'some-dependency';
 console.log(answer);
 method(...);
@@ -302,21 +356,40 @@ webpack 除了支持上述的语法之外，还可以使用一些 webpack 特定
 
 ### `require.context`
 
-``` javascript
-require.context(directory:String, includeSubdirs:Boolean /* 可选的，默认值是 true */, filter:RegExp /* 可选的 */)
+<!-- eslint-skip -->
+
+```js
+require.context(
+  directory: String,
+  includeSubdirs: Boolean /* 可选的，默认值是 true */,
+  filter: RegExp /* 可选的，默认值是 /^\.\/.*$/，所有文件 */,
+  mode: String  /* 可选的，'sync' | 'eager' | 'weak' | 'lazy' | 'lazy-once'，默认值是 'sync' */
+)
 ```
 
-使用 `directory` 路径、`includeSubdirs` 选项和 `filter` 来指定一系列完整的依赖关系，便于更细粒度的控制模块引入。后面可以很容易地进行解析：
+指定一系列完整的依赖关系，通过一个 `directory` 路径、一个 `includeSubdirs` 选项、一个 `filter` 更细粒度的控制模块引入和一个 `mode` 定义加载方式。然后可以很容易地解析模块：
 
 ```javascript
 var context = require.context('components', true, /\.html$/);
 var componentA = context.resolve('componentA');
 ```
 
+If `mode` is specified as "lazy", the underlying modules will be loaded asynchronously:
+
+```javascript
+var context = require.context('locales', true, /\.json$/, 'lazy');
+context('localeA').then(locale => {
+  // do something with locale
+});
+```
+
+The full list of available modes and its behavior is described in [`import()`](#import-) documentation.
 
 ### `require.include`
 
-``` javascript
+<!-- eslint-skip -->
+
+```js
 require.include(dependency: String)
 ```
 
@@ -352,7 +425,7 @@ if(require.cache[require.resolveWeak('module')]) {
 // 你可以像执行其他 require/import 方法一样，
 // 执行动态解析（“上下文”）。
 const page = 'Foo';
-__webpack_modules__[require.resolveWeak(`./page/${page}`)]
+__webpack_modules__[require.resolveWeak(`./page/${page}`)];
 ```
 
-T> `require.resolveWeak` 是*通用渲染*（SSR + 代码分离）的基础，例如在 [react-universal-component](https://github.com/faceyspacey/react-universal-component) 等包中的用法。它允许代码在服务器端和客户端初始页面的加载上同步渲染。它要求手动或以某种方式提供 chunk。它可以在不需要指示应该被打包的情况下引入模块。它与 `import()` 一起使用，当用户导航触发额外的导入时，它会被接管。
+T> `require.resolveWeak` 是_通用渲染_（SSR + 代码分离）的基础，例如在 [react-universal-component](https://github.com/faceyspacey/react-universal-component) 等包中的用法。它允许代码在服务器端和客户端初始页面的加载上同步渲染。它要求手动或以某种方式提供 chunk。它可以在不需要指示应该被打包的情况下引入模块。它与 `import()` 一起使用，当用户导航触发额外的导入时，它会被接管。

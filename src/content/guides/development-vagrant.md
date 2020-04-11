@@ -1,16 +1,18 @@
 ---
 title: 开发 - Vagrant
-sort: 19
+sort: 11
 contributors:
   - SpaceK33z
   - chrisVillanueva
+  - byzyk
+  - wizardofhogwarts
 ---
 
-如果你在开发一个更高级的项目，并且使用 [Vagrant](https://www.vagrantup.com/) 来实现在虚拟机(Virtual Machine)上运行你的开发环境(development environment)，那么你或许需要在虚拟机上运行 webpack。
+如果你在开发一个更加高级的项目，并且使用 [Vagrant](https://www.vagrantup.com/) 来实现在虚拟机(Virtual Machine)上运行你的开发环境，那你可能会需要在虚拟机中运行 webpack。
 
-## 项目配置
+## 配置项目
 
-首先，确保 `Vagrantfile` 拥有一个固定 IP。
+首先，确保 `Vagrantfile` 拥有一个静态 IP。
 
 ```ruby
 Vagrant.configure("2") do |config|
@@ -18,22 +20,22 @@ Vagrant.configure("2") do |config|
 end
 ```
 
-接下来便是在项目中安装 webpack 和 webpack-dev-server。
+然后，在项目中安装 webpack 和 webpack-dev-server。
 
 ```bash
 npm install --save-dev webpack webpack-dev-server
 ```
 
-确保已经设好配置文件 `webpack.config.js`。如果没有的话，下面的示例代码可以作为入门的简单配置：
+确保提供一个 `webpack.config.js` 配置文件。如果还没有准备，下面的示例代码可以作为起步的最简配置：
 
 ```js
 module.exports = {
   context: __dirname,
-  entry: "./app.js"
+  entry: './app.js'
 };
 ```
 
-然后创建一个 `index.html` 文件。其中的 `script` 标签应当指向你的 bundle。如果 `output.filename` 没有在配置里设定，它的默认值便是 `bundle.js`。
+然后，创建一个 `index.html` 文件。其中的 `script` 标签应当指向你的 bundle。如果没有在配置中指定 `output.filename`，其默认值是 `bundle.js`。
 
 ```html
 <!doctype html>
@@ -47,23 +49,24 @@ module.exports = {
 </html>
 ```
 
-注意，你也需要创建一个 `app.js` 文件。
+注意，你还需要创建一个 `app.js` 文件。
 
-## 启动服务器
+## 启动 server
 
-现在我们可以启动服务器了：
+现在，我们启动 server：
 
 ```bash
 webpack-dev-server --host 0.0.0.0 --public 10.10.10.61:8080 --watch-poll
 ```
 
-默认配置下，服务器只允许在它的本地访问。通过更改 `--host` 参数，便能够在我们的 PC 上访问它。
+默认只允许从 localhost 访问 server。所以我们需要修改 `--host` 参数，以允许在我们的宿主 PC 上访问。
 
-webpack-dev-server 会在 bundle 中加上一段连接 WebSocket 的脚本，一旦你的文件被更改，服务器便会重新加载应用。`--public` 参数便是为了告诉脚本从哪里去找 WebSocket。服务器默认使用 `8080` 端口，我们也需要在这里标明。
+webpack-dev-server 会在 bundle 中引入一个脚本，此脚本连接到 WebSocket，这样可以在任何文件修改时，触发重新加载应用程序。
+`--public` 标记可以确保脚本知道从哪里查找 WebSocket。默认情况下，server 会使用 `8080` 端口，因此也需要在这里指定。
 
-`--watch-poll` 确保 webpack 能够检测到文件的更改。默认配置下，webpack 会监听文件系统触发的相关事件，但是 VirtualBox 总会有这样或那样的问题。
+`--watch-poll` 可以确保 webpack 能够检测到文件更改。webpack 默认会监听文件系统触发的相关事件，但是 VirtualBox 使用默认配置会有许多问题。
 
-现在服务器应该能够通过 `http://10.10.10.61:8080` 访问了。如果你改动了 `app.js`，应用便会重新加载。
+现在 server 应该能够通过 `http://10.10.10.61:8080` 访问了。修改 `app.js`，应用程序就会实时重新加载。
 
 ## 配合 nginx 的高级用法
 
@@ -88,16 +91,16 @@ server {
 }
 ```
 
-`proxy_set_header` 这几行配置很重要，因为它们关系到 WebSocket 的正确运行。
+`proxy_set_header` 这几行配置很重要，因为它们能够使 WebSocket 正常运行。
 
-上一节中启动 webpack-dev-server 的命令可改为：
+然后 webpack-dev-server 启动命令可以修改为：
 
 ```bash
 webpack-dev-server --public 10.10.10.61 --watch-poll
 ```
 
-现在服务器只能通过 `127.0.0.1` 访问，这点关系不大，因为 ngnix 能够使得你的 PC 能访问到服务器。
+现在只能通过 `127.0.0.1` 访问 server，这点关系不大，因为 ngnix 能够使得你的 PC 能访问到 server。
 
-## 小结
+## 结论
 
-我们能够从固定 IP 访问 Vagrant box，然后由于公开了 webpack-dev-server，使浏览器可以直接访问到它。最后解决了 VirtualBox 不派发文件系统事件的常见问题，此问题会导致服务器不重新加载文件更改。
+我们能够从静态 IP 访问 Vagrant box，然后使 webpack-dev-server 可以公开访问，以便浏览器可以访问到它。然后，我们解决了 VirtualBox 不发送到文件系统事件的常见问题，此问题会导致 server 无法重新加载文件更改。

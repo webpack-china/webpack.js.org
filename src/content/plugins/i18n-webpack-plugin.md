@@ -29,6 +29,7 @@ plugins: [
  - `optionsObj.functionName`：默认值为 `__`, 你可以更改为其他函数名。
  - `optionsObj.failOnMissing`：默认值为 `false`，找不到映射文本(mapping text)时会给出一个警告信息，如果设置为 `true`，则会给出一个错误信息。
  - `optionsObj.hideMessage`：默认值为 `false`，将会显示警告/错误信息。如果设置为 `true`，警告/错误信息将会被隐藏。
+ - `optionsObj.nested`: the default value is `false`. If set to `true`, the keys in `languageConfig` can be nested. This option is interpreted only if `languageConfig` isn't a function.
 
 ## Maintainers
 

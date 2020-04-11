@@ -1,20 +1,21 @@
 ---
 title: TypeScript
-sort: 14
+sort: 20
 contributors:
   - morsdyce
   - kkamali
   - mtrivera
+  - byzyk
 ---
 
-T> 本指南继续沿用[*起步指南*](/guides/getting-started/)中的代码示例。
+T> 本指南继续沿用 [_起步_](/guides/getting-started/) 中的代码示例。
 
-[TypeScript](https://www.typescriptlang.org) 是 JavaScript 的超集，为其增加了类型系统，可以编译为普通的 JavaScript 代码。这篇指南里我们将会学习 webpack 是如何跟 TypeScript 进行集成。
+[TypeScript](https://www.typescriptlang.org) 是 JavaScript 的超集，为其增加了类型系统，可以编译为普通 JavaScript 代码。这篇指南里我们将会学习是如何将 webpack 和 TypeScript 进行集成。
 
 
-## 基础安装
+## 基础配置
 
-首先，执行以下命令，安装 TypeScript 编译器(compiler)和 loader：
+首先，执行以下命令安装 TypeScript compiler 和 loader：
 
 ``` bash
 npm install --save-dev typescript ts-loader
@@ -55,11 +56,11 @@ __tsconfig.json__
 }
 ```
 
-查看 [TypeScript 官方文档](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)了解更多关于 `tsconfig.json` 的配置选项。
+查看 [TypeScript 官方文档](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) 了解更多关于 `tsconfig.json` 的配置选项。
 
-想要了解 webpack 配置的更多信息，请查看[配置相关概念](/concepts/configuration/)。
+想要了解 webpack 配置的更多信息，请查看 [配置](/concepts/configuration/) 概念。
 
-现在让我们在 webpack 配置中处理 TypeScript：
+现在，配置 webpack 处理 TypeScript：
 
 __webpack.config.js__
 
@@ -87,10 +88,10 @@ module.exports = {
 };
 ```
 
-这会直接将 webpack 的入口起点指定为 `./index.ts`，然后通过 `ts-loader` _加载_所有的 `.ts` 和 `.tsx` 文件，并且在当前目录_输出_一个 `bundle.js` 文件。
+这会让 webpack 直接从 `./index.ts` _进入_，然后通过 `ts-loader` _加载_所有的 `.ts` 和 `.tsx` 文件，并且在当前目录_输出_一个 `bundle.js` 文件。
 
 
-## Loader
+## loader
 
 [`ts-loader`](https://github.com/TypeStrong/ts-loader)
 
@@ -99,9 +100,9 @@ module.exports = {
 
 ## source map
 
-想要了解 source map 的更多信息，请查看[开发指南](/guides/development)。
+想要了解 source map 的更多信息，请查看 [开发](/guides/development) 指南。
 
-要启用 source map，我们必须配置 TypeScript，以将内联的 source map 输出到编译过的 JavaScript 文件。必须在 TypeScript 配置中添加下面这行：
+想要启用 source map，我们必须配置 TypeScript，以将内联的 source map 输出到编译后的 JavaScript 文件中。必须在 TypeScript 配置中添加下面这行：
 
 __tsconfig.json__
 
@@ -148,25 +149,25 @@ __webpack.config.js__
   };
 ```
 
-查看 [devtool 文档](/configuration/devtool/)以了解更多信息。
+查看 [devtool](/configuration/devtool/) 文档以了解更多信息。
 
 
-## 使用第三方库
+## 使用 third party library
 
-当从 npm 安装第三方库时，一定要牢记同时安装这个库的类型声明文件。你可以从 [TypeSearch](http://microsoft.github.io/TypeSearch/) 中找到并安装这些第三方库的类型声明文件。
+在从 npm 安装 third party library(第三方库) 时，一定要记得同时安装此 library 的类型声明文件(typing definition)。你可以从 [TypeSearch](https://microsoft.github.io/TypeSearch/) 中找到并安装这些第三方库的类型声明文件。
 
-举个例子，如果想安装 lodash 这个库的类型声明文件，我们可以运行下面的命令：
+举个例子，如果想安装 lodash 类型声明文件，我们可以运行下面的命令：
 
 ``` bash
 npm install --save-dev @types/lodash
 ```
 
-想了解更多，可以查看[这篇文章](https://blogs.msdn.microsoft.com/typescript/2016/06/15/the-future-of-declaration-files/)。
+想了解更多，可以查看 [这篇文章](https://blogs.msdn.microsoft.com/typescript/2016/06/15/the-future-of-declaration-files/)。
 
 
 ## 导入其他资源
 
-要在 TypeScript 里使用非代码资源，我们需要告诉 TypeScript 如何兼容这些导入类型。那么首先，我们需要在项目里创建 `custom.d.ts` 文件，这个文件用来编写自定义的类型声明。让我们将 `.svg` 文件进行声明设置：
+想要在 TypeScript 中使用非代码资源(non-code asset)，我们需要告诉 TypeScript 推断导入资源的类型。在项目里创建一个 `custom.d.ts` 文件，这个文件用来表示项目中 TypeScript 的自定义类型声明。我们为 `.svg` 文件设置一个声明：
 
 __custom.d.ts__
 
@@ -177,15 +178,11 @@ declare module "*.svg" {
 }
 ```
 
-这里，我们通过指定任何以 `.svg` 结尾的导入，并将模块的 `content` 定义为 `any`，将 SVG 声明一个新的模块。我们可以通过将类型定义为字符串，来更加显式地将它声明为一个 url。同样的理念适用于其他资源，包括 CSS, SCSS, JSON 等。
+这里，我们通过指定任何以 `.svg` 结尾的导入(import)，将 SVG 声明(declare) 为一个新的模块(module)，并将模块的 `content` 定义为 `any`。我们可以通过将类型定义为字符串，来更加显式地将它声明为一个 url。同样的概念适用于其他资源，包括 CSS, SCSS, JSON 等。
 
 
 ## 构建性能
 
 W> 这可能会降低构建性能。
 
-关于构建工具，请查看[构建性能](/guides/build-performance/)指南。
-
-***
-
-> 原文：https://webpack.js.org/guides/typescript/
+关于构建工具，请查看 [构建性能](/guides/build-performance/) 指南。
