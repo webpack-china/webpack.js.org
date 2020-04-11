@@ -25,7 +25,7 @@ Name                                                     | Description
 [`EnvironmentPlugin`](/plugins/environment-plugin) | [`DefinePlugin`](./define-plugin) 中 `process.env` 键的简写方式。
 [`ExtractTextWebpackPlugin`](/plugins/extract-text-webpack-plugin) | 从 bundle 中提取文本（CSS）到单独的文件
 [`HotModuleReplacementPlugin`](/plugins/hot-module-replacement-plugin) | 启用模块热替换(Enable Hot Module Replacement - HMR)
-[`HtmlWebpackPlugin`](/plugins/html-webpack-plugin)          | 简单创建 HTML 文件，用于服务器访问
+[`HtmlWebpackPlugin`](/plugins/html-webpack-plugin)          | 简单创建 HTML 文件来服务打包文件
 [`I18nWebpackPlugin`](/plugins/i18n-webpack-plugin)          | 为 bundle 增加国际化支持
 [`IgnorePlugin`](/plugins/ignore-plugin)  | 从 bundle 中排除某些模块
 [`LimitChunkCountPlugin`](/plugins/limit-chunk-count-plugin) | 设置 chunk 的最小/最大限制，以微调和控制 chunk

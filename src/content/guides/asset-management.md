@@ -261,7 +261,7 @@ Entrypoint main = bundle.js
 
 如果一切顺利，你现在应该看到你的 icon 图标成为了重复的背景图，以及 `Hello webpack` 文本旁边的 `img` 元素。如果检查此元素，你将看到实际的文件名已更改为 `5c999da72346a995e7e2718865d019c8.png`。这意味着 webpack 在 `src` 文件夹中找到我们的文件，并对其进行了处理！
 
-T> 合乎逻辑下一步是，压缩和优化你的图像。查看 [image-webpack-loader](https://github.com/tcoopman/image-webpack-loader) 和 [url-loader](/loaders/url-loader)，以了解更多关于如果增强加载处理图像功能。
+T> 合乎逻辑下一步是，压缩和优化你的图像。查看 [image-webpack-loader](https://github.com/tcoopman/image-webpack-loader) 和 [url-loader](/loaders/url-loader)，以了解更多关于如何增强加载处理图像功能。
 
 
 ## 加载 fonts 字体
