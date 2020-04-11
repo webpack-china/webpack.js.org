@@ -4,7 +4,7 @@ source: https://raw.githubusercontent.com/webpack-contrib/coffee-loader/master/R
 edit: https://github.com/webpack-contrib/coffee-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/coffee-loader
 ---
-Loads <a href="http://coffeescript.org/">CoffeeScript</a> like JavaScript
+就像加载 JavaScript 那样，加载 <a href="https://coffeescript.org/">CoffeeScript</a>
 
 ## 安装
 
@@ -40,13 +40,12 @@ module.exports = {
 }
 ```
 
-## Options
+## 选项
 
-|Name|Default|Description|
+|名称|默认|描述|
 |:--:|:-----:|:----------|
-|**`literate`**|`false`|Enable CoffeeScript in Markdown (Code Blocks) e.g `file.coffee.md`|
-|**`sourceMap`**|`false`|Enable/Disable Sourcemaps|
-|**`transpile`**|`false`|Provide Babel presets and plugins|
+|**`literate`**|`false`|在 markdown （代码块）中启用 CoffeeScript，例如 `file.coffee.md`|
+|**`transpile`**|`false`|提供 Babel 预设(preset)和插件(plugin)|
 
 ### [`Literate`](http://coffeescript.org/#literate)
 
@@ -71,26 +70,9 @@ module.exports = {
 
 ### `Sourcemaps`
 
-**webpack.config.js**
-```js
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.coffee$/,
-        use: [
-          {
-            loader: 'coffee-loader',
-            options: { sourceMap: true }
-          }
-        ]
-      }
-    ]
-  }
-}
-```
+source maps 总是产生。
 
-### [`Transpile`](http://coffeescript.org/#transpilation)
+### [`Transpile`](https://coffeescript.org/#transpilation)
 
 **webpack.config.js**
 ```js
@@ -115,7 +97,7 @@ module.exports = {
 }
 ```
 
-## Maintainer
+## 维护人员
 
 <table>
   <tbody>

@@ -14,11 +14,12 @@ export default class NotificationBar extends React.Component {
         <Container className="notification-bar__inner">
           <p>
             赞助 webpack，同时从<a href="https://webpack.threadless.com">官方商店</a>购买衣服{' '}
-            或者在<a href="http://www.unixstickers.com/tag/webpack">这里</a>购买贴纸！所有收益将转到我们的{' '}
+            所有收益将转到我们的{' '}
             <a href="https://opencollective.com/webpack">open collective</a>！
           </p>
           { localStorageIsEnabled ?
             <button
+              aria-label="Dismiss"
               className="notification-bar__close icon-cross"
               onClick={ this._close.bind(this) } /> :
             null

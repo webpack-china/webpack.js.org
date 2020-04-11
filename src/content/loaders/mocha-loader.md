@@ -9,16 +9,31 @@ Allows <a href="http://mochajs.org/">Mocha</a> tests to be loaded and run via we
 ## 安装
 
 ```bash
-npm install --save-dev mocha-loader
+npm i -D mocha-loader
 ```
 
 ## 用法
 
 ##
 
-**webpack.config.js**
-```js
+```bash
+webpack --module-bind 'mocha-loader!./test'
+```
 
+### 要求
+
+```js
+import test from 'mocha-loader!./test'
+```
+
+### 配置（推荐）
+
+```js
+import test from './test'
+```
+
+**`webpack.config.js`**
+```js
 module.exports = {
   entry: './entry.js',
   output: {
@@ -26,76 +41,70 @@ module.exports = {
     filename: 'bundle.js'
   },
   module: {
-    rules: [{
-      test: /test\.js$/,
-      use: 'mocha-loader',
-      exclude: /node_modules/,
-    }]
+    rules: [
+      {
+        test: /test\.js$/,
+        use: 'mocha-loader',
+        exclude: /node_modules/
+      }
+    ]
   }
 }
 ```
 
-```js
-import test from './test'
-```
-
-### 命令行接口(CLI)
-
-```bash
-webpack --module-bind 'mocha-loader!./test'
-```
-
-```js
-import test from './test'
-```
-
-### Require
-
-```js
-import test from 'mocha-loader!./test'
-```
-
 ## 选项
 
-## 维护人员
+>
 
-<table>
-  <tbody>
-    <tr>
-      <td align="center">
-        <img width="150" height="150"
-        src="https://avatars3.githubusercontent.com/u/166921?v=3&s=150">
-        </br>
-        <a href="https://github.com/bebraw">Juho Vepsäläinen</a>
-      </td>
-      <td align="center">
-        <img width="150" height="150"
-        src="https://avatars2.githubusercontent.com/u/8420490?v=3&s=150">
-        </br>
-        <a href="https://github.com/d3viant0ne">Joshua Wiens</a>
-      </td>
-      <td align="center">
-        <img width="150" height="150"
-        src="https://avatars3.githubusercontent.com/u/533616?v=3&s=150">
-        </br>
-        <a href="https://github.com/SpaceK33z">Kees Kluskens</a>
-      </td>
-      <td align="center">
-        <img width="150" height="150"
-        src="https://avatars3.githubusercontent.com/u/3408176?v=3&s=150">
-        </br>
-        <a href="https://github.com/TheLarkInn">Sean Larkin</a>
-      </td>
-    </tr>
-  <tbody>
-</table>
+> **None**
+
+>
+
+## 示例
+
+### 基本
+
+**`module.js`**
+```js
+module.exports = true
+```
+
+**`test.js`**
+```js
+describe('Test', () => {
+  it('should succeed', (done) => {
+    setTimeout(done, 1000)
+  })
+
+  it('should fail', () => {
+    setTimeout(() => {
+      throw new Error('Failed')
+    }, 1000)
+  })
+
+  it('should randomly fail', () => {
+    if (require('./module')) {
+      throw new Error('Randomly failed')
+    }
+  })
+})
+```
 
 
 [npm]: https://img.shields.io/npm/v/mocha-loader.svg
 [npm-url]: https://npmjs.com/package/mocha-loader
 
-[deps]: https://david-dm.org/webpack/mocha-loader.svg
-[deps-url]: https://david-dm.org/webpack/mocha-loader
+[node]: https://img.shields.io/node/v/mocha-loader.svg
+[node-url]: https://nodejs.org
 
-[chat]: https://badges.gitter.im/webpack/webpack.svg
+[deps]: https://david-dm.org/webpack-contrib/mocha-loader.svg
+[deps-url]: https://david-dm.org/webpack-contrib/mocha-loader
+
+[test]: 	https://img.shields.io/circleci/project/github/webpack-contrib/mocha-loader.svg
+[test-url]: https://circleci.com/gh/webpack-contrib/mocha-loader
+
+[cover]: https://codecov.io/gh/webpack-contrib/mocha-loader/branch/master/graph/badge.svg
+[cover-url]: https://codecov.io/gh/webpack-contrib/mocha-loader
+
+[chat]: https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg
 [chat-url]: https://gitter.im/webpack/webpack

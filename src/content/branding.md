@@ -5,14 +5,15 @@ contributors:
   - jhnns
   - skipjack
   - rouzbeh84
+  - byzyk
 ---
 
-在这里你可以找到 **webpack** 项目的品牌指南、资源和许可证。有关更多信息，请通过查看我们官方 [media 仓库](https://github.com/webpack/media)，并找到[许可证](https://github.com/webpack/media/blob/master/LICENSE) 来了解。点击任意图片下载它们。
+在这里你可以找到 __webpack__ 项目的品牌指南、资源和许可证。有关更多信息，请通过查看我们官方 [media 仓库](https://github.com/webpack/media)，并找到 [许可证](https://github.com/webpack/media/blob/master/LICENSE) 来了解。点击任意图片下载它们。
 
 
 ## 名称
 
-webpack 应当**总是**以小写字母书写。即使在一句话的起始位置也是如此。
+webpack 应当__总是__以小写字母书写。即使在一句话的起始位置也是如此。
 
 
 ## logo
@@ -33,12 +34,12 @@ webpack logo 应放置在白色背景上，其周围有足够间距，如下所�
 
 [svg](https://github.com/webpack/media/blob/master/logo/logo-on-dark-bg.svg) | [png](https://github.com/webpack/media/blob/master/logo/logo-on-dark-bg.png) | [jpg](https://github.com/webpack/media/blob/master/logo/logo-on-dark-bg.jpg)
 
-T> 请尽可能使用 **图标+文本** 的组合方式。
+T> 请尽可能使用__图标+文本__的组合方式。
 
 
 ## 只包含图标
 
-**图标旨在用于布局有限的区域。如前所述，最好选择 图标+文字 的组合方式。**
+__图标旨在用于布局有限的区域。如前所述，最好选择 图标+文字 的组合方式。__
 
 <img src="https://raw.githubusercontent.com/webpack/media/master/logo/icon.png" width="250" alt="icon example">
 
@@ -68,7 +69,7 @@ T> 对于那些遵循我们的指南，并已经深入了解的人，我们还�
 
 ## 调色板
 
-以下颜色在整个网站中，以各种组合形式使用，并且在 [Open Collective](https://opencollective.com) 和 [Threadless](https://medium.com/u/840563ee2a56) 的帮助下，在[官方 webpack 商店](https://webpack.threadless.com/collections/the-final-release-collection/)我们推出的时尚服装系列中，也用到这些颜色！
+以下颜色在整个网站中，以各种组合形式使用，并且在 [Open Collective](https://opencollective.com) 和 [Threadless](https://medium.com/u/840563ee2a56) 的帮助下，在 [官方 webpack 商店](https://webpack.threadless.com/collections/the-final-release-collection/) 我们推出的时尚服装系列中，也用到这些颜色！
 
 | 颜色名称    | HEX 编号      | RGB 编号              | 示例
 |---------------|---------------|-----------------------|-------------------------------
@@ -92,4 +93,4 @@ T> 对于那些遵循我们的指南，并已经深入了解的人，我们还�
 
 ## 许可
 
-logo 和品牌名称**并不遵循 MIT 许可**。请查看我们的[遵循许可](https://github.com/webpack/media/blob/master/LICENSE)页面，以获取使用指南。
+logo 和品牌名称__并不遵循 MIT 许可__。请查看我们的 [遵循许可](https://github.com/webpack/media/blob/master/LICENSE) 页面，以获取使用指南。

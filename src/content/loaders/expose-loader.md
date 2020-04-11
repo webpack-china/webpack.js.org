@@ -4,23 +4,61 @@ source: https://raw.githubusercontent.com/webpack-contrib/expose-loader/master/R
 edit: https://github.com/webpack-contrib/expose-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/expose-loader
 ---
-The expose loader adds modules to the global object. This is useful for debugging, or <a href="https://webpack.js.org/guides/shimming/">supporting libraries that depend on libraries in globals</a>.
 
-## 安装
 
-```bash
-npm i expose-loader --save
+[![npm][npm]][npm-url]
+[![node][node]][node-url]
+[![deps][deps]][deps-url]
+[![tests][tests]][tests-url]
+[![chat][chat]][chat-url]
+
+
+
+expose loader module for webpack
+
+## Requirements
+
+This module requires a minimum of Node v6.9.0 and Webpack v4.0.0.
+
+## Getting Started
+
+To begin, you'll need to install `expose-loader`:
+
+```console
+$ npm install expose-loader --save-dev
 ```
 
-## <a href="https://webpack.js.org/concepts/loaders">用法</a>
+Then add the loader to your `webpack` config. For example:
 
-**注意**: 模块必须在你的 bundle 中被 `require()` 过，否则他们将不会被暴露。
-
-``` javascript
-require("expose-loader?libraryName!./file.js");
-// 通过属性名 "libraryName" 暴露 file.js 的 exports 到全局上下文。
-// 在浏览器中，就将可以使用 window.libraryName 访问。
+```js
+// webpack.config.js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /.js/,
+        use: [
+          {
+            loader: `expose-loader`,
+            options: {...options}
+          }
+        ]
+      }
+    ]
+  }
+}
 ```
+
+And then require the target file in your bundle's code:
+
+```js
+// src/entry.js
+require("expose-loader?libraryName!./thing.js");
+```
+
+And run `webpack` via your preferred method.
+
+## Examples
 
 例如，假设你要将 jQuery 暴露至全局并称为 `$`：
 
@@ -32,16 +70,8 @@ require("expose-loader?$!jquery");
 
 或者，你可以通过配置文件来设置：
 
-webpack v1 用法
 ```js
-module: {
-  loaders: [
-    { test: require.resolve("jquery"), loader: "expose-loader?$" }
-  ]
-}
-```
-webpack v2 用法
-```js
+// webpack.config.js
 module: {
   rules: [{
     test: require.resolve('jquery'),
@@ -56,72 +86,53 @@ module: {
 除了暴露为 `window. $` 之外，假设你还想把它暴露为 `window.jQuery`。
 对于多个暴露，你可以在 loader 字符串中使用 `!`：
 
-webpack v1 用法
 ```js
-module: {
-  loaders: [
-    { test: require.resolve("jquery"), loader: "expose-loader?$!expose-loader?jQuery" },
-  ]
-}
-```
-webpack v2 用法
-```js
+// webpack.config.js
 module: {
   rules: [{
-          test: require.resolve('jquery'),
-          use: [{
-              loader: 'expose-loader',
-              options: 'jQuery'
-          },{
-              loader: 'expose-loader',
-              options: '$'
-          }]
-      }]
+    test: require.resolve('jquery'),
+    use: [{
+      loader: 'expose-loader',
+      options: 'jQuery'
+    },{
+      loader: 'expose-loader',
+      options: '$'
+    }]
+  }]
 }
 ```
 
-[`require.resolve`](https://nodejs.org/api/all.html#globals_require_resolve) 是一个 node.js 调用（与 webpack 处理流程中的 `require.resolve` 无关）。`require.resolve` 用来获取模块的绝对路径（`"/.../app/node_modules/react/react.js"`）。所以这里的暴露只会作用于 React 模块。并且只在 bundle 中使用到它时，才进行暴露。
+[`require.resolve`](https://nodejs.org/api/modules.html#modules_require_resolve_request_options) 调用是一个 Node.js 函数
+（与 webpack 处理流程中的 `require.resolve` 无关）。
+`require.resolve` 用来获取模块的绝对路径
+（`"/.../app/node_modules/react/react.js"`）。
+所以这里的暴露只会作用于 React 模块。
+并且只在 bundle 中使用到它时，才进行暴露。
 
+## Contributing
 
-## 维护人员
+Please take a moment to read our contributing guidelines if you haven't yet done so.
 
-<table>
-  <tbody>
-    <tr>
-      <td align="center">
-        <img width="150" height="150"
-        src="https://avatars3.githubusercontent.com/u/166921?v=3&s=150">
-        </br>
-        <a href="https://github.com/bebraw">Juho Vepsäläinen</a>
-      </td>
-      <td align="center">
-        <img width="150" height="150"
-        src="https://avatars2.githubusercontent.com/u/8420490?v=3&s=150">
-        </br>
-        <a href="https://github.com/d3viant0ne">Joshua Wiens</a>
-      </td>
-      <td align="center">
-        <img width="150" height="150"
-        src="https://avatars3.githubusercontent.com/u/533616?v=3&s=150">
-        </br>
-        <a href="https://github.com/SpaceK33z">Kees Kluskens</a>
-      </td>
-      <td align="center">
-        <img width="150" height="150"
-        src="https://avatars3.githubusercontent.com/u/3408176?v=3&s=150">
-        </br>
-        <a href="https://github.com/TheLarkInn">Sean Larkin</a>
-      </td>
-    </tr>
-  <tbody>
-</table>
+#### [CONTRIBUTING](https://raw.githubusercontent.com/webpack-contrib/expose-loader/master/.github/CONTRIBUTING.md)
 
+## License
+
+#### [MIT](https://raw.githubusercontent.com/webpack-contrib/expose-loader/master/LICENSE)
 
 [npm]: https://img.shields.io/npm/v/expose-loader.svg
 [npm-url]: https://npmjs.com/package/expose-loader
 
+[node]: https://img.shields.io/node/v/expose-loader.svg
+[node-url]: https://nodejs.org
+
 [deps]: https://david-dm.org/webpack-contrib/expose-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/expose-loader
+
+[tests]: 	https://img.shields.io/circleci/project/github/webpack-contrib/expose-loader.svg
+[tests-url]: https://circleci.com/gh/webpack-contrib/expose-loader
+
+[cover]: https://codecov.io/gh/webpack-contrib/expose-loader/branch/master/graph/badge.svg
+[cover-url]: https://codecov.io/gh/webpack-contrib/expose-loader
 
 [chat]: https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg
 [chat-url]: https://gitter.im/webpack/webpack

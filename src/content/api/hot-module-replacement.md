@@ -1,9 +1,10 @@
 ---
-title: 模块热替换(hot module replacement)
+title: 模块热替换
 contributors:
   - sokra
   - skipjack
   - tbroadley
+  - byzyk
 related:
   - title: 概念 - 模块热替换(Hot Module Replacement)
     url: /concepts/hot-module-replacement
@@ -17,24 +18,42 @@ related:
 if (module.hot) {
   module.hot.accept('./library.js', function() {
     // 使用更新过的 library 模块执行某些操作...
-  })
+  });
 }
 ```
 
 支持以下方法……
 
+## 模块 API
 
 ### `accept`
 
-接受(accept)给定`依赖模块`的更新，并触发一个 `回调函数` 来对这些更新做出响应。
+接受(accept)给定`依赖模块(dependencies)`的更新，并触发一个 `回调函数` 来对这些更新做出响应。
 
 ``` js
 module.hot.accept(
   dependencies, // 可以是一个字符串或字符串数组
   callback // 用于在模块更新后触发的函数
-)
+);
 ```
 
+当使用 ESM `import` 时，所有引用`依赖模块(dependencies)`的导入符号都会被自动更新。注意：依赖模块字符串必须和 `import` 中的 `from` 字符串相匹配。在一些情况中 `callback` 可以省略。在 `callback` 中使用的 `require()` 在这里没有任何意义。
+
+在使用 CommonJS 时，你应该通过 `callback` 中的 `require()` 手动更新依赖模块。这时省略 `callback` 在这里没有任何意义。
+
+### `accept`（自身）
+
+接受自身更新。
+
+``` js
+module.hot.accept(
+  errorHandler // 在计算新版本时处理错误的函数
+);
+```
+
+在此模块或依赖模块更新时，在不通知父母的情况下，可以对此模块处理和重新取值。 如果此模块没有导出（或以其他方式更新的导出），这是有意义的。
+
+当对此模块（或依赖模块）进行取值而引发异常时，会触发 `errorHandler`。
 
 ### `decline`
 
@@ -43,9 +62,20 @@ module.hot.accept(
 ``` js
 module.hot.decline(
   dependencies // 可以是一个字符串或字符串数组
-)
+);
 ```
 
+将依赖模块标记为不可更新(not-update-able)。在处理「依赖的导出正在更新」或「尚未实现处理」时，这是有意义的。取决于你的 HMR 管理代码，此依赖模块（或其未接受的依赖模块）更新，通常会导致页面被完全重新加载。
+
+### `decline`（自身）
+
+拒绝自身更新。
+
+``` js
+module.hot.decline();
+```
+
+将依赖模块标记为不可更新(not-update-able)。当此模块具有无法避免的外部作用(side-effect)，或者尚未对此模块进行 HMR 处理时，这是有意义的。取决于你的 HMR 管理代码，此依赖模块（或其未接受的依赖模块）更新，通常会导致页面被完全重新加载。
 
 ### `dispose`（或 `addDisposeHandler`）
 
@@ -54,7 +84,7 @@ module.hot.decline(
 ``` js
 module.hot.dispose(data => {
   // 清理并将 data 传递到更新后的模块……
-})
+});
 ```
 
 
@@ -63,16 +93,17 @@ module.hot.dispose(data => {
 删除由 `dispose` 或 `addDisposeHandler` 添加的回调函数。
 
 ``` js
-module.hot.removeDisposeHandler(callback)
+module.hot.removeDisposeHandler(callback);
 ```
 
+## 管理 API
 
 ### `status`
 
 取得模块热替换进程的当前状态。
 
 ``` js
-module.hot.status() // 返回以下字符串之一……
+module.hot.status(); // 返回以下字符串之一……
 ```
 
 | Status      | Description                                                                            |
@@ -127,7 +158,9 @@ module.hot.apply(options).then(outdatedModules => {
 
 The `info` parameter will be an object containing some of the following values:
 
-``` js
+<!-- eslint-skip -->
+
+```js
 {
   type: "self-declined" | "declined" |
         "unaccepted" | "accepted" |
@@ -155,7 +188,7 @@ The `info` parameter will be an object containing some of the following values:
 ``` js
 module.hot.addStatusHandler(status => {
   // 响应当前状态……
-})
+});
 ```
 
 
@@ -164,5 +197,5 @@ module.hot.addStatusHandler(status => {
 移除一个注册的状态处理函数。
 
 ``` js
-module.hot.removeStatusHandler(callback)
+module.hot.removeStatusHandler(callback);
 ```

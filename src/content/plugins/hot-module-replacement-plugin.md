@@ -2,6 +2,7 @@
 title: HotModuleReplacementPlugin
 contributors:
   - skipjack
+  - byzyk
 related:
   - title: Concepts - Hot Module Replacement
     url: /concepts/hot-module-replacement
@@ -21,7 +22,7 @@ W> __永远不要__在生产环境(production)下启用 HMR
 ``` javascript
 new webpack.HotModuleReplacementPlugin({
   // Options...
-})
+});
 ```
 
 

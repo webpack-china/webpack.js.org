@@ -1,9 +1,10 @@
 ---
-title: 包含统计数据的文件(stats data)
+title: 包含统计数据的文件
 sort: 3
 contributors:
   - skipjack
   - franjohn21
+  - byzyk
 ---
 
 通过 webpack 编译源文件时，用户可以生成包含有关于模块的统计数据的 JSON 文件。这些统计数据不仅可以帮助开发者来分析应用的依赖图表，还可以优化编译的速度。这个 JSON 文件可以通过以下的命令来生成:
@@ -19,7 +20,7 @@ webpack --profile --json > compilation-stats.json
 
 最外层的输出 JSON 文件比较容易理解，但是其中还是有一小部分嵌套的数据不是那么容易理解。不过放心，这其中的每一部分都在后面有更详细的解释，并且注释中还附带有超链接可以直接跳入相应的章节。
 
-``` js-with-links
+```js-with-links
 {
   "version": "1.4.13", // 用来编译的 webpack 的版本
   "hash": "11593e3b3ac85436984a", // 编译使用的 hash
@@ -58,7 +59,9 @@ webpack --profile --json > compilation-stats.json
 
 每一个 `assets` 对象都表示一个编译出的 `output` 文件。 `assets` 都会有一个共同的结构：
 
-``` js
+<!-- eslint-skip -->
+
+```js
 {
   "chunkNames": [], // 这个 asset 包含的 chunk
   "chunks": [ 10, 6 ], // 这个 asset 包含的 chunk 的 id
@@ -73,7 +76,7 @@ webpack --profile --json > compilation-stats.json
 
 每一个 `chunks` 表示一组称为 [chunk](/glossary#c) 的模块。每一个对象都满足以下的结构。
 
-``` js-with-links
+```js-with-links
 {
   "entry": true, // 表示这个 chunk 是否包含 webpack 的运行时
   "files": [
@@ -100,7 +103,7 @@ webpack --profile --json > compilation-stats.json
 
 `chunks` 对象还会包含一个 `来源 (origins)` ，来表示每一个 chunk 是从哪里来的。 `来源 (origins)` 是以下的形式
 
-``` js-with-links
+```js-with-links
 {
   "loc": "", // 具体是哪行生成了这个chunk
   "module": "(webpack)\\test\\browsertest\\lib\\index.web.js", // 模块的位置
@@ -119,7 +122,7 @@ webpack --profile --json > compilation-stats.json
 
 缺少了对实际参与进编译的模块的描述，这些数据又有什么意义呢。每一个在依赖图表中的模块都可以表示成以下的形式。
 
-``` js-with-links
+```js-with-links
 {
   "assets": [
     // [asset对象 (asset objects)](#asset-objects)的数组
@@ -153,7 +156,7 @@ webpack --profile --json > compilation-stats.json
 
 每一个模块都包含一个 `理由 (reasons)` 对象，这个对象描述了这个模块被加入依赖图表的理由。每一个 `理由 (reasons)` 都类似于上文 [chunk objects](#chunk-objects)中的 `来源 (origins)`:
 
-``` js-with-links
+```js-with-links
 {
   "loc": "33:24-93", // 导致这个被加入依赖图标的代码行数
   "module": "./lib/index.web.js", // 所基于模块的相对地址 [context](/configuration/entry-context/#context)
@@ -173,7 +176,7 @@ webpack --profile --json > compilation-stats.json
 ``` bash
 ../cases/parsing/browserify/index.js
 Critical dependencies:
-2:114-121 This seem to be a pre-built javascript file. Even while this is possible, it's not recommended. Try to require to orginal source to get better results.
+2:114-121 This seem to be a pre-built javascript file. Even while this is possible, it's not recommended. Try to require to original source to get better results.
  @ ../cases/parsing/browserify/index.js 2:114-121
 ```
 

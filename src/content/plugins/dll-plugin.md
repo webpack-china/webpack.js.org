@@ -6,6 +6,8 @@ contributors:
   - opiepj
   - simon04
   - skipjack
+  - byzyk
+  - EugeneHlushko
 related:
   - title: Code Splitting Example
     url: https://github.com/webpack/webpack/blob/master/examples/explicit-vendor-chunk/README.md
@@ -18,12 +20,12 @@ related:
 
 这个插件是在一个额外的独立的 webpack 设置中创建一个只有 dll 的 bundle(dll-only-bundle)。 这个插件会生成一个名为 `manifest.json` 的文件，这个文件是用来让 [`DLLReferencePlugin`](/plugins/dll-plugin#dllreferenceplugin) 映射到相关的依赖上去的。
 
-* `context` (optional): manifest 文件中请求的上下文(context)(默认值为 webpack 的上下文(context))
-* `name`: 暴露出的 DLL 的函数名 ([TemplatePaths](https://github.com/webpack/webpack/blob/master/lib/TemplatedPathPlugin.js): `[hash]` & `[name]` )
-* `path`: manifest json 文件的**绝对路径** (输出文件)
+- `context` (optional): manifest 文件中请求的上下文(context)(默认值为 webpack 的上下文(context))
+- `name`: 暴露出的 DLL 的函数名 ([TemplatePaths](https://github.com/webpack/webpack/blob/master/lib/TemplatedPathPlugin.js): `[hash]` & `[name]` )
+- `path`: manifest json 文件的__绝对路径__ (输出文件)
 
 ```javascript
-new webpack.DllPlugin(options)
+new webpack.DllPlugin(options);
 ```
 
 在给定的 `path` 路径下创建一个名为 `manifest.json` 的文件。 这个文件包含了从 `require` 和 `import` 的request到模块 id 的映射。 `DLLReferencePlugin` 也会用到这个文件。
@@ -35,7 +37,7 @@ new webpack.DllPlugin(options)
 
 这个插件是在 webpack 主配置文件中设置的， 这个插件把只有 dll 的 bundle(们)(dll-only-bundle(s)) 引用到需要的预编译的依赖。
 
-* `context`: (**绝对路径**) manifest (或者是内容属性)中请求的上下文
+* `context`: (__绝对路径__) manifest (或者是内容属性)中请求的上下文
 * `manifest`: 包含 `content` 和 `name` 的对象，或者在编译时(compilation)的一个用于加载的 JSON manifest 绝对路径
 * `content` (optional): 请求到模块 id 的映射 (默认值为 `manifest.content`)
 * `name` (optional): dll 暴露的地方的名称 (默认值为 `manifest.name`) (可参考 [`externals`](/configuration/externals/))
@@ -43,7 +45,7 @@ new webpack.DllPlugin(options)
 * `sourceType` (optional): dll 是如何暴露的 ([libraryTarget](/configuration/output/#output-librarytarget))
 
 ```javascript
-new webpack.DllReferencePlugin(options)
+new webpack.DllReferencePlugin(options);
 ```
 
 通过引用 dll 的 manifest 文件来把依赖的名称映射到模块的 id 上，之后再在需要的时候通过内置的 `__webpack_require__` 函数来 `require` 他们
@@ -72,26 +74,26 @@ dll 中的内容被映射到了当前目录下。如果一个被 `require` 的�
 
 W> `DllReferencePlugin` 和 `DLL插件DllPlugin` 都是在_另外_的 webpack 设置中使用的。
 
-**webpack.vendor.config.js**
+__webpack.vendor.config.js__
 
 ```javascript
 new webpack.DllPlugin({
   context: __dirname,
-  name: "[name]_[hash]",
-  path: path.join(__dirname, "manifest.json"),
-})
+  name: '[name]_[hash]',
+  path: path.join(__dirname, 'manifest.json'),
+});
 ```
 
-**webpack.app.config.js**
+__webpack.app.config.js__
 
 ```javascript
 new webpack.DllReferencePlugin({
   context: __dirname,
-  manifest: require("./manifest.json"),
-  name: "./my-dll.js",
-  scope: "xyz",
-  sourceType: "commonjs2"
-})
+  manifest: require('./manifest.json'),
+  name: './my-dll.js',
+  scope: 'xyz',
+  sourceType: 'commonjs2'
+});
 ```
 
 
@@ -108,14 +110,14 @@ T> 多个 `DllPlugins` 和 `DllReferencePlugins`.
 
 ### Source
 
-* [DllPlugin source](https://github.com/webpack/webpack/blob/master/lib/DllPlugin.js)
-* [DllReferencePlugin source](https://github.com/webpack/webpack/blob/master/lib/DllReferencePlugin.js)
-* [DllEntryPlugin source](https://github.com/webpack/webpack/blob/master/lib/DllEntryPlugin.js)
-* [DllModuleFactory source](https://github.com/webpack/webpack/blob/master/lib/DllModuleFactory.js)
-* [ManifestPlugin source](https://github.com/webpack/webpack/blob/master/lib/LibManifestPlugin.js)
+- [DllPlugin source](https://github.com/webpack/webpack/blob/master/lib/DllPlugin.js)
+- [DllReferencePlugin source](https://github.com/webpack/webpack/blob/master/lib/DllReferencePlugin.js)
+- [DllEntryPlugin source](https://github.com/webpack/webpack/blob/master/lib/DllEntryPlugin.js)
+- [DllModuleFactory source](https://github.com/webpack/webpack/blob/master/lib/DllModuleFactory.js)
+- [ManifestPlugin source](https://github.com/webpack/webpack/blob/master/lib/LibManifestPlugin.js)
 
 ### Tests
 
-* [DllPlugin creation test](https://github.com/webpack/webpack/blob/master/test/configCases/dll-plugin/0-create-dll/webpack.config.js)
-* [DllPlugin without scope test](https://github.com/webpack/webpack/blob/master/test/configCases/dll-plugin/2-use-dll-without-scope/webpack.config.js)
-* [DllReferencePlugin use Dll test](https://github.com/webpack/webpack/tree/master/test/configCases/dll-plugin)
+- [DllPlugin creation test](https://github.com/webpack/webpack/blob/master/test/configCases/dll-plugin/0-create-dll/webpack.config.js)
+- [DllPlugin without scope test](https://github.com/webpack/webpack/blob/master/test/configCases/dll-plugin/2-use-dll-without-scope/webpack.config.js)
+- [DllReferencePlugin use Dll test](https://github.com/webpack/webpack/tree/master/test/configCases/dll-plugin)

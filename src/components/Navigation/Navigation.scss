@@ -74,8 +74,13 @@
     color: getColor(malibu);
   }
 
-  &.color-blue {
-    color: #88d8ff;
+  &.docschina {
+    padding-top: 1px;
+    display: inline-block;
+    color: #85c3e1;
+    .iconfont {
+      font-size: 62px;
+    }
   }
 
   &--active:after {
@@ -117,6 +122,8 @@
       color: getColor(white);
       text-shadow: 0 0 0 getColor(concrete);
       transition:all 250ms;
+
+      -webkit-appearance: textfield;
 
       &::-webkit-input-placeholder{
         color: lighten(getColor(fiord), 10%);

@@ -6,6 +6,8 @@ contributors:
   - skipjack
   - SpaceK33z
   - EugeneHlushko
+  - byzyk
+  - spicalous
 ---
 
 webpack 可以监听文件变化，当它们修改后会重新编译。这个页面介绍了如何启用这个功能，以及当 watch 无法正常运行的时候你可以做的一些调整。
@@ -13,15 +15,20 @@ webpack 可以监听文件变化，当它们修改后会重新编译。这个页
 
 ## `watch`
 
-`boolean`
+`boolean: false`
 
-启用 Watch 模式。这意味着在初始构建之后，webpack 将继续监听任何已解析文件的更改。Watch 模式默认关闭。
+启用 Watch 模式。这意味着在初始构建之后，webpack 将继续监听任何已解析文件的更改。
 
-```js
-watch: false
+__webpack.config.js__
+
+```javascript
+module.exports = {
+  //...
+  watch: true
+};
 ```
 
-T> webpack-dev-server 和 webpack-dev-middleware 里 Watch 模式默认开启。
+T> [webpack-dev-server](https://github.com/webpack/webpack-dev-server) 和 [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware) 里 Watch 模式默认开启。
 
 
 ## `watchOptions`
@@ -30,48 +37,83 @@ T> webpack-dev-server 和 webpack-dev-middleware 里 Watch 模式默认开启。
 
 一组用来定制 Watch 模式的选项：
 
-```js
-watchOptions: {
-  aggregateTimeout: 300,
-  poll: 1000
-}
+__webpack.config.js__
+
+```javascript
+module.exports = {
+  //...
+  watchOptions: {
+    aggregateTimeout: 300,
+    poll: 1000
+  }
+};
 ```
 
 
 ## `watchOptions.aggregateTimeout`
 
-`number`
+`number: 300`
 
 当第一个文件更改，会在重新构建前增加延迟。这个选项允许 webpack 将这段时间内进行的任何其他更改都聚合到一次重新构建里。以毫秒为单位：
 
-```js
-aggregateTimeout: 300 // 默认值
+```javascript
+module.exports = {
+  //...
+  watchOptions: {
+    aggregateTimeout: 600
+  }
+};
 ```
 
 
 ## `watchOptions.ignored`
 
+`RegExp` [`anymatch`](https://github.com/micromatch/anymatch)
+
 对于某些系统，监听大量文件系统会导致大量的 CPU 或内存占用。这个选项可以排除一些巨大的文件夹，例如 `node_modules`：
 
-```js
-ignored: /node_modules/
+__webpack.config.js__
+
+```javascript
+module.exports = {
+  //...
+  watchOptions: {
+    ignored: /node_modules/
+  }
+};
 ```
 
-也可以使用 [anymatch](https://github.com/micromatch/anymatch) 模式：
+也可以使用多种 [anymatch](https://github.com/micromatch/anymatch) 模式：
 
-```js
-ignored: "files/**/*.js"
+__webpack.config.js__
+
+```javascript
+module.exports = {
+  //...
+  watchOptions: {
+    ignored: ['files/**/*.js', 'node_modules']
+  }
+};
 ```
+
+T> 如果你使用 `require.context`，webpack 会观察你的整个目录。你应该忽略一些文件和/或(and/or)目录，以便那些不需要监听的文件修改，不会触发重新构建。
 
 
 ## `watchOptions.poll`
 
-`boolean` `number`
+`boolean: false` `number`
 
 通过传递 `true` 开启 [polling](https://whatis.techtarget.com/definition/polling)，或者指定毫秒为单位进行轮询。
 
-```js
-poll: 1000 // 每秒检查一次变动
+__webpack.config.js__
+
+```javascript
+module.exports = {
+  //...
+  watchOptions: {
+    poll: 1000 // 每秒检查一次变动
+  }
+};
 ```
 
 T> 如果监听没生效，试试这个选项吧。Watch 在 NFS 和 VirtualBox 机器上不适用。
@@ -79,7 +121,7 @@ T> 如果监听没生效，试试这个选项吧。Watch 在 NFS 和 VirtualBox 
 
 ## `info-verbosity`
 
-`string`: `none` `info` `verbose`
+`string: 'none', 'info', 'verbose'`
 
 控制生命周期消息的详细程度，例如 `Started watching files(开始监听文件)...` 日志。将 `info-verbosity` 设置为 `verbose`，还会额外在增量构建的开始和结束时，向控制台发送消息。`info-verbosity` 默认设置为 `info`。
 
@@ -110,15 +152,15 @@ cat /proc/sys/fs/inotify/max_user_watches
 
 Arch 用户，请将 `fs.inotify.max_user_watches=524288` 添加到 `/etc/sysctl.d/99-sysctl.conf` 中，然后执行 `sysctl --system`。 Ubuntu 用户（可能还有其他用户）请执行：`echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`。
 
-### MacOS fsevents Bug
+### macOS fsevents Bug
 
-在 MacOS 中，某些情况下文件夹可能会损坏。请参阅[这篇文章](https://github.com/livereload/livereload-site/blob/master/livereload.com/_articles/troubleshooting/os-x-fsevents-bug-may-prevent-monitoring-of-certain-folders.md)。
+在 macOS 中，某些情况下文件夹可能会损坏。请参阅[这篇文章](https://github.com/livereload/livereload-site/blob/master/livereload.com/_articles/troubleshooting/os-x-fsevents-bug-may-prevent-monitoring-of-certain-folders.md)。
 
 ### Windows Paths
 
-因为 webpack 期望获得多个配置选项的绝对路径（如 `__dirname + "/app/folder"`），所以 Windows 的路径分隔符 `\` 可能会破坏某些功能。
+因为 webpack 期望获得多个配置选项的绝对路径（如 `__dirname + '/app/folder'`），所以 Windows 的路径分隔符 `\` 可能会破坏某些功能。
 
-使用正确的分隔符。即 `path.resolve(__dirname, "app/folder")` 或 `path.join(__dirname, "app", "folder")`。
+使用正确的分隔符。即 `path.resolve(__dirname, 'app/folder')` 或 `path.join(__dirname, 'app', 'folder')`。
 
 ### Vim
 
@@ -128,4 +170,4 @@ Arch 用户，请将 `fs.inotify.max_user_watches=524288` 添加到 `/etc/sysctl
 
 ### 在 WebStorm 中保存
 
-使用 JetBrains WebStorm IDE 时，你可能会发现保存修改过的文件，并不会按照预期触发观察者。尝试在设置中禁用`安全写入(safe write)`选项，该选项确定在原文件被覆盖之前，文件是否先保存到临时位置：取消选中 `File > Settings... > System Settings > Use "safe write" (save changes to a temporary file first)`。
+使用 JetBrains WebStorm IDE 时，你可能会发现保存修改过的文件，并不会按照预期触发观察者。尝试在设置中禁用`安全写入(safe write)`选项，该选项确定在原文件被覆盖之前，文件是否先保存到临时位置：取消选中 `File > {Settings|Preferences} > Appearance & Behavior > System Settings > Use "safe write" (save changes to a temporary file first)`。

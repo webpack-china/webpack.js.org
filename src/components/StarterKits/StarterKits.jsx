@@ -20,7 +20,7 @@ const StarterKits = props => (
       要向列表添加新的配套工具请访问{' '}
       <Link to="https://github.com/ahfarmer/javascriptstuff-db">仓库</Link>{' '}
       以及提交一个 PR 来修改这个文件
-      <code>generator/starterProjectUrls.js</code>.
+      <code>data/source/react-starter-projects.js</code>.
     </p>
 
     <blockquote className="warning">

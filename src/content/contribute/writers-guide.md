@@ -1,6 +1,8 @@
 ---
 title: 作者指引
-sort: 2
+sort: 1
+contributors:
+  - pranshuchittora
 ---
 
 以下部分包含编辑(edit)和格式化(format)网站内容的所有必需知识。请确保在开始编辑或添加之前，你已经进行过一些研究。有时候最困难的地方在于，找到内容应该存在的位置和确定它是否存在。
@@ -20,6 +22,7 @@ sort: 2
 ``` yaml
 ---
 title: 我的文章
+group: 我的小节
 sort: 3
 contributors:
   - [github 用户名]
@@ -32,7 +35,8 @@ related:
 让我们来逐个分析：
 
 - `title`：文章的名称。
-- `sort`：这篇文章在这类文章的顺序。
+- `group`: 小节的名称。
+- `sort`：这篇文章在此类（或子类）中的顺序（如果存在同类）。
 - `contributors`：贡献文章的 GitHub 用户列表。
 - `related`：所有相关阅读或有用示例。
 
@@ -51,7 +55,7 @@ related:
 
 - webpack 应当总是以小写字母书写。即使在一句话的起始位置也是如此。（[来源](https://github.com/webpack/media#name)）
 - loader 应当用反引号(\`)包裹，并且使用[串联式(kebab-cased)](https://en.wikipedia.org/w/index.php?title=Kebab_case)：`css-loader`, `ts-loader`, ……
-- plugin 应当用反引号(\`)包裹，并且使用[串联式(kebab-cased)](https://en.wikipedia.org/w/index.php?title=Kebab_case)：`BannerPlugin`, `NpmInstallWebpackPlugin`, ……
+- plugin 应当用反引号(\`)包裹，并且使用[驼峰式(camel-cased)](https://en.wikipedia.org/w/index.php?title=Camel_case)：`BannerPlugin`, `NpmInstallWebpackPlugin`, ……
 - 使用 "webpack 2" 指代特定的 webpack 版本（~~"webpack v2"~~）
 - 使用 ES5; ES2015, ES2016, …… 指代 ECMAScript 标准（~~ES6~~, ~~ES7~~）
 
@@ -70,6 +74,28 @@ function foo () {
 foo();
 ```
 
+#### Quotation
+
+Use single quotes in code snippets and project files (`.jsx`, `.scss` etc):
+
+
+```diff
+- import webpack from "webpack";
++ import webpack from 'webpack';
+```
+
+
+And in inline backticks:
+
+__correct__
+
+Set value to `'index.md'`...
+
+__incorrect__
+
+Set value to `"index.md"`...
+
+
 ### 列表
 
 - Boo
@@ -86,7 +112,7 @@ foo();
 --devtool   | Define source map type for the bundled resources | string     | -
 --progress  | Print compilation progress in percentage         | boolean    | false
 
-表格也一样.
+列表应该按照字母顺序排序。
 
 ### 配置属性
 
@@ -100,20 +126,36 @@ foo();
 
 #### 引用块
 
-**语法：\>**
+__语法：\>__
 
 > 这是一个引用块.
 
 #### 提示
 
-**语法：T\>**
+__语法：T\>__
 
 T> 这是一个提示.
 
-**语法：W\>**
+__语法：W\>__
 
 W> 这是一个警告.
 
-**语法：?\>**
+__语法：?\>__
 
 ?> 这个一个 todo 待办项.
+
+### Assumptions and simplicity
+
+Do not make assumptions when writing the documentation.
+
+```diff
+- You might already know how to optimize bundle for production...
++ As we've learned in [production guide](/guides/production/)...
+```
+
+Please do not assume things are simple. Avoid words like 'just', 'simply'.
+
+```diff
+- Simply run command...
++ Run the `command-name` command...
+```

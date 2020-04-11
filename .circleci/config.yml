@@ -1,0 +1,49 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:8-browsers
+        environment:
+            CHROME_BIN: "/usr/bin/google-chrome"
+            JOBS: 1 
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mongo:3.4.4
+
+    working_directory: ~/repo
+    branches:
+      only:
+        - cn
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "e5:33:ce:d1:ca:5c:97:33:eb:01:9e:c9:6d:36:c4:25"
+      - checkout
+
+      # Download and cache dependencies
+      - run:
+          name: Install Python 2.7
+          command: bash ./src/scripts/install-python3.sh
+      - run: 
+          name: Install proselint
+          command: sudo pip install proselint
+      - run: 
+          name: Yarn
+          command: yarn    
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run: 
+          name: Before Env
+          command: source ./src/scripts/env.sh     
+      - run:
+          name: Run deploy scripts
+          command: bash ./src/scripts/private-deploy.sh
+          no_output_timeout: 3600

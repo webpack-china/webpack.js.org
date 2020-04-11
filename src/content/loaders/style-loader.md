@@ -12,28 +12,27 @@ Adds CSS to the DOM by injecting a <code>&lt;style&gt;</code> tag
 npm install style-loader --save-dev
 ```
 
-## <a href="https://webpack.js.org/concepts/loaders">用法</a>
+## 用法
 
 建议将 `style-loader` 与 [`css-loader`](https://github.com/webpack/css-loader) 结合使用
 
 **component.js**
+
 ```js
-import style from './file.css'
+import style from './file.css';
 ```
 
 **webpack.config.js**
+
 ```js
 {
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: [
-          { loader: "style-loader" },
-          { loader: "css-loader" }
-        ]
-      }
-    ]
+        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
+      },
+    ];
   }
 }
 ```
@@ -43,10 +42,11 @@ import style from './file.css'
 在使用[局部作用域 CSS](https://github.com/webpack/css-loader#css-scope) 时，模块导出生成的（局部）标识符(identifier)。
 
 **component.js**
-```js
-import style from './file.css'
 
-style.className === "z849f98ca812"
+```js
+import style from './file.css';
+
+style.className === 'z849f98ca812';
 ```
 
 ### `Url`
@@ -54,43 +54,45 @@ style.className === "z849f98ca812"
 也可以添加一个URL `<link href="path/to/file.css" rel="stylesheet">`，而不是用带有 `<style></style>` 标签的内联 CSS `{String}`。
 
 ```js
-import url from 'file.css'
+import url from 'file.css';
 ```
 
 **webpack.config.js**
+
 ```js
 {
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: [
-          { loader: "style-loader/url" },
-          { loader: "file-loader" }
-        ]
-      }
-    ]
+        use: [{ loader: 'style-loader/url' }, { loader: 'file-loader' }],
+      },
+    ];
   }
 }
 ```
 
 ```html
-<link rel="stylesheet" href="path/to/file.css">
+<link rel="stylesheet" href="path/to/file.css" />
 ```
 
-> :信息来源: 使用 `url` 引用的 Source map 和资源：当 style-loader 与 `{ options: { sourceMap: true } }` 选项一起使用时，CSS 模块将生成为 `Blob`，因此相对路径无法正常工作（他们将相对于 `chrome:blob` 或 `chrome:devtools`）。为了使资源保持正确的路径，必须设置 webpack 配置中的 `output.publicPath` 属性，以便生成绝对路径。或者，你可以启用上面提到的 `convertToAbsoluteUrls` 选项。
+> ℹ️ 使用 `url` 引用的 Source map 和资源：当 style-loader 与 `{ options: { sourceMap: true } }` 选项一起使用时，CSS 模块将生成为 `Blob`，因此相对路径无法正常工作（他们将相对于 `chrome:blob` 或 `chrome:devtools`）。为了使资源保持正确的路径，必须设置 webpack 配置中的 `output.publicPath` 属性，以便生成绝对路径。或者，你可以启用上面提到的 `convertToAbsoluteUrls` 选项。
 
 ### `可选的(Useable)`
+
+The `style-loader` injects the styles lazily making them useable on-demand via `style.use()` / `style.unuse()`
 
 按照惯例，`引用计数器 API(Reference Counter API)` 应关联到 `.useable.css`，而 `.css` 的载入，应该使用基本的 `style-loader` 用法（类似于其他文件类型，例如 `.useable.less` 和 `.less`）。
 
 **webpack.config.js**
+
 ```js
 {
   module: {
     rules: [
       {
         test: /\.css$/,
+        exclude: /\.useable\.css$/,
         use: [
           { loader: "style-loader" },
           { loader: "css-loader" },
@@ -110,11 +112,12 @@ import url from 'file.css'
 }
 ```
 
-#### `引用计数器 API(Reference Counter API)`
+#### `引用计数器 API(reference counter API)`
 
 **component.js**
+
 ```js
-import style from './file.css'
+import style from './file.css';
 
 style.use(); // = style.ref();
 style.unuse(); // = style.unref();
@@ -122,7 +125,7 @@ style.unuse(); // = style.unref();
 
 样式不会添加在 `import/require()` 上，而是在调用 `use`/`ref` 时添加。如果 `unuse`/`unref` 与 `use`/`ref` 一样频繁地被调用，那么样式将从页面中删除。
 
-:警告: 当 `unuse`/`unref` 比 `use`/`ref` 调用频繁的时候，产生的行为是不确定的。所以不要这样做。
+> ⚠️ 当 `unuse`/`unref` 比 `use`/`ref` 调用频繁的时候，产生的行为是不确定的。所以不要这样做。
 
 ## 选项
 
@@ -134,6 +137,7 @@ style.unuse(); // = style.unref();
 |**`transform`** |`{Function}`|`false`|转换/条件加载 CSS，通过传递转换/条件函数|
 |**`insertAt`**|`{String\|Object}`|`bottom`|在给定位置处插入 `<style></style>`|
 |**`insertInto`**|`{String}`|`<head>`|给定位置中插入 `<style></style>`|
+|**`singleton`**|`{Boolean}`|`undefined`|Reuses a single `<style></style>` element, instead of adding/removing individual elements for each required module.|
 |**`sourceMap`**|`{Boolean}`|`false`|启用/禁用 Sourcemap|
 |**`convertToAbsoluteUrls`**|`{Boolean}`|`false`|启用 source map 后，将相对 URL 转换为绝对 URL|
 
@@ -143,6 +147,7 @@ Enable/disable Hot Module Replacement (HMR), if disabled no HMR Code will be add
 This could be used for non local development and production.
 
 **webpack.config.js**
+
 ```js
 {
   loader: 'style-loader',
@@ -154,9 +159,10 @@ This could be used for non local development and production.
 
 ### `base`
 
-当使用一个或多个 [DllPlugin](https://robertknight.github.io/posts/webpack-dll-plugins/) 时，此设置主要用作 [css 冲突](https://github.com/webpack-contrib/style-loader/issues/163) 的修补方案。`base` 可以防止 *app* 的 css（或 *DllPlugin2* 的 css）覆盖 *DllPlugin1* 的 css，方法是指定一个 css 模块的 id 大于 *DllPlugin1* 的范围，例如：
+当使用一个或多个 [DllPlugin](https://robertknight.github.io/posts/webpack-dll-plugins/) 时，此设置主要用作 [css 冲突](https://github.com/webpack-contrib/style-loader/issues/163) 的修补方案。`base` 可以防止 _app_ 的 css（或 _DllPlugin2_ 的 css）覆盖 _DllPlugin1_ 的 css，方法是指定一个 css 模块的 id 大于 _DllPlugin1_ 的范围，例如：
 
 **webpack.dll1.config.js**
+
 ```js
 {
   test: /\.css$/,
@@ -168,6 +174,7 @@ This could be used for non local development and production.
 ```
 
 **webpack.dll2.config.js**
+
 ```js
 {
   test: /\.css$/,
@@ -179,6 +186,7 @@ This could be used for non local development and production.
 ```
 
 **webpack.app.config.js**
+
 ```
 {
   test: /\.css$/,
@@ -194,11 +202,13 @@ This could be used for non local development and production.
 如果已定义，style-loader 将把属性值附加在 `<style>` / `<link>` 元素上。
 
 **component.js**
+
 ```js
-import style from './file.css'
+import style from './file.css';
 ```
 
 **webpack.config.js**
+
 ```js
 {
   test: /\.css$/,
@@ -216,11 +226,13 @@ import style from './file.css'
 #### `Url`
 
 **component.js**
+
 ```js
-import link from './file.css'
+import link from './file.css';
 ```
 
 **webpack.config.js**
+
 ```js
 {
   test: /\.css$/,
@@ -237,7 +249,10 @@ import link from './file.css'
 该函数将在即将加载的 css 上调用，函数的返回值将被加载到页面，而不是原始的 css 中。
 如果 `transform` 函数的返回值是 falsy 值，那么 css 根本就不会加载到页面中。
 
+> ⚠️ In case you are using ES Module syntax in `tranform.js` then, you **need to transpile** it or otherwise it will throw an `{Error}`.
+
 **webpack.config.js**
+
 ```js
 {
   loader: 'style-loader',
@@ -248,18 +263,20 @@ import link from './file.css'
 ```
 
 **transform.js**
-```js
-module.exports = function (css) {
-  // Here we can change the original css
-  const transformed = css.replace('.classNameA', '.classNameB')
 
-  return transformed
-}
+```js
+module.exports = function(css) {
+  // Here we can change the original css
+  const transformed = css.replace('.classNameA', '.classNameB');
+
+  return transformed;
+};
 ```
 
 #### `Conditional`
 
 **webpack.config.js**
+
 ```js
 {
   loader: 'style-loader',
@@ -270,15 +287,16 @@ module.exports = function (css) {
 ```
 
 **conditional.js**
+
 ```js
-module.exports = function (css) {
+module.exports = function(css) {
   // 如果条件匹配则加载[和转换] CSS
   if (css.includes('something I want to check')) {
     return css;
   }
   // 如果返回 falsy 值，则不会加载 CSS
-  return false
-}
+  return false;
+};
 ```
 
 ### `insertAt`
@@ -286,6 +304,7 @@ module.exports = function (css) {
 默认情况下，style-loader 将 `<style>` 元素附加到样式目标(style target)的末尾，即页面的 `<head>` 标签，也可以是由 `insertInto` 指定其他标签。这将导致 loader 创建的 CSS 优先于目标中已经存在的 CSS。要在目标的起始处插入 style 元素，请将此查询参数(query parameter)设置为 'top'，例如
 
 **webpack.config.js**
+
 ```js
 {
   loader: 'style-loader',
@@ -298,6 +317,7 @@ module.exports = function (css) {
 A new `<style>` element can be inserted before a specific element by passing an object, e.g.
 
 **webpack.config.js**
+
 ```js
 {
   loader: 'style-loader',
@@ -310,26 +330,43 @@ A new `<style>` element can be inserted before a specific element by passing an 
 ```
 
 ### `insertInto`
+
 默认情况下，样式加载器将 `<style>` 元素插入到页面的 `<head>` 标签中。如果要将标签插入到其他位置，可以在这里为该元素指定 CSS 选择器。如果你想要插入到 [IFrame](https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement) 中，请确保你具有足够的访问权限，样式将被注入到内容文档的 head 中。
-你还可以将样式插入到 [ShadowRoot](https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot) 中，如下
+
+You can also pass function to override default behavior and insert styles in your container, e.g
 
 **webpack.config.js**
+
 ```js
 {
   loader: 'style-loader',
   options: {
-    insertInto: '#host::shadow>#root'
+    insertInto: () => document.querySelector("#root"),
+  }
+}
+```
+
+通过使用函数，可以将样式插入到 [ShadowRoot](https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot) 中，例如
+
+**webpack.config.js**
+
+```js
+{
+  loader: 'style-loader',
+  options: {
+    insertInto: () => document.querySelector("#root").shadowRoot,
   }
 }
 ```
 
 ### `singleton`
 
-如果已定义，则 style-loader 将重用单个 `<style>` 元素，而不是为每个所需的模块添加/删除单个元素。
+如果已定义，则 style-loader 将重用单个 `<style></style>` 元素，而不是为每个所需的模块添加/删除单个元素。
 
-> ℹ️  默认情况下启用此选项，IE9 对页面上允许的 style 标签数量有严格的限制。你可以使用 singleton 选项来启用或禁用它。
+> ℹ️ 默认情况下启用此选项，IE9 对页面上允许的 style 标签数量有严格的限制。你可以使用 singleton 选项来启用或禁用它。
 
 **webpack.config.js**
+
 ```js
 {
   loader: 'style-loader',
@@ -344,6 +381,7 @@ A new `<style>` element can be inserted before a specific element by passing an 
 启用/禁用 source map 加载
 
 **webpack.config.js**
+
 ```js
 {
   loader: 'style-loader',
@@ -358,6 +396,7 @@ A new `<style>` element can be inserted before a specific element by passing an 
 如果 convertToAbsoluteUrls 和 sourceMaps 都启用，那么相对 url 将在 css 注入页面之前，被转换为绝对 url。这解决了在启用 source map 时，相对资源无法加载的[问题](https://github.com/webpack/style-loader/pull/96)。你可以使用 convertToAbsoluteUrls 选项启用它。
 
 **webpack.config.js**
+
 ```js
 {
   loader: 'style-loader',
@@ -428,15 +467,11 @@ A new `<style>` element can be inserted before a specific element by passing an 
   <tbody>
 </table>
 
-
 [npm]: https://img.shields.io/npm/v/style-loader.svg
 [npm-url]: https://npmjs.com/package/style-loader
-
 [node]: https://img.shields.io/node/v/style-loader.svg
 [node-url]: https://nodejs.org
-
 [deps]: https://david-dm.org/webpack/style-loader.svg
 [deps-url]: https://david-dm.org/webpack/file-loader
-
 [chat]: https://badges.gitter.im/webpack/webpack.svg
 [chat-url]: https://gitter.im/webpack/webpack
