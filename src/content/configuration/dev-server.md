@@ -629,7 +629,7 @@ proxy: [{
 }]
 ```
 
-默认情况下代理会保留原请求头中的协议和域名，你可以通过设置 `changeOrigin` 的值为 `true` 来覆盖此行为。这在某些情况下非常有用，例如使用[基于名称的虚拟站点](https://en.wikipedia.org/wiki/Virtual_hosting#Name-based)。
+默认情况下，代理会保留原请求头中的来源，你可以通过设置 `changeOrigin` 的值为 `true` 来覆盖此行为。这在某些情况下非常有用，例如使用 [基于名称的虚拟托管站点](https://en.wikipedia.org/wiki/Virtual_hosting#Name-based)。
 
 ## `devServer.progress` - 只用于命令行工具(CLI)
 
