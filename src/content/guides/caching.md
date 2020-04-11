@@ -1,6 +1,6 @@
 ---
 title: 缓存
-sort: 11
+sort: 6
 contributors:
   - okonet
   - jouni-kantola
@@ -11,6 +11,8 @@ contributors:
   - rosavage
   - saiprasad2595
   - EugeneHlushko
+  - AnayaDesign
+  - aholzner
 related:
   - title: Issue 652
     url: https://github.com/webpack/webpack.js.org/issues/652
@@ -18,7 +20,7 @@ related:
 
 T> 本指南继续沿用 [起步](/guides/getting-started)、[管理输出](/guides/output-management) 和 [代码分离](/guides/code-splitting) 中的代码示例。
 
-以上，我们使用 webpack 来打包模块化的应用程序，webpack 会生成一个可部署的 `/dist` 目录，然后把打包后的内容放置在此目录中。只要 `/dist` 目录中的内容部署到 server 上，client（通常是浏览器）就能够访问网站此 server 的网站及其资源。而最后一步获取资源是比较耗费时间的，这就是为什么浏览器使用一种名为 [缓存](https://searchstorage.techtarget.com/definition/cache) 的技术。可以通过命中缓存，以降低网络流量，使网站加载速度更快，然而，如果我们在部署新版本时不更改资源的文件名，浏览器可能会认为它没有被更新，就会使用它的缓存版本。由于缓存的存在，当你需要获取新的代码时，就会显得很棘手。
+以上，我们使用 webpack 来打包模块化的应用程序，webpack 会生成一个可部署的 `/dist` 目录，然后把打包后的内容放置在此目录中。只要 `/dist` 目录中的内容部署到 server 上，client（通常是浏览器）就能够访问网站此 server 的网站及其资源。而最后一步获取资源是比较耗费时间的，这就是为什么浏览器使用一种名为 [缓存](https://searchstorage.techtarget.com/definition/cache) 的技术。可以通过命中缓存，以降低网络流量，使网站加载速度更快。然而，如果我们在部署新版本时不更改资源的文件名，浏览器可能会认为它没有被更新，就会使用它的缓存版本。由于缓存的存在，当你需要获取新的代码时，就会显得很棘手。
 
 此指南的重点在于通过必要的配置，以确保 webpack 编译生成的文件能够被客户端缓存，而在文件内容变化后，能够请求到新的文件。
 
@@ -45,12 +47,13 @@ __webpack.config.js__
 
 ``` diff
   const path = require('path');
-  const CleanWebpackPlugin = require('clean-webpack-plugin');
+  const { CleanWebpackPlugin } = require('clean-webpack-plugin');
   const HtmlWebpackPlugin = require('html-webpack-plugin');
 
   module.exports = {
     entry: './src/index.js',
     plugins: [
+      // 对于 CleanWebpackPlugin 的 v2 versions 以下版本，使用 new CleanWebpackPlugin(['dist/*'])
       new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
 -       title: 'Output Management'
@@ -97,15 +100,17 @@ __webpack.config.js__
 
 ``` diff
   const path = require('path');
-  const CleanWebpackPlugin = require('clean-webpack-plugin');
+  const { CleanWebpackPlugin } = require('clean-webpack-plugin');
   const HtmlWebpackPlugin = require('html-webpack-plugin');
 
   module.exports = {
     entry: './src/index.js',
     plugins: [
+      // 对于 CleanWebpackPlugin 的 v2 versions 以下版本，使用 new CleanWebpackPlugin(['dist/*'])
       new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         title: 'Caching'
+      })
     ],
     output: {
       filename: '[name].[contenthash].js',
@@ -139,13 +144,14 @@ runtime.cc17ae2a94ec771e9221.js   1.42 KiB       0  [emitted]  runtime
 __webpack.config.js__
 
 ``` diff
-  var path = require('path');
-  const CleanWebpackPlugin = require('clean-webpack-plugin');
+  const path = require('path');
+  const { CleanWebpackPlugin } = require('clean-webpack-plugin');
   const HtmlWebpackPlugin = require('html-webpack-plugin');
 
   module.exports = {
     entry: './src/index.js',
     plugins: [
+      // 对于 CleanWebpackPlugin 的 v2 versions 以下版本，使用 new CleanWebpackPlugin(['dist/*'])
       new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         title: 'Caching'
@@ -217,7 +223,7 @@ __src/index.js__
 + import Print from './print';
 
   function component() {
-    var element = document.createElement('div');
+    const element = document.createElement('div');
 
     // lodash 是由当前 script 脚本 import 进来的
     element.innerHTML = _.join(['Hello', 'webpack'], ' ');
@@ -245,32 +251,32 @@ __src/index.js__
 
 - `main` bundle 会随着自身的新增内容的修改，而发生变化。
 - `vendor` bundle 会随着自身的 `module.id` 的变化，而发生变化。
-- `manifest` bundle 会因为现在包含一个新模块的引用，而发生变化。
+- `manifest` runtime 会因为现在包含一个新模块的引用，而发生变化。
 
-第一个和最后一个都是符合预期的行为 - 而 `vendor` hash 发生变化是我们要修复的。幸运的是，可以使用两个插件来解决这个问题。第一个插件是 `NamedModulesPlugin`，将使用模块的路径，而不是一个数字 identifier。虽然此插件有助于在开发环境下产生更加可读的输出结果，然而其执行时间会有些长。第二个选择是使用 [`HashedModuleIdsPlugin`](/plugins/hashed-module-ids-plugin)，推荐用于生产环境构建：
+第一个和最后一个都是符合预期的行为，`vendor` hash 发生变化是我们要修复的。我们将 [`optimization.moduleIds`](/configuration/optimization/#optimizationmoduleids) 设置为 `'hashed'`：
 
 __webpack.config.js__
 
 ``` diff
   const path = require('path');
-+ const webpack = require('webpack');
-  const CleanWebpackPlugin = require('clean-webpack-plugin');
+  const { CleanWebpackPlugin } = require('clean-webpack-plugin');
   const HtmlWebpackPlugin = require('html-webpack-plugin');
 
   module.exports = {
     entry: './src/index.js',
     plugins: [
+      // 对于 CleanWebpackPlugin 的 v2 versions 以下版本，使用 new CleanWebpackPlugin(['dist/*'])
       new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         title: 'Caching'
-      }),
-+      new webpack.HashedModuleIdsPlugin()
+      })
     ],
     output: {
       filename: '[name].[contenthash].js',
       path: path.resolve(__dirname, 'dist')
     },
     optimization: {
++     moduleIds: 'hashed',
       runtimeChunk: 'single',
       splitChunks: {
         cacheGroups: {
@@ -308,7 +314,7 @@ __src/index.js__
 + // import Print from './print';
 
   function component() {
-    var element = document.createElement('div');
+    const element = document.createElement('div');
 
     // lodash 是由当前 script 脚本 import 进来的
     element.innerHTML = _.join(['Hello', 'webpack'], ' ');

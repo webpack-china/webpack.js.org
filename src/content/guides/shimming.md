@@ -1,6 +1,6 @@
 ---
 title: shim 预置依赖
-sort: 13
+sort: 19
 contributors:
   - pksjce
   - jhnns
@@ -9,19 +9,23 @@ contributors:
   - svyandun
   - byzyk
   - EugeneHlushko
+  - AnayaDesign
   - dhurlburtusa
+  - plr108
+  - NicolasLetellier
+  - wizardofhogwarts
 related:
   - title: Reward modern browser users script
     url: https://hackernoon.com/10-things-i-learned-making-the-fastest-site-in-the-world-18a0e1cdf4a7#c665
   - title: useBuiltIns in babel-preset-env
-    url: https://github.com/babel/babel-preset-env#usebuiltins
+    url: https://babeljs.io/docs/en/babel-preset-env#usebuiltins
 ---
 
 `webpack` compiler 能够识别遵循 ES2015 模块语法、CommonJS 或 AMD 规范编写的模块。然而，一些 third party(第三方库) 可能会引用一些全局依赖（例如 `jQuery` 中的 `$`）。因此这些 library 也可能会创建一些需要导出的全局变量。这些 "broken modules(不符合规范的模块)" 就是 _shim(预置依赖)_ 发挥作用的地方。
 
 W> __我们不推荐使用全局依赖！__webpack 背后的整个理念是使前端开发更加模块化。也就是说，需要编写具有良好的封闭性(well contained)、不依赖于隐含依赖（例如，全局变量）的彼此隔离的模块。请只在必要的时候才使用这些特性。
 
-_shim_ 另外一个极其有用的使用场景就是：当你希望 [polyfill](https://en.wikipedia.org/wiki/Polyfill_(programming) 扩展浏览器能力，来支持到更多用户时。在这种情况下，你可能只是想要将这些 polyfills 提供给需要修补(patch)的浏览器（也就是实现按需加载）。
+_shim_ 另外一个极其有用的使用场景就是：当你希望 [polyfill](https://en.wikipedia.org/wiki/Polyfill_%28programming%29) 扩展浏览器能力，来支持到更多用户时。在这种情况下，你可能只是想要将这些 polyfills 提供给需要修补(patch)的浏览器（也就是实现按需加载）。
 
 下面的文章将向我们展示这两种用例。
 
@@ -54,7 +58,7 @@ __src/index.js__
 - import _ from 'lodash';
 -
   function component() {
-    var element = document.createElement('div');
+    const element = document.createElement('div');
 
 -   // Lodash, now imported by this script
     element.innerHTML = _.join(['Hello', 'webpack'], ' ');
@@ -105,7 +109,7 @@ __src/index.js__
 
 ``` diff
   function component() {
-    var element = document.createElement('div');
+    const element = document.createElement('div');
 
 -   element.innerHTML = _.join(['Hello', 'webpack'], ' ');
 +   element.innerHTML = join(['Hello', 'webpack'], ' ');
@@ -146,7 +150,7 @@ __webpack.config.js__
 
 ``` diff
   function component() {
-    var element = document.createElement('div');
+    const element = document.createElement('div');
 
     element.innerHTML = join(['Hello', 'webpack'], ' ');
 +
@@ -210,8 +214,8 @@ __project__
 __src/globals.js__
 
 ``` js
-var file = 'blah.txt';
-var helpers = {
+const file = 'blah.txt';
+const helpers = {
   test: function() { console.log('test something'); },
   parse: function() { console.log('parse something'); }
 };
@@ -273,7 +277,7 @@ __src/index.js__
 + import 'babel-polyfill';
 +
   function component() {
-    var element = document.createElement('div');
+    const element = document.createElement('div');
 
     element.innerHTML = join(['Hello', 'webpack'], ' ');
 
@@ -302,7 +306,7 @@ __src/index.js__
 - import 'babel-polyfill';
 -
   function component() {
-    var element = document.createElement('div');
+    const element = document.createElement('div');
 
     element.innerHTML = join(['Hello', 'webpack'], ' ');
 
@@ -380,13 +384,13 @@ __dist/index.html__
     <head>
       <title>Getting Started</title>
 +     <script>
-+       var modernBrowser = (
++       const modernBrowser = (
 +         'fetch' in window &&
 +         'assign' in Object
 +       );
 +
 +       if ( !modernBrowser ) {
-+         var scriptElement = document.createElement('script');
++         const scriptElement = document.createElement('script');
 +
 +         scriptElement.async = false;
 +         scriptElement.src = '/polyfills.bundle.js';
@@ -406,7 +410,7 @@ __src/index.js__
 
 ``` diff
   function component() {
-    var element = document.createElement('div');
+    const element = document.createElement('div');
 
     element.innerHTML = join(['Hello', 'webpack'], ' ');
 
@@ -439,7 +443,7 @@ import 'core-js/modules/web.immediate';
 import 'core-js/modules/web.dom.iterable';
 ```
 
-查看 [仓库](https://github.com/babel/babel-preset-env) 以获取更多信息。
+查看 [babel-preset-env 文档](https://babeljs.io/docs/en/babel-preset-env) 以获取更多信息。
 
 
 ## Node 内置
