@@ -81,4 +81,5 @@ loader 的解析规则也遵循特定的规范。但是 [`resolveLoader`](/confi
 
 每次文件系统访问文件都会被缓存，以便于更快触发对同一文件的多个并行或串行请求。在 [watch 模式](/configuration/watch/#watch) 下，只有修改过的文件会被从缓存中移出。如果关闭 watch 模式，则会在每次编译前清理缓存。
 
+
 欲了解更多上述配置信息，请查阅 [Resolve API](/configuration/resolve)。
