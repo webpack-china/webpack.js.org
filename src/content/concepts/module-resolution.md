@@ -72,6 +72,7 @@ import 'module/lib/file';
 
 webpack 会根据构建目标，为这些选项提供合理的[默认](/configuration/resolve)配置。
 
+
 ## 解析 loader
 
 loader 的解析规则也遵循特定的规范。但是 [`resolveLoader`](/configuration/resolve/#resolveloader) 配置项可以为 loader 设置独立的解析规则。
