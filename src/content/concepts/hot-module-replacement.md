@@ -37,7 +37,6 @@ contributors:
 
 除了普通资源，compiler 需要发出 "update"，将之前的版本更新到新的版本。"update" 由两部分组成：
 
-
 1. 更新后的 [manifest](/concepts/manifest) (JSON)
 2. 一个或多个 updated chunk (JavaScript)
 
