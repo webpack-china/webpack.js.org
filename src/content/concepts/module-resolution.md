@@ -77,6 +77,7 @@ webpack 会根据构建目标，为这些选项提供合理的[默认](/configur
 
 loader 的解析规则也遵循特定的规范。但是 [`resolveLoader`](/configuration/resolve/#resolveloader) 配置项可以为 loader 设置独立的解析规则。
 
+
 ## 缓存
 
 每次文件系统访问文件都会被缓存，以便于更快触发对同一文件的多个并行或串行请求。在 [watch 模式](/configuration/watch/#watch) 下，只有修改过的文件会被从缓存中移出。如果关闭 watch 模式，则会在每次编译前清理缓存。
