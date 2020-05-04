@@ -1,5 +1,5 @@
 ---
-title: Shimming
+title: Shimming 预置依赖
 sort: 19
 contributors:
   - pksjce
