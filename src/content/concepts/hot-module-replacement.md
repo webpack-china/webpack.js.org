@@ -37,7 +37,6 @@ contributors:
 
 除了普通资源，compiler 需要发出 "update"，将之前的版本更新到新的版本。"update" 由两部分组成：
 
-
 1. 更新后的 [manifest](/concepts/manifest) (JSON)
 2. 一个或多个 updated chunk (JavaScript)
 
@@ -45,6 +44,7 @@ manifest 包括新的 compilation hash 和所有的 updated chunk 列表。每�
 
 compiler 会确保在这些构建之间的模块 ID 和 chunk ID 保持一致。通常将这些 ID 存储在内存中（例如，使用 [webpack-dev-server](/configuration/dev-server/) 时），但是也可能会将它们存储在一个 JSON 文件中。
 
+compiler 会确保在这些构建之间的模块 ID 和 chunk ID 保持一致。通常将这些 ID 存储在内存中（例如，使用 [webpack-dev-server](/configuration/dev-server/) 时），但是也可能会将它们存储在一个 JSON 文件中。
 
 ### 在模块中
 
@@ -54,6 +54,7 @@ HMR 是可选功能，只会影响包含 HMR 代码的模块。举个例子，�
 
 有关 `module.hot` 接口的详细信息，请查看 [HMR API 页面](/api/hot-module-replacement)。
 
+有关 `module.hot` 接口的详细信息，请查看 [HMR API 页面](/api/hot-module-replacement)。
 
 ### 在 Runtime 中
 
