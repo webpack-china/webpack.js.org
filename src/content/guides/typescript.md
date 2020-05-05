@@ -174,7 +174,7 @@ __webpack.config.js__
 查看 [devtool](/configuration/devtool/) 文档以了解更多信息。
 
 
-## 使用第三方为类库
+## 使用第三方类库
 
 在从 npm 安装 third party library(第三方库) 时，一定要记得同时安装此 library 的类型声明文件(typing definition)。你可以从 [TypeSearch](https://microsoft.github.io/TypeSearch/) 中找到并安装这些第三方库的类型声明文件。
 
