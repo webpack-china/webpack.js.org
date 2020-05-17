@@ -1,5 +1,5 @@
 ---
-title: 外部扩展(Externals)
+title: 外部扩展(externals)
 sort: 15
 contributors:
   - sokra
@@ -64,15 +64,14 @@ $('.my-element').animate(/* ... */);
 
 可以接受以下语法……
 
+
 ### 字符串
 
 请查看上面的例子。属性名称是 `jquery`，表示应该排除 `import $ from 'jquery'` 中的 `jquery` 模块。为了替换这个模块，`jQuery` 的值将被用来检索一个全局的 `jQuery` 变量。换句话说，当设置为一个字符串时，它将被视为`全局的`（定义在上面和下面）。
 
-另一方面，如果你想将一个符合 CommonJS 模块化规则的类库外部化，
-你可以提供外联类库的类型以及类库的名称。
+另一方面，如果你想将一个符合 CommonJS 模块化规则的类库外部化，你可以提供外联类库的类型以及类库的名称。
 
-你还如，如果你想将 `fs-extra` 从输出的 bundle 中剔除并在运行时中引入它，
-你可以如下定义：
+如果你想将 `fs-extra` 从输出的 bundle 中剔除并在运行时中引入它，你可以如下定义：
 
 ```javascript
 module.exports = {
@@ -82,6 +81,7 @@ module.exports = {
   }
 };
 ```
+
 这样的做法会让任何依赖的模块都不变，正如以下所示的代码：
 
 ```javascript
@@ -94,7 +94,7 @@ import fs from 'fs-extra';
 const fs = require('fs-extra');
 ```
 
-### [string]
+### 字符串数组
 
 ```javascript
 module.exports = {
@@ -118,7 +118,7 @@ module.exports = {
     react: 'react'
   },
 
-  // or
+  // 或者
 
   externals : {
     lodash : {
@@ -188,7 +188,7 @@ __webpack.config.js__
 module.exports = {
   externals: [
     function(context, request, callback) {
-      // 该外部化的模块，是一个 `commonjs2` 的模块，且放在 `@scope/library` 目录中 
+      // 该外部化的模块，是一个 `commonjs2` 的模块，且放在 `@scope/library` 目录中
       callback(null, '@scope/library', 'commonjs2');
     }
   ]

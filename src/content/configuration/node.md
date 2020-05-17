@@ -22,7 +22,6 @@ contributors:
 
 是一个对象，其中每个属性都是 Node.js 全局变量或模块的名称，每个 value 是以下其中之一……
 
-
 - `true`：提供 polyfill。
 - `"mock"`：提供 mock 实现预期接口，但功能很少或没有。
 - `"empty"`：提供空对象。

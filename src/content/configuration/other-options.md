@@ -1,5 +1,5 @@
 ---
-title: 其它选项（Other Options）
+title: 其它选项
 sort: 20
 contributors:
   - sokra
@@ -214,9 +214,7 @@ module.exports = {
 
 `string = ''`
 
-缓存数据的版本。不同版本不会允许重用缓存和重载当前的内容。
-当配置以一种无法重用缓存的方式改变时，要更新缓存的版本。
-这会让缓存失效。
+缓存数据的版本。不同版本不会允许重用缓存和重载当前的内容。当配置以一种无法重用缓存的方式改变时，要更新缓存的版本。这会让缓存失效。
 
 `cache.version` 选项仅当 [`cache.type`](#cachetype) 设置成 `filesystem` 才可配置。
 

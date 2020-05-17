@@ -1,5 +1,5 @@
 ---
-title: 性能(Performance)
+title: 性能(performance)
 sort: 16
 contributors:
   - thelarkinn

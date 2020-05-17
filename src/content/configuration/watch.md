@@ -1,5 +1,5 @@
 ---
-title: Watch and WatchOptions
+title: watch 和 watchOptions
 sort: 14
 contributors:
   - sokra
@@ -50,13 +50,13 @@ module.exports = {
 };
 ```
 
-Providing a number to the `watchOptions` sets `watchOptions.aggregateTimeout` to the given number.
+直接向 `watchOptions` 设置为一个数字，等同于将 `watchOptions.aggregateTimeout` 设置为给定的数字。
 
 __webpack.config.js__
 
 ```javascript
 module.exports = {
-  // same as watchOptions.aggregateTimeout = 300
+  // 与 watchOptions.aggregateTimeout = 300 相同
   watchOptions:  300
 };
 ```
@@ -123,7 +123,7 @@ __webpack.config.js__
 module.exports = {
   //...
   watchOptions: {
-    poll: 1000 // Check for changes every second
+    poll: 1000 // 每秒检查一次变动
   }
 };
 ```
@@ -180,6 +180,6 @@ Arch 用户，请将 `fs.inotify.max_user_watches=524288` 添加到 `/etc/sysctl
 
 `:set backupcopy=yes`
 
-### Saving in WebStorm
+### 在 WebStorm 中保存
 
 使用 JetBrains WebStorm IDE 时，你可能会发现保存修改过的文件，并不会按照预期触发观察者。尝试在设置中禁用`安全写入(safe write)`选项，该选项确定在原文件被覆盖之前，文件是否先保存到临时位置：取消选中 `File > {Settings|Preferences} > Appearance & Behavior > System Settings > Use "safe write" (save changes to a temporary file first)`。

@@ -1,5 +1,5 @@
 ---
-title: 统计信息（Stats）
+title: stats 对象
 sort: 18
 contributors:
   - SpaceK33z
@@ -18,7 +18,7 @@ contributors:
 
 `object` `string`
 
- `stats` 选项让你更精确地控制 bundle 信息该怎么显示。 如果你不希望使用 `quiet` 或 `noInfo` 这样的不显示信息，而是又不想得到全部的信息，只是想要获取某部分 bundle 的信息，使用 stats 选项是比较好的折衷方式。
+`stats` 选项让你更精确地控制 bundle 信息该怎么显示。 如果你不希望使用 `quiet` 或 `noInfo` 这样的不显示信息，而是又不想得到全部的信息，只是想要获取某部分 bundle 的信息，使用 stats 选项是比较好的折衷方式。
 
 T> 对于 webpack-dev-server，这个属性要放在 [`devServer` 配置对象](/configuration/dev-server/#devserverstats-).
 
@@ -577,7 +577,6 @@ module.exports = {
 `string = 'id'`
 
 告知 `stats` 基于给定的字段对资源进行排序。所有的 [排序字段](#sorting-fields)都被允许作为 `stats.modulesSort`的值。使用 `!` 作为值的前缀以反转基于给定字段的排序结果。
-
 
 ```javascript
 module.exports = {
