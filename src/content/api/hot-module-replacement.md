@@ -161,9 +161,9 @@ if(require.cache[moduleId]) {
 }
 ```
 
-T> When `invalidate` is called, the [`dispose`](#dispose-or-adddisposehandler) handler will be eventually called and fill `module.hot.data`. If [`dispose`](#dispose-or-adddisposehandler) handler is not registered, an empty object will be supplied to `module.hot.data`.
+T> 当调用 `invalidate` 时，将最终调用 [`dispose`](#dispose-or-adddisposehandler) 处理函数并填充 `module.hot.data`。 如果未注册 [`dispose`](#dispose-or-adddisposehandler) 处理程序, 则将空对象提供给 `module.hot.data`.
 
-W> Do not get caught in an `invalidate` loop, by calling `invalidate` again and again. This will result in stack overflow and HMR entering the `fail` state.
+W> 不要陷入 `invalidate` 循环，一次次的调用 `invalidate`， 将导致栈溢出并且 HMR 进入 `fail` 状态。
 
 ### `removeDisposeHandler`
 
