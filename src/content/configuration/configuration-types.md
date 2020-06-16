@@ -1,5 +1,5 @@
 ---
-title: Configuration Types
+title: 配置类型
 sort: 3
 contributors:
   - sokra
@@ -13,17 +13,17 @@ contributors:
   - anshumanv
 ---
 
-Besides exporting a single configuration object, there are a few more ways that cover other needs as well.
+除了导出一个配置对象之外，还有其他一些方法可以满足其他需求。
 
 
-## Exporting a Function
+## 导出函数
 
-Eventually you will find the need to disambiguate in your `webpack.config.js` between [development](/guides/development) and [production builds](/guides/production). You have (at least) two options:
+最终你会发现你的 `webpack.config.js` 在 [开发(development)](/guides/development) 和 [生产构建(production builds)](/guides/production)之间. 你至少有两个选择：
 
-One option is to export a function from your webpack configuration instead of exporting an object. The function will be invoked with two arguments:
+一个选项是从webpack配置中导出函数，而不是导出对象。函数将使用两个参数调用：
 
-- An environment as the first parameter. See the [environment options CLI documentation](/api/cli/#environment-options) for syntax examples.
-- An options map (`argv`) as the second parameter. This describes the options passed to webpack, with keys such as [`output-filename`](/api/cli/#output-options) and [`optimize-minimize`](/api/cli/#optimize-options).
+- 作为第一个参数的环境。有关语法示例，请参阅[环境选项CLI文档](/api/cli/#environment-options) .
+- 选项映射（`argv`）作为第二个参数。它描述了传递给webpack的选项, 其中包含诸如[`输出文件名`(`output filename`)](/api/cli/#output-options) and [`优化最小化`(`output filename`)](/api/cli/#optimize-options).
 
 ```diff
 -module.exports = {
@@ -43,11 +43,11 @@ One option is to export a function from your webpack configuration instead of ex
 ```
 
 
-## Exporting a Promise
+## 导出Promise
 
-webpack will run the function exported by the configuration file and wait for a Promise to be returned. Handy when you need to asynchronously load configuration variables.
+webpack将运行配置文件导出的函数，并等待返回承诺。在需要异步加载配置变量时非常方便。
 
-T> It is possible to export multiple promises by wrapping them into `Promise.all([/* Your promises */]).`
+T> 也可以将多个promise通过promise.all的方法来包装 `Promise.all([/* Your promises */]).`
 
 ```js
 module.exports = () => {
@@ -62,12 +62,13 @@ module.exports = () => {
 };
 ```
 
-W> Returning a `Promise` only works when using webpack via CLI. [`webpack()`](/api/node/#webpack) expects an object.
+W> 返回一个 `Promise` 仅在通过CLI使用webpack时有效。 [`webpack()`](/api/node/#webpack) 接收一个对象.
 
 
-## Exporting multiple configurations
+## 导出多个配置
 
-Instead of exporting a single configuration object/function, you may export multiple configurations (multiple functions are supported since webpack 3.1.0). When running webpack, all configurations are built. For instance, this is useful for [bundling a library](/guides/author-libraries) for multiple [targets](/configuration/output/#outputlibrarytarget) such as AMD and CommonJS:
+您可以导出多个配置，而不是导出单个配置对象/函数(webpack 3.1.0以后支持多个函数)。运行webpack时，将生成所有配置。例如，对于AMD和CommonJS等多个[目标](/configuration/output/#outputlibrarytarget)这对于[捆绑库](/guides/author-libraries)很有用：
+
 
 ```js
 module.exports = [{
@@ -89,4 +90,4 @@ module.exports = [{
 }];
 ```
 
-T> If you pass a name to [`--config-name`](/api/cli/#configuration-options) flag, webpack will only build that specific configuration.
+T> 如果将名称传递给[`--config name`](/api/cli/#configuration-options)标志，webpack将只生成该特定配置。
