@@ -15,12 +15,12 @@ related:
     url: /guides/hot-module-replacement
 ---
 
-如果已经通过 [Hot Module Replacement](/concepts/hot-module-replacement) 启用了 [`HotModuleReplacementPlugin`](/plugins/hot-module-replacement-plugin), 则它的接口将被暴露在 [`module.hot` 属性](/api/module-variables/#modulehot-webpack-specific)下面。 通常，用户先要检查这个接口是否可访问, 然后再开始使用它。举个例子，你可以这样 `accept` 一个更新的模块：
+如果已经通过 [`HotModuleReplacementPlugin`](/plugins/hot-module-replacement-plugin) 启用了 [Hot Module Replacement](/concepts/hot-module-replacement), 则它的接口将被暴露在 [`module.hot` 属性](/api/module-variables/#modulehot-webpack-specific) 下面。通常，用户先要检查这个接口是否可访问, 再使用它。你可以这样使用 `accept` 操作一个更新的模块：
 
 ``` js
 if (module.hot) {
   module.hot.accept('./library.js', function() {
-    // 使用更新过的 library 模块执行某些操作...
+    // 对更新过的 library 模块做些事情...
   });
 }
 ```
@@ -31,7 +31,7 @@ if (module.hot) {
 
 ### `accept`
 
-接受(accept)给定`依赖模块(dependencies)`的更新，并触发一个 `回调函数` 来对这些更新做出响应。
+接受(accept)给定 `依赖模块(dependencies)` 的更新，并触发一个 `回调函数` 来响应更新。
 
 ``` js
 module.hot.accept(
@@ -40,7 +40,7 @@ module.hot.accept(
 );
 ```
 
-当使用 ESM `import` 时，所有引用`依赖模块(dependencies)`的导入符号都会被自动更新。注意：依赖模块字符串必须和 `import` 中的 `from` 字符串相匹配。在一些情况中 `callback` 可以省略。在 `callback` 中使用的 `require()` 在这里没有任何意义。
+当使用 ESM `import` 时，所有从 `dependencies` 中导入的符号都会自动更新。注意：依赖项字符串必须与 `import` 中的 `from` 字符串完全匹配。在某些情况下， 甚至可以省略 `callback`。在 `callback` 中使用的 `require()` 在这里没有任何意义。
 
 在使用 CommonJS 时，你应该通过 `callback` 中的 `require()` 手动更新依赖模块。这时省略 `callback` 在这里没有任何意义。
 
@@ -54,9 +54,9 @@ module.hot.accept(
 );
 ```
 
-在此模块或依赖模块更新时，在不通知父母的情况下，可以对此模块处理和重新取值。 如果此模块没有导出（或以其他方式更新的导出），这是有意义的。
+在此模块或依赖模块更新时，可以在不通知父依赖的情况下，对此模块处理和重新取值。如果此模块没有导出（或以其他方式更新的导出），这是有意义的。
 
-当对此模块（或依赖模块）进行取值而引发异常时，会触发 `errorHandler`。
+当执行此模块（或依赖模块）抛出异常时，会触发 `errorHandler`。
 
 ### `decline`
 
@@ -161,9 +161,9 @@ if(require.cache[moduleId]) {
 }
 ```
 
-T> 当调用 `invalidate` 时，将最终调用 [`dispose`](#dispose-or-adddisposehandler) 处理函数并填充 `module.hot.data`。 如果未注册 [`dispose`](#dispose-or-adddisposehandler) 处理程序, 则将空对象提供给 `module.hot.data`.
+T> 当调用 `invalidate` 时，将最终调用 [`dispose`](#dispose-or-adddisposehandler) 处理函数并填充 `module.hot.data`。如果未注册 [`dispose`](#dispose-or-adddisposehandler) 处理程序, 则将空对象提供给 `module.hot.data`.
 
-W> 不要陷入 `invalidate` 循环，一次次的调用 `invalidate`， 将导致栈溢出并且 HMR 进入 `fail` 状态。
+W> 通过一次次的调用 `invalidate`，不要陷入 `invalidate` 循环。这将导致栈溢出并且 HMR 进入 `fail` 状态。
 
 ### `removeDisposeHandler`
 
@@ -173,7 +173,7 @@ W> 不要陷入 `invalidate` 循环，一次次的调用 `invalidate`， 将导�
 module.hot.removeDisposeHandler(callback);
 ```
 
-## 管理 API
+## API 管理
 
 ### `status`
 
@@ -260,7 +260,7 @@ module.hot.apply(options).then(outdatedModules => {
 
 ### `addStatusHandler`
 
-注册一个函数来监听 `status`的变化。
+注册一个函数来监听 `status` 的变化。
 
 ``` js
 module.hot.addStatusHandler(status => {
