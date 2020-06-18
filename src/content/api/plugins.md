@@ -135,7 +135,7 @@ reportProgress(percentage, ...args);
 
 ## 记录
 
-记录(Logging)接口在 webpack 4.37 版本后提供支持。当 `logging` 在 [`统计配置(stats configuration)`](/configuration/stats/#statslogging)中可用和(或)当 [`infrastructure logging`](/configuration/other-options/#infrastructurelogging) 可用的时候，插件会通过各自的记录格式(stats，infrastructure)打印信息。
+日志的 API 在 webpack 4.37 版本后提供支持。当 `logging` 在 [`统计配置(stats configuration)`](/configuration/stats/#statslogging)中可用和(或)当 [`infrastructure logging`](/configuration/other-options/#infrastructurelogging) 可用的时候，插件会通过各自的记录格式(stats，infrastructure)打印信息。
 
 - 插件可以使用 `compilation.getLogger('PluginName')` 来做记录。这种形式的记录保存在统计数据(Stats)中并做相应的格式化。它能够被用户过滤和导出。
 - 插件也可以使用 `compilation.getInfrastructureLogger('PluginName')` 来做记录。使用 `infrastructure` 的形式并不会被保存在统计数据(Stats)中，因此也不会被格式化。它通常直接将记录载入到 console/dashboard/GUI 中。它能够被用户过滤。
