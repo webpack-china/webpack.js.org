@@ -57,7 +57,7 @@ compiler.hooks.compile.tap('MyPlugin', params => {
 });
 ```
 
-然而，对于可以使用 `异步钩子(AsyncHook)` 的 `运行(run)` 阶段，
+然而，对于可以使用 `AsyncHook` 的 `run` 阶段，
 则需使用 `tapAsync` 或 `tapPromise`（以及 `tap`）方法。
 
 ```js
