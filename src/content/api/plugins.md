@@ -133,7 +133,7 @@ reportProgress(percentage, ...args);
 
 注意：只有 compiler 和 compilation 钩子的子集才支持 `reportProgress` 方法。请查看 [`ProgressPlugin`](/plugins/progress-plugin/#supported-hooks) 了解更多信息。
 
-## 记录
+## 日志
 
 日志的 API 在 webpack 4.37 版本后提供支持。当 `logging` 在 [`统计配置(stats configuration)`](/configuration/stats/#statslogging)中可用和(或)当 [`infrastructure logging`](/configuration/other-options/#infrastructurelogging) 可用的时候，插件会通过各自的记录格式(stats，infrastructure)打印信息。
 
