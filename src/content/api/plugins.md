@@ -17,7 +17,7 @@ contributors:
 在编译的每个阶段中，插件都拥有对 `compiler` 对象的完全访问能力，
 并且在合适的时候还可以访问当前的 `compilation` 对象。
 
-T > 关于编写插件的高级介绍，请移步：
+T> 关于编写插件的高级介绍，请移步：
 [自定义插件](/contribute/writing-a-plugin)。
 
 让我们首先从 tapable 工具开始，
