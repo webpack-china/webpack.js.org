@@ -21,7 +21,7 @@ T > 关于编写插件的高级介绍，请移步：
 [编写一个插件](/contribute/writing-a-plugin)。
 
 让我们首先从 tapable 工具开始，
-它为 webpack 插件接口提供了核心能力的 。
+它为 webpack 插件接口提供了核心能力的。
 
 
 ## Tapable
