@@ -85,7 +85,7 @@ compiler.hooks.run.tapPromise('MyPlugin', async (source, target, routesList) => 
 ## 自定义钩子
 
 为了便于其他插件的编译过程中可以 `tap` 到，则需要创建一个新的 hook，
-我们只需要简单的从 `tapable` 中 `require` 所需的钩子类(hook class)，然后创建：
+我们只需要简单的从 `tapable` 中 `require` 所需的 hook 类，并创建：
 
 ``` js
 const SyncHook = require('tapable').SyncHook;
