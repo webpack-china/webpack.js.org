@@ -11,23 +11,43 @@ contributors:
   - wizardofhogwarts
 ---
 
-插件是 webpack 生态的关键部分，它为社区用户提供了一种强有力的方式来直接触及 webpack 的编译过程(compilation process)。插件能够[钩入(hook)](/api/compiler-hooks/#hooks)到每一个编译(compilation)中发出的关键事件中。在编译的每一步中，插件都拥有对 `compiler` 对象的完全访问能力，并且在合适的时候还可以访问当前的 `compilation` 对象。
+插件是 webpack 生态的关键部分，
+它为社区用户提供了一种强有力的方式来直接触及 webpack 的编译过程(compilation process)。
+插件能够[钩入(hook)](/api/compiler-hooks/#hooks)到每一个编译(compilation)中发出的关键事件中。
+在编译的每一步中，插件都拥有对 `compiler` 对象的完全访问能力，
+并且在合适的时候还可以访问当前的 `compilation` 对象。
 
-T > 关于编写插件的高级介绍，请移步：[编写一个插件](/contribute/writing-a-plugin)。
+T > 关于编写插件的高级介绍，请移步：
+[编写一个插件](/contribute/writing-a-plugin)。
 
-让我们首先从为 webpack 插件接口提供了核心能力的 tapable 工具开始。
+让我们首先从 tapable 工具开始，
+它为 webpack 插件接口提供了核心能力的 。
 
 ## Tapable
 
-这个小型库是 webpack 的一个核心工具，但也可用于其他地方，以提供类似的插件接口。在 webpack 中的许多对象都扩展自 `Tapable` 类。它对外暴露了 `tap`，`tapAsync`, 和 `tapPromise` 方法，插件可以使用这些方法注入到自定义的构建步骤中，这些步骤将在整个编译过程的不同时机触发。
+这个小型库是 webpack 的一个核心工具，但也可用于其他地方，
+以提供类似的插件接口。
+在 webpack 中的许多对象都扩展自 `Tapable` 类。
+它对外暴露了 `tap`，`tapAsync`, 和 `tapPromise` 方法，
+插件可以使用这些方法注入到自定义的构建步骤中，这些步骤将在整个编译过程的不同时机触发。
 
-请查看[文档](https://github.com/webpack/tapable)了解更多知识。理解上面的的三种 `tap` 方法以及提供这些方法的钩子(hooks)对于编写插件来说是至关重要的。那些扩展自 `Tapable` 的对象（例如：compiler）以及其提供的钩子(hooks)和每个钩子的类型（例如：`同步钩子(SyncHook)`）是值得我们注意的。
+请查看[文档](https://github.com/webpack/tapable)了解更多知识。
+理解上面的的三种 `tap` 方法，
+以及提供这些方法的钩子(hooks)对于编写插件来说是至关重要的。
+那些扩展自 `Tapable` 的对象（例如：compiler），
+以及其提供的钩子(hooks)和每个钩子的类型（例如：`同步钩子(SyncHook)`）是值得我们注意的。
 
 ## 插件类型
 
-根据使用不同的钩子(hooks)和 `tap` 方法，插件可以以多种不同的方式运行。这个工作方式与 Tapable 提供的[钩子(hooks)](https://github.com/webpack/tapable#tapable)密切相关。[compiler hooks](/api/compiler-hooks/#hooks) 分别记录了 Tapable 内在的钩子，并指出哪些 tap 方法可用。
+根据使用不同的钩子(hooks)和 `tap` 方法，
+插件可以以多种不同的方式运行。
+这个工作方式与 Tapable 提供的[钩子(hooks)](https://github.com/webpack/tapable#tapable)密切相关。
+[compiler hooks](/api/compiler-hooks/#hooks) 分别记录了 Tapable 内在的钩子，
+并指出哪些 tap 方法可用。
 
-所以，依赖于使用的 `tap` 方法的不同，插件可能会以不同的方式运行。例如：当你钩入到 `编译(compile)` 阶段时，只有同步的 `tap` 方法可以使用。
+所以，依赖于使用的 `tap` 方法的不同，
+插件可能会以不同的方式运行。
+例如：当你钩入到 `编译(compile)` 阶段时，只有同步的 `tap` 方法可以使用。
 
 ``` js
 compiler.hooks.compile.tap('MyPlugin', params => {
@@ -35,7 +55,8 @@ compiler.hooks.compile.tap('MyPlugin', params => {
 });
 ```
 
-然而，对于可以使用 `异步钩子(AsyncHook)` 的 `运行(run)` 阶段，我们能够使用 `tapAsync` 或 `tapPromise`（以及 `tap`）方法。
+然而，对于可以使用 `异步钩子(AsyncHook)` 的 `运行(run)` 阶段，
+我们能够使用 `tapAsync` 或 `tapPromise`（以及 `tap`）方法。
 
 ```js
 compiler.hooks.run.tapAsync('MyPlugin', (source, target, routesList, callback) => {
@@ -55,11 +76,13 @@ compiler.hooks.run.tapPromise('MyPlugin', async (source, target, routesList) => 
 });
 ```
 
-这些需求(story)的含义在于，我们可以有多种方式钩入(hook)到 compiler 中，可以让各种插件都以合适的方式去运行。
+这些需求(story)的含义在于，
+我们可以有多种方式钩入(hook)到 compiler 中，可以让各种插件都以合适的方式去运行。
 
 ## 自定义钩子
 
-如果我们要让其他插件在编译过程中可以`触及(tap)`而创建一个新的钩子(hook)，我们只需要简单的从 `tapable` 中 `require` 所需的钩子类(hook class)，然后创建：
+如果我们要让其他插件在编译过程中可以`触及(tap)`而创建一个新的钩子(hook)，
+我们只需要简单的从 `tapable` 中 `require` 所需的钩子类(hook class)，然后创建：
 
 ``` js
 const SyncHook = require('tapable').SyncHook;
@@ -71,8 +94,8 @@ compiler.hooks.myCustomHook = new SyncHook(['a', 'b', 'c']);
 compiler.hooks.myCustomHook.call(a, b, c);
 ```
 
-再次声明，查看 `tapable` [文档](https://github.com/webpack/tapable) 来了解更多不同的钩子类(hook class)，以及它们是如何工作的。
-
+再次声明，
+查看 `tapable` [文档](https://github.com/webpack/tapable) 来了解更多不同的钩子类(hook class)，以及它们是如何工作的。
 
 ## 进度报告
 
@@ -117,4 +140,5 @@ reportProgress(percentage, ...args);
 
 ## 下一步
 
-查看 [compiler hooks](/api/compiler-hooks/) 部分，了解所有可用的 `compiler` 钩子以及它们提供的参数的详细列表。
+查看 [compiler hooks](/api/compiler-hooks/) 部分，
+了解所有可用的 `compiler` 钩子以及它们提供的参数的详细列表。
