@@ -13,7 +13,7 @@ contributors:
 
 插件是 webpack 生态的关键部分，
 它为社区用户提供了一种强有力的方式来直接触及 webpack 的编译过程(compilation process)。
-插件能够[钩入(hook)](/api/compiler-hooks/#hooks)到每一个编译(compilation)中发出的关键事件中。
+插件能够 [hook](/api/compiler-hooks/#hooks) 到每一个编译(compilation)中发出的关键事件中。
 在编译的每个阶段中，插件都拥有对 `compiler` 对象的完全访问能力，
 并且在合适的时机，还可以访问当前的 `compilation` 对象。
 
@@ -79,7 +79,7 @@ compiler.hooks.run.tapPromise('MyPlugin', async (source, target, routesList) => 
 ```
 
 这些需求(story)的含义在于，
-我们可以有多种方式钩入(hook)到 compiler 中，可以让各种插件都以合适的方式去运行。
+我们可以有多种方式 hook 到 compiler 中，可以让各种插件都以合适的方式去运行。
 
 
 ## 自定义钩子
@@ -106,7 +106,7 @@ compiler.hooks.myCustomHook.call(a, b, c);
 
 如果想要自定义打印输出，只需要传递不同的参数到 [`ProgressPlugin`](/plugins/progress-plugin/) 的 `reportProgress` 方法。
 
-如果想要报告进度，插件必须在`触及(tap)`到钩子(hook)的时候使用 `context: true` 选项。
+如果想要报告进度，插件必须在 `tap` 到 hook 的时候使用 `context: true` 选项。
 
 ```js
 compiler.hooks.emit.tapAsync({
