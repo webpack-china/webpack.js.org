@@ -155,7 +155,7 @@ module.exports = {
 }
 ```
 
-如果要根据 webpack.config.js 中的 __mode__ 变量更改打包行为，则必须将配置导出为一个函数，而不是导出为一个对象：
+如果要根据 _webpack.config.js_ 中的 __mode__ 变量更改打包行为，则必须将配置导出为函数，而不是导出对象：
 
 ```javascript
 var config = {
