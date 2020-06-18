@@ -10,15 +10,15 @@ T> 本 API 从 v4.39.0 开始可用
 
 使用 Logger 输出消息是一种向用户展示信息的有效方式。
 
-Webpack Logger 可以用在 [loaders](/loaders/) 和 [plugins](/api/plugins/#logging)。生成的 Logger 将作为 [统计信息](/api/stats/) 的一部分进行输出，并且用户可以在 [webpack 配置文件](/configuration/) 中对 Logger 进行配置。
+Webpack Logger 可以用在 [loader](/loaders/) 和 [plugin](/api/plugins/#logging)。生成的 Logger 将作为 [统计信息](/api/stats/) 的一部分进行输出，并且用户可以在 [webpack 配置文件](/configuration/) 中对 Logger 进行配置。
 
 在 Webpack 中使用自定义 Logger API 的优点：
 
 - 可以 [配置](/configuration/stats/#statslogging) 日志的展示级别
 - 日志内容可作为 `stats.json` 的一部分输出
 - 统计预设会影响日志的输出
-- 使用 plugins 可以影响日志的捕获与展示级别
-- 当使用多个 plugins 和 loaders 时，提供更加通用的日志记录解决方案
+- 使用 plugin 可以影响日志的捕获与展示级别
+- 当使用多个 plugin 和 loader 时，提供更加通用的日志记录解决方案
 - 基于 Webpack 开发的 CLI、UI 工具等可能会选择不同的方式来展示日志
 - Webpack 核心可以触发日志输出，例如：timing data
 
