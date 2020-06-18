@@ -121,7 +121,7 @@ __webpack.config.babel.js__
 ```js
 import jsxobj from 'jsxobj';
 
-// example of an imported plugin
+// 插件引入示例
 const CustomPlugin = config => ({
   ...config,
   name: 'custom-plugin'
