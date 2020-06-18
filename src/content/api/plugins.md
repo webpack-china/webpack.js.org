@@ -32,7 +32,7 @@ T > 关于编写插件的高级介绍，请移步：
 它对外暴露了 `tap`，`tapAsync` 和 `tapPromise` 等方法，
 插件可以使用这些方法注入到自定义的构建步骤中，这些步骤将在整个编译过程的不同时机触发。
 
-请查看[文档](https://github.com/webpack/tapable)了解更多知识。
+请查阅[文档](https://github.com/webpack/tapable)了解更多知识。
 理解上面的的三种 `tap` 方法，
 以及提供这些方法的钩子(hooks)对于编写插件来说是至关重要的。
 那些扩展自 `Tapable` 的对象（例如：compiler），
