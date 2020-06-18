@@ -40,7 +40,7 @@ webpack --mode=development
 `production`          | 会将 `DefinePlugin` 中 `process.env.NODE_ENV` 的值设置为 `production`. 启用 `FlagDependencyUsagePlugin`, `FlagIncludedChunksPlugin`, `ModuleConcatenationPlugin`, `NoEmitOnErrorsPlugin`, `OccurrenceOrderPlugin`, `SideEffectsFlagPlugin` 和 `TerserPlugin` 。
 `none`                | 不使用任何默认优化选项
 
-如果没有设置，webpack 会给 `mode` 的默认值设置为 `production` 。
+如果没有设置，webpack 会给 `mode` 的默认值设置为 `production`。
 
 T> 请注意，设置 `NODE_ENV` 并不会自动地设置 `mode`。
 
