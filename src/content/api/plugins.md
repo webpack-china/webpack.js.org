@@ -23,6 +23,7 @@ T > 关于编写插件的高级介绍，请移步：
 让我们首先从 tapable 工具开始，
 它为 webpack 插件接口提供了核心能力的 。
 
+
 ## Tapable
 
 这个小型库是 webpack 的一个核心工具，但也可用于其他地方，
@@ -36,6 +37,7 @@ T > 关于编写插件的高级介绍，请移步：
 以及提供这些方法的钩子(hooks)对于编写插件来说是至关重要的。
 那些扩展自 `Tapable` 的对象（例如：compiler），
 以及其提供的钩子(hooks)和每个钩子的类型（例如：`同步钩子(SyncHook)`）是值得我们注意的。
+
 
 ## 插件类型
 
@@ -78,6 +80,7 @@ compiler.hooks.run.tapPromise('MyPlugin', async (source, target, routesList) => 
 
 这些需求(story)的含义在于，
 我们可以有多种方式钩入(hook)到 compiler 中，可以让各种插件都以合适的方式去运行。
+
 
 ## 自定义钩子
 
