@@ -29,7 +29,7 @@ T > 关于编写插件的高级介绍，请移步：
 这个小型库是 webpack 的一个核心工具，但也可用于其他地方，
 以提供类似的插件接口。
 在 webpack 中的许多对象都扩展自 `Tapable` 类。
-它对外暴露了 `tap`，`tapAsync`, 和 `tapPromise` 方法，
+它对外暴露了 `tap`，`tapAsync` 和 `tapPromise` 等方法，
 插件可以使用这些方法注入到自定义的构建步骤中，这些步骤将在整个编译过程的不同时机触发。
 
 请查看[文档](https://github.com/webpack/tapable)了解更多知识。
