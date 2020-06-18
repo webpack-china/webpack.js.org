@@ -14,7 +14,7 @@ contributors:
 插件是 webpack 生态的关键部分，
 它为社区用户提供了一种强有力的方式来直接触及 webpack 的编译过程(compilation process)。
 插件能够[钩入(hook)](/api/compiler-hooks/#hooks)到每一个编译(compilation)中发出的关键事件中。
-在编译的每一步中，插件都拥有对 `compiler` 对象的完全访问能力，
+在编译的每个阶段中，插件都拥有对 `compiler` 对象的完全访问能力，
 并且在合适的时候还可以访问当前的 `compilation` 对象。
 
 T > 关于编写插件的高级介绍，请移步：
