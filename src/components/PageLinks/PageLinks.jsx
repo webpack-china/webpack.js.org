@@ -26,7 +26,7 @@ export default ({
 
       <a className="page-links__link" href={ editLink }>
         编辑此页
-        <i className="page-links__icon icon-link" />
+        <i className="page-links__icon icon-edit" />
       </a>
       <span className="page-links__gap">|</span>
       <button className="page-links__link page-links__print as-link" onClick={_handlePrintClick} title="Print this page">
