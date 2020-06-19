@@ -25,10 +25,6 @@ export default ({
       ) : null }
 
       <a className="page-links__link" href={ editLink }>
-        查看原文
-        <i className="page-links__icon icon-edit" />
-      </a>
-      <a className="page-links__link" href={ editLink }>
         编辑此页
         <i className="page-links__icon icon-link" />
       </a>
