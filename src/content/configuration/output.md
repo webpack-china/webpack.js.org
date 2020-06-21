@@ -158,8 +158,8 @@ module.exports = {
 
 告诉 webpack 启用 [cross-origin 属性](https://developer.mozilla.org/en/docs/Web/HTML/Element/script#attr-crossorigin) 加载 chunk。仅在 [`target`](/configuration/target/) 设置为 `'web'` 时生效，通过使用 JSONP 来添加脚本标签，实现按需加载模块。
 
-- `'anonymous'` - **不带凭据(credential)**启用跨域加载
-- `'use-credentials'` - **携带凭据(credential)**启用跨域加载
+- `'anonymous'` - **不带凭据(credential)** 启用跨域加载
+- `'use-credentials'` - **携带凭据(credential)** 启用跨域加载
 
 
 ## `output.jsonpScriptType`
