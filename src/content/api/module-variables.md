@@ -83,8 +83,8 @@ exports.aFunction = function doSomething() {
 
 取决于 `node.__dirname` 配置选项：
 
-- `false`: Not defined
-- `mock`: equal to `'/'`
+- `false`: 未定义
+- `mock`: 等同于 `'/'`
 - `true`: [node.js __dirname](https://nodejs.org/api/globals.html#globals_dirname)
 
 如果在一个被 Parser 解析的表达式内部使用，则配置选项会被当作 `true` 处理。
@@ -94,8 +94,8 @@ exports.aFunction = function doSomething() {
 
 取决于 `node.__filename` 配置选项：
 
-- `false`: Not defined
-- `mock`: equal to `'/index.js'`
+- `false`: 未定义
+- `mock`: 等同于 `'/index.js'`
 - `true`: [node.js __filename](https://nodejs.org/api/globals.html#globals_filename)
 
 如果在一个被 Parser 解析的表达式内部使用，则配置选项会被当作 `true` 处理。
