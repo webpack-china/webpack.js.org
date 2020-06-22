@@ -6,7 +6,7 @@ contributors:
   - EugeneHlushko
 ---
 
-解析器是基于 `enhanced-resolve` 库创建的。`Resolver` 类
+解析器是使用 `enhanced-resolve` 库创建的。`Resolver` 类
 拓展了 `tapable` 类，并使用 `tapable` 来提供了一些钩子。
 `enhanced-resolve` 可以直接用于创建新的解析器，
 但是，任何 [`compiler` instance](/api/node/#compiler-instance) 都有一些解析器实例，
@@ -37,7 +37,7 @@ compiler.resolverFactory.plugin('resolver [type]', resolver => {
 
 其中，`[type]` 是上述三个解析器之一。
 
-请参阅 [`enhanced-resolve` documentation](https://github.com/webpack/enhanced-resolve) 已获得钩子的完整列表以及它们的
+请参阅 [`enhanced-resolve` documentation](https://github.com/webpack/enhanced-resolve) 以获得钩子的完整列表以及它们的
 介绍。
 
 
