@@ -154,7 +154,6 @@ T> 注意，`webpackInclude` 和 `webpackExclude` 不会影响到前缀，例如
 W> 在 webpack 中使用 `System.import` [不符合提案规则](https://github.com/webpack/webpack/issues/2163)，所以在 [2.1.0-beta.28](https://github.com/webpack/webpack/releases/tag/v2.1.0-beta.28) 后被弃用，并且建议使用 `import()`。
 
 
-
 ## CommonJS
 
 CommonJS 的目标是为浏览器之外的 JavaScript 指定一个生态系统。webpack 支持以下 CommonJS 的方法：
