@@ -43,8 +43,8 @@ module.exports = {
     library: 'someLibName',
     libraryTarget: 'umd',
     filename: 'someLibName.js',
-    auxiliaryComment: 'Test Comment',
-  },
+    auxiliaryComment: 'Test Comment'
+  }
 };
 ```
 
@@ -84,9 +84,9 @@ module.exports = {
       root: 'Root Comment',
       commonjs: 'CommonJS Comment',
       commonjs2: 'CommonJS2 Comment',
-      amd: 'AMD Comment',
-    },
-  },
+      amd: 'AMD Comment'
+    }
+  }
 };
 ```
 
@@ -201,16 +201,16 @@ module.exports = {
 
 模板字符串(template string)中做以下替换（通过 webpack 内部的 [`ModuleFilenameHelpers`](https://github.com/webpack/webpack/blob/master/lib/ModuleFilenameHelpers.js)）：
 
-| 模板                     | 描述                                                                       |
-| ------------------------ | -------------------------------------------------------------------------- |
-| [absolute-resource-path] | 绝对路径文件名                                                             |
-| [all-loaders]            | 自动和显式的 loader，并且参数取决于第一个 loader 名称                      |
-| [hash]                   | 模块标识符的 hash                                                          |
-| [id]                     | 模块标识符                                                                 |
-| [loaders]                | 显式的 loader，并且参数取决于第一个 loader 名称                            |
-| [resource]               | 用于解析文件的路径和用于第一个 loader 的任意查询参数                       |
-| [resource-path]          | 不带任何查询参数，用于解析文件的路径                                       |
-| [namespace]              | 模块命名空间。在构建成为一个 library 之后，通常也是 library 名称，否则为空 |
+| Template                 | Description |
+| ------------------------ | ----------- |
+| [absolute-resource-path] | 绝对路径文件名|
+| [all-loaders]            | 自动和显式的 loader，并且参数取决于第一个 loader 名称|
+| [hash]                   | 模块标识符的 hash|
+| [id]                     | 模块标识符|
+| [loaders]                | 显式的 loader，并且参数取决于第一个 loader 名称|
+| [resource]               | 用于解析文件的路径和用于第一个 loader 的任意查询参数|
+| [resource-path]          | 不带任何查询参数，用于解析文件的路径|
+| [namespace]              | 模块命名空间。在构建成为一个 library 之后，通常也是 library 名称，否则为空|
 
 当使用一个函数，同样的选项要通过 `info` 参数并使用驼峰式(camel-cased)：
 
@@ -266,8 +266,8 @@ __webpack.config.js__
 module.exports = {
   //...
   output: {
-    filename: '[name].bundle.js',
-  },
+    filename: '[name].bundle.js'
+  }
 };
 ```
 
@@ -279,8 +279,8 @@ __webpack.config.js__
 module.exports = {
   //...
   output: {
-    filename: '[id].bundle.js',
-  },
+    filename: '[id].bundle.js'
+  }
 };
 ```
 
@@ -292,8 +292,8 @@ __webpack.config.js__
 module.exports = {
   //...
   output: {
-    filename: '[name].[hash].bundle.js',
-  },
+    filename: '[name].[hash].bundle.js'
+  }
 };
 ```
 
@@ -305,8 +305,8 @@ __webpack.config.js__
 module.exports = {
   //...
   output: {
-    filename: '[chunkhash].bundle.js',
-  },
+    filename: '[chunkhash].bundle.js'
+  }
 };
 ```
 
@@ -318,8 +318,8 @@ __webpack.config.js__
 module.exports = {
   //...
   output: {
-    filename: '[contenthash].bundle.css',
-  },
+    filename: '[contenthash].bundle.css'
+  }
 };
 ```
 
@@ -348,15 +348,15 @@ module.exports = {
 
 可以使用以下替换模板字符串（通过 webpack 内部的[`TemplatedPathPlugin`][`templatedpathplugin`](https://github.com/webpack/webpack/blob/master/lib/TemplatedPathPlugin.js)）：
 
-| 模板        | 描述                                             |
-| ----------- | ------------------------------------------------ |
-| [hash]      | 模块标识符(module identifier)的 hash             |
+| 模板        | 描述                                                                         |
+| ------------- | ----------------------------------------------------------------------------------- |
+| [hash]        | 模块标识符(module identifier)的 hash                                                   |
 | [contenthash] | 文件内容 hash，每个资源生成的 hash 都是不同的               |
-| [chunkhash] | chunk 内容的 hash                                |
-| [name]      | 模块名称                                         |
-| [id]        | 模块标识符(module identifier)                    |
-| [query]     | 模块的 query，例如，文件名 `?` 后面的字符串      |
-| [function]  | The function, which can return filename [string] |
+| [chunkhash] | chunk 内容的 hash                                                       |
+| [name]        | 模块名称                                                                     |
+| [id]          | 模块标识符(module identifier)                                                               |
+| [query]       | 模块的 query，例如，文件名 `?` 后面的字符串                    |
+| [function]    | The function, which can return filename [string]                                    |
 
 `[hash]` 和 `[chunkhash]` 的长度可以使用 `[hash:16]`（默认为 20）来指定。或者，通过指定[`output.hashDigestLength`](#outputhashdigestlength) 在全局配置长度。
 
@@ -376,7 +376,7 @@ T> 在使用 [`ExtractTextWebpackPlugin`](/plugins/extract-text-webpack-plugin) 
 
 `string = 'window'`
 
-When targeting a library, especially the `libraryTarget` is `'umd'`, this option indicates what global object will be used to mount the library. To make UMD build available on both browsers and Node.js, set `output.globalObject` option to `'this'`.
+When targeting a library, especially when `libraryTarget` is `'umd'`, this option indicates what global object will be used to mount the library. To make UMD build available on both browsers and Node.js, set `output.globalObject` option to `'this'`.
 
 For example:
 
@@ -389,8 +389,8 @@ module.exports = {
     library: 'myLib',
     libraryTarget: 'umd',
     filename: 'myLib.js',
-    globalObject: 'this',
-  },
+    globalObject: 'this'
+  }
 };
 ```
 
@@ -441,8 +441,8 @@ module.exports = {
 module.exports = {
   //...
   output: {
-    hashFunction: require('metrohash').MetroHash64,
-  },
+    hashFunction: require('metrohash').MetroHash64
+  }
 };
 ```
 
@@ -564,7 +564,7 @@ T> 有关 `output.library` 以及 `output.libraryTarget` 详细信息，请查�
 
 `string` `[string]`
 
-Configure which module or modules will be exposed via the `libraryTarget`. It is `undefined` by default, same behaviour will be applied if you set `libraryTarget` to an empty string e.g. `''` it will export the whole (namespace) object. The examples below demonstrate the effect of this config when using `libraryTarget: 'var'`.
+Configure which module or modules will be exposed via the `libraryTarget`. It is `undefined` by default, same behaviour will be applied if you set `libraryTarget` to an empty string e.g. `''` it will export the whole (namespace) object. The examples below demonstrate the effect of this configuration when using `libraryTarget: 'var'`.
 
 The following configurations are supported:
 
@@ -715,7 +715,7 @@ module.exports = {
 生成的 output 将会使用 "MyLibrary" 作为模块名定义，即
 
 ```javascript
-define('MyLibrary', [], function () {
+define('MyLibrary', [], function() {
   return _entry_return_;
 });
 ```
@@ -731,7 +731,7 @@ require(['MyLibrary'], function (MyLibrary) {
 如果 `output.library` 未定义，将会生成以下内容。
 
 ```javascript
-define([], function () {
+define([], function() {
   return _entry_return_; // 此模块返回值，是入口 chunk 返回的值
 });
 ```
@@ -831,8 +831,8 @@ System modules require that a global variable `System` is present in the browser
 module.exports = {
   //...
   output: {
-    libraryTarget: 'system',
-  },
+    libraryTarget: 'system'
+  }
 };
 ```
 
@@ -878,7 +878,7 @@ __system_context__.import('./other-file.js').then(m => {
 
 `libraryTarget: 'jsonp'` - 这将把入口起点的返回值，包裹到一个 jsonp 包装容器中
 
-```javascript
+``` javascript
 MyLibrary(_entry_return_);
 ```
 
@@ -1018,7 +1018,7 @@ module.exports = {
     publicPath: 'assets/', // 相对于 HTML 页面
     publicPath: '../assets/', // 相对于 HTML 页面
     publicPath: '', // 相对于 HTML 页面（目录相同）
-  },
+  }
 };
 ```
 
@@ -1041,10 +1041,10 @@ __webpack_public_path__ = myRuntimePublicPath;
 
 可以使用 [#output-filename](#output-filename) 中的 `[name]`, `[id]`, `[hash]` 和 `[chunkhash]` 替换符号。除此之外，还可以使用以下替换符号。`[file]` 占位符会被替换为原始文件的文件名。我们建议__只使用 `[file]` 占位符__，因为其他占位符在非 chunk 文件(non-chunk files)生成的 SourceMap 时不起作用。
 
-| 模板       | 描述                                                                          |
-| ---------- | ----------------------------------------------------------------------------- |
-| [file]     | 模块文件名称                                                                  |
-| [filebase] | 模块 [basename](https://nodejs.org/api/path.html#path_path_basename_path_ext) |
+|  Template                   | 描述                                                                         |
+| -------------------------- | ----------------------------------------------------------------------------------- |
+| [file]                     | 模块文件名称                                                                  |
+| [filebase]                 | 模块 [basename](https://nodejs.org/api/path.html#path_path_basename_path_ext) |
 
 
 ## `output.sourcePrefix`
@@ -1059,8 +1059,8 @@ __webpack.config.js__
 module.exports = {
   //...
   output: {
-    sourcePrefix: '\t',
-  },
+    sourcePrefix: '\t'
+  }
 };
 ```
 
