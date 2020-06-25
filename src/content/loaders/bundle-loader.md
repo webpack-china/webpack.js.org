@@ -26,16 +26,17 @@ module.exports = {
       }
     ]
   }
-};
+}
 ```
+
 当你引用 bundle-loader 时，chunk 会被请求。
 
 **file.js**
-
 ```js
 import bundle from './file.bundle.js';
 ```
-需要使用异步等待，以便使 chunk 在浏览器加载（以及在获取其导出）时可用。
+需要使用异步处理，
+以使得 chunk 在浏览器加载（以及在获取其导出）时可用。
 
 ```js
 bundle((file) => {
@@ -57,10 +58,10 @@ bundle(callbackThree)
 
 ## 选项
 
-|    Name    |    Type     |    Default    | Description                      |
-| :--------: | :---------: | :-----------: | :------------------------------- |
-| **`lazy`** | `{Boolean}` |    `false`    | 异步加载导入的 bundle            |
-| **`name`** | `{String}`  | `[id].[name]` | 为导入的 bundle 配置自定义文件名 |
+|选项名|类型|默认值|描述|
+|:--:|:--:|:-----:|:----------|
+|**`lazy`**|`{Boolean}`|`false`| 异步加载导入的 bundle |
+|**`name`**|`{String}`|`[id].[name]`| 为导入的 bundle 配置自定义文件名 |
 
 ### `lazy`
 
@@ -87,7 +88,8 @@ bundle((file) => {...})
 
 ### `name`
 
-可以通过配置中 `name` 选项参数，来设置 bundle 的名称。 查看[文档](https://github.com/webpack/loader-utils#interpolatename)。
+可以通过配置中 `name` 选项参数，来设置 bundle 的名称。
+请查阅相关[文档](https://github.com/webpack/loader-utils#interpolatename)。
 
 **webpack.config.js**
 
@@ -100,7 +102,8 @@ bundle((file) => {...})
 }
 ```
 
-> :warning: 一旦 loader 创建了 chunk，将遵循以下命名规则 [`output.chunkFilename`](/configuration/output/#outputchunkfilename) 规则，默认是 `[id].[name]`。这里 `[name]` 对应着配置中 name 选项参数设置的 chunk 名称。
+> :warning: 一旦 loader 创建了 chunk，将遵循以下命名规则 [`output.chunkFilename`](/configuration/output/#outputchunkfilename) 规则，
+默认是 `[id].[name]`。这里 `[name]` 对应着配置中 name 选项参数设置的 chunk 名称。
 
 ## 示例
 
@@ -109,11 +112,10 @@ import bundle from './file.bundle.js';
 ```
 
 **webpack.config.js**
-
 ```js
 module.exports = {
   entry: {
-    index: './App.js'
+  index: './App.js'
   },
   output: {
     path: path.resolve(__dirname, 'dest'),
@@ -134,7 +136,7 @@ module.exports = {
       }
     ]
   }
-};
+}
 ```
 
 一般情况下，chunk 会使用上面的 `filename` 规则，并根据其对应的 `[chunkname]` 命名。
@@ -180,15 +182,21 @@ module.exports = {
   <tbody>
 </table>
 
+
 [npm]: https://img.shields.io/npm/v/bundle-loader.svg
 [npm-url]: https://npmjs.com/package/bundle-loader
+
 [node]: https://img.shields.io/node/v/bundle-loader.svg
 [node-url]: https://nodejs.org/
+
 [deps]: https://david-dm.org/webpack-contrib/bundle-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/bundle-loader
+
 [tests]: http://img.shields.io/travis/webpack-contrib/bundle-loader.svg
 [tests-url]: https://travis-ci.org/webpack-contrib/bundle-loader
+
 [cover]: https://coveralls.io/repos/github/webpack-contrib/bundle-loader/badge.svg
 [cover-url]: https://coveralls.io/github/webpack-contrib/bundle-loader
+
 [chat]: https://badges.gitter.im/webpack/webpack.svg
 [chat-url]: https://gitter.im/webpack/webpack
