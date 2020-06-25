@@ -42,7 +42,7 @@ module.hot.accept(
 
 当使用 ESM `import` 时，所有从 `dependencies` 中导入的符号都会自动更新。注意：依赖项字符串必须与 `import` 中的 `from` 字符串完全匹配。在某些情况下， 甚至可以省略 `callback`。在 `callback` 中使用的 `require()` 在这里没有任何意义。
 
-在使用 CommonJS 时，你应该通过 `callback` 中的 `require()` 手动更新依赖模块。这时省略 `callback` 在这里没有任何意义。
+在使用 CommonJS 时，你应该通过 `callback` 中的 `require()` 手动更新依赖模块。省略 `callback` 在这里没有任何意义。
 
 ### `accept` (自身)
 
@@ -86,7 +86,7 @@ module.hot.decline();
 
 ``` js
 module.hot.dispose(data => {
-  // 清理并将 data 传递到更新后的模块……
+  // 清理并将 data 传递到更新后的模块...
 });
 ```
 
@@ -177,10 +177,10 @@ module.hot.removeDisposeHandler(callback);
 
 ### `status`
 
-取得模块热替换进程的当前状态。
+获取当前模块热替换进程的状态。
 
 ``` js
-module.hot.status(); // 返回以下字符串之一……
+module.hot.status(); // 返回以下字符串之一...
 ```
 
 | Status      | Description                                                                            |
@@ -197,26 +197,26 @@ module.hot.status(); // 返回以下字符串之一……
 
 ### `check`
 
-测试所有加载的模块以进行更新，如果有更新，则应用它们。
+测试所有加载的模块以进行更新，如果有更新，则 `apply` 它们。
 
 ``` js
 module.hot.check(autoApply).then(outdatedModules => {
-  // 超时的模块……
+  // 超时的模块...
 }).catch(error => {
   // 捕获错误
 });
 ```
 
-`autoApply` 参数可以是布尔值，也可以是 `options`，当被调用时可以传递给 `apply` 方法。
+当被调用时，传递给 `apply` 方法的 `autoApply` 参数可以是布尔值，也可以是 `options`，
 
 
 ### `apply`
 
-继续更新进程（只要 `module.hot.status() === 'ready'`）。
+继续更新进程（当 `module.hot.status() === 'ready'` 时）。
 
 ``` js
 module.hot.apply(options).then(outdatedModules => {
-  // 超时的模块……
+  // 超时的模块...
 }).catch(error => {
   // 捕获错误
 });
@@ -264,7 +264,7 @@ module.hot.apply(options).then(outdatedModules => {
 
 ``` js
 module.hot.addStatusHandler(status => {
-  // 响应当前状态……
+  // 响应当前状态...
 });
 ```
 
