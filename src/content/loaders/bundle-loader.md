@@ -4,7 +4,6 @@ source: https://raw.githubusercontent.com/webpack-contrib/bundle-loader/master/R
 edit: https://github.com/webpack-contrib/bundle-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/bundle-loader
 ---
-
 webpack 的 bundle loader
 
 ## 安装
@@ -23,27 +22,25 @@ module.exports = {
     rules: [
       {
         test: /\.bundle\.js$/,
-        use: 'bundle-loader',
-      },
-    ],
-  },
+        use: 'bundle-loader'
+      }
+    ]
+  }
 };
 ```
-
-当你引用 bundle-loader 时，chunk 会被浏览器请求(request)。
+当你引用 bundle-loader 时，chunk 会被请求。
 
 **file.js**
 
 ```js
 import bundle from './file.bundle.js';
 ```
-
 需要使用异步等待，以便使 chunk 在浏览器加载（以及在获取其导出）时可用。
 
 ```js
 bundle((file) => {
-  // use the file like it was required
-  const file = require('./file.js');
+  // 按需引入文件
+  const file = require('./file.js')
 });
 ```
 
@@ -52,8 +49,8 @@ bundle((file) => {
 可以添加多个回调函数，这些回调函数会按照添加的顺序依次执行。
 
 ```js
-bundle(callbackTwo);
-bundle(callbackThree);
+bundle(callbackTwo)
+bundle(callbackThree)
 ```
 
 当依赖模块都加载完毕时, 如果此时添加一个回调函数，回到函数将会立即执行。
@@ -65,9 +62,7 @@ bundle(callbackThree);
 | **`lazy`** | `{Boolean}` |    `false`    | 异步加载导入的 bundle            |
 | **`name`** | `{String}`  | `[id].[name]` | 为导入的 bundle 配置自定义文件名 |
 
-### `lazy` 选项
-
-The file is requested when you require the `bundle-loader`. If you want it to request it lazy, use:
+### `lazy`
 
 当使用 `bundle-loader` 时，文件会被请求(request)。如果想让文件按需加载(request it lazy)，请使用：
 
@@ -90,7 +85,7 @@ bundle((file) => {...})
 
 > ℹ️ 只有调用 load 函数时，chunk 才会被请求(request)
 
-### `name` 选项
+### `name`
 
 可以通过配置中 `name` 选项参数，来设置 bundle 的名称。 查看[文档](https://github.com/webpack/loader-utils#interpolatename)。
 
@@ -105,7 +100,7 @@ bundle((file) => {...})
 }
 ```
 
-> :warning: 一旦 loader 创建了 chunk，它们将遵循以下命名规则 [`output.chunkFilename`](/configuration/output/#outputchunkfilename) 规则，默认是 `[id].[name]`。这里 `[name]` 对应着配置中 name 选项参数设置的 chunk 名称。
+> :warning: 一旦 loader 创建了 chunk，将遵循以下命名规则 [`output.chunkFilename`](/configuration/output/#outputchunkfilename) 规则，默认是 `[id].[name]`。这里 `[name]` 对应着配置中 name 选项参数设置的 chunk 名称。
 
 ## 示例
 
@@ -118,13 +113,13 @@ import bundle from './file.bundle.js';
 ```js
 module.exports = {
   entry: {
-    index: './App.js',
+    index: './App.js'
   },
   output: {
     path: path.resolve(__dirname, 'dest'),
     filename: '[name].js',
     // 此处可以自定义其他格式
-    chunkFilename: '[name].[id].js',
+    chunkFilename: '[name].[id].js'
   },
   module: {
     rules: [
@@ -133,12 +128,12 @@ module.exports = {
         use: {
           loader: 'bundle-loader',
           options: {
-            name: 'my-chunk',
-          },
-        },
-      },
-    ],
-  },
+            name: 'my-chunk'
+          }
+        }
+      }
+    ]
+  }
 };
 ```
 
