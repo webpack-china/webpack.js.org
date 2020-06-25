@@ -109,14 +109,14 @@ bundle((file) => {...})
 ## 示例
 
 ```js
-import bundle from './file.bundle.js';
+import bundle from './file.bundle.js'
 ```
 
 **webpack.config.js**
 ```js
 module.exports = {
   entry: {
-  index: './App.js'
+    index: './App.js'
   },
   output: {
     path: path.resolve(__dirname, 'dest'),
