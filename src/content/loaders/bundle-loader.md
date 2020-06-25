@@ -4,7 +4,7 @@ source: https://raw.githubusercontent.com/webpack-contrib/bundle-loader/master/R
 edit: https://github.com/webpack-contrib/bundle-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/bundle-loader
 ---
-webpack 的 bundle loader
+应用于 webpack 的 bundle loader
 
 ## 安装
 
@@ -35,6 +35,7 @@ module.exports = {
 ```js
 import bundle from './file.bundle.js';
 ```
+
 需要使用异步处理，
 以使得 chunk 在浏览器加载（以及在获取其导出）时可用。
 
