@@ -224,14 +224,14 @@ module.hot.apply(options).then(outdatedModules => {
 
 可选的 `options` 对象可以包含以下属性：
 
-- `ignoreUnaccepted` (boolean): Ignore changes made to unaccepted modules.
-- `ignoreDeclined` (boolean): Ignore changes made to declined modules.
-- `ignoreErrored` (boolean): Ignore errors thrown in accept handlers, error handlers and while reevaluating module.
-- `onDeclined` (function(info)): Notifier for declined modules
-- `onUnaccepted` (function(info)): Notifier for unaccepted modules
-- `onAccepted` (function(info)): Notifier for accepted modules
-- `onDisposed` (function(info)): Notifier for disposed modules
-- `onErrored` (function(info)): Notifier for errors
+- `ignoreUnaccepted` (boolean): 忽略对不可接受的模块所做的更改。
+- `ignoreDeclined` (boolean): 忽略对已拒绝的模块所做的更改。
+- `ignoreErrored` (boolean): 忽略在接受处理程序、错误处理程序以及重新评估模块时抛出的错误。
+- `onDeclined` (function(info)): 拒绝模块的通知者。
+- `onUnaccepted` (function(info)): 不可接受的模块的通知程序。
+- `onAccepted` (function(info)): 可接受模块的通知者。
+- `onDisposed` (function(info)): 废弃模块的通知者。
+- `onErrored` (function(info)): 错误通知者。
 
 `info` 参数将是一个包含以下某些值的对象：
 
@@ -243,17 +243,17 @@ module.hot.apply(options).then(outdatedModules => {
         'unaccepted' | 'accepted' |
         'disposed' | 'accept-errored' |
         'self-accept-errored' | 'self-accept-error-handler-errored',
-  moduleId: 4, // The module in question.
-  dependencyId: 3, // For errors: the module id owning the accept handler.
-  chain: [1, 2, 3, 4], // For declined/accepted/unaccepted: the chain from where the update was propagated.
-  parentId: 5, // For declined: the module id of the declining parent
-  outdatedModules: [1, 2, 3, 4], // For accepted: the modules that are outdated and will be disposed
-  outdatedDependencies: { // For accepted: The location of accept handlers that will handle the update
+  moduleId: 4, // 有问题的模块。
+  dependencyId: 3, // 对于错误：拥有接受处理程序的模块 ID。
+  chain: [1, 2, 3, 4], // 对于拒绝/接受/不接受：传播更新的 `chain`。
+  parentId: 5, // 对于拒绝：下降的父模块 ID。
+  outdatedModules: [1, 2, 3, 4], // 对于接受：已过时且将被处置的模块。
+  outdatedDependencies: { // 对于接受：将处理更新的接受处理程序的位置。
     5: [4]
   },
-  error: new Error(...), // For errors: the thrown error
-  originalError: new Error(...) // For self-accept-error-handler-errored:
-                                // the error thrown by the module before the error handler tried to handle it.
+  error: new Error(...), // 对于错误：抛出错误
+  originalError: new Error(...) // 对于自我接受错误处理程序错误：
+                                // 在错误处理程序尝试处理该模块之前，该模块引发的错误。
 }
 ```
 
