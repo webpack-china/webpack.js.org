@@ -146,7 +146,7 @@ module.exports = {
               write,
             },
           },
-          'babel-loader'
+          'babel-loader',
         ],
         include: path.resolve('src'),
       },
