@@ -5,6 +5,7 @@ edit: https://github.com/webpack-contrib/cache-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/cache-loader
 ---
 
+
 [![npm][npm]][npm-url]
 [![node][node]][node-url]
 [![deps][deps]][deps-url]
@@ -12,6 +13,8 @@ repo: https://github.com/webpack-contrib/cache-loader
 [![coverage][cover]][cover-url]
 [![chat][chat]][chat-url]
 [![size][size]][size-url]
+
+
 
 `cache-loader` 允许缓存以下 loaders 到（默认）磁盘或数据库。
 
@@ -35,9 +38,9 @@ module.exports = {
         test: /\.ext$/,
         use: ['cache-loader', ...loaders],
         include: path.resolve('src')
-      }
-    ]
-  }
+      },
+    ],
+  },
 };
 ```
 
@@ -82,7 +85,7 @@ module.exports = {
 **webpack.config.js**
 
 ```js
-// 或其他数据库终端 - memcached, mongodb, ...
+// 或其他数据库终端 - memcached，mongodb...
 const redis = require('redis');
 const crypto = require('crypto');
 
@@ -90,10 +93,13 @@ const crypto = require('crypto');
 // 连接终端
 // ...
 
-const BUILD_CACHE_TIMEOUT = 24 * 3600; // 1天
+const BUILD_CACHE_TIMEOUT = 24 * 3600; // 1 天
 
 function digest(str) {
-  return crypto.createHash('md5').update(str).digest('hex');
+  return crypto
+    .createHash('md5')
+    .update(str)
+    .digest('hex');
 }
 
 // 生成自己的缓存键
@@ -137,15 +143,15 @@ module.exports = {
             options: {
               cacheKey,
               read,
-              write
-            }
+              write,
+            },
           },
           'babel-loader'
         ],
-        include: path.resolve('src')
-      }
-    ]
-  }
+        include: path.resolve('src'),
+      },
+    ],
+  },
 };
 ```
 
