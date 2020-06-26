@@ -20,7 +20,7 @@ repo: https://github.com/webpack-contrib/cache-loader
 
 ## 起步
 
-安装 `cache-loader`:
+在开始前，需要安装 `cache-loader`:
 
 ```console
 npm install --save-dev cache-loader
@@ -37,7 +37,7 @@ module.exports = {
       {
         test: /\.ext$/,
         use: ['cache-loader', ...loaders],
-        include: path.resolve('src')
+        include: path.resolve('src'),
       },
     ],
   },
