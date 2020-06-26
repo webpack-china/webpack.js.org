@@ -11,7 +11,7 @@ contributors:
   - smelukov
 ---
 
-entry 对象是用于 webpack 查找开始构建 bundle 的地方。context 是入口文件所处的目录的绝对路径的字符串。
+入口对象是用于 webpack 查找开始构建 bundle 的地方。上下文是入口文件所处的目录的绝对路径的字符串。
 
 
 ## `context`
@@ -102,12 +102,12 @@ module.exports = {
 };
 ```
 
-这里描述符语法就用来传入 `filename`—选项给指定的入口点。
+描述符语法在这里被用来将 `filename`—选项传递给指定的入口点。
 
 
 ### Dependencies
 
-默认情况下，每个入口 chunk 保存了全部其用的模块(modules)。使用`dependOn`—选项你可以与另一个入口 chunk 共享模块:
+默认情况下，每个入口 chunk 保存了全部其用的模块(modules)。使用 `dependOn`—选项你可以与另一个入口 chunk 共享模块:
 
 ```js
 module.exports = {
@@ -137,7 +137,7 @@ module.exports = {
 
 如果传入一个函数，那么它将会在每次 [make](/api/compiler-hooks/#make) 事件中被调用.
 
-> 要注意的是，make 事件在 webpack 启动和每当 [watching for file changes](/configuration/watch/) 时都会触发。
+> 要注意的是，make 事件在 webpack 启动和每当 [监听文件变化](/configuration/watch/) 时都会触发。
 
 ```js
 module.exports = {
