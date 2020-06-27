@@ -16,7 +16,7 @@ repo: https://github.com/webpack-contrib/uglifyjs-webpack-plugin
 
 
 
-此插件使用 [uglify-js](https://github.com/mishoo/UglifyJS2) 压缩你的 JavaScript 。
+此插件使用 [uglify-js](https://github.com/mishoo/UglifyJS2) 压缩你的 JavaScript。
 
 ## Requirements
 
@@ -44,7 +44,7 @@ module.exports = {
 };
 ```
 
-紧接着通过你的首选方式运行 `webpack` 。
+紧接着通过你的首选方式运行 `webpack`。
 
 ## Options
 
@@ -146,7 +146,7 @@ module.exports = {
 默认值：`false`
 
 启用文件缓存。
-默认的缓存目录路径：`node_modules/.cache/uglifyjs-webpack-plugin` 。
+默认的缓存目录路径：`node_modules/.cache/uglifyjs-webpack-plugin`。
 
 > ℹ️ 如果你使用自定义的 `minify` 函数，请正确阅读 `minify` 部分以了解缓存失效。
 
@@ -645,7 +645,7 @@ module.exports = {
 
 ### Remove Comments
 
-如果你构建时不想出现注释，可以按照以下配置将 **uglifyOptions.output.comments** 设置为 **false** ：
+如果你构建时不想出现注释，可以按照以下配置将 **uglifyOptions.output.comments** 设置为 **false**：
 
 **webpack.config.js**
 
@@ -667,7 +667,7 @@ module.exports = {
 
 ### Custom Minify Function
 
-覆盖默认的 minify 函数——使用 [terser](https://github.com/fabiosantoscode/terser) 进行压缩。
+覆盖默认的 minify 函数 —— 使用 [terser](https://github.com/fabiosantoscode/terser) 进行压缩。
 
 **webpack.config.js**
 
