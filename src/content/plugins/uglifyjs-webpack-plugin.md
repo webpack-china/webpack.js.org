@@ -74,7 +74,7 @@ module.exports = {
 类型：`String|RegExp|Array<String|RegExp>`
 默认值：`undefined`
 
-包括的文件。
+要被处理的文件。
 
 **webpack.config.js**
 
@@ -95,7 +95,7 @@ module.exports = {
 类型：`String|RegExp|Array<String|RegExp>`
 默认值：`undefined`
 
-不包括的文件。
+不被处理的文件。
 
 **webpack.config.js**
 
@@ -116,7 +116,7 @@ module.exports = {
 类型：`Function<(chunk) -> boolean>`
 默认值：`() => true`
 
-允许过滤哪些块可以被压缩（默认所有的块都会被压缩）。
+判断哪些 chunk 可以被压缩（默认所有的 chunk 都会被压缩）。
 返回值为 `true` 则会被压缩，`false` 则不会被压缩。
 
 **webpack.config.js**
@@ -193,9 +193,9 @@ module.exports = {
 类型：`Function<(defaultCacheKeys, file) -> Object>`
 默认值：`defaultCacheKeys => defaultCacheKeys`
 
-允许重写默认的缓存键。
+允许重写默认的缓存 key。
 
-默认的缓存键：
+默认的缓存 key：
 
 ```js
 ({
@@ -541,7 +541,7 @@ module.exports = {
 类型：`Boolean|String|Function<(string) -> String>`
 默认值：`/*! For license information please see ${commentsFile} */`
 
-banner文本指向提取的文件，将会被添加到原始文件的顶部。
+指向提取文件的 banner 文本，将会被添加到源文件的顶部。
 可能是 `false`，一个 `String`，或者一个 `Function<(string) -> String>`，该函数将使用储存提取注释的文件名来调用。
 将会被包装到注释中。
 
@@ -690,7 +690,7 @@ module.exports = {
         minify(file, sourceMap) {
           // https://github.com/mishoo/UglifyJS2#minify-options
           const uglifyJsOptions = {
-            /* 你的 `uglify-js` 软件包选项 */
+            /* `uglify-js` package 的相关配置 */
           };
 
           if (sourceMap) {
