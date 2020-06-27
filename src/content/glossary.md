@@ -24,9 +24,8 @@ contributors:
 
 - [__Bundle__](/guides/getting-started/#creating-a-bundle): bundle 由许多不同的模块生成，包含
 已经经过加载和编译过程的源文件的最终版本。
-- [__Bundle Splitting__](/guides/code-splitting): 这个过程提供了一种优化构建的方法，允许 webpack 为单个应用程序生成多个 bundle 文件。因此，可以将每个 bundle 文件与影响其他文件的更改进行分离，
-从而减少重新发布并由此被客户端重新下载的代码量，
-并且运用览器缓存。
+- [__Bundle Splitting__](/guides/code-splitting): 这个过程提供了一种优化构建的方法，允许 webpack 为单个应用程序生成多个 bundle 文件。因此，可以将每个 bundle 文件与影响其他文件的更改进行分离，从而减少重新发布并由此被客户端
+重新下载的代码量，并且运用览器缓存。
 
 
 ## C
@@ -92,7 +91,8 @@ contributors:
 
 - [__Scaffolding__](/guides/scaffolding/): 此功能允许使用可自定义的第三方初始化包
 创建 webpack 配置项。
-- [__Shimming__](/guides/shimming/): 并非所有 JS 文件都可以直接与 webpack 一起使用。有些文件可能是不支持的模块格式，甚至不是任何模块格式。`shimming` 这时就会发挥作用。
+- [__Shimming__](/guides/shimming/): 并非所有 JS 文件都可以直接与 webpack 一起使用。有些文件可能是不支持的模块格式，甚至不是任何模块格式。
+`shimming` 这时就会发挥作用。
 
 
 ## T
@@ -108,7 +108,8 @@ contributors:
 
 - [__Vendor Entry Point__](/concepts/entry-points/#separate-app-and-vendor-entries): 从 `app.js` 和 `vendors.js` 开始创建依赖图。
 这些依赖图完全是分开且独立的，允许使用 `CommonsChunkPlugin`，并将应用程序包的任何供应商参考提取到你的供应商包中。
-有助于在 webpack 中实现一种称为 [长期供应商缓存](/guides/caching/) 的常见模式。
+有助于在 webpack 中实现一种称为 [长期供应商缓存](/guides/caching/) 的
+常见模式。
 
 
 ## W
