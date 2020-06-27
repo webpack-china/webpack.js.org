@@ -51,8 +51,8 @@ export default config;
 
 你可以通过两个途径来完成 module 的设置:
 
-* 直接修改 tsconfig.json 文件  
-* 使用 tsconfig-paths 
+* 直接修改 tsconfig.json 文件
+* 使用 tsconfig-paths
 
 第一种方法就是打开你的 `tsconfig.json` 文件，找到 `compilerOptions` 的配置，然后设置 `target` 和 `module` 的选项分别为 `"ES5"` 和 `"CommonJs"` (在 `target` 设置为 `es5` 时你也可以不显示编写 `module` 配置)。
 
@@ -78,7 +78,7 @@ __tsconfig-for-webpack-config.json__
 
 ts-node 可以根据 tsconfig-paths 提供的环境变量 `process.env.TS_NODE_PROJECT` 来找到 `tsconfig.json` 文件路径。
 
-`process.env.TS_NODE_PROJECT` 变量的设置如下所示：
+`process.env.TS_NODE_PROJECT` 变量的设置如下所示:
 
 __package.json__
 
@@ -95,13 +95,13 @@ __package.json__
 
 ## CoffeeScript
 
-与 `Typescript` 类似，在使用 CoffeeScript 前需要先安装其依赖，如下所示:  
+与 `Typescript` 类似，在使用 CoffeeScript 前需要先安装其依赖，如下所示:
 
 ``` bash
 npm install --save-dev coffee-script
 ```
 
-完成安装之后便可以开始编写 webpack 配置，示例如下：
+完成安装之后便可以开始编写 webpack 配置，示例如下:
 
 __webpack.config.coffee__
 
@@ -136,7 +136,7 @@ module.exports = config
 
 > 感谢 [Jason Miller](https://twitter.com/_developit)提供示例代码
 
-首先需要安装一些必要依赖，如下所示：
+首先需要安装一些必要依赖，如下所示:
 
 ``` bash
 npm install --save-dev babel-register jsxobj babel-preset-es2015
