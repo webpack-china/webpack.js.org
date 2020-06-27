@@ -9,7 +9,7 @@ contributors:
 解析器是使用 `enhanced-resolve` 库创建的。`Resolver` 类
 拓展了 `tapable` 类，并使用 `tapable` 来提供了一些钩子。
 `enhanced-resolve` 可以直接用于创建新的解析器，
-但是，任何 [`compiler` instance](/api/node/#compiler-instance) 都有一些解析器实例，它们也可以
+但是，任何 [`compiler` 实例](/api/node/#compiler-instance) 都有一些可以解析的
 被`tap` 进去。
 
 在继续阅读之前，请确保你已经读过
