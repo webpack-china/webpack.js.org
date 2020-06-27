@@ -121,7 +121,7 @@ module.exports = {
 
 `app` 这个 chunk 就不会包含 `react-vendors` 拥有的模块了.
 
-你也可以使用数组为一个入口指定多个文件:
+你也可以使用数组为一个入口指定多个文件：
 
 ```js
 module.exports = {
@@ -135,7 +135,7 @@ module.exports = {
 
 ### Dynamic entry
 
-如果传入一个函数，那么它将会在每次 [make](/api/compiler-hooks/#make) 事件中被调用.
+如果传入一个函数，那么它将会在每次 [make](/api/compiler-hooks/#make) 事件中被调用。
 
 > 要注意的是，make 事件在 webpack 启动和每当 [监听文件变化](/configuration/watch/) 时都会触发。
 
@@ -155,16 +155,16 @@ module.exports = {
 };
 ```
 
-例如: 你可以使用动态入口来从外部来源（远程服务器，文件系统内容或者数据库）获取真正的入口:
+例如，你可以使用动态入口来从外部来源（远程服务器，文件系统内容或者数据库）获取真正的入口：
 
 __webpack.config.js__
 
 ``` js
 module.exports = {
   entry() {
-    return fetchPathsFromSomeExternalSource(); // 返回一个会被用像 ['src/main-layout.js', 'src/admin-layout.js']的东西 resolve 的 promise
+    return fetchPathsFromSomeExternalSource(); // 返回一个会被用像 ['src/main-layout.js', 'src/admin-layout.js'] 的东西 resolve 的 promise
   }
 };
 ```
 
-当和 [`output.library`](/configuration/output/#outputlibrary) 选项结合: 如果传入的是一个数组，只有数组的最后一个条目会被导出。
+当和 [`output.library`](/configuration/output/#outputlibrary) 选项结合：如果传入的是一个数组，只有数组的最后一个条目会被导出。
