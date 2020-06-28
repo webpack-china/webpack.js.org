@@ -76,7 +76,7 @@ __tsconfig-for-webpack-config.json__
 }
 ```
 
-ts-node 可以根据 tsconfig-paths 提供的环境变量 `process.env.TS_NODE_PROJECT` 来找到 `tsconfig.json` 文件路径。
+T> ts-node 可以根据 `tsconfig-paths` 提供的环境变量 `process.env.TS_NODE_PROJECT` 来找到 `tsconfig.json` 文件路径。
 
 `process.env.TS_NODE_PROJECT` 变量的设置如下所示:
 
