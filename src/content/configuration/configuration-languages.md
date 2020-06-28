@@ -21,7 +21,7 @@ webpack 支持使用多种编程语言和数据描述格式来编写配置文件
 
 ``` bash
 npm install --save-dev typescript ts-node @types/node @types/webpack
-# 如果使用 webpack-dev-server, 还需要安装以下依赖
+# 如果使用 webpack-dev-server，还需要安装以下依赖
 npm install --save-dev @types/webpack-dev-server
 ```
 
