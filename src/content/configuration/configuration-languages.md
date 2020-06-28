@@ -134,7 +134,7 @@ module.exports = config
 
 下述的示例中使用了 JSX（用于 React 的 JavaScript 标记语言）和 babel 来创建格式为 json 的 webpack 配置文件。
 
-> 感谢 [Jason Miller](https://twitter.com/_developit)提供示例代码
+> 感谢 [Jason Miller](https://twitter.com/_developit) 提供示例代码
 
 首先需要安装一些必要依赖，如下所示:
 
