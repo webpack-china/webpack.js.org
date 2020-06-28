@@ -52,7 +52,7 @@ export default config;
 你可以通过两个途径来完成 module 的设置:
 
 * 直接修改 `tsconfig.json` 文件
-* 使用 tsconfig-paths
+* 使用 `tsconfig-paths`
 
 第一种方法就是打开你的 `tsconfig.json` 文件，找到 `compilerOptions` 的配置，然后设置 `target` 和 `module` 的选项分别为 `"ES5"` 和 `"CommonJs"` (在 `target` 设置为 `es5` 时你也可以不显示编写 `module` 配置)。
 
