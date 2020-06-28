@@ -85,12 +85,12 @@ contributors:
 ## T
 
 - [__Target__](/configuration/target/): 用户配置的部署目标 [此处列出](/configuration/target/) 用于为特定环境编译，如浏览器、 NodeJS 或 Electron。
-- [__Tree Shaking__](/guides/tree-shaking/): 删除未使用 / 多余的代码，或者更准确地说，实时代码导入。像 webpack 这样的编译器将通过分析各种 `import` 语句和导入代码的使用情况，来确定实际使用了依赖项的哪些部分来实现这一点，删除那些没有使用的 “树” 的部分。
+- [__Tree Shaking__](/guides/tree-shaking/): 删除未使用/多余的代码，或者更准确地说，实时代码导入。像 webpack 这样的编译器将通过分析各种 `import` 语句和导入代码的使用情况，来确定实际使用了依赖项的哪些部分来实现这一点，删除那些没有使用的 “树” 的部分。
 
 
 ## V
 
-- [__Vendor Entry Point__](/concepts/entry-points/#separate-app-and-vendor-entries): 从 `app.js` 和 `vendors.js` 开始创建依赖图。这些依赖图完全是分开且独立的，允许使用 `CommonsChunkPlugin`，并将应用程序包的任何供应商参考提取到你的供应商包中。有助于在 webpack 中实现一种称为 [长期供应商缓存](/guides/caching/) 的常见模式。
+- [__Vendor Entry Point__](/concepts/entry-points/#separate-app-and-vendor-entries): 从 `app.js` 和 `vendors.js` 开始创建依赖图。这些依赖图完全是分开且独立的，允许使用 `CommonsChunkPlugin`，并将应用程序包的任何供应商（vendor）引用提取到你的供应商包中。有助于在 webpack 中实现一种称为 [长期供应商缓存](/guides/caching/) 的常见模式。
 
 
 ## W
