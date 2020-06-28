@@ -177,4 +177,4 @@ export default (
 );
 ```
 
-如果你在其他地方也使用了 Babel 并且 `modules` 的值设置为 `false`，那么针对 `webpack.config.babel.js` 你需要再单独维护一份 `.babelrc` 的文件，或者你也可以将上述示例中的 `import jsxobj from 'jsxobj';` 替换为 `const jsxobj = require('jsxobj');` 并将新的 `import` 和 `expor` 语法替换为 `module.exports`，因为尽管 Node 目前已经支持了 ES6 的许多新特性，但是仍然没有支持 ES6 的模块语法。
+如果你在其他地方也使用了 Babel 并且 `modules` 的值设置为 `false`，则必须维护两份 `.babelrc` 的文件，或者你也可以将上述示例中的 `import jsxobj from 'jsxobj';` 替换为 `const jsxobj = require('jsxobj');` 并将新的 `export` 语法替换为 `module.exports`，因为尽管 Node 目前已经支持了 ES6 的许多新特性，但是仍然没有支持 ES6 的模块语法。
