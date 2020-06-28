@@ -44,7 +44,7 @@ contributors:
 
 ## H
 
-- [__Hot Module Replacement (HMR)__](/concepts/hot-module-replacement): 模块热替换功能会在应用程序运行过程中替换、添加或删除 `模块`，而无需重新加载整个页面。
+- [__Hot Module Replacement (HMR)__](/concepts/hot-module-replacement)：模块热替换功能会在应用程序运行过程中替换、添加或删除 `模块`，而无需重新加载整个页面。
 
 
 ## L
@@ -56,7 +56,7 @@ contributors:
 ## M
 
 - [__Module__](/concepts/modules): Module 是离散功能块，相比于完整程序提供了更小的接触面。精心编写的模块提供了可靠的抽象和封装界限，使得应用程序中每个模块都具有条理清楚的设计和明确的目的。
-- [__Module Resolution__](/concepts/module-resolution/):一个模块可以作为另一个模块的依赖模块。resolver 是一个库(library)，用于帮助找到模块的绝对路径，并在 `resolve.modules` 中指定的所有目录中搜索该模块.
+- [__Module Resolution__](/concepts/module-resolution/)：一个模块可以作为另一个模块的依赖模块。resolver 是一个库(library)，用于帮助找到模块的绝对路径，并在 `resolve.modules` 中指定的所有目录中搜索该模块.
 - [__Manifest__](/concepts/manifest): 当完成打包并发送到浏览器时，会在运行时通过 Manifest 来解析和加载模块。
 
 
@@ -68,7 +68,7 @@ contributors:
 
 ## P
 
-- [__Plugin__](/concepts/plugins): webpack 插件是一个具有 `apply` 属性的 JavaScript 对象。 `apply` 属性会被 webpack compiler 调用，并且插件可在整个编译生命周期访问。这些包通常会以某种方式扩展编译功能。
+- [__Plugin__](/concepts/plugins): webpack 插件是一个具有 `apply` 属性的 JavaScript 对象。`apply` 属性会被 webpack compiler 调用，并且插件可在整个编译生命周期访问。这些包通常会以某种方式扩展编译功能。
 
 
 ## R
@@ -95,4 +95,4 @@ contributors:
 
 ## W
 
-- [__webpack__](/): 一个用于现代 JavaScript 应用程序的高度可配置的 [module]（/concepts/modules）打包工具。
+- [__webpack__](/): 一个用于现代 JavaScript 应用程序的高度可配置的 [module](/concepts/modules) 打包工具。
