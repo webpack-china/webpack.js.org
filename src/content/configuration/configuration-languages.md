@@ -62,7 +62,7 @@ export default config;
 npm install --save-dev tsconfig-paths
 ```
 
-安装后你可以为 webpack 配置创建一个单独的 Typescript 配置文件，示例如下：
+安装后你可以为 webpack 配置创建一个单独的 TypeScript 配置文件，示例如下：
 
 __tsconfig-for-webpack-config.json__
 
