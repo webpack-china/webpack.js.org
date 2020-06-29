@@ -333,7 +333,8 @@ webpack({
 为了实现这一点，
 可以改变 `inputFileSystem` 或 `outputFileSystem`。
 例如，可以使用 [`memfs`](https://github.com/streamich/memfs) 替换默认的 `outputFileSystem`，
-以将文件写入到内存中，而不是写入到磁盘:
+以将文件写入到内存中，
+而不是写入到磁盘:
 
 ``` js
 const { createFsFromVolume, Volume } = require('memfs');
