@@ -346,7 +346,7 @@ module.exports = {
 
 ## Template strings
 
-可以使用以下替换模板字符串（通过 webpack 内部的[`TemplatedPathPlugin`][`templatedpathplugin`](https://github.com/webpack/webpack/blob/master/lib/TemplatedPathPlugin.js)）：
+可以使用以下替换模板字符串（通过 webpack 内部的[`TemplatedPathPlugin`](https://github.com/webpack/webpack/blob/master/lib/TemplatedPathPlugin.js)）:
 
 | 模板        | 描述                                                                         |
 | ------------- | ----------------------------------------------------------------------------------- |
@@ -399,11 +399,11 @@ module.exports = {
 `string`
 
 在全局环境下为防止多个 webpack 运行时 冲突所使用的唯一名称。默认使用 [`output.library`](/configuration/output/#outputlibrary) 名称或者上下文中的 `package.json` 的 包名称(package name)， 如果两者都不存在，值为 `''`。
-`output.uniqueName` will be used to generate unique globals for:
+
+`output.uniqueName` 将用于生成唯一全局变量:
 
 - [`output.jsonpFunction`](/configuration/output/#outputjsonpfunction)
 - [`output.chunkCallbackName`](/configuration/output/#outputchunkcallbackname)
-
 
 __webpack.config.js__
 
@@ -487,7 +487,7 @@ JSONP 函数用于异步加载(async load)热更新(hot-update) chunk。
 
 ## `output.hotUpdateMainFilename`
 
-`string: '[hash].hot-update.json'` `function`
+`string= '[hash].hot-update.json'` `function`
 
 自定义热更新的主文件名(main filename)。`[hash]` 是唯一可用的占位符。
 
@@ -613,7 +613,7 @@ T> 注意，下面的示例代码中的 `_entry_return_` 是入口起点返回�
 ```javascript
 var MyLibrary = _entry_return_;
 
-// 在一个单独的 script……
+// 在一个单独的 script...
 MyLibrary.doSomething();
 ```
 
@@ -647,7 +647,7 @@ W> 注意，不设置 `output.library` 将导致由入口起点返回的所有�
 ```javascript
 this['MyLibrary'] = _entry_return_;
 
-// 在一个单独的 script……
+// 在一个单独的 script...
 this.MyLibrary.doSomething();
 MyLibrary.doSomething(); // 如果 this 是 window
 ```
@@ -700,7 +700,7 @@ T> 想要弄清楚 CommonJS 和 CommonJS2 之间的区别？虽然它们很相�
 
 AMD 模块要求入口 chunk（例如使用 `<script>` 标签加载的第一个脚本）通过特定的属性定义，例如 `define` 和 `require`，它们通常由 RequireJS 或任何兼容的模块加载器提供（例如 almond）。否则，直接加载生成的 AMD bundle 将导致报错，如 `define is not defined`。
 
-所以，使用以下配置……
+所以，使用以下配置...
 
 ```javascript
 module.exports = {
@@ -739,11 +739,11 @@ define([], function() {
 如果直接加载 `<script>` 标签，此 bundle 无法按预期运行，或者根本无法正常运行（在 almond loader 中）。只能通过文件的实际路径，在 RequireJS 兼容的异步模块加载器中运行，因此在这种情况下，如果这些设置直接暴露在服务器上，那么 `output.path` 和 `output.filename` 对于这个特定的设置可能变得很重要。
 
 
-`libraryTarget: 'amd-require'` - This packages your output with an immediately-executed AMD `require(dependencies, factory)` wrapper.
+`libraryTarget: 'amd-require'` - 这将使用立即执行的AMD `require（dependencies, factory）` 包装器包装您的输出。
 
-The `'amd-require'` target allows for the use of AMD dependencies without needing a separate later invocation. As with the `'amd'` target, this depends on the appropriate [`require` function](https://github.com/amdjs/amdjs-api/blob/master/require.md) being available in the environment in which the webpack output is loaded.
+ `'amd-require'` 目标（target）允许使用AMD依赖项，而无需单独的后续调用。与 `'amd'` 目标（target）一样, 这取决于在加载 webpack 输出的环境中适当可用的 [`require` function](https://github.com/amdjs/amdjs-api/blob/master/require.md) 。
 
-With this target, the library name is ignored.
+对于此目标，库名称将被忽略。
 
 
 `libraryTarget: 'umd'` - 将你的 library 暴露为所有的模块定义下都可运行的方式。它将在 CommonJS, AMD 环境下运行，或将模块导出到 global 下的变量。了解更多请查看 [UMD 仓库](https://github.com/umdjs/umd)。
