@@ -346,7 +346,7 @@ module.exports = {
 
 ## Template strings
 
-可以使用以下替换模板字符串（通过 webpack 内部的[`TemplatedPathPlugin`][`templatedpathplugin`](https://github.com/webpack/webpack/blob/master/lib/TemplatedPathPlugin.js)）：
+可以使用以下替换模板字符串（通过 webpack 内部的 [`TemplatedPathPlugin`](https://github.com/webpack/webpack/blob/master/lib/TemplatedPathPlugin.js)）：
 
 | 模板        | 描述                                                                         |
 | ------------- | ----------------------------------------------------------------------------------- |
