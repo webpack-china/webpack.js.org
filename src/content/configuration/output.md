@@ -446,7 +446,7 @@ module.exports = {
 };
 ```
 
-确保 hash 函数有可访问的 `update` and `digest` 方法。
+确保 hash 函数有可访问的 `update` 和 `digest` 方法。
 
 ## `output.hashSalt`
 
