@@ -26,14 +26,14 @@ contributors:
 
 当前页面记录了影响 `webpack-dev-server` (简写: `dev-server`)配置的选项。
 
-T> 与[webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware) 兼容的配置项后面 🔑 标记。
+T> 与 [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware) 兼容的配置项后面 🔑 标记。
 
 
 ## 开发服务器(`devServer`)
 
 `object`
 
-通过[webpack-dev-server]（https://github.com/webpack/webpack-dev-server）的这些配置，能够以多种方式改变其行为。这是一个简单的示例，利用`gzips`压缩`dist /`目录当中的所有内容并提供一个本地服务(serve)：
+通过 [webpack-dev-server]（https://github.com/webpack/webpack-dev-server）的这些配置，能够以多种方式改变其行为。这是一个简单的示例，利用 `gzips` 压缩 `dist/` 目录当中的所有内容并提供一个本地服务(serve)：
 
 __webpack.config.js__
 
