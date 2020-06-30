@@ -50,7 +50,7 @@ module.exports = {
 };
 ```
 
-当服务(server)启动后，在解析模块列表之前会有一条消息：
+当服务(`server`)启动后，在解析模块列表之前输出一条消息：
 
 ```bash
 http://localhost:9000/
@@ -60,17 +60,17 @@ Content not from webpack is served from /path/to/dist/
 
 这里将会给出服务启动位置以及内容的一些基本信息。
 
-如果您通过Node.js API使用dev-server，则`devServer`中的配置选项将被忽略。但可以将配置选项作为第二个参数传入：`new WebpackDevServer（compiler，{...}）`。 [参见此处]（https://github.com/webpack/webpack-dev-server/tree/master/examples/api/simple）展示了如何通过Node.js API使用webpack-dev-server。
+如果您通过 Node.js API 使用 dev-server ，则`devServer`中的配置选项将被忽略。但可以将配置选项作为第二个参数传入：`new WebpackDevServer（compiler，{...}）`。 [参见此处](https://github.com/webpack/webpack-dev-server/tree/master/examples/api/simple)展示了如何通过 Node.js API 使用 webpack-dev-server。
 
 W> 使用`WebpackDevServer`时，不能使用第二个`compiler`参数（一个回调）。
 
-W> 请注意，当[导出多个配置对象]（/ configuration / configuration-types /＃exporting-multiple-configurations）时，只会使用`devServer`的第一个配置选项，并将其应用于所有的配置当中。
+W> 请注意，当[导出多个配置对象](/configuration/configuration-types/#exporting-multiple-configurations)时，只会使用`devServer`的第一个配置选项，并将其应用于所有的配置当中。
 
 T> 如果您碰到了问题，请将路由导航至 `/webpack-dev-server` 将会为您展示服务文件的位置。 例如： `http://localhost:9000/webpack-dev-server`。
 
 T> 如果您需要要手动重新编译`bundle`，将路由导航至`/invalidate`使当前编译的`bundle`无效，并通过`webpack-dev-middleware`为您重新编译。 根据您的配置，URL可能看起来像`http://localhost:9000/invalidate`。
 
-T> 当启动本地服务的时候HTML模板是必须提供的，通常是`index.html`。确保将脚本引用添加到HTML中，webpack-dev-server不会自动注入它们。
+T> 当启动本地服务的时候HTML模板是必须提供的，通常是`index.html`。确保将脚本引用添加到HTML中，webpack-dev-server 不会自动注入它们。
 
 ## `devServer.after`
 
@@ -132,7 +132,7 @@ module.exports = {
 };
 ```
 
-要将这个选项与CLI一起使用，请将`--allowed-hosts`的转换为用逗号分割的字符串并传入。
+要将这个选项与 CLI 一起使用，请将`--allowed-hosts`的转换为用逗号分割的字符串并传入。
 
 ```bash
 webpack-dev-server --entry /entry/file --output-path /output/path --allowed-hosts .host.com,host2.com
@@ -164,7 +164,7 @@ module.exports = {
 
 `boolean = false`
 
-这个配置用于在启动时通过[ZeroConf]（http://www.zeroconf.org/）网络广播你的开发服务器，用于服务发现。
+这个配置用于在启动时通过 [ZeroConf](http://www.zeroconf.org/) 网络广播你的开发服务器，用于服务发现。
 
 __webpack.config.js__
 
@@ -250,11 +250,11 @@ webpack-dev-server --compress
 
 `boolean: false` `string` `[string]` `number`
 
-告诉服务器从何处提供内容。 仅当您要提供静态文件时才需要这样做。 [`devServer.publicPath`]（＃devserverpublicpath-）将用于确定应从何处提供捆绑软件，并具有优先权。
+告诉服务器从何处提供内容。 仅当您要提供静态文件时才需要这样做。 [`devServer.publicPath`](#devserverpublicpath-) 将用于确定应从何处提供捆绑软件，并具有优先权。
 
 T> 建议使用绝对路径。
 
-默认情况下，它将使用您当前的工作目录来提供内容。 要禁用`contentBase`，请将其设置为`false`。
+默认情况下，它将使用您当前的工作目录来提供内容。 要禁用 `contentBase` ，请将其设置为 `false` 。
 
 __webpack.config.js__
 
@@ -269,7 +269,7 @@ module.exports = {
 };
 ```
 
-如果您想使用[`contentBasePublicPath`]（＃devservercontentbasepublicpath）在多个URL上提供静态内容，也可以从多个目录提供服务：
+如果您想使用[`contentBasePublicPath`](#devservercontentbasepublicpath)在多个URL上提供静态内容，也可以从多个目录提供服务：
 
 __webpack.config.js__
 
@@ -295,7 +295,7 @@ webpack-dev-server --content-base /path/to/content/dir
 
 `string = '/'` `[string]`
 
-告诉服务器使用哪个URL服务`devServer.contentBase`静态内容。 如果有一个文件`assets/manifest.json`，它将在`/serve-content-base-at-this-url/manifest.json`中提供。
+告诉服务器使用哪个URL服务 `devServer.contentBase` 静态内容。 如果有一个文件 `assets/manifest.json` ，它将在 `/serve-content-base-at-this-url/manifest.json` 中提供。
 
 __webpack.config.js__
 
@@ -376,7 +376,7 @@ module.exports = {
 };
 ```
 
-现在它将仅在请求`/bundle.js`时编译该捆绑软件。
+现在它将仅在请求 `/bundle.js` 时编译该捆绑软件。
 
 T> `filename` 不会生效，当不实用 [懒惰模式](#devserverlazy-)时.
 
@@ -405,7 +405,7 @@ module.exports = {
 
 `boolean = false` `object`
 
-当使用 [HTML5 History API](https://developer.mozilla.org/en-US/docs/Web/API/History)时, 所有的`404`请求都会响应`index.html`的内容。 将 `devServer.historyApiFallback` 设为 `true`开启：
+当使用 [HTML5 History API](https://developer.mozilla.org/en-US/docs/Web/API/History) 时, 所有的 `404` 请求都会响应 `index.html` 的内容。 将 `devServer.historyApiFallback` 设为 `true`开启：
 
 __webpack.config.js__
 
@@ -438,7 +438,7 @@ module.exports = {
 };
 ```
 
-在路径中使用点时（与Angular相同），您可能需要使用`disableDotRule`：
+在路径中使用点时（与 Angular 相同），您可能需要使用 `disableDotRule`：
 
 __webpack.config.js__
 
@@ -459,14 +459,14 @@ module.exports = {
 webpack-dev-server --history-api-fallback
 ```
 
-有关更多选项和信息，请参见[connect-history-api-fallback](https://github.com/bripkens/connect-history-api-fallback)文档。
+有关更多选项和信息，请参见 [connect-history-api-fallback](https://github.com/bripkens/connect-history-api-fallback) 文档。
 
 
 ## `devServer.host`
 
 `string = 'localhost'`
 
-指定要使用的host。 如果您希望服务器可从外部访问，请按以下方式指定它：
+指定要使用的 host 。如果您希望服务器可从外部访问，请按以下方式指定它：
 
 __webpack.config.js__
 
@@ -490,7 +490,7 @@ webpack-dev-server --host 0.0.0.0
 
 `boolean`
 
-启用webpack的[Hot Module Replacement](/concepts/hot-module-replacement/)功能：
+启用 webpack 的 [Hot Module Replacement](/concepts/hot-module-replacement/) 功能：
 
 __webpack.config.js__
 
@@ -503,14 +503,14 @@ module.exports = {
 };
 ```
 
-T> 请注意，要完全启用HMR，需要[`webpack.HotModuleReplacementPlugin`](/plugins/hot-module-replacement-plugin/)。 如果使用--hot选项启动`webpack`或`webpack-dev-server`，该插件将自动添加，因此您可能不需要将其添加到`webpack.config.js`中。 有关更多信息，请参见[HMR concepts page](/concepts/hot-module-replacement/)。
+T> 请注意，要完全启用 HMR ，需要 [`webpack.HotModuleReplacementPlugin`](/plugins/hot-module-replacement-plugin/)。 如果使用 --hot 选项启动 `webpack` 或 `webpack-dev-server` ，该插件将自动添加，因此您可能不需要将其添加到 `webpack.config.js` 中。 有关更多信息，请参见 [HMR concepts page](/concepts/hot-module-replacement/)。
 
 
 ## `devServer.hotOnly`
 
 `boolean`
 
-启用热模块替换（请参见[`devServer.hot`](#devserverhot)），而无需页面刷新作为构建失败时的回退。
+启用热模块替换（请参见 [`devServer.hot`](#devserverhot) ），而无需页面刷新作为构建失败时的回退。
 
 __webpack.config.js__
 
@@ -534,9 +534,9 @@ webpack-dev-server --hot-only
 
 `boolean = false`
 
-使用[spdy](https://www.npmjs.com/package/spdy)通过HTTP/2服务。 对于Node 10.0.0及更高版本，此选项将被忽略，因为spdy在这些版本中已被破坏。 一旦[Express](https://expressjs.com/) 支持，开发服务器将迁移到Node内置的HTTP/2。
+使用 [spdy](https://www.npmjs.com/package/spdy) 提供HTTP/2服务。 对于 Node 10.0.0 及更高版本，此选项将被忽略，因为 spdy 在这些版本中已被破坏。 一旦 [Express](https://expressjs.com/) 支持，开发服务器将迁移到Node内置的HTTP/2。
 
-如果未将`devServer.http2`显式设置为false，则在启用[`devServer.https`](#devserverhttps)时将默认为true。 如果启用`devServer.http2`，但服务器无法通过HTTP/2提供服务，则服务器默认为HTTPS。
+如果未将 `devServer.http2` 显式设置为 false ，则在启用 [`devServer.https`](#devserverhttps) 时将默认为 true 。 如果启用 `devServer.http2`，但服务器无法通过 HTTP/2 提供服务，则服务器默认为 HTTPS。
 
 HTTP/2 带有自签名证书：
 
@@ -615,7 +615,7 @@ module.exports = {
 };
 ```
 
-该对象直接传递到Node.js HTTPS模块，因此请参阅[HTTPS documentation](https://nodejs.org/api/https.html)以获取更多信息。
+该对象直接传递到 Node.js HTTPS 模块，因此请参阅 [HTTPS documentation](https://nodejs.org/api/https.html) 以获取更多信息。
 
 通过命令行使用
 
@@ -623,7 +623,7 @@ module.exports = {
 webpack-dev-server --https
 ```
 
-要通过CLI使用自己的证书，请使用以下选项
+要通过 CLI 使用自己的证书，请使用以下选项
 
 ```bash
 webpack-dev-server --https --key /path/to/server.key --cert /path/to/server.crt --cacert /path/to/ca.pem
@@ -633,7 +633,7 @@ webpack-dev-server --https --key /path/to/server.key --cert /path/to/server.crt 
 
 `string`
 
-设置index文件的文件名。
+设置 index 文件的文件名。
 
 __webpack.config.js__
 
@@ -651,7 +651,7 @@ module.exports = {
 
 `boolean`
 
-输出cli信息。 默认情况下启用。
+输出 cli 信息。 默认情况下启用。
 
 ```bash
 webpack-dev-server --info=false
@@ -662,7 +662,7 @@ webpack-dev-server --info=false
 
 `boolean = false` `function (compilerConfig) => boolean`
 
-告诉`devServer`注入一个客户端。 将`devServer.injectClient`设置为`true`将导致总是注入客户端。 可以提供有条件注入的功能：
+告诉 `devServer` 注入一个客户端。 将 `devServer.injectClient` 设置为 `true` 将导致总是注入客户端。 可以提供有条件注入的功能：
 
 
 ```javascript
@@ -679,7 +679,7 @@ module.exports = {
 
 `boolean = false` `function (compilerConfig) => boolean`
 
-告诉`devServer`注入热模块替换。 将`devServer.injectHot`设置为`true`将导致始终注入。 可以提供有条件注入的功能：
+告诉 `devServer` 注入热模块替换。 将 `devServer.injectHot` 设置为  `true`将导致始终注入。 可以提供有条件注入的功能：
 
 
 ```javascript
@@ -692,16 +692,16 @@ module.exports = {
 };
 ```
 
-W> 确保 [`devServer.hot`](#devserverhot)设置为`true`，因为`devServer.injectHot`仅适用于HMR。
+W> 确保 [`devServer.hot`](#devserverhot) 设置为 `true`，因为`devServer.injectHot` 仅适用于HMR。
 
 
 ## `devServer.inline`
 
 `boolean`
 
-在开发服务器的两种不同模式之间切换。 默认情况下，应用程序将启用_inline模式_。 这意味着将在您的捆绑软件中插入脚本以进行实时重新加载，并且构建消息将出现在浏览器控制台中。
+在开发服务器的两种不同模式之间切换。 默认情况下，应用程序将启用 __inline模式__。 这意味着将在您的捆绑软件中插入脚本以进行实时重新加载，并且构建消息将出现在浏览器控制台中。
 
-也可以使用__iframe模式__，它在通知栏下使用带有有关构建消息的<iframe>。 切换到__iframe模式__：
+也可以使用 __iframe模式__，它在通知栏下使用带有有关构建消息的`<iframe>`。 切换到 __iframe模式__：
 
 __webpack.config.js__
 
@@ -720,14 +720,14 @@ module.exports = {
 webpack-dev-server --inline=false
 ```
 
-T> 对于[Hot Module Replacement](/plugins/hot-module-replacement-plugin/)，建议使用串联模式，因为它包含来自websocket的HMR触发器。 轮询模式可以用作替代方法，但需要附加的入口点`'webpack/hot/poll?1000'`。
+T> 对于 [Hot Module Replacement](/plugins/hot-module-replacement-plugin/) ，建议使用串联模式，因为它包含来自 websocket 的 HMR 触发器。 轮询模式可以用作替代方法，但需要附加的入口点`'webpack/hot/poll?1000'`。
 
 
 ## `devServer.lazy` 🔑
 
 `boolean`
 
-启用`devServer.lazy`时，开发服务器仅在收到请求时才编译捆绑软件。 这意味着webpack将不会监视任何文件更改。 我们称这种方式为“懒惰模式(__lazy mode__)”。
+启用 `devServer.lazy` 时，开发服务器仅在收到请求时才编译捆绑软件。 这意味着webpack将不会监视任何文件更改。 我们称这种方式为“懒惰模式(__lazy mode__)”。
 
 __webpack.config.js__
 
@@ -754,7 +754,7 @@ T> If you use the CLI, make sure __inline mode__ is disabled.
 
 `boolean = true`
 
-默认情况下，检测到文件更改时，开发服务器将重新加载/刷新页面。 必须禁用[`devServer.hot`](#devserverhot)选项或必须启用[`devServer.watchContentBase`](#devserverwatchcontentbase)选项，才能使liveReload生效。 通过将其设置为false来禁用devServer.liveReload：
+默认情况下，检测到文件更改时，开发服务器将重新加载/刷新页面。 必须禁用 [`devServer.hot`](#devserverhot) 选项或必须启用 [`devServer.watchContentBase`](#devserverwatchcontentbase) 选项，才能使 liveReload 生效。 通过将其设置为 false 来禁用 devServer.liveReload：
 
 
 __webpack.config.js__
@@ -779,9 +779,9 @@ webpack-dev-server --no-live-reload
 
 `object`
 
-允许dev-server注册自定义的mime类型。
-该对象被传递到底层的`webpack-dev-middleware`。
-有关使用说明，请参见[documentation](https://github.com/webpack/webpack-dev-middleware#mimetypes) 。
+允许 dev-server 注册自定义的mime类型。
+该对象被传递到底层的 `webpack-dev-middleware`。
+有关使用说明，请参见 [documentation](https://github.com/webpack/webpack-dev-middleware#mimetypes) 。
 
 __webpack.config.js__
 
@@ -816,7 +816,7 @@ module.exports = {
 
 `function (server)`
 
-提供一个选项，当`webpack-dev-server`开始监听端口上的连接时，执行自定义功能。
+提供一个选项，当 `webpack-dev-server` 开始监听端口上的连接时，执行自定义功能。
 
 __webpack.config.js__
 
@@ -836,7 +836,7 @@ module.exports = {
 
 `boolean = false` `string` `object`
 
-告诉dev-server在服务器启动后打开浏览器。 将其设置为`true`以打开默认浏览器。
+告诉 dev-server 在服务器启动后打开浏览器。 将其设置为 `true` 以打开默认浏览器。
 
 __webpack.config.js__
 
@@ -862,7 +862,7 @@ module.exports = {
 };
 ```
 
-如果要在打开浏览器时使用标志，例如打开隐身窗口（`--incognito`标志），则可以将 `open` 设置为对象。 该对象接受所有[open](https://www.npmjs.com/package/open)选项，`app`属性必须是一个数组。 数组中的第一个元素必须是浏览器名称，其他后面的元素是您要使用的标志。 例如：
+如果要在打开浏览器时使用标志，例如打开隐身窗口（ `--incognito` 标志），则可以将 `open` 设置为对象。 该对象接受所有 [open](https://www.npmjs.com/package/open) 选项，`app` 属性必须是一个数组。 数组中的第一个元素必须是浏览器名称，其他后面的元素是您要使用的标志。 例如：
 
 __webpack.config.js__
 
@@ -883,7 +883,7 @@ module.exports = {
 webpack-dev-server --open 'Google Chrome'
 ```
 
-T> 浏览器应用程序名称取决于平台。 不要在可重用模块中对其进行硬编码。 例如，`'Chrome'` 在macOS上是`'Google Chrome'`，在Linux上是`'Google Chrome'`在Windows上是`'Chrome'` 。
+T> 浏览器应用程序名称取决于平台。 不要在可重用模块中对其进行硬编码。 例如，`'Chrome'` 在macOS上是 `'Google Chrome'` ，在Linux上是 `'Google Chrome'` 在Windows上是 `'Chrome'` 。
 
 
 ## `devServer.openPage`
@@ -1041,9 +1041,9 @@ webpack-dev-server --port 8080
 
 当您拥有单独的API后端开发服务器并且希望在同一域上发送API请求时，代理某些URL可能会很有用。
 
-开发服务器使用功能强大的[http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware)软件包。 查看其 [documentation](https://github.com/chimurai/http-proxy-middleware#options) 了解更多高级用法。 请注意，`http-proxy-middleware`的某些功能不需要`target`键，例如 它的`router` 功能，但是您仍然需要在此处的配置中包含`target`，否则`webpack-dev-server` 不会将其传递给`http-proxy-middleware`）。
+开发服务器使用功能强大的 [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware) 软件包。 查看其 [documentation](https://github.com/chimurai/http-proxy-middleware#options) 了解更多高级用法。 请注意，`http-proxy-middleware` 的某些功能不需要`target`键，例如 它的 `router` 功能，但是您仍然需要在此处的配置中包含`target`，否则`webpack-dev-server` 不会将其传递给 `http-proxy-middleware`）。
 
-使用后端在`localhost:3000`上，您可以使用它来启用代理：
+使用后端在 `localhost:3000` 上，您可以使用它来启用代理：
 
 __webpack.config.js__
 
@@ -1058,7 +1058,7 @@ module.exports = {
 };
 ```
 
-现在，对`/api/users` 的请求会将请求代理到 `http://localhost:3000/api/users`。
+现在，对 `/api/users` 的请求会将请求代理到 `http://localhost:3000/api/users`。
 
 如果您不希望传递`/api`，则需要重写路径：
 
@@ -1078,7 +1078,7 @@ module.exports = {
 };
 ```
 
-默认情况下，将不接受在HTTPS上运行且证书无效的后端服务器。 如果需要，可以这样修改配置：
+默认情况下，将不接受在 HTTPS 上运行且证书无效的后端服务器。 如果需要，可以这样修改配置：
 
 __webpack.config.js__
 
@@ -1100,11 +1100,11 @@ module.exports = {
 
 在该功能中，您可以访问请求，响应和代理选项。
 
-- 返回`null`或`undefined`以继续使用代理处理请求。
-- 返回`false`会为请求产生404错误。
+- 返回 `null` 或 `undefined` 以继续使用代理处理请求。
+- 返回 `false` 会为请求产生404错误。
 - 返回提供服务的路径，而不是继续代理请求。
 
-例如。 对于浏览器请求，您想要提供HTML页面，但是对于API请求，您想要代理它。 您可以执行以下操作：
+例如。 对于浏览器请求，您想要提供 HTML 页面，但是对于 API 请求，您想要代理它。 您可以执行以下操作：
 
 __webpack.config.js__
 
@@ -1127,7 +1127,7 @@ module.exports = {
 };
 ```
 
-如果您想将多个特定路径代理到同一目标，则可以使用一个或多个带有`context`属性的对象的数组：
+如果您想将多个特定路径代理到同一目标，则可以使用一个或多个带有 `context` 属性的对象的数组：
 
 __webpack.config.js__
 
@@ -1143,7 +1143,7 @@ module.exports = {
 };
 ```
 
-请注意，默认情况下不会代理对root的请求。 要启用根代理，应将`devServer.index`选项指定为虚假值：
+请注意，默认情况下不会代理对 root 的请求。 要启用根代理，应将 `devServer.index` 选项指定为虚假值：
 
 __webpack.config.js__
 
@@ -1162,7 +1162,7 @@ module.exports = {
 };
 ```
 
-默认情况下，代理时会保留主机头的来源，您可以将`changeOrigin`设置为`true`以覆盖此行为。 在某些情况下，例如使用 [name-based virtual hosted sites](https://en.wikipedia.org/wiki/Virtual_hosting#Name-based)，它很有用。
+默认情况下，代理时会保留主机头的来源，您可以将 `changeOrigin` 设置为 `true` 以覆盖此行为。 在某些情况下，例如使用 [name-based virtual hosted sites](https://en.wikipedia.org/wiki/Virtual_hosting#Name-based)，它很有用。
 
 __webpack.config.js__
 
@@ -1195,9 +1195,9 @@ webpack-dev-server --progress
 
 `string`
 
-使用_inline模式_并代理dev-server时，内联客户端脚本并不总是知道要连接到哪里。 它将尝试基于`window.location`猜测服务器的URL，但是如果失败，则需要使用它。
+使用 _inline模式_ 并代理 dev-server 时，内联客户端脚本并不总是知道要连接到哪里。 它将尝试基于 `window.location` 猜测服务器的 URL，但是如果失败，则需要使用它。
 
-例如，开发服务器由nginx代理，并在`myapp.test`上可用：
+例如，开发服务器由 nginx 代理，并在 `myapp.test` 上可用：
 
 __webpack.config.js__
 
@@ -1223,9 +1223,9 @@ webpack-dev-server --public myapp.test:80
 
 捆绑的文件将在此路径下的浏览器中可用。
 
-假设服务器在`http://localhost:8080`下运行，并且 [`output.filename`](/configuration/output/#outputfilename) 设置为`bundle.js`。 默认情况下，`devServer.publicPath`为`'/'`，因此您的捆绑软件可以作为`http://localhost:8080/bundle.js`获得。
+假设服务器在 `http://localhost:8080` 下运行，并且 [`output.filename`](/configuration/output/#outputfilename) 设置为 `bundle.js`。 默认情况下，`devServer.publicPath` 为 `'/'`，因此您的捆绑软件可以作为 `http://localhost:8080/bundle.js` 获得。
 
-更改`devServer.publicPath`以将捆绑软件放在特定目录下：
+更改 `devServer.publicPath` 以将捆绑软件放在特定目录下：
 
 __webpack.config.js__
 
@@ -1238,9 +1238,9 @@ module.exports = {
 };
 ```
 
-该捆绑包现在将以`http://localhost:8080/assets/bundle.js`的形式提供。
+该捆绑包现在将以 `http://localhost:8080/assets/bundle.js` 的形式提供。
 
-T> 确保`devServer.publicPath`始终以正斜杠开头和结尾。
+T> 确保 `devServer.publicPath` 始终以正斜杠开头和结尾。
 
 也可以使用完整的URL。
 
@@ -1255,16 +1255,16 @@ module.exports = {
 };
 ```
 
-该捆绑包现在将以`http://localhost:8080/assets/bundle.js`的形式提供。
+该捆绑包现在将以 `http://localhost:8080/assets/bundle.js` 的形式提供。
 
-T> 建议`devServer.publicPath`与[`output.publicPath`](/configuration/output/#outputpublicpath)相同。
+T> 建议 `devServer.publicPath` 与 [`output.publicPath`](/configuration/output/#outputpublicpath) 相同。
 
 
 ## `devServer.quiet` 🔑
 
 `boolean`
 
-启用`devServer.quiet`后，除了初始启动信息外，什么都不会写入控制台。 这也意味着来自webpack的错误或警告是不可见的。
+启用 `devServer.quiet` 后，除了初始启动信息外，什么都不会写入控制台。 这也意味着来自webpack的错误或警告是不可见的。
 
 __webpack.config.js__
 
@@ -1287,9 +1287,9 @@ webpack-dev-server --quiet
 
 `boolean = true`
 
-告诉开发服务器启用后使用 [`serveIndex`](https://github.com/expressjs/serve-index)中间件。
+告诉开发服务器启用后使用 [`serveIndex`](https://github.com/expressjs/serve-index) 中间件。
 
-[`serveIndex`](https://github.com/expressjs/serve-index)中间件会在查看没有index.html文件的目录时生成目录列表。
+[`serveIndex`](https://github.com/expressjs/serve-index) 中间件会在查看没有index.html文件的目录时生成目录列表。
 
 ```javascript
 module.exports = {
@@ -1304,9 +1304,9 @@ module.exports = {
 
 `function (app, server)`
 
-W> __deprecated__这个选项被[`devServer.before`](#devserverbefore)所支持，并将在v3.0.0中删除。
+W> 这个选项将被 [`devServer.before`](#devserverbefore) 所支持，并将在v3.0.0中删除。
 
-在这里，您可以访问Express应用程序对象，并向其中添加您自己的自定义中间件。
+在这里，您可以访问 Express 应用程序对象，并向其中添加您自己的自定义中间件。
 例如，为某些路径定义自定义处理程序：
 
 __webpack.config.js__
@@ -1329,7 +1329,7 @@ module.exports = {
 
 `string`
 
-要监听的Unix套接字（而不是主机）。
+要监听的 Unix 套接字（而不是主机）。
 
 __webpack.config.js__
 
@@ -1353,7 +1353,7 @@ webpack-dev-server --socket socket
 
 `string`
 
-告诉连接到`devServer`的客户端使用提供的套接字主机。
+告诉连接到 `devServer` 的客户端使用提供的套接字主机。
 
 __webpack.config.js__
 
@@ -1411,7 +1411,7 @@ module.exports = {
 
 `object`
 
-可以配置高级选项以从`contentBase`提供静态文件。 有关可能的选项，请参见[Express documentation](http://expressjs.com/en/4x/api.html#express.static)。
+可以配置高级选项以从 `contentBase` 提供静态文件。 有关可能的选项，请参见 [Express documentation](http://expressjs.com/en/4x/api.html#express.static)。
 
 __webpack.config.js__
 
@@ -1426,7 +1426,7 @@ module.exports = {
 };
 ```
 
-T> 这仅在将 [`devServer.contentBase`](#devservercontentbase)用作字符串时有效。
+T> 这仅在将 [`devServer.contentBase`](#devservercontentbase) 用作字符串时有效。
 
 
 ## `devServer.stats` 🔑
@@ -1448,9 +1448,9 @@ module.exports = {
 };
 ```
 
-有关更多信息，请参见[__stats documentation__](/configuration/stats/)。
+有关更多信息，请参见 [__stats documentation__](/configuration/stats/)。
 
-T> 与`quiet`或`noInfo`一起使用时，该选项无效。
+T> 与 `quiet` 或 `noInfo` 一起使用时，该选项无效。
 
 
 ## `devServer.stdin` - CLI only
@@ -1470,13 +1470,13 @@ webpack-dev-server --stdin
 
 W> `transportMode` 是一个实验性选项，这意味着其用法可能会更改，而不会发出警告。
 
-T> 将字符串提供给d `devServer.transportMode`是将`devServer.transportMode.client`和`devServer.transportMode.server`都设置为给定字符串值的快捷方式。
+T> 将字符串提供给d `devServer.transportMode` 是将 `devServer.transportMode.client` 和 `devServer.transportMode.server` 都设置为给定字符串值的快捷方式。
 
 这个选项允许我们要么为客户端/服务器分别选择当前的`devServer`传输模式，要么提供定制的客户端/服务器实现。 这允许指定浏览器或其他客户端如何与`devServer`通信。
 
-当前的默认模式是 [`'sockjs'`](https://www.npmjs.com/package/sockjs)。 此模式使用[SockJS-node](https://github.com/sockjs/sockjs-node)作为服务器，并使用[SockJS-client](https://www.npmjs.com/package/sockjs-client)在客户端上。
+当前的默认模式是 [`'sockjs'`](https://www.npmjs.com/package/sockjs)。 此模式使用 [SockJS-node](https://github.com/sockjs/sockjs-node) 作为服务器，并使用 [SockJS-client](https://www.npmjs.com/package/sockjs-client) 在客户端上。
 
-在下一代主要的`devServer`版本中，`'ws'`模式将成为默认模式。 此模式将[ws](https://www.npmjs.com/package/ws)用作服务器，并在客户端上使用本机WebSocket。
+在下一代主要的 `devServer` 版本中，`'ws'` 模式将成为默认模式。 此模式将 [ws](https://www.npmjs.com/package/ws) 用作服务器，并在客户端上使用本机  WebSocket。
 
 Use `'ws'` mode:
 
@@ -1531,7 +1531,7 @@ module.exports = {
 };
 ```
 
-使用`CustomServer.js`导出的类实现自定义WebSocket服务器并兼容`ws`客户端：
+使用 `CustomServer.js` 导出的类实现自定义WebSocket服务器并兼容 `ws` 客户端：
 
 ```javascript
 module.exports = {
@@ -1588,7 +1588,7 @@ webpack-dev-server --useLocalIp
 
 `boolean`
 
-告诉dev-server监听[`devServer.contentBase`]（＃devservercontentbase）选项提供的文件。 默认情况下禁用。 启用后，文件更改将触发整个页面重新加载。
+告诉 dev-server 监听 [`devServer.contentBase`]（＃devservercontentbase）选项提供的文件。 默认情况下禁用。 启用后，文件更改将触发整个页面重新加载。
 
 __webpack.config.js__
 
@@ -1614,7 +1614,7 @@ webpack-dev-server --watch-content-base
 
 控制监听文件的选项。
 
-webpack使用文件系统来通知文件更改。 在某些情况下，这不起作用。 例如，使用网络文件系统（NFS）时。 [Vagrant]（https://www.vagrantup.com/）也有很多问题。 在这些情况下，请使用轮询：
+webpack 使用文件系统来通知文件更改。 在某些情况下，这不起作用。 例如，使用网络文件系统（NFS）时。 [Vagrant](https://www.vagrantup.com/) 也有很多问题。 在这些情况下，请使用轮询：
 
 __webpack.config.js__
 
@@ -1638,7 +1638,7 @@ module.exports = {
 
 `boolean = false` `function (filePath) => boolean`
 
-告诉 `devServer` 将产生的文件写入硬盘。 写入位置为[output.path](/configuration/output/#outputpath) 配置的目录。
+告诉 `devServer` 将产生的文件写入硬盘。 写入位置为 [output.path](/configuration/output/#outputpath) 配置的目录。
 
 __webpack.config.js__
 
