@@ -487,7 +487,7 @@ JSONP 函数用于异步加载(async load)热更新(hot-update) chunk。
 
 ## `output.hotUpdateMainFilename`
 
-`string= '[hash].hot-update.json'` `function`
+`string = '[hash].hot-update.json'` `function`
 
 自定义热更新的主文件名(main filename)。`[hash]` 是唯一可用的占位符。
 
