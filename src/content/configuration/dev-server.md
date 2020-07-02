@@ -586,7 +586,7 @@ webpack-dev-server --http2 --key /path/to/server.key --cert /path/to/server.crt 
 
 `boolean` `object`
 
-默认情况下，开发服务器将通过HTTP提供服务。 可以选择使用HTTPS通过HTTP/2提供服务：
+默认情况下，开发服务器将通过HTTP提供服务。可以选择使用HTTPS通过HTTP/2提供服务：
 
 __webpack.config.js__
 
