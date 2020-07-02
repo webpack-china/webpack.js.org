@@ -142,7 +142,8 @@ webpack-dev-server --entry /entry/file --output-path /output/path --allowed-host
 
 `function (app, server, compiler)`
 
-提供了一个在`devServer`内部的所有中间件执行之前的自定义执行函数。
+提供了一个在 `devServer` 内部的
+所有中间件执行之前的自定义执行函数。
 例：
 
 __webpack.config.js__
