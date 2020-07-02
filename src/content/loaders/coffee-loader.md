@@ -20,44 +20,44 @@ Compile [CoffeeScript](https://coffeescript.org/) to JavaScript.
 
 ## 起步
 
-安装 `coffeescript` 和 `coffee-loader`:
+安装 `coffeescript` 和 `coffee-loader`：
 
 ```console
 npm install --save-dev coffeescript coffee-loader
 ```
 
-然后添加 plugin 到 `webpack` 配置文件. 例:
+然后添加 plugin 到 `webpack` 配置文件. 例：
 
 **file.coffee**
 
 ```coffee
-# 任务:
+# 任务：
 number   = 42
 opposite = true
 
-# 条件:
+# 条件：
 number = -42 if opposite
 
-# 函数:
+# 函数：
 square = (x) -> x * x
 
-# 数组:
+# 数组：
 list = [1, 2, 3, 4, 5]
 
-# 对象:
+# 对象：
 math =
   root:   Math.sqrt
   square: square
   cube:   (x) -> x * square x
 
-# Splats:
+# Splats：
 race = (winner, runners...) ->
   print winner, runners
 
-# 存在性:
+# 存在性：
 alert "I knew it!" if elvis?
 
-# 数组 推导(comprehensions):
+# 数组推导（comprehensions）：
 cubes = (math.cube num for num in list)
 ```
 
@@ -76,7 +76,7 @@ module.exports = {
 };
 ```
 
-替代方案:
+替代方案：
 
 ```js
 import coffee from 'coffee-loader!./file.coffee';
@@ -86,8 +86,8 @@ import coffee from 'coffee-loader!./file.coffee';
 
 ## 选项
 
-类型: `Object`
-默认: `{ bare: true }`
+类型：`Object`
+默认：`{ bare: true }`
 
 所有 coffeescript 选项的文档 [点击查看](https://coffeescript.org/#nodejs-usage).
 
@@ -122,14 +122,14 @@ module.exports = {
 
 ### CoffeeScript 与 Babel
 
-来自 CoffeeScript 2 的文档:
+来自 CoffeeScript 2 的文档：
 
 > CoffeeScript 2 使用最新的句法生成 JavaScript。
 > 代码运行所在的运行时或浏览器有可能无法支持全部相关句法。
 > 这种情况下，新的 JavaScript 句法将被转换为旧的 JavaScript 句法，以便在较低版本 Node 环境或浏览器中运行这些代码。比如将 { a } = obj 转换为 a = obj.a.
 > 这个转换的过程是由一些诸如 Babel, Bublé or Traceur Compiler 等转换工具完成的。
 
-安装 `@babel/core` 和 `@babel/preset-env`  然后创建配置文件:
+安装 `@babel/core` 和 `@babel/preset-env`  然后创建配置文件：
 
 ```console
 npm install --save-dev @babel/core @babel/preset-env
@@ -158,7 +158,7 @@ module.exports = {
 
 ### Literate CoffeeScript
 
-开启 Literate CoffeeScript 时需要设置:
+开启 Literate CoffeeScript 时需要设置：
 
 **webpack.config.js**
 
