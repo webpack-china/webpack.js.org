@@ -60,15 +60,15 @@ Content not from webpack is served from /path/to/dist/
 
 这里将会给出服务启动位置以及内容的一些基本信息。
 
-如果您通过 Node.js API 使用 dev-server ，则`devServer`中的配置选项将被忽略。但可以将配置选项作为第二个参数传入：`new WebpackDevServer（compiler，{...}）`。 [参见此处](https://github.com/webpack/webpack-dev-server/tree/master/examples/api/simple)展示了如何通过 Node.js API 使用 webpack-dev-server。
+如果通过 Node.js API 使用 dev-server ，则`devServer`中的配置选项将被忽略。但可以将配置选项作为第二个参数传入：`new WebpackDevServer（compiler，{...}）`。 [参见此处](https://github.com/webpack/webpack-dev-server/tree/master/examples/api/simple)展示了如何通过 Node.js API 使用 webpack-dev-server。
 
 W> 使用`WebpackDevServer`时，不能使用第二个`compiler`参数（一个回调）。
 
 W> 请注意，当[导出多个配置对象](/configuration/configuration-types/#exporting-multiple-configurations)时，只会使用`devServer`的第一个配置选项，并将其应用于所有的配置当中。
 
-T> 如果您碰到了问题，请将路由导航至 `/webpack-dev-server` 将会为您展示服务文件的位置。 例如： `http://localhost:9000/webpack-dev-server`。
+T> 如果碰到了问题，请将路由导航至 `/webpack-dev-server` 将会为展示服务文件的位置。 例如： `http://localhost:9000/webpack-dev-server`。
 
-T> 如果您需要要手动重新编译`bundle`，将路由导航至`/invalidate`使当前编译的`bundle`无效，并通过`webpack-dev-middleware`为您重新编译。 根据您的配置，URL可能看起来像`http://localhost:9000/invalidate`。
+T> 如果需要要手动重新编译`bundle`，将路由导航至`/invalidate`使当前编译的`bundle`无效，并通过`webpack-dev-middleware`为重新编译。 根据的配置，URL可能看起来像`http://localhost:9000/invalidate`。
 
 T> 当启动本地服务的时候HTML模板是必须提供的，通常是`index.html`。确保将脚本引用添加到HTML中，webpack-dev-server 不会自动注入它们。
 
@@ -76,7 +76,8 @@ T> 当启动本地服务的时候HTML模板是必须提供的，通常是`index.
 
 `function (app, server, compiler)`
 
-提供在`devServer`内部的所有中间件执行完成之后的自定义中间件。
+提供在`devServer`内部的所有中间件执行完成之后
+的自定义中间件。
 
 __webpack.config.js__
 
@@ -95,7 +96,7 @@ module.exports = {
 
 `[string]`
 
-该选项允许您将允许访问开发服务器的服务列入白名单。
+该选项允许将允许访问开发服务器的服务列入白名单。
 
 __webpack.config.js__
 
@@ -132,7 +133,7 @@ module.exports = {
 };
 ```
 
-要将这个选项与 CLI 一起使用，请将`--allowed-hosts`的转换为用逗号分割的字符串并传入。
+要将这个选项与 CLI 一起使用，请将`--allowed-hosts`的值转换为用逗号分割的字符串并传入。
 
 ```bash
 webpack-dev-server --entry /entry/file --output-path /output/path --allowed-hosts .host.com,host2.com
@@ -142,7 +143,8 @@ webpack-dev-server --entry /entry/file --output-path /output/path --allowed-host
 
 `function (app, server, compiler)`
 
-提供了一个在`devServer`内部的所有中间件执行之前的自定义执行函数。
+提供了一个在`devServer`内部的所有中间件执行之前的
+自定义执行函数。
 例：
 
 __webpack.config.js__
@@ -190,9 +192,9 @@ webpack-dev-server --bonjour
 
 W> `none` 和 `warning` 将在下一个主要版本中弃用。
 
-当您使用 _inline mode_ 时， DevTools 会向您显示信息， 例如： before reloading, before an error 或者当 [热加载](/concepts/hot-module-replacement/) 被开启时。
+当使用 _inline mode_ 时， DevTools 会输出信息，例如：重新加载之前，出错之前或 [Hot Module Replacement](/concepts/hot-module-replacement/) 被开启时。
 
-`devServer.clientLogLevel` 可能太冗余，您可以通过将其设置为`'silent'`来关闭日志。
+`devServer.clientLogLevel` 可能太冗余，可以通过将其设置为`'silent'`来关闭日志输出。
 
 __webpack.config.js__
 
@@ -215,7 +217,7 @@ webpack-dev-server --client-log-level silent
 
 `boolean`
 
-Enables/Disables colors on the console.
+开启/关闭 命令行颜色显示。
 
 ```bash
 webpack-dev-server --color
@@ -226,7 +228,7 @@ webpack-dev-server --color
 
 `boolean`
 
-Enable [gzip compression](https://betterexplained.com/articles/how-to-optimize-your-site-with-gzip-compression/) for everything served:
+为每个静态文件开启 [gzip compression](https://betterexplained.com/articles/how-to-optimize-your-site-with-gzip-compression/)：
 
 __webpack.config.js__
 
@@ -250,11 +252,11 @@ webpack-dev-server --compress
 
 `boolean: false` `string` `[string]` `number`
 
-告诉服务器从何处提供内容。 仅当您要提供静态文件时才需要这样做。 [`devServer.publicPath`](#devserverpublicpath-) 将用于确定应从何处提供捆绑软件，并具有优先权。
+告诉服务器从何处提供内容。 仅当要提供静态文件时才需要这样做。 [`devServer.publicPath`](#devserverpublicpath-) 将用于确定应从何处提供捆绑软件，并具有优先权。
 
 T> 建议使用绝对路径。
 
-默认情况下，它将使用您当前的工作目录来提供内容。 要禁用 `contentBase` ，请将其设置为 `false` 。
+默认情况下，它将使用当前的工作目录来提供内容。 要禁用 `contentBase` ，请将其设置为 `false` 。
 
 __webpack.config.js__
 
@@ -269,7 +271,7 @@ module.exports = {
 };
 ```
 
-如果您想使用[`contentBasePublicPath`](#devservercontentbasepublicpath)在多个URL上提供静态内容，也可以从多个目录提供服务：
+如果想使用[`contentBasePublicPath`](#devservercontentbasepublicpath)在多个URL上提供静态内容，也可以从多个目录提供服务：
 
 __webpack.config.js__
 
@@ -356,7 +358,7 @@ webpack-dev-server --disable-host-check
 
 `string`
 
-此选项使您可以减少[懒惰模式](#devserverlazy-)中的编译。
+此选项使可以减少[懒惰模式](#devserverlazy-)中的编译。
 默认情况下，在[懒惰模式](#devserverlazy-)中，每个请求都将导致一个新的编译。 使用`filename`，仅当请求某个文件时才可以编译。
 
 如果[`output.filename`](/configuration/output/#outputfilename)设置为`'bundle.js'`，则使用`devServer.filename`如下：
@@ -438,7 +440,7 @@ module.exports = {
 };
 ```
 
-在路径中使用点时（与 Angular 相同），您可能需要使用 `disableDotRule`：
+在路径中使用点时（与 Angular 相同），可能需要使用 `disableDotRule`：
 
 __webpack.config.js__
 
@@ -466,7 +468,7 @@ webpack-dev-server --history-api-fallback
 
 `string = 'localhost'`
 
-指定要使用的 host 。如果您希望服务器可从外部访问，请按以下方式指定它：
+指定要使用的 host 。如果希望服务器可从外部访问，请按以下方式指定它：
 
 __webpack.config.js__
 
@@ -503,7 +505,7 @@ module.exports = {
 };
 ```
 
-T> 请注意，要完全启用 HMR ，需要 [`webpack.HotModuleReplacementPlugin`](/plugins/hot-module-replacement-plugin/)。 如果使用 --hot 选项启动 `webpack` 或 `webpack-dev-server` ，该插件将自动添加，因此您可能不需要将其添加到 `webpack.config.js` 中。 有关更多信息，请参见 [HMR concepts page](/concepts/hot-module-replacement/)。
+T> 请注意，要完全启用 HMR ，需要 [`webpack.HotModuleReplacementPlugin`](/plugins/hot-module-replacement-plugin/)。 如果使用 --hot 选项启动 `webpack` 或 `webpack-dev-server` ，该插件将自动添加，因此可能不需要将其添加到 `webpack.config.js` 中。 有关更多信息，请参见 [HMR concepts page](/concepts/hot-module-replacement/)。
 
 
 ## `devServer.hotOnly`
@@ -599,7 +601,7 @@ module.exports = {
 };
 ```
 
-通过上述设置，将使用自签名证书，但是您可以提供自己的证书：
+通过上述设置，将使用自签名证书，但是可以提供自己的证书：
 
 __webpack.config.js__
 
@@ -699,7 +701,7 @@ W> 确保 [`devServer.hot`](#devserverhot) 设置为 `true`，因为`devServer.i
 
 `boolean`
 
-在开发服务器的两种不同模式之间切换。 默认情况下，应用程序将启用 __inline模式__。 这意味着将在您的捆绑软件中插入脚本以进行实时重新加载，并且构建消息将出现在浏览器控制台中。
+在开发服务器的两种不同模式之间切换。 默认情况下，应用程序将启用 __inline模式__。 这意味着将在的捆绑软件中插入脚本以进行实时重新加载，并且构建消息将出现在浏览器控制台中。
 
 也可以使用 __iframe模式__，它在通知栏下使用带有有关构建消息的`<iframe>`。 切换到 __iframe模式__：
 
@@ -862,7 +864,7 @@ module.exports = {
 };
 ```
 
-如果要在打开浏览器时使用标志，例如打开隐身窗口（ `--incognito` 标志），则可以将 `open` 设置为对象。 该对象接受所有 [open](https://www.npmjs.com/package/open) 选项，`app` 属性必须是一个数组。 数组中的第一个元素必须是浏览器名称，其他后面的元素是您要使用的标志。 例如：
+如果要在打开浏览器时使用标志，例如打开隐身窗口（ `--incognito` 标志），则可以将 `open` 设置为对象。 该对象接受所有 [open](https://www.npmjs.com/package/open) 选项，`app` 属性必须是一个数组。 数组中的第一个元素必须是浏览器名称，其他后面的元素是要使用的标志。 例如：
 
 __webpack.config.js__
 
@@ -909,7 +911,7 @@ module.exports = {
 webpack-dev-server --open-page "/different/page"
 ```
 
-如果您希望指定多个页面在浏览器中打开。
+如果希望指定多个页面在浏览器中打开。
 
 __webpack.config.js__
 
@@ -1039,11 +1041,11 @@ webpack-dev-server --port 8080
 
 `object` `[object, function]`
 
-当您拥有单独的API后端开发服务器并且希望在同一域上发送API请求时，代理某些URL可能会很有用。
+当拥有单独的API后端开发服务器并且希望在同一域上发送API请求时，代理某些URL可能会很有用。
 
-开发服务器使用功能强大的 [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware) 软件包。 查看其 [documentation](https://github.com/chimurai/http-proxy-middleware#options) 了解更多高级用法。 请注意，`http-proxy-middleware` 的某些功能不需要`target`键，例如 它的 `router` 功能，但是您仍然需要在此处的配置中包含`target`，否则`webpack-dev-server` 不会将其传递给 `http-proxy-middleware`）。
+开发服务器使用功能强大的 [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware) 软件包。 查看其 [documentation](https://github.com/chimurai/http-proxy-middleware#options) 了解更多高级用法。 请注意，`http-proxy-middleware` 的某些功能不需要`target`键，例如 它的 `router` 功能，但是仍然需要在此处的配置中包含`target`，否则`webpack-dev-server` 不会将其传递给 `http-proxy-middleware`）。
 
-使用后端在 `localhost:3000` 上，您可以使用它来启用代理：
+使用后端在 `localhost:3000` 上，可以使用它来启用代理：
 
 __webpack.config.js__
 
@@ -1060,7 +1062,7 @@ module.exports = {
 
 现在，对 `/api/users` 的请求会将请求代理到 `http://localhost:3000/api/users`。
 
-如果您不希望传递`/api`，则需要重写路径：
+如果不希望传递`/api`，则需要重写路径：
 
 __webpack.config.js__
 
@@ -1096,15 +1098,15 @@ module.exports = {
 };
 ```
 
-有时您不想代理所有内容。 可以基于函数的返回值绕过代理。
+有时不想代理所有内容。 可以基于函数的返回值绕过代理。
 
-在该功能中，您可以访问请求，响应和代理选项。
+在该功能中，可以访问请求，响应和代理选项。
 
 - 返回 `null` 或 `undefined` 以继续使用代理处理请求。
 - 返回 `false` 会为请求产生404错误。
 - 返回提供服务的路径，而不是继续代理请求。
 
-例如。 对于浏览器请求，您想要提供 HTML 页面，但是对于 API 请求，您想要代理它。 您可以执行以下操作：
+例如。 对于浏览器请求，想要提供 HTML 页面，但是对于 API 请求，想要代理它。 可以执行以下操作：
 
 __webpack.config.js__
 
@@ -1127,7 +1129,7 @@ module.exports = {
 };
 ```
 
-如果您想将多个特定路径代理到同一目标，则可以使用一个或多个带有 `context` 属性的对象的数组：
+如果想将多个特定路径代理到同一目标，则可以使用一个或多个带有 `context` 属性的对象的数组：
 
 __webpack.config.js__
 
@@ -1162,7 +1164,7 @@ module.exports = {
 };
 ```
 
-默认情况下，代理时会保留主机头的来源，您可以将 `changeOrigin` 设置为 `true` 以覆盖此行为。 在某些情况下，例如使用 [name-based virtual hosted sites](https://en.wikipedia.org/wiki/Virtual_hosting#Name-based)，它很有用。
+默认情况下，代理时会保留主机头的来源，可以将 `changeOrigin` 设置为 `true` 以覆盖此行为。 在某些情况下，例如使用 [name-based virtual hosted sites](https://en.wikipedia.org/wiki/Virtual_hosting#Name-based)，它很有用。
 
 __webpack.config.js__
 
@@ -1223,7 +1225,7 @@ webpack-dev-server --public myapp.test:80
 
 捆绑的文件将在此路径下的浏览器中可用。
 
-假设服务器在 `http://localhost:8080` 下运行，并且 [`output.filename`](/configuration/output/#outputfilename) 设置为 `bundle.js`。 默认情况下，`devServer.publicPath` 为 `'/'`，因此您的捆绑软件可以作为 `http://localhost:8080/bundle.js` 获得。
+假设服务器在 `http://localhost:8080` 下运行，并且 [`output.filename`](/configuration/output/#outputfilename) 设置为 `bundle.js`。 默认情况下，`devServer.publicPath` 为 `'/'`，因此的捆绑软件可以作为 `http://localhost:8080/bundle.js` 获得。
 
 更改 `devServer.publicPath` 以将捆绑软件放在特定目录下：
 
@@ -1306,7 +1308,7 @@ module.exports = {
 
 W> 这个选项将被 [`devServer.before`](#devserverbefore) 所支持，并将在v3.0.0中删除。
 
-在这里，您可以访问 Express 应用程序对象，并向其中添加您自己的自定义中间件。
+在这里，可以访问 Express 应用程序对象，并向其中添加自己的自定义中间件。
 例如，为某些路径定义自定义处理程序：
 
 __webpack.config.js__
@@ -1433,7 +1435,7 @@ T> 这仅在将 [`devServer.contentBase`](#devservercontentbase) 用作字符串
 
 `string: 'none' | 'errors-only' | 'minimal' | 'normal' | 'verbose'` `object`
 
-此选项使您可以精确控制显示哪些捆绑软件信息。 如果您需要一些捆绑软件信息，但又不是全部，这可能是一个很好的中间立场。
+此选项使可以精确控制显示哪些捆绑软件信息。 如果需要一些捆绑软件信息，但又不是全部，这可能是一个很好的中间立场。
 
 要仅显示捆绑软件中的错误：
 
@@ -1564,7 +1566,7 @@ module.exports = {
 
 `boolean`
 
-此选项使浏览器可以使用您的本地IP打开。
+此选项使浏览器可以使用的本地IP打开。
 
 __webpack.config.js__
 
@@ -1629,7 +1631,7 @@ module.exports = {
 };
 ```
 
-如果这对文件系统负荷太重，您可以将其设置为整数用以调整轮询间隔（以毫秒为单位）。
+如果这对文件系统负荷太重，可以将其设置为整数用以调整轮询间隔（以毫秒为单位）。
 
 查阅 [WatchOptions](/configuration/watch/) 了解更多。
 
