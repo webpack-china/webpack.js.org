@@ -16,17 +16,17 @@ repo: https://github.com/webpack-contrib/file-loader
 
 
 
-The `file-loader` resolves `import`/`require()` on a file into a url and emits the file into the output directory.
+`file-loader` 将 `import`/`require()` 引入的文件解析成 url，并将文件输出到输出目录。
 
-## Getting Started
+## 入门指南
 
-To begin, you'll need to install `file-loader`:
+首先，你需要安装 `file-loader`:
 
 ```console
 $ npm install file-loader --save-dev
 ```
 
-Import (or `require`) the target file(s) in one of the bundle's files:
+通过 Import (或 `require`) 在其中一个 bundles 文件引入目标文件：
 
 **file.js**
 
@@ -34,7 +34,7 @@ Import (or `require`) the target file(s) in one of the bundle's files:
 import img from './file.png';
 ```
 
-Then add the loader to your `webpack` config. For example:
+然后在 `webpack` 配置文件中添加 loader。比如：
 
 **webpack.config.js**
 
@@ -55,22 +55,18 @@ module.exports = {
 };
 ```
 
-And run `webpack` via your preferred method. This will emit `file.png` as a file
-in the output directory (with the specified naming convention, if options are
-specified to do so) and returns the public URI of the file.
+最后，通过你喜欢的方式运行 `webpack`。运行完毕后将会生成 `file.png` 文件并输出到输出目录（如果 Options 指定了输出文件的命名方式，文件将遵循该命名约定），同时返回该文件的公共 URI。
 
-> ℹ️ By default the filename of the resulting file is the hash of the file's contents with the original extension of the required resource.
+> ℹ️ 默认情况下，生成的文件的文件名就是文件内容的哈希值并保留所引用资源的原始扩展名。
 
 ## Options
 
 ### `name`
 
-Type: `String|Function`
-Default: `'[contenthash].[ext]'`
+类型: `String|Function`
+默认值: `'[contenthash].[ext]'`
 
-Specifies a custom filename template for the target file(s) using the query
-parameter `name`. For example, to emit a file from your `context` directory into
-the output directory retaining the full directory structure, you might use:
+使用查询参数 `name` 为目标文件制定一个自定义文件名模板。例如，将 `context` 目录下的一个文件输出到输出目录，并且保留完整的目录结构，你可以这样操作：
 
 #### `String`
 
@@ -121,14 +117,14 @@ module.exports = {
 };
 ```
 
-> ℹ️ By default the path and name you specify will output the file in that same directory, and will also use the same URI path to access the file.
+> ℹ️ 默认情况下，文件将会按照你指定的目录和名称输出到该目录，而且你也可以通过使用同样的 URI 访问输出的文件。
 
 ### `outputPath`
 
-Type: `String|Function`
-Default: `undefined`
+类型: `String|Function`
+默认值: `undefined`
 
-Specify a filesystem path where the target file(s) will be placed.
+为目标文件指定放置的文件系统路径。
 
 #### `String`
 
@@ -163,10 +159,10 @@ module.exports = {
         loader: 'file-loader',
         options: {
           outputPath: (url, resourcePath, context) => {
-            // `resourcePath` is original absolute path to asset
-            // `context` is directory where stored asset (`rootContext`) or `context` option
+            // `resourcePath` 指向资源的原始绝对路径
+            // `context` 指向存放资源（`rootContext`）和 `context` 选项的目录
 
-            // To get relative path you can use
+            // 要获取相对路径，你可以使用
             // const relativePath = path.relative(context, resourcePath);
 
             if (/my-custom-image\.png/.test(resourcePath)) {
@@ -188,10 +184,10 @@ module.exports = {
 
 ### `publicPath`
 
-Type: `String|Function`
-Default: [`__webpack_public_path__`](/api/module-variables/#__webpack_public_path__-webpack-specific)+outputPath
+类型: `String|Function`
+默认值: [`__webpack_public_path__`](/api/module-variables/#__webpack_public_path__-webpack-specific)
 
-Specifies a custom public path for the target file(s).
+为目标文件指定自定义公共路径。
 
 #### `String`
 
@@ -226,10 +222,10 @@ module.exports = {
         loader: 'file-loader',
         options: {
           publicPath: (url, resourcePath, context) => {
-            // `resourcePath` is original absolute path to asset
-            // `context` is directory where stored asset (`rootContext`) or `context` option
+            // `resourcePath` 指向资源的原始绝对路径
+            // `context` 指向存放资源（`rootContext`）和 `context` 选项的目录
 
-            // To get relative path you can use
+            // 要获取相对路径，你可以使用
             // const relativePath = path.relative(context, resourcePath);
 
             if (/my-custom-image\.png/.test(resourcePath)) {
@@ -251,10 +247,10 @@ module.exports = {
 
 ### `postTransformPublicPath`
 
-Type: `Function`
-Default: `undefined`
+类型: `Function`
+默认值: `undefined`
 
-Specifies a custom function to post-process the generated public path. This can be used to prepend or append dynamic global variables that are only available at runtime, like `__webpack_public_path__`. This would not be possible with just `publicPath`, since it stringifies the values.
+指定自定义函数来后处理生成的公共路径。该函数用于预先添加或追加仅在运行时可用的动态全局变量，如 `__webpack_public_path__`。如果只配置 `publicPath` 是不可用的，因为变量的值会被转化成字符串。
 
 **webpack.config.js**
 
@@ -277,10 +273,10 @@ module.exports = {
 
 ### `context`
 
-Type: `String`
-Default: [`context`](/configuration/entry-context/#context)
+类型: `String`
+默认值: [`context`](/configuration/entry-context/#context)
 
-Specifies a custom file context.
+指定一个自定义文件上下文。
 
 ```js
 module.exports = {
@@ -304,17 +300,15 @@ module.exports = {
 
 ### `emitFile`
 
-Type: `Boolean`
-Default: `true`
+类型: `Boolean`
+默认值: `true`
 
-If true, emits a file (writes a file to the filesystem). If false, the loader
-will return a public URI but **will not** emit the file. It is often useful to
-disable this option for server-side packages.
+如果为 true， 则输出一个文件（将文件写入文件系统）。如果为 false，loader 将会返回一个公共 URI，但不会输出文件。通常对服务端的包禁用此选项是有用的。
 
 **file.js**
 
 ```js
-// bundle file
+// bundle 文件
 import img from './file.png';
 ```
 
@@ -342,12 +336,10 @@ module.exports = {
 
 ### `regExp`
 
-Type: `RegExp`
-Default: `undefined`
+类型: `RegExp`
+默认值: `undefined`
 
-Specifies a Regular Expression to one or many parts of the target file path.
-The capture groups can be reused in the `name` property using `[N]`
-[placeholder](https://github.com/webpack-contrib/file-loader#placeholders).
+为目标文件路径的一个或多个部分指定正则表达式。在 `name` 属性中使用 `[N]` [placeholder](https://github.com/webpack-contrib/file-loader#placeholders) 可以重用捕获组。
 
 **file.js**
 
@@ -378,17 +370,16 @@ module.exports = {
 };
 ```
 
-> ℹ️ If `[0]` is used, it will be replaced by the entire tested string, whereas `[1]` will contain the first capturing parenthesis of your regex and so on...
+> ℹ️ 如果使用 `[0]`，将被整个测试字符串替换，而 `[1]` 将包含正则表达式的第一个捕获括号，依此类推。。。
 
 ### `esModule`
 
-Type: `Boolean`
-Default: `true`
+类型: `Boolean`
+默认值: `true`
 
-By default, `file-loader` generates JS modules that use the ES modules syntax.
-There are some cases in which using ES modules is beneficial, like in the case of [module concatenation](/plugins/module-concatenation-plugin/) and [tree shaking](/guides/tree-shaking/).
+默认情况下，`file loader` 生成使用 ES 模块语法的 JS 模块。有些情况下，使用ES模块是有益的，比如 [module concatenation](/plugins/module-concatenation-plugin/) 和 [tree shaking](/guides/tree-shaking/)。
 
-You can enable a CommonJS module syntax using:
+你可以使用以下命令启用 CommonJS 模块语法：
 
 **webpack.config.js**
 
@@ -414,112 +405,110 @@ module.exports = {
 
 ## Placeholders
 
-Full information about placeholders you can find [here](https://github.com/webpack/loader-utils#interpolatename).
+更多关于占位符（placeholder）的内容，请查看 [这里](https://github.com/webpack/loader-utils#interpolatename).
 
 ### `[ext]`
 
-Type: `String`
-Default: `file.extname`
+类型: `String`
+默认值: `file.extname`
 
-The file extension of the target file/resource.
+目标文件/资源的文件扩展。
 
 ### `[name]`
 
-Type: `String`
-Default: `file.basename`
+类型: `String`
+默认值: `file.basename`
 
-The basename of the file/resource.
+文件/资源的基本名称。
 
 ### `[path]`
 
-Type: `String`
-Default: `file.directory`
+类型: `String`
+默认值: `file.directory`
 
-The path of the resource relative to the webpack/config `context`.
+资源相对于 webpack/config `context` 的路径。
 
 ### `[folder]`
 
-Type: `String`
-Default: `file.folder`
+类型: `String`
+默认值: `file.folder`
 
-The folder of the resource is in.
+资源所在的文件夹。
 
 ### `[query]`
 
-Type: `String`
-Default: `file.query`
+类型: `String`
+默认值: `file.query`
 
-The query of the resource, i.e. `?foo=bar`.
+资源查询，如 `?foo=bar`。
 
 ### `[emoji]`
 
-Type: `String`
-Default: `undefined`
+类型: `String`
+默认值: `undefined`
 
-A random emoji representation of `content`.
+`content` 的随机表情符号。
 
 ### `[emoji:<length>]`
 
-Type: `String`
-Default: `undefined`
+类型: `String`
+默认值: `undefined`
 
-Same as above, but with a customizable number of emojis
+同上，但自定义指定了表情符号的数量。
 
 ### `[hash]`
 
-Type: `String`
-Default: `md4`
+类型: `String`
+默认值: `md4`
 
-Specifies the hash method to use for hashing the file content.
+指定用于散列文件内容的哈希方法。
 
 ### `[contenthash]`
 
-Type: `String`
-Default: `md4`
+类型: `String`
+默认值: `md4`
 
-Specifies the hash method to use for hashing the file content.
+指定用于散列文件内容的哈希方法。
 
 ### `[<hashType>:hash:<digestType>:<length>]`
 
-Type: `String`
+类型: `String`
 
-The hash of options.content (Buffer) (by default it's the hex digest of the hash).
+散列选项。内容（缓冲器 buffer）(默认情况下是十六进制摘要)。
 
 #### `digestType`
 
-Type: `String`
-Default: `'hex'`
+类型: `String`
+默认值: `'hex'`
 
-The [digest](https://en.wikipedia.org/wiki/Cryptographic_hash_function) that the
-hash function should use. Valid values include: base26, base32, base36,
-base49, base52, base58, base62, base64, and hex.
+指哈希函数应该使用的 [摘要](https://en.wikipedia.org/wiki/Cryptographic_hash_function)。有效值包括：base26、base32、base36、base49、base52、base58、base62、base64 和 hex。
 
 #### `hashType`
 
-Type: `String`
-Default: `'md4'`
+类型: `String`
+默认值: `'md4'`
 
-The type of hash that the has function should use. Valid values include: `md4`, `md5`, `sha1`, `sha256`, and `sha512`.
+has函数应使用的哈希类型。有效值包括：`md4`、`md5`、`sha1`、`sha256` 和 `sha512`。
 
 #### `length`
 
-Type: `Number`
-Default: `undefined`
+类型: `Number`
+默认值: `undefined`
 
-Users may also specify a length for the computed hash.
+用户可以为计算出的哈希指定一个长度。
 
 ### `[N]`
 
-Type: `String`
-Default: `undefined`
+类型: `String`
+默认值: `undefined`
 
-The n-th match obtained from matching the current file name against the `regExp`.
+通过将当前文件名与 `regExp` 匹配而获得的第n个匹配项。
 
 ## Examples
 
 ### Names
 
-The following examples show how one might use `file-loader` and what the result would be.
+下面的示例演示了如何使用 `file loader` 以及结果。
 
 **file.js**
 
@@ -549,10 +538,10 @@ module.exports = {
 };
 ```
 
-Result:
+结果:
 
 ```bash
-# result
+# 结果
 dirname/0dcbbaa701328ae351f.png
 ```
 
@@ -586,10 +575,10 @@ module.exports = {
 };
 ```
 
-Result:
+结果:
 
 ```bash
-# result
+# 结果
 gdyb21L.png
 ```
 
@@ -623,16 +612,16 @@ module.exports = {
 };
 ```
 
-Result:
+结果:
 
 ```bash
-# result
+# 结果
 path/to/file.png?e43b20c069c4a01867c31e98cbce33c9
 ```
 
 ### CDN
 
-The following examples show how to use `file-loader` for CDN uses query params.
+下面的示例演示如何对CDN 使用查询参数时使用 `file loader`。
 
 **file.js**
 
@@ -665,16 +654,16 @@ module.exports = {
 };
 ```
 
-Result:
+结果:
 
 ```bash
-# result
+# 结果
 https://cdn.example.com/directory/image.png?width=300&height=300
 ```
 
-### Dynamic public path depending on environment variable at run time
+### 动态公共路径取决于运行时的环境变量
 
-An application might want to configure different CDN hosts depending on an environment variable that is only available when running the application. This can be an advantage, as only one build of the application is necessary, which behaves differntly depending on environment variables of the deployment environment. Since file-loader is applied when compiling the application, and not when running it, the environment variable cannot be used in the file-loader configuration. A way around this is setting the `__webpack_public_path__` to the desired CDN host depending on the environment variable at the entrypoint of the application. The option `postTransformPublicPath` can be used to configure a custom path depending on a variable like `__webpack_public_path__`.
+应用程序可能需要根据仅在运行应用程序时可用的环境变量配置不同的CDN主机。这可能是一个优势，因为只需要构建一个应用程序，它的行为因部署环境的环境变量而异。由于文件加载器是在编译应用程序时应用的，而不是在运行应用程序时应用的，因此不能在文件加载程序配置中使用环境变量。解决此问题的一种方法是根据应用程序入口点的环境变量，将 `__webpack_public_path__` 设置为所需的CDN主机。选项 `postTransformPublicPath` 可用于配置自定义路径，具体取决于 `__webpack_public_path__` 等变量。
 
 **main.js**
 
@@ -725,27 +714,27 @@ module.exports = {
 };
 ```
 
-Result when run with `NAMESPACE=prod` env variable:
+环境变量为 `NAMESPACE=prod` 时的运行结果：
 
 ```bash
-# result
+# 结果
 https://cache.myserver.net/web/static/assets/image.somehash.png
 ```
 
-Result when run with `NAMESPACE=dev` env variable:
+环境变量为 `NAMESPACE=dev` 时的运行结果：
 
 ```bash
-# result
+# 结果
 https://cache-dev.myserver.net/web/static/assets/image.somehash.png
 ```
 
-## Contributing
+## 贡献
 
-Please take a moment to read our contributing guidelines if you haven't yet done so.
+如果您还没有阅读我们的贡献指南，请花点时间阅读。
 
 [CONTRIBUTING](https://github.com/webpack-contrib/file-loader/blob/master/.github/CONTRIBUTING.md)
 
-## License
+## 协议
 
 [MIT](https://github.com/webpack-contrib/file-loader/blob/master/LICENSE)
 
