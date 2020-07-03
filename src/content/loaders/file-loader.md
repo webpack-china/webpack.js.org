@@ -55,7 +55,9 @@ module.exports = {
 };
 ```
 
-最后，通过你喜欢的方式运行 `webpack`。运行完毕后将会生成 `file.png` 文件并输出到输出目录（如果 Options 指定了输出文件的命名方式，文件将遵循该命名约定），同时返回该文件的公共 URI。
+最后，通过你喜欢的方式运行 `webpack`。运行完毕后将会生成 `file.png` 文件
+并输出到输出目录（如果 Options 指定了输出文件的命名方式，文件将遵循该命名约定），
+同时返回该文件的公共 URI。
 
 > ℹ️ 默认情况下，生成的文件的文件名就是文件内容的哈希值并保留所引用资源的原始扩展名。
 
@@ -66,7 +68,9 @@ module.exports = {
 类型: `String|Function`
 默认值: `'[contenthash].[ext]'`
 
-使用查询参数 `name` 为目标文件制定一个自定义文件名模板。例如，将 `context` 目录下的一个文件输出到输出目录，并且保留完整的目录结构，你可以这样操作：
+使用查询参数 `name` 为目标文件制定一个自定义文件名模板。
+例如，将 `context` 目录下的一个文件输出到输出目录，
+并且保留完整的目录结构，你可以这样操作：
 
 #### `String`
 
@@ -339,7 +343,9 @@ module.exports = {
 类型: `RegExp`
 默认值: `undefined`
 
-为目标文件路径的一个或多个部分指定正则表达式。在 `name` 属性中使用 `[N]` [placeholder](https://github.com/webpack-contrib/file-loader#placeholders) 可以重用捕获组。
+为目标文件路径的一个或多个部分指定正则表达式。
+在 `name` 属性中使用 `[N]`
+[placeholder](https://github.com/webpack-contrib/file-loader#placeholders) 可以重用捕获组。
 
 **file.js**
 
@@ -377,7 +383,9 @@ module.exports = {
 类型: `Boolean`
 默认值: `true`
 
-默认情况下，`file loader` 生成使用 ES 模块语法的 JS 模块。有些情况下，使用ES模块是有益的，比如 [module concatenation](/plugins/module-concatenation-plugin/) 和 [tree shaking](/guides/tree-shaking/)。
+默认情况下，`file loader` 生成使用 ES 模块语法的 JS 模块。
+有些情况下，使用ES模块是有益的，比如 [module concatenation](/plugins/module-concatenation-plugin/) 和
+ [tree shaking](/guides/tree-shaking/)。
 
 你可以使用以下命令启用 CommonJS 模块语法：
 
@@ -481,7 +489,9 @@ module.exports = {
 类型: `String`
 默认值: `'hex'`
 
-指哈希函数应该使用的 [摘要](https://en.wikipedia.org/wiki/Cryptographic_hash_function)。有效值包括：base26、base32、base36、base49、base52、base58、base62、base64 和 hex。
+指哈希函数应该使用的 [摘要](https://en.wikipedia.org/wiki/Cryptographic_hash_function)。
+有效值包括：base26、base32、base36、
+base49、base52、base58、base62、base64 和 hex。
 
 #### `hashType`
 
@@ -663,7 +673,12 @@ https://cdn.example.com/directory/image.png?width=300&height=300
 
 ### 动态公共路径取决于运行时的环境变量
 
-应用程序可能需要根据仅在运行应用程序时可用的环境变量配置不同的CDN主机。这可能是一个优势，因为只需要构建一个应用程序，它的行为因部署环境的环境变量而异。由于文件加载器是在编译应用程序时应用的，而不是在运行应用程序时应用的，因此不能在文件加载程序配置中使用环境变量。解决此问题的一种方法是根据应用程序入口点的环境变量，将 `__webpack_public_path__` 设置为所需的CDN主机。选项 `postTransformPublicPath` 可用于配置自定义路径，具体取决于 `__webpack_public_path__` 等变量。
+应用程序可能需要根据仅在运行应用程序时可用的环境变量配置不同的CDN主机。
+这可能是一个优势，因为只需要构建一个应用程序，它的行为因部署环境的环境变量而异。
+由于文件加载器是在编译应用程序时应用的，而不是在运行应用程序时应用的，因此不能在文件加载程序配置中使用环境变量。
+解决此问题的一种方法是根据应用程序入口点的环境变量，将 `__webpack_public_path__` 设置为所需的CDN主机。
+选项 `postTransformPublicPath` 可用于配置自定义路径，具体取决于
+ `__webpack_public_path__` 等变量。
 
 **main.js**
 
