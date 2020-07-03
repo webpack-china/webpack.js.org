@@ -33,7 +33,7 @@ T> 与 [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middlewar
 
 `object`
 
-通过 [webpack-dev-server]（https://github.com/webpack/webpack-dev-server）的这些配置，能够以多种方式改变其行为。这是一个简单的示例，利用 `gzips` 压缩 `dist/` 目录当中的所有内容并提供一个本地服务(serve)：
+通过 [webpack-dev-server](https://github.com/webpack/webpack-dev-server) 的这些配置，能够以多种方式改变其行为。这是一个简单的示例，利用 `gzips` 压缩 `dist/` 目录当中的所有内容并提供一个本地服务(serve)：
 
 __webpack.config.js__
 
@@ -60,24 +60,24 @@ Content not from webpack is served from /path/to/dist/
 
 这里将会给出服务启动位置以及内容的一些基本信息。
 
-如果通过 Node.js API 使用 dev-server ，则`devServer`中的配置选项将被忽略。但可以将配置选项作为第二个参数传入：`new WebpackDevServer（compiler，{...}）`。 [参见此处](https://github.com/webpack/webpack-dev-server/tree/master/examples/api/simple)展示了如何通过 Node.js API 使用 webpack-dev-server。
+如果您通过 Node.js API 使用 dev-server，则 `devServer` 中的配置选项将被忽略。但可以将配置选项作为第二个参数传入：`new WebpackDevServer(compiler，{...})`。[参见此处](https://github.com/webpack/webpack-dev-server/tree/master/examples/api/simple)展示了如何通过 Node.js API 使用 webpack-dev-server。
 
-W> 使用`WebpackDevServer`时，不能使用第二个`compiler`参数（一个回调）。
+W> 使用 `WebpackDevServer` 时，不能使用第二个 `compiler` 参数（一个回调）。
 
-W> 请注意，当[导出多个配置对象](/configuration/configuration-types/#exporting-multiple-configurations)时，只会使用`devServer`的第一个配置选项，并将其应用于所有的配置当中。
+W> 请注意，当[导出多个配置对象](/configuration/configuration-types/#exporting-multiple-configurations)时，只会使用 `devServer` 的第一个配置选项，并将其应用于所有的配置当中。
 
-T> 如果碰到了问题，请将路由导航至 `/webpack-dev-server` 将会为展示服务文件的位置。 例如： `http://localhost:9000/webpack-dev-server`。
+T> 如果您碰到了问题，请将路由导航至 `/webpack-dev-server` 将会为您展示服务文件的位置。例如： `http://localhost:9000/webpack-dev-server`。
 
-T> 如果需要要手动重新编译`bundle`，将路由导航至`/invalidate`使当前编译的`bundle`无效，并通过`webpack-dev-middleware`为重新编译。 根据的配置，URL可能看起来像`http://localhost:9000/invalidate`。
+T> 如果您需要要手动重新编译 `bundle`，将路由导航至 `/invalidate` 使当前编译的 `bundle` 无效，并通过 [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware#invalidate) 为您重新编译。根据您的配置，URL 可能看起来像`http://localhost:9000/invalidate`。
 
-T> 当启动本地服务的时候HTML模板是必须提供的，通常是`index.html`。确保将脚本引用添加到HTML中，webpack-dev-server 不会自动注入它们。
+T> 当启动本地服务的时候 HTML 模板是必须提供的，通常是 `index.html`。确保将脚本引用添加到 HTML 中，webpack-dev-server 不会自动注入它们。
 
 ## `devServer.after`
 
 `function (app, server, compiler)`
 
-提供在`devServer`内部的所有中间件执行完成之后
-的自定义中间件。
+提供自定义中间件，当 `devServer` 服务器内部的
+所有中间件执行完成之后执行
 
 __webpack.config.js__
 
@@ -114,7 +114,7 @@ module.exports = {
 };
 ```
 
-模仿`Django`的`ALLOWED_HOSTS`，以`.`开头的值可用作子域通配符。 `.host.com`将与`host.com`，`www.host.com`和`host.com`的任何其他子域匹配。
+模仿 django 的`ALLOWED_HOSTS`，用 `.` 作为子域通配符。`.host.com` 会与 `host.com`，`www.host.com` 以及 `host.com` 等其他任何其他子域匹配。
 
 __webpack.config.js__
 
@@ -133,7 +133,7 @@ module.exports = {
 };
 ```
 
-要将这个选项与 CLI 一起使用，请将`--allowed-hosts`的值转换为用逗号分割的字符串并传入。
+要将这个选项与 CLI 一起使用，请将 `--allowed-hosts` 的转换为用逗号分割的字符串并传入。
 
 ```bash
 webpack-dev-server --entry /entry/file --output-path /output/path --allowed-hosts .host.com,host2.com
@@ -143,8 +143,8 @@ webpack-dev-server --entry /entry/file --output-path /output/path --allowed-host
 
 `function (app, server, compiler)`
 
-提供了一个在`devServer`内部的所有中间件执行之前的
-自定义执行函数。
+提供了一个在 `devServer` 内部的
+所有中间件执行之前的自定义执行函数。
 例：
 
 __webpack.config.js__
@@ -194,7 +194,7 @@ W> `none` 和 `warning` 将在下一个主要版本中弃用。
 
 当使用 _inline mode_ 时， DevTools 会输出信息，例如：重新加载之前，出错之前或 [Hot Module Replacement](/concepts/hot-module-replacement/) 被开启时。
 
-`devServer.clientLogLevel` 可能太冗余，可以通过将其设置为`'silent'`来关闭日志输出。
+`devServer.clientLogLevel` 可能太冗余，您可以通过将其设置为 `'silent'` 来关闭日志。
 
 __webpack.config.js__
 
@@ -252,7 +252,7 @@ webpack-dev-server --compress
 
 `boolean: false` `string` `[string]` `number`
 
-告诉服务器从何处提供内容。 仅当要提供静态文件时才需要这样做。 [`devServer.publicPath`](#devserverpublicpath-) 将用于确定应从何处提供捆绑软件，并具有优先权。
+告诉服务器从何处提供内容。 仅当您要提供静态文件时才需要这样做。[`devServer.publicPath`](#devserverpublicpath-) 将用于确定应从何处提供捆绑软件，并具有优先权。
 
 T> 建议使用绝对路径。
 
@@ -313,7 +313,7 @@ module.exports = {
 };
 ```
 
-如果在[`contentBase`](#devservercontentbase)中设置了多个静态文件夹，请提供一个字符串数组。
+如果在 [`contentBase`](#devservercontentbase) 中设置了多个静态文件夹，请提供一个字符串数组。
 
 __webpack.config.js__
 
@@ -358,10 +358,10 @@ webpack-dev-server --disable-host-check
 
 `string`
 
-此选项使可以减少[懒惰模式](#devserverlazy-)中的编译。
-默认情况下，在[懒惰模式](#devserverlazy-)中，每个请求都将导致一个新的编译。 使用`filename`，仅当请求某个文件时才可以编译。
+此选项可以减少在 [lazy 模式](#devserverlazy-)中的编译操作。
+默认情况下，在 [lazy 模式](#devserverlazy-)中，每个请求都触发新的编译。使用 `filename` 仅当请求某个文件时才可执行编译。
 
-如果[`output.filename`](/configuration/output/#outputfilename)设置为`'bundle.js'`，则使用`devServer.filename`如下：
+如果 [`output.filename`](/configuration/output/#outputfilename) 设置为`'bundle.js'`，则使用 `devServer.filename` 如下：
 
 __webpack.config.js__
 
@@ -380,7 +380,7 @@ module.exports = {
 
 现在它将仅在请求 `/bundle.js` 时编译该捆绑软件。
 
-T> `filename` 不会生效，当不实用 [懒惰模式](#devserverlazy-)时.
+T> 当不使用 [lazy 模式](#devserverlazy-)时，`filename` 不会生效.
 
 
 ## `devServer.headers` 🔑
@@ -420,7 +420,6 @@ module.exports = {
 };
 ```
 
-79/5000
 通过传递对象，可以使用配置选项诸如 `rewrites`:
 
 __webpack.config.js__
@@ -468,7 +467,7 @@ webpack-dev-server --history-api-fallback
 
 `string = 'localhost'`
 
-指定要使用的 host 。如果希望服务器可从外部访问，请按以下方式指定它：
+指定要使用的 host。如果您希望服务器可从外部访问，请按以下方式指定它：
 
 __webpack.config.js__
 
@@ -505,7 +504,7 @@ module.exports = {
 };
 ```
 
-T> 请注意，要完全启用 HMR ，需要 [`webpack.HotModuleReplacementPlugin`](/plugins/hot-module-replacement-plugin/)。 如果使用 --hot 选项启动 `webpack` 或 `webpack-dev-server` ，该插件将自动添加，因此可能不需要将其添加到 `webpack.config.js` 中。 有关更多信息，请参见 [HMR concepts page](/concepts/hot-module-replacement/)。
+T> 请注意，要完全启用 HMR ，需要 [`webpack.HotModuleReplacementPlugin`](/plugins/hot-module-replacement-plugin/)。如果使用 --hot 选项启动 `webpack` 或 `webpack-dev-server`，该插件将自动添加，因此你可能不需要将其添加到 `webpack.config.js` 中。有关更多信息，请参见 [HMR 概览章节](/concepts/hot-module-replacement/)。
 
 
 ## `devServer.hotOnly`
@@ -536,7 +535,7 @@ webpack-dev-server --hot-only
 
 `boolean = false`
 
-使用 [spdy](https://www.npmjs.com/package/spdy) 提供HTTP/2服务。 对于 Node 10.0.0 及更高版本，此选项将被忽略，因为 spdy 在这些版本中已被破坏。 一旦 [Express](https://expressjs.com/) 支持，开发服务器将迁移到Node内置的HTTP/2。
+使用 [spdy](https://www.npmjs.com/package/spdy) 提供 HTTP/2 服务。对于 Node 10.0.0 及更高版本，此选项将被忽略，因为 spdy 在这些版本中已被破坏。一旦 [Express](https://expressjs.com/) 支持，开发服务器将迁移到 Node 内置的 HTTP/2。
 
 如果未将 `devServer.http2` 显式设置为 false ，则在启用 [`devServer.https`](#devserverhttps) 时将默认为 true 。 如果启用 `devServer.http2`，但服务器无法通过 HTTP/2 提供服务，则服务器默认为 HTTPS。
 
@@ -588,7 +587,7 @@ webpack-dev-server --http2 --key /path/to/server.key --cert /path/to/server.crt 
 
 `boolean` `object`
 
-默认情况下，开发服务器将通过HTTP提供服务。 可以选择使用HTTPS通过HTTP/2提供服务：
+默认情况下，开发服务器将通过HTTP提供服务。可以选择使用HTTPS通过HTTP/2提供服务：
 
 __webpack.config.js__
 
@@ -601,7 +600,7 @@ module.exports = {
 };
 ```
 
-通过上述设置，将使用自签名证书，但是可以提供自己的证书：
+根据上述配置，将使用自签名证书，但是你也可以提供自己的证书：
 
 __webpack.config.js__
 
@@ -653,7 +652,7 @@ module.exports = {
 
 `boolean`
 
-输出 cli 信息。 默认情况下启用。
+输出 cli 信息。默认情况下启用。
 
 ```bash
 webpack-dev-server --info=false
@@ -664,7 +663,7 @@ webpack-dev-server --info=false
 
 `boolean = false` `function (compilerConfig) => boolean`
 
-告诉 `devServer` 注入一个客户端。 将 `devServer.injectClient` 设置为 `true` 将导致总是注入客户端。 可以提供有条件注入的功能：
+向 `devServer` 注入一个客户端。设置 `devServer.injectClient` 值为 `true` 时，会向服务注入客户端。也可以设置条件注入函数：
 
 
 ```javascript
@@ -681,7 +680,7 @@ module.exports = {
 
 `boolean = false` `function (compilerConfig) => boolean`
 
-告诉 `devServer` 注入热模块替换。 将 `devServer.injectHot` 设置为  `true`将导致始终注入。 可以提供有条件注入的功能：
+告诉 `devServer` 注入热模块替换。设置 `devServer.injectHot` 值为 `true` 时，会始终注入。也可以设置条件注入函数：
 
 
 ```javascript
@@ -694,14 +693,14 @@ module.exports = {
 };
 ```
 
-W> 确保 [`devServer.hot`](#devserverhot) 设置为 `true`，因为`devServer.injectHot` 仅适用于HMR。
+W> 使用前请确保 [`devServer.hot`](#devserverhot) 的值设置为 `true`，因为 `devServer.injectHot` 仅适用于 HMR。
 
 
 ## `devServer.inline`
 
 `boolean`
 
-在开发服务器的两种不同模式之间切换。 默认情况下，应用程序将启用 __inline模式__。 这意味着将在的捆绑软件中插入脚本以进行实时重新加载，并且构建消息将出现在浏览器控制台中。
+在开发服务器的两种不同模式之间切换。默认情况下，应用程序将启用 __inline模式__。这意味着将在 bundle 中插入脚本以进行实时重新加载，并且构建消息将出现在浏览器控制台中。
 
 也可以使用 __iframe模式__，它在通知栏下使用带有有关构建消息的`<iframe>`。 切换到 __iframe模式__：
 
@@ -748,9 +747,9 @@ module.exports = {
 webpack-dev-server --lazy
 ```
 
-T> [`watchOptions`](#devserverwatchoptions-) will have no effect when used with __lazy mode__.
+T> [`watchOptions`](#devserverwatchoptions-) 不会有任何副作用当使用 __lazy mode__ 时。
 
-T> If you use the CLI, make sure __inline mode__ is disabled.
+T> 如果是通过命令行使用, 请确保 __inline mode__ 处于禁用状态。
 
 ## `devServer.liveReload`
 
@@ -801,7 +800,7 @@ module.exports = {
 
 `boolean = false`
 
-告诉开发服务器禁止显示诸如Webpack捆绑包信息之类的消息。 错误和警告仍将显示。
+告诉开发服务器禁止显示诸如 Webpack 捆绑包信息之类的消息。 错误和警告仍将显示。
 
 __webpack.config.js__
 
