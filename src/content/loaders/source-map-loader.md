@@ -20,13 +20,13 @@ repo: https://github.com/webpack-contrib/source-map-loader
 
 ## 起步
 
-安装 `source-map-loader`:
+安装 `source-map-loader`：
 
 ```bash
 npm i -D source-map-loader
 ```
 
-添加 plugin 至 `webpack` 配置。例:
+添加 plugin 至 `webpack` 配置。例：
 
 **file.js**
 
