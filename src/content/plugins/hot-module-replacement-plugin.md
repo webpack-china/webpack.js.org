@@ -11,7 +11,7 @@ related:
     url: /api/hot-module-replacement
 ---
 
- [Hot Module Replacement](/concepts/hot-module-replacement), 除此之外还被称为 HMR。
+ [Hot Module Replacement](/concepts/hot-module-replacement)， 除此之外还被称为 HMR。
 
 W> HMR **绝对不能**被用在生产环境。
 
@@ -29,9 +29,9 @@ new webpack.HotModuleReplacementPlugin({
 
 ## 配置选项
 
-接收一下配置选项 :
+接收一下配置选项：
 
-- `multiStep` (boolean): 为 `true`, 插件会分两步构建 -- 首先编译热更新 chunks, 然后保留普通资源(normal assets)。
+- `multiStep` (boolean): 为 `true`，插件会分两步构建 -- 首先编译热更新 chunks，然后保留普通资源(normal assets)。
 - `fullBuildTimeout` (number): 定义当 `multiStep` 启用时，两个步骤之间的延迟。
 
-W> 这些选项是实验性的并且可能会过期失效。 就像上面说的， 它们完全不是必须的，只需要 `new webpack.HotModuleReplacementPlugin()` 就足够了。
+W> 这些选项是实验性的并且可能会被弃用。 就像上面说的， 它们完全不是必须的，只需要 `new webpack.HotModuleReplacementPlugin()` 就足够了。
