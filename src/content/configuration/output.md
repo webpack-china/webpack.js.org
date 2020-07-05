@@ -739,7 +739,7 @@ define([], function() {
 如果直接加载 `<script>` 标签，此 bundle 无法按预期运行，或者根本无法正常运行（在 almond loader 中）。只能通过文件的实际路径，在 RequireJS 兼容的异步模块加载器中运行，因此在这种情况下，如果这些设置直接暴露在服务器上，那么 `output.path` 和 `output.filename` 对于这个特定的设置可能变得很重要。
 
 
-`libraryTarget: 'amd-require'` - 这将使用立即执行的AMD `require（dependencies, factory）` 包装器包装您的输出。
+`libraryTarget: 'amd-require'` - 这将使用立即执行的AMD `require(dependencies, factory)` 包装器包装您的输出。
 
  `'amd-require'` 目标（target）允许使用AMD依赖项，而无需单独的后续调用。与 `'amd'` 目标（target）一样, 这取决于在加载 webpack 输出的环境中适当可用的 [`require` function](https://github.com/amdjs/amdjs-api/blob/master/require.md) 。
 
