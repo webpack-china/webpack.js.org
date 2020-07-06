@@ -194,7 +194,7 @@ W> `none` 和 `warning` 将在下一个主要版本中弃用。
 
 当使用 _inline mode_ 时， DevTools 会输出信息，例如：重新加载之前，出错之前或 [Hot Module Replacement](/concepts/hot-module-replacement/) 被开启时。
 
-`devServer.clientLogLevel` 可能太冗余，您可以通过将其设置为 `'silent'` 来关闭日志。
+`devServer.clientLogLevel` 可能会导致日志过于冗余，你可以通过将其设置为 `'silent'` 来关闭日志。
 
 __webpack.config.js__
 
