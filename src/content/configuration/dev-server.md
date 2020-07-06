@@ -467,7 +467,7 @@ webpack-dev-server --history-api-fallback
 
 `string = 'localhost'`
 
-指定要使用的 host。如果您希望服务器可从外部访问，请按以下方式指定它：
+指定要使用的 host。如果你希望服务器可从外部访问，请按以下方式进行配置：
 
 __webpack.config.js__
 
