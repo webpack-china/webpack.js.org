@@ -30,7 +30,7 @@ npm install eslint-loader --save-dev
 npm install eslint --save-dev
 ```
 
-## 使用
+## 用法
 
 在你的 webpack 设置中添加下列配置：
 
@@ -71,7 +71,7 @@ module.exports = {
 };
 ```
 
-安全起见，你可以使用 `enforce: 'pre'` 片段来检查源文件是否未经其他 loaders（例如 `babel-loader`）修改：
+安全起见，你可以使用 `enforce: 'pre'` 片段来处理源文件，确保其没有被其他 loader（例如 `babel-loader`）修改：
 
 ```js
 module.exports = {
