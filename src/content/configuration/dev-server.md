@@ -68,7 +68,7 @@ W> 请注意，当[导出多个配置对象](/configuration/configuration-types/
 
 T> 如果您碰到了问题，请将路由导航至 `/webpack-dev-server` 将会为您展示服务文件的位置。例如： `http://localhost:9000/webpack-dev-server`。
 
-T> 如果您需要要手动重新编译 `bundle`，将路由导航至 `/invalidate` 使当前编译的 `bundle` 无效，并通过 [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware#invalidate) 为您重新编译。根据您的配置，URL 可能看起来像`http://localhost:9000/invalidate`。
+T> 如果你需要要手动重新编译 `bundle`，将路由导航至 `/invalidate` 使当前编译的 `bundle` 无效，并通过 [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware#invalidate) 为你重新编译。根据你的配置，URL 可能看起来像 `http://localhost:9000/invalidate`。
 
 T> 当启动本地服务的时候 HTML 模板是必须提供的，通常是 `index.html`。确保将脚本引用添加到 HTML 中，webpack-dev-server 不会自动注入它们。
 
