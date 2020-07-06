@@ -85,7 +85,7 @@ module.exports = {
 };
 ```
 
-有关 `warningsFilters` 选项的详细信息[点击查看](/configuration/stats/#statswarningsfilter)；
+有关 `warningsFilters` 选项的详细信息请[参阅](/configuration/stats/#statswarningsfilter)；
 
 ## 贡献
 
