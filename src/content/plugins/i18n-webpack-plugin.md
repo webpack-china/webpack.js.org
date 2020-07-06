@@ -26,10 +26,10 @@ plugins: [
   new I18nPlugin(languageConfig, optionsObj)
 ],
 ```
- - `optionsObj.functionName`: 默认值为 `__`, 你可以将其修改为其他函数名.
- - `optionsObj.failOnMissing`: 默认值为 `false`, 如果要翻译的文本缺失，插件会展示警告信息. 若设置为 `true`, 在上述情况下插件将会抛出错误信息。
- - `optionsObj.hideMessage`: 默认值为 `false`, 插件可以展示警告/报错信息. 若设置为 `true`, 插件将会隐藏相关的警告或报错信息。
- - `optionsObj.nested`: 默认值为 `false`. 如果设置为 `true`, `languageConfig` 中键值的编写可以嵌套. 该选项当且仅当参数 `languageConfig` 的类型不是一个函数时才能生效.
+ - `optionsObj.functionName`: 默认值为 `__`，你可以将其修改为其他函数名。
+ - `optionsObj.failOnMissing`：默认值为 `false`，如果要翻译的文本缺失，插件会展示警告信息。若设置为 `true`，在上述情况下插件将会抛出错误信息。
+ - `optionsObj.hideMessage`：默认值为 `false`，插件可以展示警告/报错信息. 若设置为 `true`，插件将会隐藏相关的警告或报错信息。
+ - `optionsObj.nested`：默认值为 `false`。如果设置为 `true`，`languageConfig` 中键值的编写可以嵌套。该选项当且仅当参数 `languageConfig` 的类型不是一个函数时才能生效.
 
 ## 维护者
 
