@@ -4,7 +4,7 @@ source: https://raw.githubusercontent.com/webpack-contrib/i18n-webpack-plugin/ma
 edit: https://github.com/webpack-contrib/i18n-webpack-plugin/edit/master/README.md
 repo: https://github.com/webpack-contrib/i18n-webpack-plugin
 ---
-webpack 的 i18n(本地化)插件
+webpack 的 i18n（本地化）插件
 
 ## 安装
 
