@@ -60,7 +60,7 @@ Content not from webpack is served from /path/to/dist/
 
 这里将会给出服务启动位置以及内容的一些基本信息。
 
-如果您通过 Node.js API 使用 dev-server，则 `devServer` 中的配置选项将被忽略。但可以将配置选项作为第二个参数传入：`new WebpackDevServer(compiler，{...})`。[参见此处](https://github.com/webpack/webpack-dev-server/tree/master/examples/api/simple)展示了如何通过 Node.js API 使用 webpack-dev-server。
+如果你通过 Node.js API 使用 dev-server，则 `devServer` 中的配置选项将被忽略。但可以将配置选项作为第二个参数传入：`new WebpackDevServer(compiler，{...})`。[此示例](https://github.com/webpack/webpack-dev-server/tree/master/examples/api/simple)展示了如何通过 Node.js API 使用 webpack-dev-server。
 
 W> 使用 `WebpackDevServer` 时，不能使用第二个 `compiler` 参数（一个回调）。
 
