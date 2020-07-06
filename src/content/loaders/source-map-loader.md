@@ -16,7 +16,7 @@ repo: https://github.com/webpack-contrib/source-map-loader
 
 
 
-从现有的源文件中提取 source maps (from their <code>sourceMappingURL</code>)
+从现有的源文件中提取 source maps（从 <code>sourceMappingURL</code> 中提取）。
 
 ## 起步
 
