@@ -54,8 +54,7 @@ module.exports = {
 这些 source maps 既可以是内联的也可以是通过 URL 链接引入的。
 所有的 source map 数据都按照选定的 [source map style](/configuration/devtool/) 交给 webpack 处理，这些选定可以在 [webpack.config.js](/configuration/) 的 `devtool` 选项中配置。
 在使用有自己 source maps 的第三方库时，`source-map-loader` 就显得尤为重要。
-如果相关 source map 数据没有按照规范提取、处理并注入 webpack bundle, 浏览器有可能无法正确解读这些数据。
-`source-map-loader` 允许 webpack 跨库且持续的维护 source map 数据，因而更易于调试。
+如果相关 source map 数据没有按照规范提取、处理并注入 webpack bundle, 浏览器有可能无法正确解读这些数据。`source-map-loader` 允许 webpack 跨库且持续的维护 source map 数据，因而更易于调试。
 `source-map-loader` 可以从任何 JavaScript 文件中提取，这也包括 `node_modules` 目录下的 JavaScript 文件。
 
 留心在设置 [include](/configuration/module/#ruleinclude) 和 [exclude](/configuration/module/#ruleexclude) 规则时，需要最大化打包性能。
