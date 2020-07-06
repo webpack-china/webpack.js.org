@@ -66,7 +66,7 @@ W> 使用 `WebpackDevServer` 时，不能使用第二个 `compiler` 参数（一
 
 W> 请注意，当[导出多个配置对象](/configuration/configuration-types/#exporting-multiple-configurations)时，只会使用 `devServer` 的第一个配置选项，并将其应用于所有的配置当中。
 
-T> 如果您碰到了问题，请将路由导航至 `/webpack-dev-server` 将会为您展示服务文件的位置。例如： `http://localhost:9000/webpack-dev-server`。
+T> 如果你碰到了问题，请将路由导航至 `/webpack-dev-server` 将会为你展示服务文件的位置。例如： `http://localhost:9000/webpack-dev-server`。
 
 T> 如果你需要要手动重新编译 `bundle`，将路由导航至 `/invalidate` 使当前编译的 `bundle` 无效，并通过 [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware#invalidate) 为你重新编译。根据你的配置，URL 可能看起来像 `http://localhost:9000/invalidate`。
 
