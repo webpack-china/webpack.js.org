@@ -252,7 +252,7 @@ webpack-dev-server --compress
 
 `boolean: false` `string` `[string]` `number`
 
-告诉服务器从何处提供内容。 仅当您要提供静态文件时才需要这样做。[`devServer.publicPath`](#devserverpublicpath-) 将用于确定应从何处提供捆绑软件，并具有优先权。
+告诉服务器从哪个路径提供内容。仅在需要提供静态文件时才进行配置。[`devServer.publicPath`](#devserverpublicpath-) 将用于确定 bundle 的来源，并具有优先级高于 contentBase。
 
 T> 建议使用绝对路径。
 
