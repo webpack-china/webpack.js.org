@@ -270,9 +270,7 @@ style-loaders 插入的 styles 如下：
 #### `lazySingletonStyleTag`
 
 在需要时使用一个 `<style></style>` 把 styles 插入的 DOM 中。
-
 推荐 lazy styles 遵循 使用 `.lazy.css` 后缀命名约定， `style-loader` 基本用法使用 `.css` 作为文件后缀 (其他文件也一样，比如：`.lazy.less ` 和 `.less`)。
-
 当使用 `lazySingletonStyleTag` 时， `style-loader` 将惰性插入 styles，在需要使用 styles 时可以通过 `style.use() / style.unuse() ` 使 styles 可用。
 
 > ⚠️ Source maps 不起作用
