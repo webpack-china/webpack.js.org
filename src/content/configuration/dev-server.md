@@ -271,7 +271,7 @@ module.exports = {
 };
 ```
 
-如果想使用[`contentBasePublicPath`](#devservercontentbasepublicpath)在多个URL上提供静态内容，也可以从多个目录提供服务：
+如果想使用 [`contentBasePublicPath`](#devservercontentbasepublicpath) 在多个 URL 上提供静态内容，也可以从多个目录提供服务：
 
 __webpack.config.js__
 
@@ -297,7 +297,7 @@ webpack-dev-server --content-base /path/to/content/dir
 
 `string = '/'` `[string]`
 
-告诉服务器使用哪个URL服务 `devServer.contentBase` 静态内容。 如果有一个文件 `assets/manifest.json` ，它将在 `/serve-content-base-at-this-url/manifest.json` 中提供。
+告诉服务器使用哪个 URL 服务 `devServer.contentBase` 静态内容。如果有一个文件 `assets/manifest.json` ，它将在 `/serve-content-base-at-this-url/manifest.json` 中提供。
 
 __webpack.config.js__
 
