@@ -1,5 +1,5 @@
 ---
-标题: DefinePlugin
+title: DefinePlugin
 贡献者:
   - simon04
   - rouzbeh84
