@@ -27,7 +27,12 @@ npm install sass-loader sass webpack --save-dev
 ```
 
 `sass-loader` 需要预先安装 [Dart Sass](https://github.com/sass/dart-sass) 或 [Node Sass](https://github.com/sass/node-sass)（可以在这两个链接中找到更多的资料）。
+
 这可以控制所有依赖的版本，并自由的选择使用 Sass 的实现。
+
+> ℹ️ We recommend using [Dart Sass](https://github.com/sass/dart-sass).
+
+> ⚠ [Node Sass](https://github.com/sass/node-sass) does not work with [Yarn PnP](https://classic.yarnpkg.com/en/docs/pnp/) feature.
 
 将 `sass-loader` 、[css-loader](/loaders/css-loader/) 与 [style-loader](/loaders/style-loader/) 进行链式调用，可以将样式以 style 标签的形式插入 DOM 中，或者也可以使用 [mini-css-extract-plugin](/plugins/mini-css-extract-plugin/) 将样式输出到独立的文件中。
 
@@ -107,9 +112,9 @@ Webpack 提供一种 [解析文件的高级机制](/concepts/module-resolution/)
 | :---------------------------------------: | :------------------: | :----------------: | :--------------------------------------------- |
 |  **[`implementation`](#implementation)**  |      `{Object}`      |       `sass`       | 设置使用的 Sass 的实现。                       |
 |     **[`sassOptions`](#sassoptions)**     | `{Object\|Function}` | Sass 实现的默认值  | Sass 自身选项。                                |
-|       **[`sourceMap`](#sourcemap)**       |     `{Boolean}`      | `compiler.devtool` | 启用 / 禁用 source maps 的生成。               |
-|     **[`prependData`](#sassoptions)**     | `{String\|Function}` |    `undefined`     | 在实际的输入文件之前添加 `Sass`/`SCSS` 代码。 |
-| **[`webpackImporter`](#webpackimporter)** |     `{Boolean}`      |       `true`       | 启用 / 禁用默认的 Webpack importer。           |
+|       **[`sourceMap`](#sourcemap)**       |     `{Boolean}`      | `compiler.devtool` | 启用/禁用 source maps 的生成。               |
+|     **[`additionalData`](#prependdata)**     | `{String\|Function}` |    `undefined`     | 在实际的输入文件**之前/之后**添加 `Sass`/`SCSS` 代码。 |
+| **[`webpackImporter`](#webpackimporter)** |     `{Boolean}`      |       `true`       | 启用/禁用默认的 Webpack importer。           |
 
 ### `implementation`
 
@@ -265,6 +270,8 @@ module.exports = {
 
 > ℹ 我们推荐不要设置 `outFile`，`sourceMapContents`，`sourceMapEmbed`，`sourceMapRoot` 这些选项，因为当 `sourceMap` 是 `true` 时，`sass-loader` 会自动设置这些选项。
 
+> ℹ️ Access to the [loader context](/api/loaders/#the-loader-context) inside the custom importer can be done using the `this.webpackLoaderContext` property.
+
 `sass` （`dart-sass`）和 `node-sass` 之间的选项略有不同。
 
 在使用他们之前，请查阅有关文档：
@@ -385,6 +392,7 @@ module.exports = {
 ```
 
 > ℹ 在极少数情况下，`node-sass` 会输出无效的 source maps（这是 `node-sass` 的 bug）。
+
 > 为了避免这种情况，你可以尝试将 `node-sass` 更新为最新版本，或者可以尝试在 `sassOptions` 中将` outputStyle` 选项设置为 `compressed`。
 
 **webpack.config.js**
@@ -414,17 +422,15 @@ module.exports = {
 };
 ```
 
-### `prependData`
+### `additionalData`
 
 类型：`String|Function`
 默认值：`undefined`
 
 在实际的文件之前要添加的 `Sass`/`SCSS` 代码。
-在这种情况下，`sass-loader` 将不会覆盖 `data` 选项，而只是将它拼接在入口文件内容之前。
+在这种情况下，`sass-loader` 将不会覆盖 `data` 选项，而只会在入口文件内容之前预加载。
 
 当某些 Sass 变量取决于环境时，这非常有用：
-
-> ℹ 由于代码代码，将破坏入口文件的 source mappings。通常一个简单的解决方案，多个 Sass 入口文件。
 
 #### `String`
 
@@ -440,7 +446,7 @@ module.exports = {
           {
             loader: 'sass-loader',
             options: {
-              prependData: '$env: ' + process.env.NODE_ENV + ';',
+              additionalData: '$env: ' + process.env.NODE_ENV + ';',
             },
           },
         ],
@@ -464,16 +470,16 @@ module.exports = {
           {
             loader: 'sass-loader',
             options: {
-              prependData: (loaderContext) => {
+              additionalData: (content, loaderContext) => {
                 // 有关可用属性的更多信息 https://webpack.js.org/api/loaders/
                 const { resourcePath, rootContext } = loaderContext;
                 const relativePath = path.relative(rootContext, resourcePath);
 
                 if (relativePath === 'styles/foo.scss') {
-                  return '$value: 100px;';
+                  return '$value: 100px;' + content;
                 }
 
-                return '$value: 200px;';
+                return '$value: 200px;' + content;
               },
             },
           },
