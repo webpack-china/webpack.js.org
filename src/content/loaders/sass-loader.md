@@ -26,7 +26,8 @@ repo: https://github.com/webpack-contrib/sass-loader
 npm install sass-loader sass webpack --save-dev
 ```
 
-`sass-loader` 需要预先安装 [Dart Sass](https://github.com/sass/dart-sass) 或 [Node Sass](https://github.com/sass/node-sass)（可以在这两个链接中找到更多的资料）。这可以控制所有依赖的版本， 并自由的选择使用的 Sass 实现。
+`sass-loader` 需要预先安装 [Dart Sass](https://github.com/sass/dart-sass) 或 [Node Sass](https://github.com/sass/node-sass)（可以在这两个链接中找到更多的资料）。
+这可以控制所有依赖的版本，并自由的选择使用 Sass 的实现。
 
 将 `sass-loader` 、[css-loader](/loaders/css-loader/) 与 [style-loader](/loaders/style-loader/) 进行链式调用，可以将样式以 style 标签的形式插入 DOM 中，或者也可以使用 [mini-css-extract-plugin](/plugins/mini-css-extract-plugin/) 将样式输出到独立的文件中。
 
@@ -72,7 +73,7 @@ module.exports = {
 
 最后通过你喜欢的方式运行 `webpack`。
 
-### 解析 `import` at-rules
+### 解析 `import` 的规则
 
 Webpack 提供一种 [解析文件的高级机制](/concepts/module-resolution/)。
 
@@ -86,9 +87,9 @@ Webpack 提供一种 [解析文件的高级机制](/concepts/module-resolution/)
 因为 CSS 和 Sass 文件没有用于导入相关文件的特殊语法，所以 Webpack 需要区分 `bootstrap` 和 `~bootstrap`。
  `@import "style.scss"` 和 `@import "./style.scss";` 两种写法是相同的。
 
-###  `url(...)` 的问题
+### `url(...)` 的问题
 
-由于 Saass 的实现没有提供 [url rewriting](https://github.com/sass/libsass/issues/532) 的功能，所以相关的资源都必须是相对于输出文件（ouput）而言的。
+由于 Saass 的实现没有提供 [url 重写](https://github.com/sass/libsass/issues/532)的功能，所以相关的资源都必须是相对于输出文件（ouput）而言的。
 
 - 如果生成的 CSS 传递给了 `css-loader`，则所有的 url 规则都必须是相对于入口文件的（例如：`main.scss`）。
 - 如果仅仅生成了 CSS 文件，没有将其传递给 `css-loader`，那么所有的 url 都是相对于网站的根目录的。
@@ -98,7 +99,7 @@ Webpack 提供一种 [解析文件的高级机制](/concepts/module-resolution/)
 幸运的是，有两种方法可以解决这个问题：
 
 - 将 [resolve-url-loader](https://github.com/bholloway/resolve-url-loader) 设置于 loader 链中的 `sass-loader` 之前，就可以重写 url。
-- Library 作者一般都会提供变量，用来设置资源路径。 比如 [bootstrap-sass](https://github.com/twbs/bootstrap-sass) 可以通过 `$icon-font-path` 进行设置。
+- Library 作者一般都会提供变量，用来设置资源路径。比如 [bootstrap-sass](https://github.com/twbs/bootstrap-sass) 可以通过 `$icon-font-path` 进行设置。
 
 ## 配置选项
 
@@ -107,7 +108,7 @@ Webpack 提供一种 [解析文件的高级机制](/concepts/module-resolution/)
 |  **[`implementation`](#implementation)**  |      `{Object}`      |       `sass`       | 设置使用的 Sass 的实现。                       |
 |     **[`sassOptions`](#sassoptions)**     | `{Object\|Function}` | Sass 实现的默认值  | Sass 自身选项。                                |
 |       **[`sourceMap`](#sourcemap)**       |     `{Boolean}`      | `compiler.devtool` | 启用 / 禁用 source maps 的生成。               |
-|     **[`prependData`](#sassoptions)**     | `{String\|Function}` |    `undefined`     | 在实际的输入文件之前添加 `Sass` /`SCSS` 代码。 |
+|     **[`prependData`](#sassoptions)**     | `{String\|Function}` |    `undefined`     | 在实际的输入文件之前添加 `Sass`/`SCSS` 代码。 |
 | **[`webpackImporter`](#webpackimporter)** |     `{Boolean}`      |       `true`       | 启用 / 禁用默认的 Webpack importer。           |
 
 ### `implementation`
@@ -120,7 +121,7 @@ Webpack 提供一种 [解析文件的高级机制](/concepts/module-resolution/)
 默认情况下，loader 将会根据你的依赖解析需要使用的实现。
 只需将必需的实现添加到 `package.json`（`sass` 或 `node-sass` 包）中并安装依赖项即可。
 
-例如此时 `sass-loader` 将会使用 `sass` （`dart-sass`）实现：
+示例，此时 `sass-loader` 将会使用 `sass` （`dart-sass`）实现：
 
 **package.json**
 
@@ -133,7 +134,7 @@ Webpack 提供一种 [解析文件的高级机制](/concepts/module-resolution/)
 }
 ```
 
-例如此时 `sass-loader` 将会使用 `node-sass` 实现：
+示例，此时 `sass-loader` 将会使用 `node-sass` 实现：
 
 **package.json**
 
@@ -146,7 +147,7 @@ Webpack 提供一种 [解析文件的高级机制](/concepts/module-resolution/)
 }
 ```
 
-需要注意同时安装 `node-sass` 和 `sass` 的情况！ 默认情况下，`sass-loader` 会选择 `sass`。
+需注意同时安装 `node-sass` 和 `sass` 的情况！默认情况下，`sass-loader` 会选择 `sass`。
 为了避免这种情况，您可以使用 `implementation` 选项。
 
 `implementation` 选项可以以模块的形式接受 `sass`（`Dart Sass`）或 `node-sass`。
@@ -258,9 +259,9 @@ module.exports = {
 
 [Dart Sass](http://sass-lang.com/dart-sass) 或者 [Node Sass](https://github.com/sass/node-sass) 实现的选项。
 
-> ℹ️ `indentedSyntax` 选项对于 `sass` 拓展为 `true`。
+> ℹ️ `indentedSyntax` 选项值为 `true`，是对 `sass` 的扩展。
 
-> ℹ️ 像 `data` 和 `file` 这样的选项是不可用的并且他们将会被忽略。
+> ℹ️ 像 `data` 和 `file` 这样的选项是不可用的，且会被忽略。
 
 > ℹ 我们推荐不要设置 `outFile`，`sourceMapContents`，`sourceMapEmbed`，`sourceMapRoot` 这些选项，因为当 `sourceMap` 是 `true` 时，`sass-loader` 会自动设置这些选项。
 
@@ -347,7 +348,7 @@ module.exports = {
 类型：`Boolean`
 默认值：取决于 `compiler.devtool` 的值
 
-开启 / 关闭生成 source maps。
+开启/关闭生成 source map。
 
 默认情况下 source maps 的生成取决于 [`devtool`](/configuration/devtool/) 选项。
 除 `eval` 和 `false` 之外的所有值都将开启 source map 的生成。
@@ -418,12 +419,12 @@ module.exports = {
 类型：`String|Function`
 默认值：`undefined`
 
-在实际的文件之前要添加的 `Sass` / `SCSS` 代码。
+在实际的文件之前要添加的 `Sass`/`SCSS` 代码。
 在这种情况下，`sass-loader` 将不会覆盖 `data` 选项，而只是将它拼接在入口文件内容之前。
 
 当某些 Sass 变量取决于环境时，这非常有用：
 
-> ℹ 由于代码代码，将破坏入口文件的 source mappings。 通常一个简单的解决方案，多个 Sass 入口文件。
+> ℹ 由于代码代码，将破坏入口文件的 source mappings。通常一个简单的解决方案，多个 Sass 入口文件。
 
 #### `String`
 
@@ -490,7 +491,7 @@ module.exports = {
 
 开启 / 关闭默认的 Webpack importer。
 
-在某些情况下，可以提高性能。 但是请谨慎使用，因为 aliases 和以 `〜` 开头的 `@import` 规则将不起作用。
+在某些情况下，可以提高性能。但是请谨慎使用，因为 aliases 和以 `〜` 开头的 `@import` 规则将不起作用。
 你可以传递自己的 `importer` 来解决这个问题（参阅 [`importer docs`](https://github.com/sass/node-sass#importer--v200---experimental)）。
 
 **webpack.config.js**
@@ -521,9 +522,9 @@ module.exports = {
 
 ### 提取样式表
 
-对于生产版本，我们建议从 bundle 中提取 CSS，以便之后可以使 CSS / JS 资源并行加载。
+对于生产版本，我们建议从 bundle 中提取 CSS，以便之后可以使 CSS/JS 资源并行加载。
 
-从 bundle 中提取样式表，有2种可用的方法：
+从 bundle 中提取样式表，有 2 种实用的方式：
 
 - [mini-css-extract-plugin](/plugins/mini-css-extract-plugin/)（在使用 webpack 4 时使用此 plugin，它将适用于所有用例）
 - [extract-loader](https://github.com/peerigon/extract-loader)（简单，专门针对 css-loader 的输出）
@@ -562,7 +563,7 @@ module.exports = {
 
 ### Source maps
 
-开启 / 关闭 source maps 的生成。
+开启/关闭 source map 的生成。
 
 为了开启 CSS source maps，需要将 `sourceMap` 选项作为参数，传递给 `sass-loader` 和 `css-loader`。
 
@@ -570,7 +571,7 @@ module.exports = {
 
 ```javascript
 module.exports = {
-  devtool: 'source-map', // 任何类似于“source-map”的选项都是可以的
+  devtool: 'source-map', // 任何类似于 "source-map" 的选项都是支持的
   module: {
     rules: [
       {
@@ -596,9 +597,9 @@ module.exports = {
 };
 ```
 
-如果你要在 Chrome 中编辑原始的 Sass 文件， 建议阅读 [这篇不错的博客](https://medium.com/@toolmantim/getting-started-with-css-sourcemaps-and-in-browser-sass-editing-b4daab987fb0)。具体示例参考 [test/sourceMap](https://github.com/webpack-contrib/sass-loader/tree/master/test)。
+如果你要在 Chrome 中编辑原始的 Sass 文件，建议阅读 [这篇不错的博客](https://medium.com/@toolmantim/getting-started-with-css-sourcemaps-and-in-browser-sass-editing-b4daab987fb0)。具体示例参考 [test/sourceMap](https://github.com/webpack-contrib/sass-loader/tree/master/test)。
 
-## Contributing
+## 贡献
 
 如果你还没有阅读过我们的贡献指南，请花一点时间阅读它。
 
