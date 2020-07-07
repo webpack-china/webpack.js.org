@@ -1,6 +1,6 @@
 ---
 title: DefinePlugin
-贡献者:
+contributors:
   - simon04
   - rouzbeh84
   - byzyk
