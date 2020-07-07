@@ -9,7 +9,7 @@ contributors:
 ---
 
 
-`DefinePlugin` 允许创建在 __编译时__ 可以配置的全局常量，这在您想区分开发模式与生产模式从而进行不同的操作时非常有用。例如，如果想在开发构建中进行日志记录，而不在生产构建中进行，就可以使用一个全局常量去决定是否记录日志。这就是 `DefinePlugin` 的发光之处，设置好它，就可以忘掉开发环境和生产环境的构建规则。
+`DefinePlugin` 允许在 __编译时__ 创建配置的全局常量，这在需要区分开发模式与生产模式进行不同的操作时，非常有用。例如，如果想在开发构建中进行日志记录，而不在生产构建中进行，就可以定义一个全局常量去判断是否记录日志。这就是 `DefinePlugin` 的发光之处，设置好它，就可以忘掉开发环境和生产环境的构建规则。
 
 ``` javascript
 new webpack.DefinePlugin({
@@ -46,7 +46,7 @@ if(!BROWSER_SUPPORTS_HTML5) require('html5shiv');
 ```
 
 
-W> 在为 `process` 定义值时， `'process.env.NODE_ENV': JSON.stringify('production')` 会比 `process: { env: { NODE_ENV: JSON.stringify('production') } }` 更好，后者会覆盖 `process` 对象，这可能会破坏与某些模块的兼容性，因为这些模块会在 process 对象上定义其他值。
+W> 在为 `process` 定义值时，`'process.env.NODE_ENV': JSON.stringify('production')` 会比 `process: { env: { NODE_ENV: JSON.stringify('production') } }` 更好，后者会覆盖 `process` 对象，这可能会破坏与某些模块的兼容性，因为这些模块会在 process 对象上定义其他值。
 
 T> 请注意，由于本插件会直接替换文本，因此提供的值必须在字符串本身中再包含一个 __实际的引号__ 。通常，可以使用类似 `'"production"'` 这样的替换引号，或者直接用 `JSON.stringify('production')`。
 
@@ -62,7 +62,7 @@ if (PRODUCTION) {
 }
 ```
 
-在没有代码压缩的webpack编译之后：
+未经 webpack 压缩过的代码：
 
 ``` javascript
 if (!true) {
@@ -73,7 +73,7 @@ if (true) {
 }
 ```
 
-在通过代码压缩之后：
+经过压缩后：
 
 ``` javascript
 console.log('Production log');
@@ -82,7 +82,7 @@ console.log('Production log');
 
 ## Feature Flags
 
-使用 [feature flags](https://en.wikipedia.org/wiki/Feature_toggle) 在 生产/开发构建 中 启用/禁用 项目的不同功能特性。
+使用 [feature flags](https://en.wikipedia.org/wiki/Feature_toggle) 在生产/开发构建中可以启用/禁用项目的不同特性。
 
 ```javascript
 new webpack.DefinePlugin({
@@ -94,7 +94,7 @@ new webpack.DefinePlugin({
 
 ## Service URL
 
-在生产或开发构建中使用不同的服务 URL :
+在生产或开发构建中使用不同的服务 URL：
 
 ```javascript
 new webpack.DefinePlugin({
