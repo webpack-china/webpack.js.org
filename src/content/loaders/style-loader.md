@@ -201,9 +201,7 @@ loader 插入的 styles 如下：
 #### `lazyStyleTag`
 
 在需要时使用多个 `<style></style>` 把 styles 插入到 DOM 中。
-
 推荐 lazy styles 遵循 使用 `.lazy.css` 后缀命名约定， `style-loader` 基本用法使用 `.css` 作为文件后缀 (其他文件也一样，比如：`.lazy.less ` 和 `.less`)。
-
 当使用 `lazyStyleTag` 时， `style-loader` 将惰性插入 styles，在需要使用 styles 时可以通过 `style.use() / style.unuse() ` 使 styles 可用。
 
 > ⚠️ 调用 `unuse` 多于 `use` 的行为是不确定的。请不要这么做。
