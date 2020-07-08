@@ -454,7 +454,6 @@ module.exports = {
 允许覆盖默认行为并把 styles 插入到任意位置。
 
 > ⚠ 不要忘了这个函数会在浏览器中调用，由于不是所有浏览器都支持最新的 ECMA 特性，如：`let`，`const`，`allow function expression`等，我们推荐只使用 ECMA 5  特性，但这取决于你想要支持的浏览器版本。
->
 > ⚠ 不要忘了版本较旧的浏览器中某些 DOM 方法并不可用，所以我们推荐只使用 [DOM core level 2 properties](https://caniuse.com/#search=dom%20core)，但这取决于想要支持的浏览器版本。
 
 **webpack.config.js**
