@@ -585,7 +585,6 @@ module.exports = {
 ### Source maps
 
 当前面的 loader 生成 source maps 时，style-loader 会自动注入。
-
 因此，想要生成 source maps 则把在 style-loader 前面执行的 loader 的  `sourceMap` 选项设置为`true`。
 
 **webpack.config.js**
