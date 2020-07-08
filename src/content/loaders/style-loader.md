@@ -416,7 +416,6 @@ Type: `String|Function`
 Default: `head`
 
 默认情况下，除非指定 `insert`,否则 `style-loader`会把 `<style> / <link>`添加到 页面的 `<head>` 标签尾部。
-
 这会使得 `style-loader` 创建的 CSS 比 `<head>` 标签内已经存在的 CSS 拥有更高的优先级。
 
 当默认行为不能满足你的需求时，你可以使用其他值，但我们不推荐这么做。
