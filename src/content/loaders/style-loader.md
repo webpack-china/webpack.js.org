@@ -558,7 +558,6 @@ Type: `Boolean`
 Default: `false`
 
 默认情况下，`style-loader` 生成使用 Common JS modules 语法的 JS modules。
-
 某些情况下使用 ES modules 更好，比如： [module concatenation](/plugins/module-concatenation-plugin/) 和 [tree shaking](/guides/tree-shaking/)。
 
 你可以使用下面的配置启用 ES module 语法：
