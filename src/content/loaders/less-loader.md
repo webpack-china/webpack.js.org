@@ -491,7 +491,8 @@ module.exports = {
 
 ### 插件
 
-想要使用 [插件](http://lesscss.org/usage/#plugins), 简单，只需要设置下 `plugins` 选项就可以了，像这样：
+想要使用 [插件](http://lesscss.org/usage/#plugins)，只需要简单设置下 `plugins` 选项就可以，
+配置如下：
 
 ```js
 // webpack.config.js
