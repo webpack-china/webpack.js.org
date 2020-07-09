@@ -217,7 +217,7 @@ webpack-dev-server --client-log-level silent
 
 `boolean`
 
-开启/关闭 命令行颜色显示。
+开启/关闭命令行颜色显示。
 
 ```bash
 webpack-dev-server --color
