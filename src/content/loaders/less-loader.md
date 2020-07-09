@@ -20,7 +20,7 @@ webpack 将 Less 编译为 CSS 的 loader。
 
 ## 快速开始
 
-首先，你需要先安装 `less-loader`:
+首先，你需要先安装 `less-loader`：
 
 ```console
 $ npm install less-loader --save-dev
