@@ -513,7 +513,6 @@ module.exports = {
 };
 ```
 
-
 ### 提取样式表
 
 通过 webpack 打包 CSS 有很多好处，比如给引用图片和字体文件路径添加 hash, 在开发环境可以 [模块热替换](/concepts/hot-module-replacement/)。另一方面，在生产环境，根据 JS 来控制应用样式表不是一个好的方式，可能会导致延迟渲染，甚至可能会出现[闪烁现象](https://en.wikipedia.org/wiki/Flash_of_unstyled_content)。因此，在你最终的生产环境中将它们拆分成单独的文件来存放通常是比较好的选择。
