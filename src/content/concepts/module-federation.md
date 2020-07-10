@@ -16,13 +16,19 @@ related:
     url: https://www.youtube.com/playlist?list=PLWSiF9YHHK-DqsFHGYbeAMwbd9xcZbEWJ
 ---
 
-## Motivation
+## 动机
 
 Multiple separate builds should form a single application. These separate builds should not have dependencies between each other, so they can be developed and deployed individually.
 
+一个应用可能由多个独立构建的模块所组成。这些模块可以单独构建，不依赖于其他模块，因此可以单独开发和部署。
+
 This is often known as Micro-Frontends, but is not limited to that.
 
+这通常被成为微前端（Micro-Frontends），但不仅限于此。
+
 ## Low-level concepts
+
+## 基础概念
 
 We distinguish between local and remote modules. Local modules are normal modules which are part of the current build. Remote modules are modules that are not part of the current build and loaded from a so-called container at the runtime.
 
