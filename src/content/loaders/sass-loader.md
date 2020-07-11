@@ -26,8 +26,13 @@ To begin, you'll need to install `sass-loader`:
 npm install sass-loader sass webpack --save-dev
 ```
 
-`sass-loader` requires you to install either [Dart Sass](https://github.com/sass/dart-sass) on your own (more documentation can be found below) or [Node Sass](https://github.com/sass/node-sass).
+`sass-loader` requires you to install either [Dart Sass](https://github.com/sass/dart-sass) or [Node Sass](https://github.com/sass/node-sass) on your own (more documentation can be found below).
+
 This allows you to control the versions of all your dependencies, and to choose which Sass implementation to use.
+
+> ℹ️ We recommend using [Dart Sass](https://github.com/sass/dart-sass).
+
+> ⚠ [Node Sass](https://github.com/sass/node-sass) does not work with [Yarn PnP](https://classic.yarnpkg.com/en/docs/pnp/) feature.
 
 Chain the `sass-loader` with the [css-loader](/loaders/css-loader/) and the [style-loader](/loaders/style-loader/) to immediately apply all styles to the DOM or the [mini-css-extract-plugin](/plugins/mini-css-extract-plugin/) to extract it into a separate file.
 
@@ -103,13 +108,13 @@ Thankfully there are a two solutions to this problem:
 
 ## Options
 
-|                   Name                    |         Type         |                 Default                 | Description                                               |
-| :---------------------------------------: | :------------------: | :-------------------------------------: | :-------------------------------------------------------- |
-|  **[`implementation`](#implementation)**  |      `{Object}`      |                 `sass`                  | Setup Sass implementation to use.                         |
-|     **[`sassOptions`](#sassoptions)**     | `{Object\|Function}` | defaults values for Sass implementation | Options for Sass.                                         |
-|       **[`sourceMap`](#sourcemap)**       |     `{Boolean}`      |           `compiler.devtool`            | Enables/Disables generation of source maps.               |
-|     **[`prependData`](#sassoptions)**     | `{String\|Function}` |               `undefined`               | Prepends `Sass`/`SCSS` code before the actual entry file. |
-| **[`webpackImporter`](#webpackimporter)** |     `{Boolean}`      |                 `true`                  | Enables/Disables the default Webpack importer.            |
+|                   Name                    |         Type         |                 Default                 | Description                                                       |
+| :---------------------------------------: | :------------------: | :-------------------------------------: | :---------------------------------------------------------------- |
+|  **[`implementation`](#implementation)**  |      `{Object}`      |                 `sass`                  | Setup Sass implementation to use.                                 |
+|     **[`sassOptions`](#sassoptions)**     | `{Object\|Function}` | defaults values for Sass implementation | Options for Sass.                                                 |
+|       **[`sourceMap`](#sourcemap)**       |     `{Boolean}`      |           `compiler.devtool`            | Enables/Disables generation of source maps.                       |
+|  **[`additionalData`](#additionaldata)**  | `{String\|Function}` |               `undefined`               | Prepends/Appends `Sass`/`SCSS` code before the actual entry file. |
+| **[`webpackImporter`](#webpackimporter)** |     `{Boolean}`      |                 `true`                  | Enables/Disables the default Webpack importer.                    |
 
 ### `implementation`
 
@@ -265,6 +270,8 @@ Options for [Dart Sass](http://sass-lang.com/dart-sass) or [Node Sass](https://g
 
 > ℹ We recommend not to set the `outFile`, `sourceMapContents`, `sourceMapEmbed`, `sourceMapRoot` options because `sass-loader` automatically sets these options when the `sourceMap` option is `true`.
 
+> ℹ️ Access to the [loader context](/api/loaders/#the-loader-context) inside the custom importer can be done using the `this.webpackLoaderContext` property.
+
 There is a slight difference between the `sass` (`dart-sass`) and `node-sass` options.
 
 Please consult documentation before using them:
@@ -385,7 +392,8 @@ module.exports = {
 ```
 
 > ℹ In some rare cases `node-sass` can output invalid source maps (it is a `node-sass` bug).
-> In order to avoid this, you can try to update `node-sass` to latest version or you can try to set within `sassOptions` the `outputStyle` option to `compressed`.
+
+> > In order to avoid this, you can try to update `node-sass` to latest version or you can try to set within `sassOptions` the `outputStyle` option to `compressed`.
 
 **webpack.config.js**
 
@@ -414,17 +422,15 @@ module.exports = {
 };
 ```
 
-### `prependData`
+### `additionalData`
 
 Type: `String|Function`
 Default: `undefined`
 
 Prepends `Sass`/`SCSS` code before the actual entry file.
-In this case, the `sass-loader` will not override the `data` option but just append the entry's content.
+In this case, the `sass-loader` will not override the `data` option but just **prepend** the entry's content.
 
 This is especially useful when some of your Sass variables depend on the environment:
-
-> ℹ Since you're injecting code, this will break the source mappings in your entry file. Often there's a simpler solution than this, like multiple Sass entry files.
 
 #### `String`
 
@@ -440,7 +446,7 @@ module.exports = {
           {
             loader: 'sass-loader',
             options: {
-              prependData: '$env: ' + process.env.NODE_ENV + ';',
+              additionalData: '$env: ' + process.env.NODE_ENV + ';',
             },
           },
         ],
@@ -464,16 +470,16 @@ module.exports = {
           {
             loader: 'sass-loader',
             options: {
-              prependData: (loaderContext) => {
+              additionalData: (content, loaderContext) => {
                 // More information about available properties https://webpack.js.org/api/loaders/
                 const { resourcePath, rootContext } = loaderContext;
                 const relativePath = path.relative(rootContext, resourcePath);
 
                 if (relativePath === 'styles/foo.scss') {
-                  return '$value: 100px;';
+                  return '$value: 100px;' + content;
                 }
 
-                return '$value: 200px;';
+                return '$value: 200px;' + content;
               },
             },
           },
@@ -621,5 +627,5 @@ Please take a moment to read our contributing guidelines if you haven't yet done
 [cover-url]: https://codecov.io/gh/webpack-contrib/sass-loader
 [chat]: https://badges.gitter.im/webpack/webpack.svg
 [chat-url]: https://gitter.im/webpack/webpack
-[size]: https://packagephobia.now.sh/badge?p=css-loader
-[size-url]: https://packagephobia.now.sh/result?p=css-loader
+[size]: https://packagephobia.now.sh/badge?p=sass-loader
+[size-url]: https://packagephobia.now.sh/result?p=sass-loader

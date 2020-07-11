@@ -414,6 +414,8 @@ exports.locals = {
 
 To import a local classname from another module.
 
+> i We strongly recommend that you specify the extension when importing a file, since it is possible to import a file with any extension and it is not known in advance which file to use.
+
 ```css
 :local(.continueButton) {
   composes: button from 'library/button.css';
@@ -1083,7 +1085,6 @@ module.exports = {
   module: {
     rules: [
       {
-        // For CSS modules
         // For pure CSS - /\.css$/i,
         // For Sass/SCSS - /\.((c|sa|sc)ss)$/i,
         // For Less - /\.((c|le)ss)$/i,
@@ -1105,9 +1106,7 @@ module.exports = {
             options: { plugins: () => [postcssPresetEnv({ stage: 0 })] },
           },
           // Can be `less-loader`
-          // The `test` property should be `\.less/i`
           {
-            test: /\.s[ac]ss$/i,
             loader: 'sass-loader',
           },
         ],
