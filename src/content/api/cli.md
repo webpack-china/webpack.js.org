@@ -125,7 +125,7 @@ webpack --json
 webpack --json > stats.json
 ```
 
-在其他每个情况下，webpack 会打印一组统计信息，用于显示 bundle, chunk 和用时等详细信息。使用此选项，输出可以是 JSON 对象。此输出文件(response)可被 webpack 的[分析工具](https://webpack.github.com/analyse)，或 chrisbateman 的 [webpack 可视化工具](https://chrisbateman.github.io/webpack-visualizer/)，或 th0r 的 [webpack bundle 分析工具](https://github.com/webpack-contrib/webpack-bundle-analyzer)接收后进行分析。分析工具将接收 JSON 并以图形形式提供构建的所有细节。
+在其他每个情况下，webpack 会打印一组统计信息，用于显示 bundle, chunk 和用时等详细信息。使用此选项，输出可以是 JSON 对象。此输出文件(response)可被 webpack 的[分析工具](https://webpack.github.com/analyse)、chrisbateman 的 [webpack 可视化工具](https://chrisbateman.github.io/webpack-visualizer/)或 th0r 的 [webpack bundle 分析工具](https://github.com/webpack-contrib/webpack-bundle-analyzer)接收后进行分析。分析工具将接收 JSON 并以图形形式提供构建的所有细节。
 
 ### 环境选项
 
