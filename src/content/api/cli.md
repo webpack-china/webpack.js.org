@@ -49,11 +49,11 @@ webpack <entry> [<entry>] -o <output>
 
 __`<entry>`__
 
-一个文件名或一组被命名的文件名，作为构建项目的入口起点。你可以传递多个入口（每个入口在启动时加载）。如果传递一个形式为 `<name> = <request>` 的键值对，则可以创建一个额外的入口起点。它将被映射到配置选项（configuration option）的 `entry` 属性。
+构建项目时入口可以配置一个文件名或一组被命名过的文件名。你可以传递多个入口（每个入口在启动时加载）。如果传递一个形式为 `<name> = <request>` 的键值对，则可以创建一个额外的入口起点。它将被映射到配置选项（configuration option）的 `entry` 属性中。
 
 __`<output>`__
 
-要保存的 bundled 文件的路径和文件名。它将映射到配置选项 `output.path` 和 `output.filename`。
+用于存储构建后的文件路径以及文件名。它将映射到配置选项 `output.path` 和 `output.filename`。
 
 __示例__
 
@@ -73,7 +73,7 @@ __示例__
 webpack src/index.js -o dist/bundle.js
 ```
 
-打包源码，入口为 `index.js`，并且输出文件的路径为 `dist`，文件名为 `bundle.js`
+这将对源码进行打包，其入口为 `index.js`，且 bundle 文件的输出路径为 `dist`，文件名为 `bundle.js`
 
 ```bash
 	| Asset     | Size    | Chunks      | Chunk Names |
@@ -129,7 +129,7 @@ webpack --json > stats.json
 
 ### 环境选项
 
-当 webpack 配置对象[导出为一个函数](/configuration/configuration-types/#exporting-a-function)时，可以向其传入一个“环境对象（environment）”。
+当 webpack 配置对象[导出为一个函数](/configuration/configuration-types/#exporting-a-function)时，可以向其传入一个 "环境对象（environment）"。
 
 ```bash
 webpack --env.production    # 设置 env.production == true
