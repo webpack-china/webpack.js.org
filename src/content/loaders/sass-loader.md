@@ -28,7 +28,7 @@ npm install sass-loader sass webpack --save-dev
 
 `sass-loader` 需要预先安装 [Dart Sass](https://github.com/sass/dart-sass) 或 [Node Sass](https://github.com/sass/node-sass)（可以在这两个链接中找到更多的资料）。这可以控制所有依赖的版本， 并自由的选择使用的 Sass 实现。
 
-这样可以允许您控制所有依赖项的版本，并选择要使用的Sass实现。
+这样可以控制所有依赖项的版本，并选择要使用的 Sass 实现。
 
 > ℹ️ 我们推荐使用 [Dart Sass](https://github.com/sass/dart-sass)。
 
