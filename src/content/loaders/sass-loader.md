@@ -270,7 +270,7 @@ module.exports = {
 
 > ℹ 我们推荐不要设置 `outFile`，`sourceMapContents`，`sourceMapEmbed`，`sourceMapRoot` 这些选项，因为当 `sourceMap` 是 `true` 时，`sass-loader` 会自动设置这些选项。
 
-> ℹ️ 可以使用 `this.webpackLoaderContext` 属性访问 custom  importer 中的 [loader context](/api/loaders/#the-loader-context)
+> ℹ️ 可以使用 `this.webpackLoaderContext` 属性访问自定义 importer 中的 [loader 上下文](/api/loaders/#the-loader-context)。
 
 `sass` （`dart-sass`）和 `node-sass` 之间的选项略有不同。
 
