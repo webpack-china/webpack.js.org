@@ -153,7 +153,7 @@ Webpack 提供一种 [解析文件的高级机制](/concepts/module-resolution/)
 ```
 
 需注意同时安装 `node-sass` 和 `sass` 的情况！默认情况下，`sass-loader` 会选择 `sass`。
-为了避免这种情况，您可以使用 `implementation` 选项。
+为了避免这种情况，你可以使用 `implementation` 选项。
 
 `implementation` 选项可以以模块的形式接受 `sass`（`Dart Sass`）或 `node-sass`。
 
