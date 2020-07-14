@@ -36,7 +36,7 @@ export default class SidebarItem extends React.Component {
     let title = anchor.title;
     const match = /^.+(\s*\{#([a-z0-9\-_]+?)\}\s*)$/.exec(title);
     id = match ? match[2] : id;
-    title = match ? match[1] : title;
+    title = match ? title.replace(match[1], '').trim() : title;
     anchor.id = id;
     anchor.title = title;
     return anchor;
