@@ -4077,8 +4077,8 @@ dnserrors@2.1.2:
     lodash.defaults "^4.2.0"
     lodash.omit "^4.5.0"
 
-docschina-remark-slugger@^0.1.3:
-  version "0.1.3"
+docschina-remark-slugger@^0.1.4:
+  version "0.1.4"
   resolved "https://registry.npmjs.org/docschina-remark-slugger/-/docschina-remark-slugger-0.1.1.tgz#b70e8d5b595d7cba863fa38ba65b6ec49c3874bb"
   integrity sha512-DDKeH8aPg8mN6pg8si4Vwwjd3oCvS16keJnp7oYfF7+mRJCwJI2t3uqEunVQ+eiKsDAnkCFfm8Jsw2/PZ/TpOQ==
   dependencies:
