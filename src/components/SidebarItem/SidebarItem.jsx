@@ -15,7 +15,7 @@ export default class SidebarItem extends React.Component {
       <ul className={`${block}__anchors`}>
         {
           anchors.map((anchor, i) => {
-            anchor = this._handleAnchor(anchor);
+            // anchor = this._handleAnchor(anchor);
             return (<li
               key={this._generateAnchorURL(anchor)}
               className={`${block}__anchor`}
@@ -108,6 +108,6 @@ export default class SidebarItem extends React.Component {
    */
   _generateAnchorURL(anchor) {
     let {url} = this.props;
-    return anchor.id ? `${url}#${anchor.id}` : url;
+    return anchor.title ? `${url}#${anchor.title}` : url;
   }
 }

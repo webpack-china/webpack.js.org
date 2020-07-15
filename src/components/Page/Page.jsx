@@ -1,6 +1,6 @@
 // Import External Dependencies
 import React from 'react';
-
+import $ from 'jquery';
 // Import Components
 import PageLinks from '../PageLinks/PageLinks';
 import Markdown from '../Markdown/Markdown';
@@ -20,7 +20,8 @@ class Page extends React.Component {
 
     this.state = {
       content: isDynamicContent ? PlaceholderString() : content.default || content,
-      contentLoaded: isDynamicContent ? false : true
+      contentLoaded: isDynamicContent ? false : true,
+      hash: null,
     };
   }
 
@@ -34,16 +35,7 @@ class Page extends React.Component {
             content: module.default || module,
             contentLoaded: true
           }, () => {
-            const hash = window.location.hash;
-            if (hash) {
-              const element = document.querySelector(hash);
-              if (element) {
-                element.scrollIntoView();
-              }
-            } else {
-              document.documentElement.scrollTop = 0;
-            }
-            
+            this.scrollIntoView();
           })
         )
         .catch(error =>
@@ -51,6 +43,26 @@ class Page extends React.Component {
             content: 'Error loading content.'
           })
         );
+    }
+  }
+  componentWillReceiveProps() {
+    this.scrollIntoView();
+  }
+  scrollIntoView() {
+    const hash = window.location.hash;
+    const { hash: previousHash } = this.state;
+    if (hash === previousHash) {
+      return false;
+    }
+    if (hash) {
+      const URL = hash.includes('(') ? hash : decodeURIComponent(hash);
+      const element = $(`a[href="${URL}"]`);
+      if (element && element.length) {
+        element[0].scrollIntoView();
+      }
+      this.setState({ hash });
+    } else {
+      document.documentElement.scrollTop = 0;
     }
   }
 
