@@ -440,22 +440,22 @@ module.exports = {
   </advanced>
 ```
 
-W> webpack applies configuration defaults after [plugins defaults](/contribute/writing-a-plugin/#configuration-defaults) are applied.
+W> 在应用 [插件默认值](/contribute/writing-a-plugin/#configuration-defaults) 之后，webpack 将应用配置默认值。
 
-T> Want to rapidly generate webpack configuration file for your project requirements with few clicks away.
+T> 无需几次鼠标点击，而是想要快速生成 webpack 配置文件来满足项目需求。
 
-[Generate Custom Webpack Configuration](https://generatewebpackconfig.netlify.com/) is an interactive portal you can play around by selecting custom webpack configuration options tailored for your frontend project. It automatically generates
-a minimal webpack configuration based on your selection of loaders/plugins, etc.
+[Generate Custom Webpack Configuration]（https://generatewebpackconfig.netlify.com/）是一个交互式站点，针对你的前端项目，可以自定义选择 webpack 配置选项。
+它会根据你选择的 loader/plugin 等，自动生成最小化 webpack 配置。
 
-Or use [webpack-cli's `init` command](https://github.com/webpack/webpack-cli/tree/master/packages/init#cli-via-webpack-cli) that will ask you a couple of questions before creating a configuration file.
+或者使用 [webpack-cli 的 `init` 命令](https://github.com/webpack/webpack-cli/tree/master/packages/init#cli-via-webpack-cli)，会在创建配置文件之前会询问你几个问题。
 
 ```bash
 npx webpack-cli init
 ```
 
-W> You might be prompted to install `@webpack-cli/init` if it is not yet installed in the project or globally.
+W> 如果尚未在项目或全局安装 `@webpack-cli/init`，则可能会提示安装。
 
-T> After running `npx webpack-cli init` you might get more packages installed to your project depending on the choices you've made during configuration generation.
+T> 运行 `npx webpack-cli init` 之后，你可能会根据在配置生成过程中做出的选择，将更多的 package 安装到项目中。
 
 ```bash
 npx webpack-cli init
@@ -483,4 +483,4 @@ found 0 vulnerabilities
 Congratulations! Your new webpack configuration file has been created!
 ```
 
-[createapp.dev - create a webpack configuration in your browser](https://createapp.dev/webpack) is an online tool for creating custom webpack configuration. It allows you to select various features that will be combined and added to resulting configuration file. Also, it generates an example project based on provided webpack configuration that you can review in your browser and download.
+[createapp.dev - 在浏览器中创建 webpack 配置](https://createapp.dev/webpack)，是一个用于创建自定义 webpack 配置的在线工具。它可以选择各种功能，这些功能将被组合并添加到生成的配置文件中。此外，它还会基于提供的 webpack 配置生成示例项目，可以在浏览器中查看并下载。
