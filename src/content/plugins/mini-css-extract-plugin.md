@@ -27,7 +27,7 @@ repo: https://github.com/webpack-contrib/mini-css-extract-plugin
 - 更容易使用
 - 特别针对 CSS 开发
 
-## 快速开始
+## 快速开始 {#getting-started}
 
 首先，你需要安装 `mini-css-extract-plugin`：
 
@@ -71,16 +71,16 @@ module.exports = {
 };
 ```
 
-## 选项
+## 选项 {#options}
 
-### `publicPath`
+### `publicPath` {#publicpath}
 
 类型：`String|Function`
 默认值：`webpackOptions.output` 选项中的 `publicPath`
 
 自定义目标文件的公共路径。
 
-#### `String`
+#### `String` {#string}
 
 **webpack.config.js**
 
@@ -115,7 +115,7 @@ module.exports = {
 };
 ```
 
-#### `Function`
+#### `Function` {#function}
 
 **webpack.config.js**
 
@@ -152,7 +152,7 @@ module.exports = {
 };
 ```
 
-### `esModule`
+### `esModule` {#esmodule}
 
 类型：`Boolean`
 默认值：`false`
@@ -188,9 +188,9 @@ module.exports = {
 };
 ```
 
-## 应用举例
+## 应用举例 {#examples}
 
-### 最简单的例子
+### 最简单的例子 {#minimal-example}
 
 **webpack.config.js**
 
@@ -229,7 +229,7 @@ module.exports = {
 };
 ```
 
-### `publicPath` 选项为函数
+### `publicPath` 选项为函数 {#the-publicpath-option-as-function}
 
 **webpack.config.js**
 
@@ -269,7 +269,7 @@ module.exports = {
 };
 ```
 
-### 高级配置示例
+### 高级配置示例 {#advanced-configuration-example}
 
 本插件仅仅应该在 `production` 模式下使用，并且 loader 链中不应含有 `style-loader`，尤其是你需要在 `development` 构建中使用 HMR。
 
@@ -313,7 +313,7 @@ module.exports = {
 };
 ```
 
-### 模块热更新 (HMR)
+### 模块热更新 (HMR) {#hot-module-reloading-hmr}
 
 `mini-css-extract-plugin` 支持在开发中热重载实际的 CSS 文件。
 我们提供了一些选项来启动标准 stylesheets 和本地范围内 CSS 和 CSS modules 的 HMR 支持。
@@ -359,7 +359,7 @@ module.exports = {
 };
 ```
 
-### 生产模式压缩
+### 生产模式压缩 {#minimizing-for-production}
 
 为了压缩输出文件，请使用类似于 [optimize-css-assets-webpack-plugin](https://github.com/NMFR/optimize-css-assets-webpack-plugin) 这样的插件。
 设置 `optimization.minimizer` 选项会覆盖 webpack 默认提供的优化器，所以你还需要提供一个 JS 的优化器：
@@ -392,7 +392,7 @@ module.exports = {
 };
 ```
 
-### 使用预加载或内联 CSS
+### 使用预加载或内联 CSS {#using-preloaded-or-inlined-css}
 
 运行时代码通过 `<link>` 或者`<style>` 标签检测已经添加的 CSS。
 当在服务端注入 CSS 代码 以及做 SSR 时将会很有用。
@@ -400,7 +400,7 @@ module.exports = {
 `data-href` 属性也可以被用在 `<link>` 和 `<style>` 标签中
 使用内联 CSS 时，必须使用 `data-href` 属性。
 
-### 提取所有的 CSS 到一个文件中
+### 提取所有的 CSS 到一个文件中 {#extracting-all-css-in-a-single-file}
 
 用过使用 `optimization.splitChunks.cacheGroups` 选项，所有的 CSS 可以被提取到一个 CSS 文件中。
 
@@ -438,7 +438,7 @@ module.exports = {
 };
 ```
 
-### 基于入口提取 CSS
+### 基于入口提取 CSS {#extracting-css-based-on-entry}
 
 你可以基于 webpack 的入口名称提取 CSS。
 当你使用路由动态加载但是想要通过入口加载对应的 CSS 文件时这将会非常有用。
@@ -499,7 +499,7 @@ module.exports = {
 };
 ```
 
-### 模块文件名选项
+### 模块文件名选项 {#module-filename-option}
 
 通过 `moduleFilename` 选项你能够基于 chunk 数据自定义文件名。当处理多个入口点并希望可以更好的控制给定的入口点 / chunk 的文件名时，这相当有用。在下面这个例子中，我们将会使用 `moduleFilename` 将生成的 css 文件输出到不同的目录中。
 
@@ -525,7 +525,7 @@ module.exports = {
 };
 ```
 
-### 长期缓存
+### 长期缓存 {#long-term-caching}
 
 使用 `filename: "[contenthash].css"` 启动长期缓存。根据需要添加 `[name]`。
 
@@ -552,7 +552,7 @@ module.exports = {
 };
 ```
 
-### 移除 Order 警告
+### 移除 Order 警告 {#remove-order-warnings}
 
 对于通过使用 scoping 或命名约定来解决 css order 的项目，可以通过将插件的 ignoreOrder 选项设置为 true 来禁用css order 警告。
 
@@ -578,20 +578,20 @@ module.exports = {
 };
 ```
 
-### 媒体查询插件
+### 媒体查询插件 {#media-query-plugin}
 
 如果您想从 CSS 文件中提取媒体查询（因为移动用户不需要加载电脑或平板专用的 CSS ），应使用以下插件之一：
 
 - [Media Query Plugin](https://github.com/SassNinja/media-query-plugin)
 - [Media Query Splitting Plugin](https://github.com/mike-diamond/media-query-splitting-plugin)
 
-## 贡献
+## 贡献 {#contributing}
 
 如果你还没有阅读过我们的贡献指南，请花一点时间阅读它。
 
 [CONTRIBUTING](https://github.com/webpack-contrib/mini-css-extract-plugin/blob/master/.github/CONTRIBUTING.md)
 
-## License
+## License {#license}
 
 [MIT](https://github.com/webpack-contrib/mini-css-extract-plugin/blob/master/LICENSE)
 

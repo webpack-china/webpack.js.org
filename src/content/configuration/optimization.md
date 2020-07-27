@@ -12,6 +12,7 @@ contributors:
   - anikethsaha
   - snitin315
   - pixel-ray
+  - chenxsan
 related:
   - title: 'webpack 4: Code Splitting, chunk graph and the splitChunks optimization'
     url: https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
@@ -21,7 +22,7 @@ related:
 不过所有的优化还是可以手动配置和重写。
 
 
-## `optimization.minimize`
+## `optimization.minimize` {#optimizationminimize}
 
 `boolean`
 
@@ -44,7 +45,7 @@ module.exports = {
 
 T> 了解 [mode](/concepts/mode/) 工作机制。
 
-## `optimization.minimizer`
+## `optimization.minimizer` {#optimizationminimizer}
 
 `[TerserPlugin]` 或 `[function (compiler)]`
 
@@ -87,19 +88,28 @@ module.exports = {
 };
 ```
 
-## `optimization.splitChunks`
+在 `optimization.minimizer` 中可以使用 `'...'` 来访问默认值。
+
+```js
+module.exports = {
+  optimization: {
+    minimizer: [new CssMinimizer(), '...'],
+  }
+};
+```
+
+## `optimization.splitChunks` {#optimizationsplitchunks}
 
 `object`
 
 对于动态导入模块，默认使用 webpack v4+ 提供的全新的通用分块策略(common chunk strategy)。请在 [SplitChunksPlugin](/plugins/split-chunks-plugin/) 
 页面中查看配置其行为的可用选项。
 
-## `optimization.runtimeChunk`
+## `optimization.runtimeChunk` {#optimizationruntimechunk}
 
 `object` `string` `boolean`
 
-将 `optimization.runtimeChunk` 设置为 `true` 或 `"multiple"`，会为每个仅含有 runtime 的入口起点添加一个额外 chunk。
-此设置是如下设置的别名：
+将 `optimization.runtimeChunk` 设置为 `true` 或 `'multiple'`，会为每个只含有 runtime 的入口添加一个额外 chunk。此配置的别名如下：
 
 __webpack.config.js__
 
@@ -150,7 +160,7 @@ module.exports = {
 };
 ```
 
-## `optimization.noEmitOnErrors`
+## `optimization.noEmitOnErrors` {#optimizationnoemitonerrors}
 
 `boolean`
 
@@ -171,7 +181,7 @@ module.exports = {
 W>如果你正在使用 webpack [CLI](/api/cli/)，在此插件开启时，webpack 处理过程不会因为错误代码而退出。如果你希望在使用 CLI 时 webpack "失败(fail)"，
 请查看 [`bail` 选项](/api/cli/#advanced-options)。
 
-## `optimization.namedModules`
+## `optimization.namedModules` {#optimizationnamedmodules}
 
 `boolean = false`
 
@@ -188,7 +198,7 @@ module.exports = {
 };
 ```
 
-## `optimization.namedChunks`
+## `optimization.namedChunks` {#optimizationnamedchunks}
 
 `boolean = false`
 
@@ -205,7 +215,7 @@ module.exports = {
 };
 ```
 
-## `optimization.moduleIds`
+## `optimization.moduleIds` {#optimizationmoduleids}
 
 `boolean = false` `string: 'natural' | 'named' | 'deterministic' | 'size'`
 
@@ -256,7 +266,7 @@ W> `moduleIds: 'deterministic'` 在 webpack 5 中被添加，而且 `moduleIds: 
 
 W> `moduleIds: total-size` 在 webpack 5 中被废弃。
 
-## `optimization.chunkIds`
+## `optimization.chunkIds` {#optimizationchunkids}
 
 `boolean = false` `string: 'natural' | 'named' | 'size' | 'total-size' | 'deterministic' `
 
@@ -310,7 +320,7 @@ module.exports = {
 };
 ```
 
-## `optimization.nodeEnv`
+## `optimization.nodeEnv` {#optimizationnodeenv}
 
 `boolean = false` `string`
 
@@ -332,7 +342,7 @@ module.exports = {
 };
 ```
 
-## `optimization.mangleWasmImports`
+## `optimization.mangleWasmImports` {#optimizationmanglewasmimports}
 
 `boolean = false`
 
@@ -349,7 +359,7 @@ module.exports = {
 };
 ```
 
-## `optimization.removeAvailableModules`
+## `optimization.removeAvailableModules` {#optimizationremoveavailablemodules}
 
 `boolean = false`
 
@@ -369,7 +379,7 @@ module.exports = {
 W> `optimization.removeAvailableModules` 会削减了 webapck 的性能表现，而且将会在下一个主要发布版本中，在 `生产` 模式下会被禁用。
 如果你想获得额外的构建性能，请在 `生产` 模式中禁用它。
 
-## `optimization.removeEmptyChunks`
+## `optimization.removeEmptyChunks` {#optimizationremoveemptychunks}
 
 `boolean = true`
 
@@ -386,7 +396,7 @@ module.exports = {
 };
 ```
 
-## `optimization.mergeDuplicateChunks`
+## `optimization.mergeDuplicateChunks` {#optimizationmergeduplicatechunks}
 
 `boolean = true`
 
@@ -403,7 +413,7 @@ module.exports = {
 };
 ```
 
-## `optimization.flagIncludedChunks`
+## `optimization.flagIncludedChunks` {#optimizationflagincludedchunks}
 
 `boolean`
 
@@ -420,7 +430,7 @@ module.exports = {
 };
 ```
 
-## `optimization.occurrenceOrder`
+## `optimization.occurrenceOrder` {#optimizationoccurrenceorder}
 
 `boolean`
 
@@ -438,7 +448,7 @@ module.exports = {
 };
 ```
 
-## `optimization.providedExports`
+## `optimization.providedExports` {#optimizationprovidedexports}
 
 `boolean`
 
@@ -456,7 +466,7 @@ module.exports = {
 };
 ```
 
-## `optimization.usedExports`
+## `optimization.usedExports` {#optimizationusedexports}
 
 `boolean = true`
 
@@ -475,7 +485,7 @@ module.exports = {
 };
 ```
 
-## `optimization.concatenateModules`
+## `optimization.concatenateModules` {#optimizationconcatenatemodules}
 
 `boolean`
 
@@ -493,7 +503,7 @@ module.exports = {
 };
 ```
 
-## `optimization.sideEffects`
+## `optimization.sideEffects` {#optimizationsideeffects}
 
 `boolean = true`
 
@@ -526,7 +536,7 @@ module.exports = {
 };
 ```
 
-## `optimization.portableRecords`
+## `optimization.portableRecords` {#optimizationportablerecords}
 
 `boolean`
 
@@ -546,7 +556,7 @@ module.exports = {
 };
 ```
 
-## `optimization.mangleExports`
+## `optimization.mangleExports` {#optimizationmangleexports}
 
 `boolean`
 
@@ -565,7 +575,7 @@ module.exports = {
 };
 ```
 
-## `optimization.innerGraph`
+## `optimization.innerGraph` {#optimizationinnergraph}
 
 `boolean = true`
 

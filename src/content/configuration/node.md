@@ -16,7 +16,7 @@ contributors:
 此功能由 webpack 内部的 [`NodeStuffPlugin`](https://github.com/webpack/webpack/blob/master/lib/NodeStuffPlugin.js) 插件提供。如果 target 是 "web"（默认）或 "webworker"，那么 [`NodeSourcePlugin`](https://github.com/webpack/webpack/blob/master/lib/node/NodeSourcePlugin.js) 插件也会被激活。
 
 
-## `node`
+## `node` {#node}
 
 `boolean = false` `object`
 
@@ -48,36 +48,36 @@ module.exports = {
 
 从 webpack 3.0.0 开始，`node` 选项可能被设置为 `false`，以完全关闭 `NodeStuffPlugin` 和 `NodeSourcePlugin` 插件。
 
-## `node.global`
+## `node.global` {#nodeglobal}
 
 `boolean = true`
 
-Defaults to `false` for [targets](https://webpack.js.org/configuration/target/) `node`, `async-node` and `electron-main`.
+Defaults to `false` for [targets](/configuration/target/) `node`, `async-node` and `electron-main`.
 
 关于此对象的准确行为，请查看[源码](https://github.com/webpack/webpack/blob/master/buildin/global.js)。
 
 
-## `node.__filename`
+## `node.__filename` {#node__filename}
 
 `boolean` `string = mock`
 
-Defaults to `false` for [targets](https://webpack.js.org/configuration/target/) `node`, `async-node` and `electron-main`.
+Defaults to `false` for [targets](/configuration/target/) `node`, `async-node` and `electron-main`.
 
 选项：
 
-- `true`: __输入__ 文件的文件名，是相对于 [`context` 选项](https://webpack.js.org/configuration/entry-context/#context)。
+- `true`: __输入__ 文件的文件名，是相对于 [`context` 选项](/configuration/entry-context/#context)。
 - `false`: 常规的 Node.js `__filename` 行为。在 Node.js 环境中运行时，__输出__ 文件的文件名。
-- `"mock"`: value 填充为 `"index.js"`.
+- `'mock'`: value 填充为 `'index.js'`.
 
 
-## `node.__dirname`
+## `node.__dirname` {#node__dirname}
 
 `boolean` `string = mock`
 
-Defaults to `false` for [targets](https://webpack.js.org/configuration/target/) `node`, `async-node` and `electron-main`.
+Defaults to `false` for [targets](/configuration/target/) `node`, `async-node` and `electron-main`.
 
 选项：
 
-- `true`: __输入__ 文件的目录名，是相对于 [`context` 选项](https://webpack.js.org/configuration/entry-context/#context)。
+- `true`: __输入__ 文件的目录名，是相对于 [`context` 选项](/configuration/entry-context/#context)。
 - `false`: 常规的 Node.js `__dirname` 行为。在 Node.js 环境中运行时，__输出__ 文件的目录名。
-- `"mock"`: value 填充为 `"/"`。
+- `'mock'`: value 填充为 `'/'`。
