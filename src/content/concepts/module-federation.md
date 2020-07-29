@@ -16,13 +16,13 @@ related:
     url: https://www.youtube.com/playlist?list=PLWSiF9YHHK-DqsFHGYbeAMwbd9xcZbEWJ
 ---
 
-## Motivation
+## Motivation {#motivation}
 
 Multiple separate builds should form a single application. These separate builds should not have dependencies between each other, so they can be developed and deployed individually.
 
 This is often known as Micro-Frontends, but is not limited to that.
 
-## Low-level concepts
+## Low-level concepts {#low-level-concepts}
 
 We distinguish between local and remote modules. Local modules are normal modules which are part of the current build. Remote modules are modules that are not part of the current build and loaded from a so-called container at the runtime.
 
@@ -39,7 +39,7 @@ Step 1 will be done during the chunk loading. Step 2 will be done during the mod
 
 It is possible to nest a container. Containers can use modules from other containers. Circular dependencies between container are also possible.
 
-### Overriding
+### Overriding {#overriding}
 
 A container is able to flag selected local modules as "overridable". A consumer of the container is able to provide "overrides", which are modules that replace one of the overridable modules of the container. All modules of the container will use the replacement module instead of the local module when the consumer provides one. When the consumer doesn't provide a replacement module, all modules of the container will use the local one.
 
@@ -58,17 +58,17 @@ W> When nesting is used, providing overrides to one container will automatically
 
 Overrides must be provided before the modules of the container are loaded. Overridables that are used in initial chunk, can only be overridden by a synchronous module override that doesn't use Promises. Once evaluated, overridables are no longer overridable.
 
-## High-level concepts
+## High-level concepts {#high-level-concepts}
 
-Each build acts as container and also consumes other build as container. This way each build is able to access any other exposed module by loading it from its container.
+Each build acts as a container and also consumes other builds as containers. This way each build is able to access any other exposed module by loading it from its container.
 
 Shared modules are modules that are both overridable and provided as overrides to nested container. They usually point to the same module in each build, e.g. the same library.
 
 The `packageName` option allows setting a package name to look for a `requiredVersion`. It is automatically inferred for the module requests by default, set `requiredVersion` to `false` when automatic infer should be disabled.
 
-## Building blocks
+## Building blocks {#building-blocks}
 
-### `OverridablesPlugin` (low level)
+### `OverridablesPlugin` (low level) {#overridablesplugin-low-level}
 
 This plugin makes specific modules "overridable". A local API (`__webpack_override__`) allows to provide overrides.
 
@@ -97,19 +97,19 @@ __webpack_override__({
 });
 ```
 
-### `ContainerPlugin` (low level)
+### `ContainerPlugin` (low level) {#containerplugin-low-level}
 
 This plugin creates an additional container entry with the specified exposed modules. It also uses the `OverridablesPlugin` internally and exposes the `override` API to consumer of the container.
 
-### `ContainerReferencePlugin` (low level)
+### `ContainerReferencePlugin` (low level) {#containerreferenceplugin-low-level}
 
 This plugin adds specific references to containers as externals and allows to import remote modules from these containers. It also calls the `override` API of these containers to provide overrides to them. Local overrides (via `__webpack_override__` or `override` API when build is also a container) and specified overrides are provided to all referenced containers.
 
-### `ModuleFederationPlugin` (high level)
+### `ModuleFederationPlugin` (high level) {#modulefederationplugin-high-level}
 
 This plugin combines `ContainerPlugin` and `ContainerReferencePlugin`. Overrides and overridables are combined into a single list of specified shared modules.
 
-## Concept goals
+## Concept goals {#concept-goals}
 
 - It should be possible to expose and use any module type that webpack supports.
 - Chunk loading should load everything needed in parallel (web: single round-trip to server).
@@ -130,17 +130,64 @@ This plugin combines `ContainerPlugin` and `ContainerReferencePlugin`. Overrides
     - Could provide and consume multiple different version when you have nested node_modules.
 - Module requests with trailing `/` in shared will match all module requests with this prefix.
 
-## Use cases
+## Use cases {#use-cases}
 
-### Separate builds per page
+### Separate builds per page {#separate-builds-per-page}
 
 Each page of a Single Page Application is exposed from container build in a separate build. The application shell is also a separate build referencing all pages as remote modules. This way each page can be separately deployed. The application shell is deployed when routes are updated or new routes are added. The application shell defines commonly used libraries as shared modules to avoid duplication of them in the page builds.
 
-### Components library as container
+### Components library as container {#components-library-as-container}
 
 Many applications share a common components library which could be built as a container with each component exposed. Each application consumes components from the components library container. Changes to the components library can be separately deployed without the need to re-deploy all applications. The application automatically uses the up-to-date version of the components library.
 
-## Troubleshooting
+## Dynamic Remote Containers {#dynamic-remote-containers}
+
+The container interface supports `get` and `init` methods.
+`init` is a `async` compatible method that is called with one argument: the shared scope object. This object is used as a shared scope in the remote container and is filled with the provided modules from a host.
+It can be leveraged to connect remote containers to a host container dynamically at runtime.
+
+__init.js__
+
+```js
+(async () => {
+  // Initializes the shared scope. Fills it with known provided modules from this build and all remotes
+  await __webpack_init_sharing__('default');
+  const container = window.someContainer; // or get the container somewhere else
+  // Initialize the container, it may provide shared modules
+  await container.init(__webpack_share_scopes__.default);
+  const module = await container.get('./module');
+})();
+```
+
+The container tries to provide shared modules, but if the shared module has already been used, a warning and the provided shared module will be ignored. The container might still use it as a fallback.
+
+This way you could dynamically load an A/B test which provides a different version of a shared module.
+T> Ensure you have loaded the container before attempting to dynamically connect a remote container.
+
+Example:
+
+__init.js__
+
+```js
+function loadComponent(scope, module) {
+  return async () => {
+    // Initializes the shared scope. Fills it with known provided modules from this build and all remotes
+    await __webpack_init_sharing__('default');
+    const container = window[scope]; // or get the container somewhere else
+    // Initialize the container, it may provide shared modules
+    await container.init(__webpack_share_scopes__.default);
+    const factory = await window[scope].get(module);
+    const Module = factory();
+    return Module;
+  };
+}
+
+loadComponent('abtests', 'test123');
+```
+
+[See full implementation](https://github.com/module-federation/module-federation-examples/tree/master/advanced-api/dynamic-remotes)
+
+## Troubleshooting {#troubleshooting}
 
 __`Uncaught Error: Shared module is not available for eager consumption`__
 
@@ -182,7 +229,7 @@ __bootstrap.js__
 + ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
-Methods mentioned below work, but can have some limits or drawbacks.
+This method works but can have limitations or drawbacks.
 
 Setting `eager: true` for dependency via the `ModuleFederationPlugin`
 
@@ -198,46 +245,6 @@ new ModuleFederationPlugin({
     }
   }
 });
-```
-
-Using `bundle-loader` as an alternative to setting dependencies as `'eager'`. This method is less performant as it will introduce additional round trips.
-
-__webpack.config.js__
-
-```js
-const config = {
-  entry: 'bundle-loader!./bootstrap.js'
-};
-```
-
-Or you can set it via module rules: [See Full Example](https://github.com/module-federation/module-federation-examples/blob/master/basic-host-remote/app1/webpack.config.js)
-
-__webpack.config.js__
-
-```js
-const config = {
-  module: {
-    rules: [
-      {
-        test: /bootstrap\.js$/,
-        loader: 'bundle-loader',
-        options: {
-          lazy: true,
-        },
-      },
-    ]
-  }
-};
-```
-
-But have to change the entry point to look like this:
-
-__index.js__
-
-```diff
-- import('./bootstrap');
-+ import bootstrap from './bootstrap';
-+ bootstrap();
 ```
 
 __`Uncaught Error: Module "./Button" does not exist in container.`__

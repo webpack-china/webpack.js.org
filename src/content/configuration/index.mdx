@@ -26,7 +26,7 @@ webpack 开箱即用，可以无需使用任何配置文件。然而，webpack �
 
 T> 刚开始学习 webpack？请查看我们提供的指南，从 webpack 一些 [核心概念](/concepts) 开始学习吧！
 
-## 使用不同的配置文件
+## 使用不同的配置文件 {#use-different-configuration-file}
 
 如果出于某些原因，需要根据特定情况使用不同的配置文件，则可以通过在命令行中使用 `--config` flag 修改此配置文件名称。
 
@@ -38,7 +38,7 @@ __package.json__
 }
 ```
 
-## 选项
+## 选项 {#options}
 
 点击下面配置代码中每个选项的名称，跳转到详细的文档。还要注意，带有箭头的项目可以展开，以显示更多示例，在某些情况下可以看到高级配置。
 
@@ -157,9 +157,9 @@ module.exports = {
     </expert>
   },
   module: {
-    // configuration regarding modules
+    // 模块配置相关
     rules: [
-      // rules for modules (configure loaders, parser options, etc.)
+      // 模块规则（配置 loader、解析器等选项）
       {
         test: /\\.jsx?$/,
         include: [
@@ -168,29 +168,29 @@ module.exports = {
         exclude: [
           path.resolve(__dirname, "app/demo-files")
         ],
-        // these are matching conditions, each accepting a regular expression or string
-        // test and include have the same behavior, both must be matched
-        // exclude must not be matched (takes preferrence over test and include)
-        // Best practices:
-        // - Use RegExp only in test and for filename matching
-        // - Use arrays of absolute paths in include and exclude
-        // - Try to avoid exclude and prefer include
+        // 这里是匹配条件，每个选项都接收一个正则表达式或字符串
+        // test 和 include 具有相同的行为，都是必定匹配
+        // exclude 必定不匹配（优先于 test 和 include）
+        // 最佳实践：
+        // - 只在 test 和 文件名匹配 中使用正则表达式
+        // - 在 include 和 exclude 中使用绝对路径数组
+        // - 尽量避免 exclude，更倾向于使用 include
         issuer: { test, include, exclude },
-        // conditions for the issuer (the origin of the import)
+        // issuer 条件（导入源）
         enforce: "pre",
         enforce: "post",
-        // flags to apply these rules, even if they are overridden (advanced option)
+        // 标识应用这些规则，即使规则覆盖（高级选项）
         loader: "babel-loader",
-        // the loader which should be applied, it'll be resolved relative to the context
+        // 应该应用的 loader，它相对上下文解析
         options: {
           presets: ["es2015"]
         },
-        // options for the loader
+        // loader 选项
       },
       {
         test: /\\.html$/,
         use: [
-          // apply multiple loaders and options
+          // 应用多个 loader 和 option
           "htmllint-loader",
           {
             loader: "html-loader",
@@ -201,25 +201,25 @@ module.exports = {
         ]
       },
       { oneOf: [ /* rules */ ] },
-      // only use one of these nested rules
+      // 只使用这些嵌套规则之一
       { rules: [ /* rules */ ] },
-      // use all of these nested rules (combine with conditions to be useful)
-      { resource: { and: [ /* conditions */ ] } },
-      // matches only if all conditions are matched
-      { resource: { or: [ /* conditions */ ] } },
-      { resource: [ /* conditions */ ] },
-      // matches if any condition is matched (default for arrays)
-      { resource: { not: /* condition */ } }
-      // matches if the condition is not matched
+      // 使用所有这些嵌套规则（合并可用条件）
+      { resource: { and: [ /* 条件 */ ] } },
+      // 仅当所有条件都匹配时才匹配
+      { resource: { or: [ /* 条件 */ ] } },
+      { resource: [ /* 条件 */ ] },
+      // 任意条件匹配时匹配（默认为数组）
+      { resource: { not: /* 条件 */ } }
+      // 条件不匹配时匹配
     ],
     <advancedModule "#">
       <default>
-        /* Advanced module configuration (click to show) */
+        /* 高级模块配置（点击展示） */
       </default>
       noParse: [
         /special-library\\.js$/
       ],
-      // do not parse this module
+      // 不解析这里的模块
       unknownContextRequest: ".",
       unknownContextRecursive: true,
       unknownContextRegExp: /^\\.\\/.*$/,
@@ -235,86 +235,86 @@ module.exports = {
     </advancedModule>
   },
   resolve: {
-    // options for resolving module requests
-    // (does not apply to resolving to loaders)
+    // 解析模块 request 的选项
+    // （不会应用于 loader 解析）
     modules: [
       "node_modules",
       path.resolve(__dirname, "app")
     ],
-    // directories where to look for modules
+    // 用于查找模块的目录
     extensions: [".js", ".json", ".jsx", ".css"],
-    // extensions that are used
+    // 使用的扩展名
     alias: {
-      // a list of module name aliases
+      // 模块别名列表
       "module": "new-module",
-      // alias "module" -> "new-module" and "module/path/file" -> "new-module/path/file"
+      // 别名："module" -> "new-module" 和 "module/path/file" -> "new-module/path/file"
       "only-module$": "new-module",
-      // alias "only-module" -> "new-module", but not "only-module/path/file" -> "new-module/path/file"
+      // 别名 "only-module" -> "new-module"，但不匹配 "only-module/path/file" -> "new-module/path/file"
       "module": path.resolve(__dirname, "app/third/module.js"),
-      // alias "module" -> "./app/third/module.js" and "module/file" results in error
-      // modules aliases are imported relative to the current context
+      // 别名 "module" -> "./app/third/module.js" 和 "module/file" 会导致错误
+      // 模块别名相对于当前上下文导入
     },
     <alias "/configuration/resolve/#resolvealias">
       <default>
-        /* Alternative alias syntax (click to show) */
+        /* 可供选择的别名语法（点击展示） */
       </default>
       alias: [
         {
           name: "module",
-          // the old request
+          // 旧的 request
           alias: "new-module",
-          // the new request
+          // 新的 request
           onlyModule: true
-          // if true only "module" is aliased
-          // if false "module/inner/path" is also aliased
+          // 如果为 true，只有 "module" 是别名
+          // 如果为 false，"module/inner/path" 也是别名
         }
       ],
     </alias>
     <advancedResolve "#">
       <default>
-        /* Advanced resolve configuration (click to show) */
+        /* 高级解析选项（点击展示） */
       </default>
       symlinks: true,
-      // follow symlinks to new location
+      // 循着符号链接(symlinks)到新位置
       descriptionFiles: ["package.json"],
-      // files that are read for package description
+      // 从 package 描述中读取的文件
       mainFields: ["main"],
-      // properties that are read from description file
-      // when a folder is requested
+      // 当 request 一个文件夹时
+      // 从描述文件中读取的属性
       aliasFields: ["browser"],
-      // properties that are read from description file
-      // to alias requests in this package
+      // 从描述文件中读取的属性
+      // 为此 package 的 request 起别名
       enforceExtension: false,
-      // if true request must not include an extension
-      // if false request may already include an extension
+      // 如果为 true，request 必不包括扩展名
+      // 如果为 false，request 可以包括扩展名
       moduleExtensions: ["-module"],
       enforceModuleExtension: false,
-      // like extensions/enforceExtension but for module names instead of files
+      // 类似 extensions/enforceExtension，但是用模块名替换文件
       unsafeCache: true,
       unsafeCache: {},
-      // enables caching for resolved requests
-      // this is unsafe as folder structure may change
-      // but performance improvement is really big
+      // 为解析过的 request 启用缓存
+      // 这是不安全，因为文件夹结构可能会改动
+      // 但是性能改善是很大的
       cachePredicate: (path, request) => true,
       // predicate function which selects requests for caching
       plugins: [
         // ...
       ]
-      // additional plugins applied to the resolver
+      // 应用于 resolver 的附加插件
     </advancedResolve>
   },
   performance: {
     <hints "/configuration/performance/#performance-hints">
       <default>
-        hints: "warning", // enum
+        hints: "warning", // 枚举
       </default>
-      hints: "error", // emit errors for perf hints
-      hints: false, // turn off perf hints
+      hints: "error", // 性能提示中抛出错误
+      hints: false, // 关闭性能提示
     </hints>
-    maxAssetSize: 200000, // int (in bytes),
-    maxEntrypointSize: 400000, // int (in bytes)
+    maxAssetSize: 200000, // 整数类型（以字节为单位）
+    maxEntrypointSize: 400000, // 整数类型（以字节为单位）
     assetFilter: function(assetFilename) {
-      // Function predicate that provides asset filenames
+      // 提供资源文件名的断言函数
       return assetFilename.endsWith('.css') || assetFilename.endsWith('.js');
     }
   },
@@ -329,33 +329,33 @@ module.exports = {
     devtool: "cheap-module-source-map", // cheap-variant of SourceMap with module mappings
     devtool: "eval", // no SourceMap, but named modules. Fastest at the expense of detail.
   </devtool>
-  // enhance debugging by adding meta info for the browser devtools
-  // source-map most detailed at the expense of build speed.
-  context: __dirname, // string (absolute path!)
-  // the home directory for webpack
-  // the entry and module.rules.loader option
-  //   is resolved relative to this directory
+  // 通过为浏览器调试工具提供极其详细的源映射的元信息来增强调试能力，
+  // 但会牺牲构建速度。
+  context: __dirname, // string（绝对路径！）
+  // webpack 的主目录
+  // entry 和 module.rules.loader 选项
+  // 都相对于此目录解析
   <target "/configuration/target">
     <default>
-      target: "web", // enum
+      target: "web", // 枚举
     </default>
     target: "webworker", // WebWorker
-    target: "node", // Node.js via require
-    target: "async-node", // Node.js via fs and vm
+    target: "node", // Node.js 通过 require
+    target: "async-node", // Node.js 通过 fs 和 vm
     target: "node-webkit", // nw.js
     target: "electron-main", // electron, main process
     target: "electron-renderer", // electron, renderer process
-    target: (compiler) => { /* ... */ }, // custom
+    target: (compiler) => { /* ... */ }, // 自定义
   </target>
-  // the environment in which the bundle should run
-  // changes chunk loading behavior and available modules
+  // bundle 应该运行的环境
+  // 更改 chunk 加载行为和可用模块
   <externals "/configuration/externals">
     <default>
       externals: ["react", /^@angular/],
     </default>
-    externals: "react", // string (exact match)
-    externals: /^[a-z\\-]+($|\\/)/, // Regex
-    externals: { // object
+    externals: "react", // string（精确匹配）
+    externals: /^[a-z\\-]+($|\\/)/, // 正则
+    externals: { // 对象
       angular: "this angular", // this["angular"]
       react: { // UMD
         commonjs: "react",
@@ -366,7 +366,7 @@ module.exports = {
     },
     externals: ({request}) => { /* ... */ return "commonjs " + request }
   </externals>
-  // Don't follow/bundle these modules, but request them at runtime from the environment
+  // 不要寻找/打包这些模块，而是在运行时从环境中 request 他们
   <stats "/configuration/stats">
     <default>
       stats: "errors-only",
@@ -380,7 +380,7 @@ module.exports = {
       // ...
     },
   </stats>
-  // lets you precisely control what bundle information gets displayed
+  // 精确控制要显示的 bundle 信息
   devServer: {
     proxy: { // proxy URLs to backend development server
       '/api': 'http://localhost:3000'
@@ -396,35 +396,35 @@ module.exports = {
   plugins: [
     // ...
   ],
-  // list of additional plugins
+  // 附加插件列表
   <advanced "#">
     <default>
-      /* Advanced configuration (click to show) */
+      /* 高级配置（点击展示） */
     </default>
-    resolveLoader: { /* same as resolve */ }
-    // separate resolve options for loaders
+    resolveLoader: { /* 等同于 resolve */ }
+    // 用于 loader 的独立解析选项
     parallelism: 1, // number
-    // limit the number of parallel processed modules
+    // 限制并行处理模块的数量
     profile: true, // boolean
-    // capture timing information
+    // 捕获时机信息
     bail: true, //boolean
-    // fail out on the first error instead of tolerating it.
+    // 在第一个错误出错时抛出，而不是无视错误。
     cache: false, // boolean
-    // disable/enable caching
+    // 禁用/启用缓存
     watch: true, // boolean
-    // enables watching
+    // 启用 watch 模式
     watchOptions: {
-      aggregateTimeout: 1000, // in ms
-      // aggregates multiple changes to a single rebuild
+      aggregateTimeout: 1000, // 以毫秒为单位
+      // 将多个修改聚合到单个 rebuild
       poll: true,
-      poll: 500, // intervall in ms
-      // enables polling mode for watching
-      // must be used on filesystems that doesn't notify on change
-      // i. e. nfs shares
+      poll: 500, // 以毫秒为间隔单位
+      // 在 watch 模式中启用轮询
+      // 必须用在不通知更改的文件系统中
+      // 即 nfs shares
     },
     node: {
-      // Polyfills and mocks to run Node.js-
-      // environment code in non-Node environments.
+      // polyfill 和 mock，
+      // 用于在非 Node 环境中运行 Node.js 环境代码。
       console: false, // boolean | "mock"
       global: true, // boolean | "mock"
       process: true, // boolean
@@ -440,22 +440,22 @@ module.exports = {
   </advanced>
 ```
 
-W> webpack applies configuration defaults after [plugins defaults](/contribute/writing-a-plugin/#configuration-defaults) are applied.
+W> 在应用 [插件默认值](/contribute/writing-a-plugin/#configuration-defaults) 之后，webpack 将应用配置默认值。
 
-T> Want to rapidly generate webpack configuration file for your project requirements with few clicks away.
+T> 无需几次鼠标点击，而是想要快速生成 webpack 配置文件来满足项目需求。
 
-[Generate Custom Webpack Configuration](https://generatewebpackconfig.netlify.com/) is an interactive portal you can play around by selecting custom webpack configuration options tailored for your frontend project. It automatically generates
-a minimal webpack configuration based on your selection of loaders/plugins, etc.
+[Generate Custom Webpack Configuration]（https://generatewebpackconfig.netlify.com/）是一个交互式站点，针对你的前端项目，可以自定义选择 webpack 配置选项。
+它会根据你选择的 loader/plugin 等，自动生成最小化 webpack 配置。
 
-Or use [webpack-cli's `init` command](https://github.com/webpack/webpack-cli/tree/master/packages/init#cli-via-webpack-cli) that will ask you a couple of questions before creating a configuration file.
+或者使用 [webpack-cli 的 `init` 命令](https://github.com/webpack/webpack-cli/tree/master/packages/init#cli-via-webpack-cli)，会在创建配置文件之前会询问你几个问题。
 
 ```bash
 npx webpack-cli init
 ```
 
-W> You might be prompted to install `@webpack-cli/init` if it is not yet installed in the project or globally.
+W> 如果尚未在项目或全局安装 `@webpack-cli/init`，则可能会提示安装。
 
-T> After running `npx webpack-cli init` you might get more packages installed to your project depending on the choices you've made during configuration generation.
+T> 运行 `npx webpack-cli init` 之后，你可能会根据在配置生成过程中做出的选择，将更多的 package 安装到项目中。
 
 ```bash
 npx webpack-cli init
@@ -483,4 +483,4 @@ found 0 vulnerabilities
 Congratulations! Your new webpack configuration file has been created!
 ```
 
-[createapp.dev - create a webpack configuration in your browser](https://createapp.dev/webpack) is an online tool for creating custom webpack configuration. It allows you to select various features that will be combined and added to resulting configuration file. Also, it generates an example project based on provided webpack configuration that you can review in your browser and download.
+[createapp.dev - 在浏览器中创建 webpack 配置](https://createapp.dev/webpack)，是一个用于创建自定义 webpack 配置的在线工具。它可以选择各种功能，这些功能将被组合并添加到生成的配置文件中。此外，它还会基于提供的 webpack 配置生成示例项目，可以在浏览器中查看并下载。

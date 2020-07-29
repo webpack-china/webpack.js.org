@@ -4,6 +4,7 @@ sort: 6
 contributors:
   - EugeneHlushko
   - wizardofhogwarts
+  - chenxsan
 ---
 
 T> 本 API 从 v4.39.0 开始可用
@@ -26,7 +27,39 @@ Webpack Logger 可以用在 [loader](/loaders/) 和 [plugin](/api/plugins/#loggi
 
 W> __避免在日志中输出无效信息！__请记住，多个 plugin 和 loader 经常一起使用。loader 通常处理多个文件，并且每个文件都会调用，所以尽可能选择较低的日志级别以保证 log 的信息量。
 
-## Logger methods
+## Examples of how to get and use webpack logger in loaders and plugins {#examples-of-how-to-get-and-use-webpack-logger-in-loaders-and-plugins}
+
+__my-webpack-plugin.js__
+
+```js
+const PLUGIN_NAME = 'my-webpack-plugin';
+export class MyWebpackPlugin {
+  apply(compiler) {
+    // you can access Logger from compiler
+    const logger = compiler.getInfrastructureLogger(PLUGIN_NAME);
+    logger.log('log from compiler');
+
+    compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
+      // you can also access Logger from compilation
+      const logger = compilation.getLogger(PLUGIN_NAME);
+      logger.info('log from compilation');
+    });
+  }
+}
+```
+
+__my-webpack-loader.js__
+
+```js
+module.exports = function (source) {
+  // you can get Logger with `this.getLogger` in your webpack loaders
+  const logger = this.getLogger('my-webpack-loader');
+  logger.info('hello Logger');
+  return source;
+};
+```
+
+## Logger methods {#logger-methods}
 
 - `logger.error(...)`：用于输出错误信息
 - `logger.warn(...)`：用于输出警告信息
@@ -41,7 +74,7 @@ W> __避免在日志中输出无效信息！__请记住，多个 plugin 和 load
 - `logger.clear()`：打印水平线。展示形式类似于 `logger.log`
 - `logger.profile(...)`，`logger.profileEnd(...)`：捕获配置文件。当支持 `console.profile` API 时，使用其进行输出
 
-## Runtime Logger API
+## Runtime Logger API {#runtime-logger-api}
 
 Runtime logger API 仅应该用作开发工具，不应该包含在 [生产模式](/configuration/mode/#mode-production)中。
 
