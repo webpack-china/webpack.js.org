@@ -18,7 +18,7 @@ repo: https://github.com/webpack-contrib/css-loader
 
 `css-loader` 会 `@import` 和 `url()`，就 js 解析 `import/require()` 一样，然后再对它们进行处理。
 
-## 使用方法 {#getting-started}
+## 快速开始 {#getting-started}
 
 一开始，你需要先安装 `css-loader`：
 
