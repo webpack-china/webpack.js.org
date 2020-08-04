@@ -20,7 +20,7 @@ repo: https://github.com/webpack-contrib/css-loader
 
 ## 快速开始 {#getting-started}
 
-一开始，你需要先安装 `css-loader`：
+首先，你需要先安装 `css-loader`：
 
 ```console
 npm install --save-dev css-loader
