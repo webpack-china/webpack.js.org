@@ -16,7 +16,7 @@ repo: https://github.com/webpack-contrib/css-loader
 
 
 
-`css-loader` 解释 `@import` 和 `url()` 就像是`import/require()` 一样，然后再解析它们。
+`css-loader` 会 `@import` 和 `url()`，就 js 解析 `import/require()` 一样，然后再对它们进行处理。
 
 ## 使用方法 {#getting-started}
 
