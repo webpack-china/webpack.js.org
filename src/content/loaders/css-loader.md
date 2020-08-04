@@ -49,9 +49,9 @@ module.exports = {
 };
 ```
 
-资源需要的好 loader 是你应该在配置文件中指定的 [file-loader](/loaders/file-loader/) 和 [url-loader](/loaders/url-loader/)([如下](https://github.com/webpack-contrib/css-loader#assets))。
+[file-loader](/loaders/file-loader/) 和 [url-loader](/loaders/file-loader/) 能够非常好的处理资源文件，需在配置文件中进行配置，相关配置请[参阅](https://github.com/webpack-contrib/css-loader#assets)。
 
-然后通过你喜欢的方式运行 `webpack`。
+然后运行 `webpack`。
 
 ### `toString` {#tostring}
 
@@ -85,7 +85,7 @@ console.log(css); // {String}
 如果由于某种原因，你需要将 CSS 提取为纯粹的
 字符串资源（即不包含在 JS 模块中），则可能需要
 查看 [extract-loader](https://github.com/peerigon/extract-loader)。 
-例如，当你需要将 CSS 作为字符串进行后处理时，这很有用。
+比如，当你需要对 CSS 进行后处理时，会非常有用。
 
 **webpack.config.js**
 
@@ -918,7 +918,7 @@ module.exports = {
 };
 ```
 
-##### `exportlocalsConvention`
+##### `exportlocalsConvention` {#exportlocalsconvention}
 
 类型：`String`
 默认：取决于 `modules.namedExport` 选项值，如果为 `true` 则对应的是 `camelCaseOnly`，反之对应的是 `asIs`
@@ -969,7 +969,7 @@ module.exports = {
 };
 ```
 
-##### `exportOnlyLocals`
+##### `exportOnlyLocals` {#exportonlylocals}
 
 类型：`Boolean`
 默认：`false`
@@ -1002,8 +1002,7 @@ module.exports = {
 
 ### `icss` {#icss}
 
-类型：Boolean 
-默认：如果 `modules` 被启用则为 `true`，否则为 `false`
+类型：Boolean 默认：如果 `modules` 被启用则为 `true`，否则为 `false`
 
 启用/禁用低级 "Interoperable CSS" 格式的处理，以声明
 CSS 和其他语言之间的导入和导出依赖关系。ICSS 启用了
@@ -1028,7 +1027,7 @@ module.exports = {
 };
 ```
 
-### `sourceMap`
+### `sourceMap` {#sourcemap}
 
 类型：`Boolean`
 默认：取决于 `compiler.devtool` 的值。
@@ -1098,7 +1097,7 @@ module.exports = {
 默认：`true`
 
 默认情况下，`css-loader` 生成使用 ES 模块语法的 JS 模块。
-在某些情况下，使用ES模块是有益的，例如在[模块串联](/plugins/module-concatenation-plugin/)和[tree shaking](/guides/tree-shaking/)。
+在某些情况下，使用 ES 模块是有益的，例如在[模块串联](/plugins/module-concatenation-plugin/)或 [tree shaking](/guides/tree-shaking/) 时。
 
 您可以使用以下方式启用ES模块语法：
 
@@ -1120,11 +1119,11 @@ module.exports = {
 };
 ```
 
-## 例子 {#examples}
+## 示例 {#examples}
 
 ### 资源 {#assets}
 
-如下 `webpack.config.js` 可以加载 CSS 文件，嵌入小的 PNG/JPG/GIF/SVG 图片以及字体作为[数据 URL](https://tools.ietf.org/html/rfc2397)，并将较大的文件复制到输出目录。
+如下配置的 `webpack.config.js` 可以加载 CSS 文件，嵌入小的 PNG/JPG/GIF/SVG 图片以及字体作为[数据 URL](https://tools.ietf.org/html/rfc2397)，并将较大的文件复制到输出目录。
 
 **webpack.config.js**
 
@@ -1156,7 +1155,7 @@ module.exports = {
 
 - 或者，如果寻求更好的开发性能和可模仿生产的CSS输出。 [extract-css-chunks-webpack-plugin](https://github.com/faceyspacey/extract-css-chunks-webpack-plugin) 提供了支持热重载的 mini-css-extract-plugin 扩展版本。开发人员中的 HMR 模式下的真实 CSS 文件，与非开发人员中的 mini-css 是一样的效果。
 
-### 纯 CSS，CSS 模块和 PostCSS
+### 纯 CSS，CSS 模块和 PostCSS {#pure-css-css-modules-and-postcss}
 
 如果项目中没有纯 CSS（没有 CSS 模块），CSS 模块和 PostCSS，则可以使用以下设置：
 
