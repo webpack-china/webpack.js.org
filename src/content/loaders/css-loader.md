@@ -265,7 +265,7 @@ module.exports = {
             // resourcePath - css 文件路径
 
             // 不处理 `style.css` 的导入
-            if (parsedImport.url.includes('style.css')) {
+            if (url.includes('style.css')) {
               return false;
             }
 
