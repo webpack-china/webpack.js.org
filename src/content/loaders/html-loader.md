@@ -6,27 +6,19 @@ repo: https://github.com/webpack-contrib/html-loader
 ---
 
 
-[![npm][npm]][npm-url]
-[![node][node]][node-url]
-[![deps][deps]][deps-url]
-[![tests][tests]][tests-url]
-[![coverage][cover]][cover-url]
-[![chat][chat]][chat-url]
-[![size][size]][size-url]
+[![npm](https://img.shields.io/npm/v/html-loader.svg)](https://npmjs.com/package/html-loader) [![node](https://img.shields.io/node/v/html-loader.svg)](https://nodejs.org/) [![deps](https://david-dm.org/webpack-contrib/html-loader.svg)](https://david-dm.org/webpack-contrib/html-loader) [![tests](https://github.com/webpack-contrib/html-loader/workflows/html-loader/badge.svg)](https://github.com/webpack-contrib/html-loader/actions) [![coverage](https://codecov.io/gh/webpack-contrib/html-loader/branch/master/graph/badge.svg)](https://codecov.io/gh/webpack-contrib/html-loader) [![chat](https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg)](https://gitter.im/webpack/webpack) [![size](https://packagephobia.now.sh/badge?p=html-loader)](https://packagephobia.now.sh/result?p=html-loader)
 
+将 HTML 导出为字符串。当编译器要求时，将最小化 HTML 字符串。
 
+## 入门 {#getting-started}
 
-Exports HTML as string. HTML is minimized when the compiler demands.
-
-## Getting Started {#getting-started}
-
-To begin, you'll need to install `html-loader`:
+首先，你需要安装 `html-loader` ：
 
 ```console
 npm install --save-dev html-loader
 ```
 
-Then add the plugin to your `webpack` config. For example:
+然后将插件添加到你的 `webpack` 配置中。例如：
 
 **file.js**
 
@@ -49,42 +41,40 @@ module.exports = {
 };
 ```
 
-## Options {#options}
+## 选项 {#options}
 
-|                Name                 |        Type         |                   Default                    | Description                                      |
-| :---------------------------------: | :-----------------: | :------------------------------------------: | :----------------------------------------------- |
-|   **[`attributes`](#attributes)**   | `{Boolean\|Object}` |                    `true`                    | Enables/Disables attributes handling             |
-| **[`preprocessor`](#preprocessor)** |    `{Function}`     |                 `undefined`                  | Allows pre-processing of content before handling |
-|     **[`minimize`](#minimize)**     | `{Boolean\|Object}` | `true` in production mode, otherwise `false` | Tell `html-loader` to minimize HTML              |
-|     **[`esModule`](#esmodule)**     |     `{Boolean}`     |                   `false`                    | Use ES modules syntax                            |
+| 名称 | 类型 | 默认 | 描述 |
+| :-: | :-: | :-: | :-- |
+| **[`attributes`](#attributes)** | `{Boolean|Object}` | `true` | 启用 / 禁用属性处理 |
+| **[`preprocessor`](#preprocessor)** | `{Function}` | `undefined` | 允许在处理之前对内容进行预处理 |
+| **[`minimize`](#minimize)** | `{Boolean|Object}` | 在生产环境下为 `true` ，否则为 `false` | 告诉 `html-loader` 最小化 HTML |
+| **[`esModule`](#esmodule)** | `{Boolean}` | `false` | 使用 ES 模块语法 |
 
 ### `attributes` {#attributes}
 
-Type: `Boolean|Object`
-Default: `true`
+类型： `Boolean|Object` 默认值： `true`
 
-By default every loadable attributes (for example - `<img src="image.png">`) is imported (`const img = require('./image.png')` or `import img from "./image.png""`).
-You may need to specify loaders for images in your configuration (recommended `file-loader` or `url-loader`).
+默认情况下，每个可加载属性（例如 - `<img src="image.png">` ）都将被导入（ `const img = require ('./image.png')` 或 `import img from "./image.png""` ）。你可能需要为配置中的图片指定加载器 （推荐使用 `file-loader` 或 `url-loader` ）。
 
-Supported tags and attributes:
+支持的标签和属性：
 
-- the `src` attribute of the `audio` tag
-- the `src` attribute of the `embed` tag
-- the `src` attribute of the `img` tag
-- the `srcset` attribute of the `img` tag
-- the `src` attribute of the `input` tag
-- the `href` attribute of the `link` tag (only for stylesheets)
-- the `data` attribute of the `object` tag
-- the `src` attribute of the `script` tag
-- the `src` attribute of the `source` tag
-- the `srcset` attribute of the `source` tag
-- the `src` attribute of the `track` tag
-- the `poster` attribute of the `video` tag
-- the `src` attribute of the `video` tag
+-   `audio` 标签的 `src` 属性
+-   `embed` 标签的 `src` 属性
+-   `img` 标签的 `src` 属性
+-   `img` 标签的 `srcset` 属性
+-   `input` 标签的 `src` 属性
+-   `link` 标记的 `href` 属性（仅适用于样式表）
+-   `object` 标签的 `data` 属性
+-   `script` 标签的 `src` 属性
+-   `source` 标签的 `src` 属性
+-   `source` 标签的 `srcset` 属性
+-   `track` 标记的 `src` 属性
+-   `video` 标签的 `poster` 属性
+-   `video` 代码的 `src` 属性
 
 #### `Boolean` {#boolean}
 
-The `true` value enables processing of all default elements and attributes, the `false` disable processing of all attributes.
+`true` 值启用所有默认元素和属性的处理， `false` 禁用所有属性的处理。
 
 **webpack.config.js**
 
@@ -107,8 +97,7 @@ module.exports = {
 
 #### `Object` {#object}
 
-Allows you to specify which tags and attributes to process, filter them, filter urls and process sources starts with `/`.
-For example:
+允许你指定要处理的标签和属性，过滤它们，过滤 URL 以及处理以 `/` 开头的资源地址。例如：
 
 **webpack.config.js**
 
@@ -185,12 +174,11 @@ module.exports = {
 
 #### `list` {#list}
 
-Type: `Array`
-Default: https://github.com/webpack-contrib/html-loader#attributes
+类型： `Array` 默认值： [https](https://github.com/webpack-contrib/html-loader#attributes) : [//github.com/webpack-contrib/html-loader#attributes](https://github.com/webpack-contrib/html-loader#attributes)
 
-Allows to setup which tags and attributes to process and how, and the ability to filter some of them.
+允许设置要处理的标签和属性以及处理方式，以及过滤其中一些标签和属性的能力。
 
-For example:
+例如：
 
 **webpack.config.js**
 
@@ -271,11 +259,11 @@ module.exports = {
 };
 ```
 
-If the tag name is not specified it will process all the tags.
+如果未指定标签名称，它将处理所有标签。
 
-> You can use your custom filter to specify html elements to be processed.
+> 你可以使用自定义过滤器指定要处理的 html 元素。
 
-For example:
+例如：
 
 **webpack.config.js**
 
@@ -316,11 +304,9 @@ module.exports = {
 
 #### `urlFilter` {#urlfilter}
 
-Type: `Function`
-Default: `undefined`
+类型： `Function` 默认值： `undefined`
 
-Allow to filter urls. All filtered urls will not be resolved (left in the code as they were written).
-All non requestable sources (for example `<img src="javascript:void(0)">`) do not handle by default.
+允许过滤 urls。所有过滤的 urls 都不会被解析（保持它们原有的样子）。默认情况下，所有非请求资源类型的值（例如 `<img src="javascript:void (0)">` ）都不处理。
 
 ```js
 module.exports = {
@@ -352,11 +338,9 @@ module.exports = {
 
 #### `root` {#root}
 
-Type: `String`
-Default: `undefined`
+类型： `String` 默认值： `undefined`
 
-For urls that start with a `/`, the default behavior is to not translate them.
-If a `root` query parameter is set, however, it will be prepended to the url and then translated.
+对于以 `/` 开头的 urls，默认行为是不进行转换。但是，如果设置了 `root` 查询参数，它将被放在 URL 之前，然后进行转换。
 
 **webpack.config.js**
 
@@ -380,12 +364,11 @@ module.exports = {
 
 ### `preprocessor` {#preprocessor}
 
-Type: `Function`
-Default: `undefined`
+类型： `Function` 默认值： `undefined`
 
-Allows pre-processing of content before handling.
+允许在处理之前对内容进行预处理。
 
-> ⚠ You should always return valid HTML
+> ⚠你应该始终返回有效的 HTML
 
 **file.hbs**
 
@@ -398,7 +381,7 @@ Allows pre-processing of content before handling.
 
 #### `Function` {#function}
 
-You can set the `preprocessor` option as a `Function` instance.
+你可以将 `preprocessor` 选项设置为 `Function` 实例。
 
 **webpack.config.js**
 
@@ -435,9 +418,9 @@ module.exports = {
 };
 ```
 
-You can also set the `preprocessor` option as an asynchronous function instance.
+你还可以将 `preprocessor` 选项设置为异步函数实例。
 
-For example:
+例如：
 
 **webpack.config.js**
 
@@ -476,25 +459,24 @@ module.exports = {
 
 ### `minimize` {#minimize}
 
-Type: `Boolean|Object`
-Default: `true` in production mode, otherwise `false`
+类型： `Boolean|Object` 默认值：在生产模式下为 `true` ，否则为 `false`
 
-Tell `html-loader` to minimize HTML.
+告诉 `html-loader` 编译时需要最小化 HTML 字符串。
 
 #### `Boolean` {#boolean}
 
-The enabled rules for minimizing by default are the following ones:
+默认情况下，启用的最小化规则如下：
 
-- `collapseWhitespace`
-- `conservativeCollapse`
-- `keepClosingSlash`
-- `minifyCSS`
-- `minifyJS`
-- `removeAttributeQuotes`
-- `removeComments`
-- `removeScriptTypeAttributes`
-- `removeStyleTypeAttributes`
-- `useShortDoctype`
+-   `collapseWhitespace`
+-   `conservativeCollapse`
+-   `keepClosingSlash`
+-   `minifyCSS`
+-   `minifyJS`
+-   `removeAttributeQuotes`
+-   `removeComments`
+-   `removeScriptTypeAttributes`
+-   `removeStyleTypeAttributes`
+-   `useShortDoctype`
 
 **webpack.config.js**
 
@@ -518,9 +500,9 @@ module.exports = {
 
 **webpack.config.js**
 
-See [html-minifier-terser](https://github.com/DanielRuf/html-minifier-terser)'s documentation for more information on the available options.
+有关可用选项的更多信息，请参见 [html-minifier-terser](https://github.com/DanielRuf/html-minifier-terser) 的文档。
 
-The rules can be disabled using the following options in your `webpack.conf.js`
+可以使用 `webpack.conf.js` 的以下选项来禁用规则
 
 **webpack.config.js**
 
@@ -545,13 +527,11 @@ module.exports = {
 
 ### `esModule` {#esmodule}
 
-Type: `Boolean`
-Default: `false`
+类型： `Boolean` 值默认值： `false`
 
-By default, `html-loader` generates JS modules that use the CommonJS modules syntax.
-There are some cases in which using ES modules is beneficial, like in the case of [module concatenation](/plugins/module-concatenation-plugin/) and [tree shaking](/guides/tree-shaking/).
+默认情况下， `html-loader` 生成使用 CommonJS 模块语法的 JS 模块。在某些情况下，使用 ES 模块是有益的，例如在 [模块合并](/92hackers-translate-articles/plugins/module-concatenation-plugin/) 和 [tree shaking](/92hackers-translate-articles/guides/tree-shaking/) 的情况下。
 
-You can enable a ES module syntax using:
+你可以使用以下方法启用 ES 模块语法：
 
 **webpack.config.js**
 
@@ -571,7 +551,7 @@ module.exports = {
 };
 ```
 
-## Examples {#examples}
+## 示例 {#examples}
 
 ### CDN {#cdn}
 
@@ -623,9 +603,9 @@ require('html-loader?-attributes!./file.html');
 // => '<img src="image.jpg"  data-src="image2x.png" >'
 ```
 
-> :warning: `-attributes` sets `attributes: false`.
+> ：warning： `-attributes` 设置 `attributes: false` 。
 
-### Process `script` and `link` tags {#process-script-and-link-tags}
+### 处理 `script` 和 `link` 标签 {#process-script-and-link-tags}
 
 **script.file.js**
 
@@ -691,9 +671,9 @@ module.exports = {
 };
 ```
 
-### 'Root-relative' URLs {#root-relative-urls}
+### “相对根” 的 URL {#root-relative-urls}
 
-With the same configuration as in the CDN example:
+与 CDN 示例中的配置相同：
 
 **file.html**
 
@@ -717,9 +697,9 @@ require('html-loader?{"attributes":{"root":"."}}!./file.html');
 // => '<img src="http://cdn.example.com/49eba9f/a992ca.jpg">'
 ```
 
-### Templating {#templating}
+### 模板 {#templating}
 
-You can use any template system. Below is an example for [handlebars](https://handlebarsjs.com/).
+你可以使用任何模板系统。以下是 [handlebars](https://handlebarsjs.com/) 的示例。
 
 **file.hbs**
 
@@ -767,7 +747,7 @@ module.exports = {
 
 ### PostHTML {#posthtml}
 
-You can use [PostHTML](https://github.com/posthtml/posthtml) without any additional loaders.
+你可以使用 [PostHTML](https://github.com/posthtml/posthtml) 而无需任何其他加载程序。
 
 **file.html**
 
@@ -808,20 +788,15 @@ module.exports = {
 };
 ```
 
-### Export into HTML files {#export-into-html-files}
+### 导出为 HTML 文件 {#export-into-html-files}
 
-A very common scenario is exporting the HTML into their own _.html_ file, to
-serve them directly instead of injecting with javascript. This can be achieved
-with a combination of 3 loaders:
+一种非常常见的情况是将 HTML 导出到自己的 *.html* 文件中，以直接使用，而不是注入 javascript。可以结合使用 3 种加载器（loaders）来实现：
 
-- [file-loader](/loaders/file-loader/)
-- [extract-loader](https://github.com/peerigon/extract-loader)
-- html-loader
+-   [file-loader](/92hackers-translate-articles/loaders/file-loader/)
+-   [extract-loader](https://github.com/peerigon/extract-loader)
+-   html-loader
 
-The html-loader will parse the URLs, require the images and everything you
-expect. The extract loader will parse the javascript back into a proper html
-file, ensuring images are required and point to proper path, and the file loader
-will write the _.html_ file for you. Example:
+Html-loader 将解析 URL，需要图片以及你期望的所有内容。Extract-loader 会将 javascript 解析回正确的 html 文件，确保图片都被导入并指向正确的路径，并且 file-loader 将为你生成 *.html* 文件。例：
 
 **webpack.config.js**
 
@@ -838,27 +813,12 @@ module.exports = {
 };
 ```
 
-## Contributing {#contributing}
+## 贡献 {#contributing}
 
-Please take a moment to read our contributing guidelines if you haven't yet done so.
+如果你还没有阅读，请花一点时间阅读我们的贡献指南。
 
-[CONTRIBUTING](https://github.com/webpack-contrib/html-loader/blob/master/.github/CONTRIBUTING.md)
+[贡献](https://github.com/webpack-contrib/html-loader/blob/master/.github/CONTRIBUTING.md)
 
-## License {#license}
+## 许可证 {#license}
 
 [MIT](https://github.com/webpack-contrib/html-loader/blob/master/LICENSE)
-
-[npm]: https://img.shields.io/npm/v/html-loader.svg
-[npm-url]: https://npmjs.com/package/html-loader
-[node]: https://img.shields.io/node/v/html-loader.svg
-[node-url]: https://nodejs.org/
-[deps]: https://david-dm.org/webpack-contrib/html-loader.svg
-[deps-url]: https://david-dm.org/webpack-contrib/html-loader
-[tests]: https://github.com/webpack-contrib/html-loader/workflows/html-loader/badge.svg
-[tests-url]: https://github.com/webpack-contrib/html-loader/actions
-[cover]: https://codecov.io/gh/webpack-contrib/html-loader/branch/master/graph/badge.svg
-[cover-url]: https://codecov.io/gh/webpack-contrib/html-loader
-[chat]: https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg
-[chat-url]: https://gitter.im/webpack/webpack
-[size]: https://packagephobia.now.sh/badge?p=html-loader
-[size-url]: https://packagephobia.now.sh/result?p=html-loader
