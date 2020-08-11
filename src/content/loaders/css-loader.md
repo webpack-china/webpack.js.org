@@ -113,7 +113,6 @@ module.exports = {
 |           **[`url`](#url)**           |    `{Boolean\|Function}`    |                     `true`                     | 启用/禁用 `url`/`image-set` 函数处理                |
 |        **[`import`](#import)**        |    `{Boolean\|Function}`    |                     `true`                     | 启用/禁用 `@import` 规则进行处理                    |
 |       **[`modules`](#modules)**       | `{Boolean\|String\|Object}` |                 `{auto: true}`                 | 启用/禁用 CSS 模块及其配置                          |
-|          **[`icss`](#icss)**          |         `{Boolean}`         | 如果 `modules` 启用则为 `true`，否则为 `false` | 启用/禁用可互操作的 CSS                             |
 |     **[`sourceMap`](#sourcemap)**     |         `{Boolean}`         |               `compiler.devtool`               | 启用/禁用生成 SourceMap                             |
 | **[`importLoaders`](#importloaders)** |         `{Number}`          |                      `0`                       | 启用/禁用或者设置在 css-loader 前应用的 loader 数量 |
 |      **[`esModule`](#esmodule)**      |         `{Boolean}`         |                     `true`                     | 使用 ES 模块语法                                    |
@@ -525,6 +524,7 @@ module.exports = {
         loader: 'css-loader',
         options: {
           modules: {
+            compileType: 'module',
             mode: 'local',
             auto: true,
             exportGlobals: true,
@@ -534,6 +534,38 @@ module.exports = {
             namedExport: true,
             exportLocalsConvention: 'camelCase',
             exportOnlyLocals: false,
+          },
+        },
+      },
+    ],
+  },
+};
+```
+
+##### `compileType` {#compiletype}
+
+Type: `'module' | 'icss'`
+Default: `'module'`
+
+Controls the level of compilation applied to the input styles.
+
+The `module` handles `class` and `id` scoping and `@value` values.
+The `icss` will only compile the low level `Interoperable CSS` format for declaring `:import` and `:export` dependencies between CSS and other languages.
+
+ICSS underpins CSS Module support, and provides a low level syntax for other tools to implement CSS-module variations of their own.
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        loader: 'css-loader',
+        options: {
+          modules: {
+            compileType: 'icss',
           },
         },
       },
@@ -993,33 +1025,6 @@ module.exports = {
           modules: {
             exportOnlyLocals: true,
           },
-        },
-      },
-    ],
-  },
-};
-```
-
-### `icss` {#icss}
-
-类型：Boolean 默认：如果 `modules` 被启用则为 `true`，否则为 `false`
-
-启用/禁用低级 "Interoperable CSS" 格式的处理，以声明
-CSS 和其他语言之间的导入和导出依赖关系。ICSS 启用了
-CSS 模块支持，并在启用 `modules` 后自动启用。也可以
-单独的启用它，以允许其他的 loader 来处理 CSS 模块。
-
-**webpack.config.js**
-
-```js
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.css$/i,
-        loader: 'css-loader',
-        options: {
-          icss: true,
         },
       },
     ],
