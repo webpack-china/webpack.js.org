@@ -60,25 +60,26 @@ module.exports = {
 
 ### `attributes` {#attributes}
 
-类型： `Boolean|Object` 默认值： `true`
+类型： `Boolean|Object`
+默认值： `true`
 
 默认情况下，每个可加载属性（例如 - `<img src="image.png">` ）都将被导入（ `const img = require ('./image.png')` 或 `import img from "./image.png""` ）。你可能需要为配置中的图片指定加载器 （推荐使用 `file-loader` 或 `url-loader` ）。
 
 支持的标签和属性：
 
--   `audio` 标签的 `src` 属性
--   `embed` 标签的 `src` 属性
--   `img` 标签的 `src` 属性
--   `img` 标签的 `srcset` 属性
--   `input` 标签的 `src` 属性
--   `link` 标记的 `href` 属性（仅适用于样式表）
--   `object` 标签的 `data` 属性
--   `script` 标签的 `src` 属性
--   `source` 标签的 `src` 属性
--   `source` 标签的 `srcset` 属性
--   `track` 标记的 `src` 属性
--   `video` 标签的 `poster` 属性
--   `video` 代码的 `src` 属性
+- `audio` 标签的 `src` 属性
+- `embed` 标签的 `src` 属性
+- `img` 标签的 `src` 属性
+- `img` 标签的 `srcset` 属性
+- `input` 标签的 `src` 属性
+- `link` 标记的 `href` 属性（仅适用于样式表）
+- `object` 标签的 `data` 属性
+- `script` 标签的 `src` 属性
+- `source` 标签的 `src` 属性
+- `source` 标签的 `srcset` 属性
+- `track` 标记的 `src` 属性
+- `video` 标签的 `poster` 属性
+- `video` 代码的 `src` 属性
 
 #### `Boolean` {#boolean}
 
@@ -182,7 +183,8 @@ module.exports = {
 
 #### `list` {#list}
 
-类型： `Array` 默认值： [https](https://github.com/webpack-contrib/html-loader#attributes) : [//github.com/webpack-contrib/html-loader#attributes](https://github.com/webpack-contrib/html-loader#attributes)
+类型：`Array`
+默认值： https://github.com/webpack-contrib/html-loader#attributes
 
 允许设置要处理的标签和属性以及处理方式，以及过滤其中一些标签和属性的能力。
 
@@ -312,7 +314,8 @@ module.exports = {
 
 #### `urlFilter` {#urlfilter}
 
-类型： `Function` 默认值： `undefined`
+类型：`Function`
+默认值： `undefined`
 
 允许过滤 urls。所有过滤的 urls 都不会被解析（保持它们原有的样子）。默认情况下，所有非请求资源类型的值（例如 `<img src="javascript:void (0)">` ）都不处理。
 
@@ -346,7 +349,8 @@ module.exports = {
 
 #### `root` {#root}
 
-类型： `String` 默认值： `undefined`
+类型：`String`
+默认值： `undefined`
 
 对于以 `/` 开头的 urls，默认行为是不进行转换。但是，如果设置了 `root` 查询参数，它将被放在 URL 之前，然后进行转换。
 
@@ -372,7 +376,8 @@ module.exports = {
 
 ### `preprocessor` {#preprocessor}
 
-类型： `Function` 默认值： `undefined`
+类型：`Function`
+默认值：`undefined`
 
 允许在处理之前对内容进行预处理。
 
@@ -467,7 +472,8 @@ module.exports = {
 
 ### `minimize` {#minimize}
 
-类型： `Boolean|Object` 默认值：在生产模式下为 `true` ，否则为 `false`
+类型：`Boolean|Object`
+默认值：在生产模式下为 `true` ，否则为 `false`
 
 告诉 `html-loader` 编译时需要最小化 HTML 字符串。
 
@@ -535,7 +541,8 @@ module.exports = {
 
 ### `esModule` {#esmodule}
 
-类型： `Boolean` 值默认值： `false`
+类型：`Boolean`
+值默认值：`false`
 
 默认情况下， `html-loader` 生成使用 CommonJS 模块语法的 JS 模块。在某些情况下，使用 ES 模块是有益的，例如在 [模块合并](/92hackers-translate-articles/plugins/module-concatenation-plugin/) 和 [tree shaking](/92hackers-translate-articles/guides/tree-shaking/) 的情况下。
 
