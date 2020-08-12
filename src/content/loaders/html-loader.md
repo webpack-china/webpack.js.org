@@ -6,7 +6,15 @@ repo: https://github.com/webpack-contrib/html-loader
 ---
 
 
-[![npm](https://img.shields.io/npm/v/html-loader.svg)](https://npmjs.com/package/html-loader) [![node](https://img.shields.io/node/v/html-loader.svg)](https://nodejs.org/) [![deps](https://david-dm.org/webpack-contrib/html-loader.svg)](https://david-dm.org/webpack-contrib/html-loader) [![tests](https://github.com/webpack-contrib/html-loader/workflows/html-loader/badge.svg)](https://github.com/webpack-contrib/html-loader/actions) [![coverage](https://codecov.io/gh/webpack-contrib/html-loader/branch/master/graph/badge.svg)](https://codecov.io/gh/webpack-contrib/html-loader) [![chat](https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg)](https://gitter.im/webpack/webpack) [![size](https://packagephobia.now.sh/badge?p=html-loader)](https://packagephobia.now.sh/result?p=html-loader)
+[![npm][npm]][npm-url]
+[![node][node]][node-url]
+[![deps][deps]][deps-url]
+[![tests][tests]][tests-url]
+[![coverage][cover]][cover-url]
+[![chat][chat]][chat-url]
+[![size][size]][size-url]
+
+
 
 将 HTML 导出为字符串。当编译器要求时，将最小化 HTML 字符串。
 
@@ -822,3 +830,18 @@ module.exports = {
 ## 许可证 {#license}
 
 [MIT](https://github.com/webpack-contrib/html-loader/blob/master/LICENSE)
+
+[npm]: https://img.shields.io/npm/v/html-loader.svg
+[npm-url]: https://npmjs.com/package/html-loader
+[node]: https://img.shields.io/node/v/html-loader.svg
+[node-url]: https://nodejs.org/
+[deps]: https://david-dm.org/webpack-contrib/html-loader.svg
+[deps-url]: https://david-dm.org/webpack-contrib/html-loader
+[tests]: https://github.com/webpack-contrib/html-loader/workflows/html-loader/badge.svg
+[tests-url]: https://github.com/webpack-contrib/html-loader/actions
+[cover]: https://codecov.io/gh/webpack-contrib/html-loader/branch/master/graph/badge.svg
+[cover-url]: https://codecov.io/gh/webpack-contrib/html-loader
+[chat]: https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg
+[chat-url]: https://gitter.im/webpack/webpack
+[size]: https://packagephobia.now.sh/badge?p=html-loader
+[size-url]: https://packagephobia.now.sh/result?p=html-loader
