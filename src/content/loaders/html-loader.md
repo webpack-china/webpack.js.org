@@ -481,16 +481,20 @@ module.exports = {
 
 默认情况下，启用的最小化规则如下：
 
--   `collapseWhitespace`
--   `conservativeCollapse`
--   `keepClosingSlash`
--   `minifyCSS`
--   `minifyJS`
--   `removeAttributeQuotes`
--   `removeComments`
--   `removeScriptTypeAttributes`
--   `removeStyleTypeAttributes`
--   `useShortDoctype`
+```js
+({
+  caseSensitive: true,
+  collapseWhitespace: true,
+  conservativeCollapse: true,
+  keepClosingSlash: true,
+  minifyCSS: true,
+  minifyJS: true,
+  removeComments: true,
+  removeRedundantAttributes: true,
+  removeScriptTypeAttributes: true,
+  removeStyleLinkTypeAttributes: true,
+});
+```
 
 **webpack.config.js**
 
