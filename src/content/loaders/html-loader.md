@@ -55,7 +55,7 @@ module.exports = {
 | :-: | :-: | :-: | :-- |
 | **[`attributes`](#attributes)** | `{Boolean|Object}` | `true` | 启用 / 禁用属性处理 |
 | **[`preprocessor`](#preprocessor)** | `{Function}` | `undefined` | 允许在处理之前对内容进行预处理 |
-| **[`minimize`](#minimize)** | `{Boolean|Object}` | 在生产环境下为 `true` ，否则为 `false` | 告诉 `html-loader` 最小化 HTML |
+| **[`minimize`](#minimize)** | `{Boolean|Object}` | 在生产环境下为 `true` ，否则为 `false` | 告诉 `html-loader` 压缩 HTML |
 | **[`esModule`](#esmodule)** | `{Boolean}` | `false` | 使用 ES 模块语法 |
 
 ### `attributes` {#attributes}
