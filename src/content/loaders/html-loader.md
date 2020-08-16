@@ -16,7 +16,7 @@ repo: https://github.com/webpack-contrib/html-loader
 
 
 
-将 HTML 导出为字符串。当编译器要求时，将最小化 HTML 字符串。
+将 HTML 导出为字符串。当编译器需要时，将压缩 HTML 字符串。
 
 ## 入门 {#getting-started}
 
@@ -63,7 +63,8 @@ module.exports = {
 类型： `Boolean|Object`
 默认值： `true`
 
-默认情况下，每个可加载属性（例如 - `<img src="image.png">` ）都将被导入（ `const img = require ('./image.png')` 或 `import img from "./image.png""` ）。你可能需要为配置中的图片指定加载器 （推荐使用 `file-loader` 或 `url-loader` ）。
+默认情况下，每个可加载属性（例如 - `<img src="image.png">` ）都将被导入（ `const img = require ('./image.png')` 或 `import img from "./image.png""` ）。
+你可能需要为配置中的图片指定 loader（推荐使用 `file-loader` 或 `url-loader` ）。
 
 支持的标签和属性：
 
@@ -83,7 +84,7 @@ module.exports = {
 
 #### `Boolean` {#boolean}
 
-`true` 值启用所有默认元素和属性的处理， `false` 禁用所有属性的处理。
+当设置为 `true` 时，则启用所有默认元素和属性的处理，而 `false` 则禁用所有属性的处理。
 
 **webpack.config.js**
 
@@ -106,7 +107,8 @@ module.exports = {
 
 #### `Object` {#object}
 
-允许你指定要处理的标签和属性，过滤它们，过滤 URL 以及处理以 `/` 开头的资源地址。例如：
+你可以配置要处理的标签和属性，来过滤它们，过滤 URL 并处理以 `/` 开头的资源地址。
+例如：
 
 **webpack.config.js**
 
@@ -317,7 +319,8 @@ module.exports = {
 类型：`Function`
 默认值： `undefined`
 
-允许过滤 urls。所有过滤的 urls 都不会被解析（保持它们原有的样子）。默认情况下，所有非请求资源类型的值（例如 `<img src="javascript:void (0)">` ）都不处理。
+允许配置要过滤的 url。所有过滤的 url 都参与解析（会保持原样）。
+默认情况下，所有非请求资源类型的值（例如 `<img src="javascript:void (0)">` ）都不处理。
 
 ```js
 module.exports = {
@@ -352,7 +355,8 @@ module.exports = {
 类型：`String`
 默认值： `undefined`
 
-对于以 `/` 开头的 urls，默认行为是不进行转换。但是，如果设置了 `root` 查询参数，它将被放在 URL 之前，然后进行转换。
+对于 `/` 开头的 url，默认不进行转换。
+但是，如果设置了 `root` 查询参数，它将被放在 URL 之前进行转换。
 
 **webpack.config.js**
 
@@ -475,11 +479,11 @@ module.exports = {
 类型：`Boolean|Object`
 默认值：在生产模式下为 `true` ，否则为 `false`
 
-告诉 `html-loader` 编译时需要最小化 HTML 字符串。
+告诉 `html-loader` 编译时需要压缩 HTML 字符串。
 
 #### `Boolean` {#boolean}
 
-默认情况下，启用的最小化规则如下：
+默认情况下，启用压缩的规则如下：
 
 ```js
 ({
@@ -518,9 +522,9 @@ module.exports = {
 
 **webpack.config.js**
 
-有关可用选项的更多信息，请参见 [html-minifier-terser](https://github.com/DanielRuf/html-minifier-terser) 的文档。
+关于可用选项的更多信息，请参阅 [html-minifier-terser](https://github.com/DanielRuf/html-minifier-terser) 文档。
 
-可以使用 `webpack.conf.js` 的以下选项来禁用规则
+可以在 `webpack.conf.js` 中使用以下选项来禁用规则
 
 **webpack.config.js**
 
@@ -548,7 +552,8 @@ module.exports = {
 类型：`Boolean`
 值默认值：`false`
 
-默认情况下， `html-loader` 生成使用 CommonJS 模块语法的 JS 模块。在某些情况下，使用 ES 模块是有益的，例如在 [模块合并](/92hackers-translate-articles/plugins/module-concatenation-plugin/) 和 [tree shaking](/92hackers-translate-articles/guides/tree-shaking/) 的情况下。
+默认情况下， `html-loader` 生成使用 CommonJS 模块语法的 JS 模块。
+在某些情况下，使用 ES 模块会更好，例如在进行[模块合并](/plugins/module-concatenation-plugin/)和 [tree shaking](/guides/tree-shaking/) 时。
 
 你可以使用以下方法启用 ES 模块语法：
 
@@ -809,13 +814,18 @@ module.exports = {
 
 ### 导出为 HTML 文件 {#export-into-html-files}
 
-一种非常常见的情况是将 HTML 导出到自己的 *.html* 文件中，以直接使用，而不是注入 javascript。可以结合使用 3 种加载器（loaders）来实现：
+一种非常常见的情况是将 HTML 导出到自己的 *.html* 文件中，
+以直接使用，而非注入到 javascript。
+可以使用以下 3 种 loader 来实现：
 
--   [file-loader](/92hackers-translate-articles/loaders/file-loader/)
--   [extract-loader](https://github.com/peerigon/extract-loader)
--   html-loader
+- [file-loader](/loaders/file-loader/)
+- [extract-loader](https://github.com/peerigon/extract-loader)
+- html-loader
 
-Html-loader 将解析 URL，需要图片以及你期望的所有内容。Extract-loader 会将 javascript 解析回正确的 html 文件，确保图片都被导入并指向正确的路径，并且 file-loader 将为你生成 *.html* 文件。例：
+html-loader 将解析 URL，同时引入图片以及你需要的所有内容。
+extract-loader 会将 javascript 解析为正确的 html 文件，
+然后确保图片被引入且路径正确，
+file-loader 会为你生成 *.html* 文件。例如：
 
 **webpack.config.js**
 
