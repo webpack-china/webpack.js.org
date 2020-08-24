@@ -18,9 +18,9 @@ repo: https://github.com/webpack-contrib/terser-webpack-plugin
 
 该插件使用 [terser](https://github.com/terser-js/terser) 来压缩 JavaScript。
 
-## 入门 {＃getting-started}
+## 入门 {#getting-started}
 
-首先，你需要安装 `terser-webpack-plugin` ：
+首先，你需要安装 `terser-webpack-plugin`：
 
 ```console
 $ npm install terser-webpack-plugin --save-dev
@@ -41,14 +41,14 @@ module.exports = {
 };
 ```
 
-接下来，使用你喜欢的方式运行 `webpack` 。
+接下来，按照你习惯的方式运行 `webpack`。
 
 ## 选项 {#options}
 
 ### `test` {#test}
 
 类型： `String|RegExp|Array<String|RegExp>`
-默认值：/ `/\.m?js (\?.*)?$/i`
+默认值：`/\.m?js(\?.*)?$/i`
 
 用来匹配需要压缩的文件。
 
@@ -72,7 +72,7 @@ module.exports = {
 类型： `String|RegExp|Array<String|RegExp>`
 默认值： `undefined`
 
-罗列要包括的文件。
+匹配参与压缩的文件。
 
 **webpack.config.js**
 
@@ -94,7 +94,7 @@ module.exports = {
 类型： `String|RegExp|Array<String|RegExp>`
 默认值： `undefined`
 
-罗列不需要压缩的文件。
+匹配不需要压缩的文件。
 
 **webpack.config.js**
 
@@ -113,19 +113,19 @@ module.exports = {
 
 ### `cache` {#cache}
 
-> Webpack 5 已不再使用该配置项！请使用 https://webpack.js.org/configuration/other-options/#cache 代替。
+> ⚠ 此配置在 Webpack 5 已弃用！请使用 https://webpack.js.org/configuration/other-options/#cache 代替。
 
 类型： `Boolean|String`
 默认值： `true`
 
 启用文件缓存。
-缓存目录的默认路径： `node_modules/.cache/terser-webpack-plugin` 。
+缓存目录的默认路径： `node_modules/.cache/terser-webpack-plugin`。
 
-> ℹ️如果你使用自己的 `minify` 函数，请正确阅读 `minify` 部分以了解缓存失效的信息。
+> ℹ️ 如果你使用自己的 `minify` 函数，请务必阅读 `minify` 部分以了解缓存失效策略。
 
 #### `Boolean` {#boolean}
 
-启用 / 禁用文件缓存。
+启用/禁用文件缓存。
 
 **webpack.config.js**
 
@@ -163,7 +163,7 @@ module.exports = {
 
 ### `cacheKeys` {#cachekeys}
 
-> Webpack 5 已不再使用该配置项！请使用 https://webpack.js.org/configuration/other-options/#cache 代替。
+> ⚠ 此配置在 Webpack 5 已弃用！请使用 https://webpack.js.org/configuration/other-options/#cache 代替。
 
 类型： `Function<(defaultCacheKeys, file) -> Object>`
 默认值： `defaultCacheKeys => defaultCacheKeys`
@@ -211,13 +211,13 @@ module.exports = {
 使用多进程并发运行以提高构建速度。
 并发运行的默认数量： `os.cpus().length - 1` 。
 
-> 并发运行可以显著加快构建速度，因此 **强烈建议使用** 。
+> 并发运行可以显著提高构建速度，因此**强烈建议添加此配置** 。
 
-> 如果你使用 **Circle CI** 或任何其他不提供 CPU 实际可用数量的环境，则需要显式设置 CPU 数量，以避免 `Error: Call retries were exceeded` （请参阅 [＃143](https://github.com/webpack-contrib/terser-webpack-plugin/issues/143) ， [＃202](https://github.com/webpack-contrib/terser-webpack-plugin/issues/202) ）。
+> 如果你使用 **Circle CI** 或任何其他不提供 CPU 实际可用数量的环境，则需要显式设置 CPU 数量，以避免 `Error: Call retries were exceeded`（请参阅 [#143](https://github.com/webpack-contrib/terser-webpack-plugin/issues/143)，[#202](https://github.com/webpack-contrib/terser-webpack-plugin/issues/202) ）。
 
 #### `Boolean` {#boolean}
 
-启用 / 禁用多进程并发运行功能。
+启用/禁用多进程并发运行功能。
 
 **webpack.config.js**
 
@@ -255,22 +255,22 @@ module.exports = {
 
 ### `sourceMap` {#sourcemap}
 
-类型： `Boolean` 值
+类型： `Boolean`
 默认值： `false` （有关 `devtool` 值和 `SourceMapDevToolPlugin` 插件的详细信息，请参见下文）
 
-**仅适用于当 [`devtool`](/Breword-docschina-docs/configuration/devtool/) 选项的值为：`source-map`、`inline-source-map`、`hidden-source-map` 和 `nosources-source-map` 时。**
+**仅适用于当 [`devtool`](/configuration/devtool/) 选项的值为：`source-map`、`inline-source-map`、`hidden-source-map` 以及 `nosources-source-map` 时。**
 
 为什么？
 
-- `eval` 将模块包装在 `eval ("string")` ，并且压缩程序 (minimizer) 不处理字符串。
+- `eval` 将模块包装在 `eval("string")`，并且压缩程序 (minimizer) 不处理字符串。
 - `cheap` 没有列信息，并且压缩程序 (minimizer) 最终仅生成单行代码，仅单个映射。
 
-该插件遵循 [`devtool`](/Breword-docschina-docs/configuration/devtool/) 选项并使用 `SourceMapDevToolPlugin` 插件。
+该插件遵循 [`devtool`](/configuration/devtool/) 选项并使用 `SourceMapDevToolPlugin` 插件。
 使用受支持的 `devtool` 值可生成 source maps。
 将 `SourceMapDevToolPlugin` 与 `columns` 选项一起使用也可以生成 source maps。
 
 使用 source maps 能够将错误消息位置映射到其在模块中的对应位置（但生成 source maps 会降低编译速度）。
-如果你使用自己的 `minify` 函数，请阅读 `minify` 部分以正确处理 source maps。
+如果你使用了自己的 `minify` 函数，请阅读 `minify` 部分确保正确处理 source maps。
 
 **webpack.config.js**
 
@@ -292,9 +292,9 @@ module.exports = {
 类型： `Function`
 默认值： `undefined`
 
-允许你覆盖默认的压缩函数。
+允许你自定义压缩函数。
 默认情况下，插件使用 [terser](https://github.com/terser-js/terser) 库。
-对于使用和测试未发布的版本或派生代码很有用。
+对于使用和测试未发布的版本或 fork 的代码很帮助。
 
 > ⚠️ **启用 `parallel` 选项时，在 `minify` 函数内部只能使用 `require`** 。
 
@@ -330,7 +330,7 @@ module.exports = {
 类型： `Object`
 默认值： [默认](https://github.com/terser-js/terser#minify-options)
 
-Terser 压缩 [选项](https://github.com/terser-js/terser#minify-options) 。
+Terser 压缩[配置](https://github.com/terser-js/terser#minify-options) 。
 
 **webpack.config.js**
 
@@ -365,14 +365,14 @@ module.exports = {
 类型： `Boolean|String|RegExp|Function<(node, comment) -> Boolean|Object>|Object`
 默认值： `true`
 
-是否将注释剥离到单独的文件中（请参阅 [详细信息](https://github.com/webpack/webpack/commit/71933e979e51c533b432658d5e37917f9e71595a) ）。
-默认情况下，仅剥离 `/^\**!|@preserve|@license|@cc_on/i` 正则表达式匹配的注释，并删除其余注释。
+是否将注释剥离到单独的文件中（请参阅[详细信息](https://github.com/webpack/webpack/commit/71933e979e51c533b432658d5e37917f9e71595a)）。
+默认情况下，仅剥离 `/^\**!|@preserve|@license|@cc_on/i` 正则表达式匹配的注释，其余注释会删除。
 如果原始文件名为 `foo.js` ，则注释将存储到 `foo.js.LICENSE.txt` 。
 `terserOptions.output.comments` 选项指定是否保留注释，即可以在剥离其他注释时保留一些注释，甚至保留已剥离的注释。
 
 #### `Boolean` {#boolean}
 
-启用 / 禁用剥离注释功能。
+启用/禁用剥离注释功能。
 
 **webpack.config.js**
 
@@ -579,7 +579,7 @@ module.exports = {
 
 ## 示例 {#examples}
 
-### 保留注释 {＃preserve-comments}
+### 保留注释 {#preserve-comments}
 
 剥离所有有效的注释（即 `/^\**!|@preserve|@license|@cc_on/i` ）并保留 `/@license/i` 注释。
 
@@ -603,7 +603,7 @@ module.exports = {
 };
 ```
 
-### 删除注释 {＃remove-comments}
+### 删除注释 {#remove-comments}
 
 如果要在构建时去除注释，请使用以下配置：
 
@@ -627,7 +627,7 @@ module.exports = {
 };
 ```
 
-### 自定义压缩函数 {＃custom-minify-function}
+### 自定义压缩函数 {#custom-minify-function}
 
 覆盖默认的 minify 函数 - 使用 `uglify-js` 进行压缩。
 
