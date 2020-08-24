@@ -113,7 +113,7 @@ module.exports = {
 
 ### `cache` {#cache}
 
-> Webpack 5 已不再使用该配置项！请使用 [https://webpack.js.org/configuration/other-options/#cache](https://webpack.js.org/configuration/other-options/#cache) 代替。
+> Webpack 5 已不再使用该配置项！请使用 https://webpack.js.org/configuration/other-options/#cache 代替。
 
 类型： `Boolean|String`
 默认值： `true`
@@ -163,7 +163,7 @@ module.exports = {
 
 ### `cacheKeys` {#cachekeys}
 
-> Webpack 5 已不再使用该配置项！请使用 [https://webpack.js.org/configuration/other-options/#cache](https://webpack.js.org/configuration/other-options/#cache) 代替。
+> Webpack 5 已不再使用该配置项！请使用 https://webpack.js.org/configuration/other-options/#cache 代替。
 
 类型： `Function<(defaultCacheKeys, file) -> Object>`
 默认值： `defaultCacheKeys => defaultCacheKeys`
@@ -258,12 +258,12 @@ module.exports = {
 类型： `Boolean` 值
 默认值： `false` （有关 `devtool` 值和 `SourceMapDevToolPlugin` 插件的详细信息，请参见下文）
 
-**仅适用于当 [`devtool`](/Breword-docschina-docs/configuration/devtool/) 选项的值为：`source-map` ， `inline-source-map` ， `hidden-source-map` 和 `nosources-source-map` 时。**
+**仅适用于当 [`devtool`](/Breword-docschina-docs/configuration/devtool/) 选项的值为：`source-map`、`inline-source-map`、`hidden-source-map` 和 `nosources-source-map` 时。**
 
 为什么？
 
--   `eval` 将模块包装在 `eval ("string")` ，并且压缩程序 (minimizer) 不处理字符串。
--   `cheap` 没有列信息，并且压缩程序 (minimizer) 最终仅生成单行代码，仅单个映射。
+- `eval` 将模块包装在 `eval ("string")` ，并且压缩程序 (minimizer) 不处理字符串。
+- `cheap` 没有列信息，并且压缩程序 (minimizer) 最终仅生成单行代码，仅单个映射。
 
 该插件遵循 [`devtool`](/Breword-docschina-docs/configuration/devtool/) 选项并使用 `SourceMapDevToolPlugin` 插件。
 使用受支持的 `devtool` 值可生成 source maps。
@@ -296,7 +296,7 @@ module.exports = {
 默认情况下，插件使用 [terser](https://github.com/terser-js/terser) 库。
 对于使用和测试未发布的版本或派生代码很有用。
 
-> **启用 `parallel` 选项时，在 `minify` 函数内部只能使用 `require`** 。
+> ⚠️ **启用 `parallel` 选项时，在 `minify` 函数内部只能使用 `require`** 。
 
 **webpack.config.js**
 
