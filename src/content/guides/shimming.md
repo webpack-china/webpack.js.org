@@ -181,7 +181,10 @@ __webpack.config.js__
 +     rules: [
 +       {
 +         test: require.resolve('./src/index.js'),
-+         use: 'imports-loader?this=>window',
++         loader: 'imports-loader',
++           options: {
++               wrapper: 'window',
++           },
 +       },
 +     ],
 +   },
