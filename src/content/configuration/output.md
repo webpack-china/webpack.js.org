@@ -366,8 +366,6 @@ module.exports = {
 
 如果将这个选项设为一个函数，函数将返回一个包含上面表格中替换信息的对象。
 
-T> 在使用 [`ExtractTextWebpackPlugin`](/plugins/extract-text-webpack-plugin) 时，可以用 `[contenthash]` 来获取提取文件的 hash（既不是 `[hash]` 也不是 `[chunkhash]`）。
-
 ## `output.assetModuleFilename` {#outputassetmodulefilename}
 
 `string = '[hash][ext][query]'`
@@ -839,10 +837,10 @@ module.exports = {
 };
 ```
 
-`libraryTarget: 'system'` - This will expose your library as a [`System.register`](https://github.com/systemjs/systemjs/blob/master/docs/system-register.md)
-module. This feature was first released in [webpack 4.30.0](https://github.com/webpack/webpack/releases/tag/v4.30.0).
+`libraryTarget: 'system'` —— 这将暴露你的 library 作为一个由 [`System.register`](https://github.com/systemjs/systemjs/blob/master/docs/system-register.md)
+的模块。此特性首次发布于 [webpack 4.30.0](https://github.com/webpack/webpack/releases/tag/v4.30.0)。
 
-System modules require that a global variable `System` is present in the browser when the webpack bundle is executed. Compiling to `System.register` format allows you to `System.import('/bundle.js')` without additional configuration and have your webpack bundle loaded into the System module registry.
+当 webpack bundle 被执行时，系统模块依赖全局的变量 `System`。编译为 `System.register` 形式后，你可以使用 `System.import('/bundle.js')` 而无需额外配置，并会将你的 webpack bundle 包加载到系统模块注册表中。
 
 
 ```javascript
@@ -867,7 +865,7 @@ System.register([], function(_export) {
 });
 ```
 
-By adding `output.library` to configuration in addition to having `output.libraryTarget` set to `system`, the output bundle will have the library name as an argument to `System.register`:
+除了将 `output.libraryTarget` 设置为 `system` 之外，还可将 `output.library` 添加到配置中，输出 bundle 的 library 名将作为 `System.register` 的参数：
 
 ```javascript
 System.register('my-library', [], function(_export) {
@@ -1124,7 +1122,7 @@ require('module'); // <- 仍然抛出
 
 `boolean`
 
-When using `libraryTarget: "umd"`, setting `output.umdNamedDefine` to `true` will name the AMD module of the UMD build. Otherwise an anonymous `define` is used.
+当使用 `libraryTarget: "umd"` 时，设置 `output.umdNamedDefine` 为 `true` 将命名由 UMD 构建的 AMD 模块。否则将使用一个匿名的 `define`。
 
 ```javascript
 module.exports = {
@@ -1154,9 +1152,9 @@ module.exports = {
 
 `boolean = false`
 
-Tells webpack to use the future version of asset emitting logic, which allows freeing memory of assets after emitting. It could break plugins which assume that assets are still readable after they were emitted.
+告诉 webpack 使用未来版本的资源文件 emit 逻辑，允许在 emit 后释放资源文件的内存。这可能会破坏那些认为资源文件 emit 后仍然可读的插件。
 
-W> `output.futureEmitAssets` option will be removed in webpack v5.0.0 and this behaviour will become the new default.
+W> 在 webpack v5.0.0 中 `output.futureEmitAssets` 选项被移除并且这种行为将被默认支持。
 
 ```javascript
 module.exports = {
@@ -1190,7 +1188,7 @@ T> 在 webpack 4 中  `output.ecmaVersion` 的默认值是 `5`.
 
 `boolean = true`
 
-告诉webpack在写入输出文件系统(output file system)之前检查要发出的文件是否已经存在并且具有相同的内容。
+告诉 webpack 在写入输出文件系统（output file system）之前检查要发出的文件是否已经存在并且具有相同的内容。
 
 W> 当文件存在并且内容没有变更时，webpack 不会输出该文件。
 
@@ -1203,7 +1201,42 @@ module.exports = {
 };
 ```
 
-## `output.iife` {#outputiife}
+## `output.wasmLoading` {#output-wasm-loading}
+
+`boolean = false` `string`
+
+此选项用于设置加载 WebAssembly 模块的方式。默认可使用的方式有 `'fetch'`（web/WebWorker），`'async-node'`（Node.js），其他额外方式可由插件提供。
+
+其默认值会根据 [`target`](/configuration/target/) 的变化而变化：
+
+- 如果 [`target`](/configuration/target/) 设置为 `'web'`，`'webworker'`，`'electron-renderer'` 或 `'node-webkit'` 其中之一，其默认值为 `'fetch'`。
+- 如果 [`target`](/configuration/target/) 设置为 `'node'`，`'async-node'`，`'electron-main'` 或 `'electron-preload'`，其默认值为 `'async-node'`。
+
+```javascript
+module.exports = {
+  //...
+  output: {
+    wasmLoading: 'fetch'
+  }
+};
+```
+
+## `output.enabledWasmLoadingTypes` {#output-enabled-wasm-loading-types}
+
+`[string]`
+
+用于设置入口支持的 wasm 加载类型的列表。
+
+```javascript
+module.exports = {
+  //...
+  output: {
+    enabledWasmLoadingTypes: ['fetch']
+  }
+};
+```
+
+## `output.iife` {#output-iife}
 
 `boolean = true`
 

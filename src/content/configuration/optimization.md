@@ -24,12 +24,10 @@ related:
 
 ## `optimization.minimize` {#optimizationminimize}
 
-`boolean`
+`boolean = true`
 
 告知 webpack 使用 [TerserPlugin](/plugins/terser-webpack-plugin/) 或其它在 [`optimization.minimizer`](#optimizationminimizer) 
 定义的插件压缩 bundle。
-
-`production` 模式下，这里默认是 `true`。
 
 __webpack.config.js__
 
@@ -164,8 +162,8 @@ module.exports = {
 
 `boolean`
 
-在编译出错时，使用 `optimization.noEmitOnErrors` 来跳过生成阶段(emitting phase)。这可以确保没有生成出错误资源。而 stats 中所有 assets 
-中的 `emitted` 标记都是 `false`。
+在编译出错时，使用 `optimization.noEmitOnErrors` 来跳过生成阶段(emitting phase)。这可以确保没有生成出错误资源，
+但是 stats 中所有 assets 属性中的 `emitted` 都会标记为 `false`。
 
 __webpack.config.js__
 
@@ -341,6 +339,8 @@ module.exports = {
   }
 };
 ```
+
+T> 当 [mode](/configuration/mode/) 设置为 `'none'` 时，`optimization.nodeEnv` 的默认值为 `false`。
 
 ## `optimization.mangleWasmImports` {#optimizationmanglewasmimports}
 
