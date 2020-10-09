@@ -61,6 +61,7 @@ module.exports = {
 
 ## Options {#options}
 
+<<<<<<< HEAD
 |              名称               |         类型         |  默认值   | 描述                                              |
 | :-----------------------------: | :------------------: | :--------: | :------------------------------------------------------- |
 | [**`injectType`**](#injecttype) |      `{String}`      | `styleTag` | 配置把 styles 插入到 DOM 中的方式 |
@@ -68,6 +69,16 @@ module.exports = {
 |     [**`insert`**](#insert)     | `{String\|Function}` |   `head`   | 在指定的位置插入标签 |
 |       [**`base`**](#base)       |      `{Number}`      |   `true`   | 基于 (DLLPlugin) 设置 module ID |
 |   [**`esModule`**](#esmodule)   |     `{Boolean}`      |  `false`   | 使用 ES modules 语法                    |
+=======
+|              Name               |         Type         |   Default   | Description                                              |
+| :-----------------------------: | :------------------: | :---------: | :------------------------------------------------------- |
+| [**`injectType`**](#injecttype) |      `{String}`      | `styleTag`  | Allows to setup how styles will be injected into the DOM |
+| [**`attributes`**](#attributes) |      `{Object}`      |    `{}`     | Adds custom attributes to tag                            |
+|     [**`insert`**](#insert)     | `{String\|Function}` |   `head`    | Inserts tag at the given position into the DOM           |
+|       [**`base`**](#base)       |      `{Number}`      |   `true`    | Sets module ID base (DLLPlugin)                          |
+|   [**`esModule`**](#esmodule)   |     `{Boolean}`      |   `false`   | Use ES modules syntax                                    |
+|    [**`modules`**](#modules)    |      `{Object}`      | `undefined` | Configuration CSS Modules                                |
+>>>>>>> 30e544b78efe5880061f7aa9f2e2de7d7d9f295c
 
 ### `injectType` {#injecttype}
 
@@ -589,9 +600,88 @@ module.exports = {
 };
 ```
 
+<<<<<<< HEAD
 ## 示例 {#getting-started}
 
 ### Source maps {#source-maps}
+=======
+### `modules`
+
+Type: `Object`
+Default: `undefined`
+
+Configuration CSS Modules.
+
+#### `namedExport`
+
+Type: `Boolean`
+Default: `false`
+
+Enables/disables ES modules named export for locals.
+
+> ⚠ Names of locals are converted to `camelCase`.
+
+> ⚠ It is not allowed to use JavaScript reserved words in css class names.
+
+> ⚠ Options `esModule` and `modules.namedExport` in `css-loader` and `style-loader` should be enabled.
+
+**styles.css**
+
+```css
+.foo-baz {
+  color: red;
+}
+.bar {
+  color: blue;
+}
+```
+
+**index.js**
+
+```js
+import { fooBaz, bar } from './styles.css';
+
+console.log(fooBaz, bar);
+```
+
+You can enable a ES module named export using:
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: 'style-loader',
+            options: {
+              esModule: true,
+              modules: {
+                namedExport: true,
+              },
+            },
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              esModule: true,
+              modules: {
+                namedExport: true,
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+```
+
+## Examples
+>>>>>>> 30e544b78efe5880061f7aa9f2e2de7d7d9f295c
 
 当前面的 loader 生成 source map 时，此 loader 会向 source map 中自动注入。
 

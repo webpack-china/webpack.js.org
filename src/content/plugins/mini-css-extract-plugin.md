@@ -297,7 +297,7 @@ module.exports = {
               // 你可以在这里指定特定的 publicPath
               // 默认情况下使用 webpackOptions.output 中的 publicPath
               publicPath: '../',
-              hmr: process.env.NODE_ENV === 'development',
+              hmr: process.env.NODE_ENV === 'development', // webpack 4 only
             },
           },
           'css-loader',
@@ -379,7 +379,7 @@ module.exports = {
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              hmr: process.env.NODE_ENV === 'development',
+              hmr: process.env.NODE_ENV === 'development', // webpack 4 only
             },
           },
           'css-loader',
@@ -394,9 +394,17 @@ module.exports = {
 
 ### 模块热更新 (HMR) {#hot-module-reloading-hmr}
 
+<<<<<<< HEAD
 `mini-css-extract-plugin` 支持在开发中热重载实际的 CSS 文件。
 我们提供了一些选项来启动标准 stylesheets 和本地范围内 CSS 和 CSS modules 的 HMR 支持。
 以下是 mini-css 用于启动 HMR CSS modules 的示例配置。
+=======
+Note: HMR is automatically supported in webpack 5. No need to configure it. Skip the following:
+
+The `mini-css-extract-plugin` supports hot reloading of actual css files in development.
+Some options are provided to enable HMR of both standard stylesheets and locally scoped CSS or CSS modules.
+Below is an example configuration of mini-css for HMR use with CSS modules.
+>>>>>>> 30e544b78efe5880061f7aa9f2e2de7d7d9f295c
 
 当我们尝试 hmr css-modules 时，使用自定义的 chunk 名称进行代码分割是不容易的。
 只有在 HMR 不能正常工作时，我们才需要打开 `reloadAll` 这个选项。
@@ -424,7 +432,11 @@ module.exports = {
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
+<<<<<<< HEAD
               // 仅仅在 development 模式下开启 hmr
+=======
+              // only enable hot in development (webpack 4 only)
+>>>>>>> 30e544b78efe5880061f7aa9f2e2de7d7d9f295c
               hmr: process.env.NODE_ENV === 'development',
               // 如果 hmr 不工作, 请开启强制选项
               reloadAll: true,
