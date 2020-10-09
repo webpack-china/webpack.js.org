@@ -26,7 +26,7 @@ new webpack.EvalSourceMapDevToolPlugin(options);
 
 支持以下选项：
 
-- `test` (`string|RegExp|array`): 默认值为 `.js` and `.css`，为与给定的模块扩展名相匹配的模块，添加 source map。
+- `test` (`string|RegExp|array`): 默认值为 `.js` 和 `.css`，为与给定的模块扩展名相匹配的模块，添加 source map。
 - `include` (`string|RegExp|array`): 为与给定路径相匹配的模块，添加 source map。
 - `exclude` (`string|RegExp|array`): 排除一些与给定值相匹配的模块，不会为它们生成映射关系。
 - `append` (`string`): 将给定的值添加到源代码中，通常是 `#sourceMappingURL` 注释，`[url]` 在 source map 文件中将会被替换成 url，值为 `false` 表示不添加。
