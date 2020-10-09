@@ -26,7 +26,7 @@ $ npm install url-loader --save-dev
 ```
 
 `url-loader` works like
-[`file-loader`](/loaders/file-loader/), but can return
+[`file-loader`](/loaders/file-loader), but can return
 a DataURL if the file is smaller than a byte limit.
 
 **index.js**
@@ -106,7 +106,7 @@ module.exports = {
 #### `Number|String`
 
 A `Number` or `String` specifying the maximum size of a file in bytes.
-If the file size is **equal** or **greater** than the limit [`file-loader`](/loaders/file-loader/) will be used (by default) and all query parameters are passed to it.
+If the file size is **equal** or **greater** than the limit [`file-loader`](/loaders/file-loader) will be used (by default) and all query parameters are passed to it.
 
 Using an alternative to `file-loader` is enabled via the `fallback` option.
 

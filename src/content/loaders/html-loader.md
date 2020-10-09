@@ -785,7 +785,7 @@ A very common scenario is exporting the HTML into their own _.html_ file, to
 serve them directly instead of injecting with javascript. This can be achieved
 with a combination of 3 loaders:
 
-- [file-loader](/loaders/file-loader/)
+- [file-loader](/loaders/file-loader)
 - [extract-loader](https://github.com/peerigon/extract-loader)
 - html-loader
 

@@ -34,7 +34,7 @@ This allows you to control the versions of all your dependencies, and to choose 
 
 > ⚠ [Node Sass](https://github.com/sass/node-sass) does not work with [Yarn PnP](https://classic.yarnpkg.com/en/docs/pnp/) feature.
 
-Chain the `sass-loader` with the [css-loader](/loaders/css-loader/) and the [style-loader](/loaders/style-loader/) to immediately apply all styles to the DOM or the [mini-css-extract-plugin](/plugins/mini-css-extract-plugin/) to extract it into a separate file.
+Chain the `sass-loader` with the [css-loader](/loaders/css-loader) and the [style-loader](/loaders/style-loader) to immediately apply all styles to the DOM or the [mini-css-extract-plugin](/plugins/mini-css-extract-plugin) to extract it into a separate file.
 
 Then add the loader to your Webpack configuration. For example:
 
@@ -532,7 +532,7 @@ For production builds it's recommended to extract the CSS from your bundle being
 
 There are two possibilities to extract a style sheet from the bundle:
 
-- [mini-css-extract-plugin](/plugins/mini-css-extract-plugin/) (use this, when using webpack 4 configuration. Works in all use-cases)
+- [mini-css-extract-plugin](/plugins/mini-css-extract-plugin) (use this, when using webpack 4 configuration. Works in all use-cases)
 - [extract-loader](https://github.com/peerigon/extract-loader) (simpler, but specialized on the css-loader's output)
 
 **webpack.config.js**

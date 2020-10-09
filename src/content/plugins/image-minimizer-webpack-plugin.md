@@ -107,7 +107,7 @@ module.exports = {
 
 [Documentation: Using loaders](/concepts/loaders/)
 
-In your `webpack.config.js`, add the `ImageMinimizerPlugin.loader`, chained with the [file-loader](/loaders/file-loader/) or [url-loader](/loaders/url-loader/):
+In your `webpack.config.js`, add the `ImageMinimizerPlugin.loader`, chained with the [file-loader](/loaders/file-loader) or [url-loader](/loaders/url-loader):
 
 **webpack.config.js**
 
