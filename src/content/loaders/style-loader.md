@@ -26,7 +26,7 @@ To begin, you'll need to install `style-loader`:
 npm install --save-dev style-loader
 ```
 
-It's recommended to combine `style-loader` with the [`css-loader`](/loaders/css-loader/)
+It's recommended to combine `style-loader` with the [`css-loader`](/loaders/css-loader
 
 Then add the loader to your `webpack` config. For example:
 
