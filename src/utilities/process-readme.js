@@ -104,7 +104,11 @@ module.exports = function processREADME(body, options = {}) {
     // dont make relative links for excluded loaders
     loaderMatches.forEach((match) => {
       if (!excludedLoaders.includes(`${match[1]}/${match[2]}`)) {
+<<<<<<< HEAD
         processingString = processingString.replace(match[0], `/loaders/${match[2]}`);
+=======
+        processingString = processingString.replace(match[0], `/loaders/${match[2]})`);
+>>>>>>> 8b01000d1b86cc18421aeb6c5cbd54e88fde11cb
       }
     });
 
@@ -112,7 +116,11 @@ module.exports = function processREADME(body, options = {}) {
     // dont make relative links for excluded loaders
     pluginMatches.forEach((match) => {
       if (!excludedPlugins.includes(`${match[1]}/${match[2]}`)) {
+<<<<<<< HEAD
         processingString = processingString.replace(match[0], `/plugins/${match[2]}`);
+=======
+        processingString = processingString.replace(match[0], `/plugins/${match[2]})`);
+>>>>>>> 8b01000d1b86cc18421aeb6c5cbd54e88fde11cb
       }
     });
 

@@ -26,7 +26,11 @@ repo: https://github.com/webpack-contrib/style-loader
 npm install --save-dev style-loader
 ```
 
+<<<<<<< HEAD
 推荐将 `style-loader` 与 [`css-loader`](/loaders/css-loader/) 一起使用
+=======
+It's recommended to combine `style-loader` with the [`css-loader`](/loaders/css-loader)
+>>>>>>> 8b01000d1b86cc18421aeb6c5cbd54e88fde11cb
 
 然后把 loader 添加到你的 `webpack` 配置中。比如：
 

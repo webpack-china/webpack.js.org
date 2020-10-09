@@ -32,7 +32,7 @@ stylesheets to the webpack dependency graph.
 
 #### htmlLoader: Object {#htmlloader-object}
 
-Options to pass to the html-loader. See [html-loader](/loaders/html-loader/).
+Options to pass to the html-loader. See [html-loader](/loaders/html-loader).
 
 ### Use with Babel (or other JS transpilers) {#use-with-babel-or-other-js-transpilers}
 If you'd like to transpile the contents of your element you can
