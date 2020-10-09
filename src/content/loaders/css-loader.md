@@ -49,7 +49,11 @@ module.exports = {
 };
 ```
 
+<<<<<<< HEAD
 [file-loader](/loaders/file-loader/) 和 [url-loader](/loaders/file-loader/) 能够非常好的处理资源文件，需在配置文件中进行配置，相关配置请[参阅](https://github.com/webpack-contrib/css-loader#assets)。
+=======
+Good loaders for requiring your assets are the [file-loader](/loaders/file-loader and the [url-loader](/loaders/url-loader which you should specify in your config (see [below](https://github.com/webpack-contrib/css-loader#assets)).
+>>>>>>> e3742de4cd2841a1a597aa5e8a585d4ab812e3fa
 
 然后运行 `webpack`。
 
@@ -1158,7 +1162,11 @@ module.exports = {
 
 对于生产版本，建议以后从 bundle 中提取 CSS，以便以后可以使用 CSS/JS 资源的并行加载。
 
+<<<<<<< HEAD
 - [mini-css-extract-plugin](/plugins/mini-css-extract-plugin/) 可以在生产模式下运行时使用来提取CSS。
+=======
+- This can be achieved by using the [mini-css-extract-plugin](/plugins/mini-css-extract-plugin to extract the CSS when running in production mode.
+>>>>>>> e3742de4cd2841a1a597aa5e8a585d4ab812e3fa
 
 - 或者，如果寻求更好的开发性能和可模仿生产的CSS输出。 [extract-css-chunks-webpack-plugin](https://github.com/faceyspacey/extract-css-chunks-webpack-plugin) 提供了支持热重载的 mini-css-extract-plugin 扩展版本。开发人员中的 HMR 模式下的真实 CSS 文件，与非开发人员中的 mini-css 是一样的效果。
 

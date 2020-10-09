@@ -279,7 +279,7 @@ This project was inspired the following open source work:
 
 ### Markdown to HTML {#markdown-to-html}
 
-To get html, need to add [`remark-html`](https://github.com/wooorm/remark-html) to the remark plugins and add [`html-loader`](/loaders/html-loader/) to the `webpack.config`
+To get html, need to add [`remark-html`](https://github.com/wooorm/remark-html) to the remark plugins and add [`html-loader`](/loaders/html-loader to the `webpack.config`
 
 ```js
 import md from 'markdown-file.md';

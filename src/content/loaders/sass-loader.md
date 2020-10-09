@@ -34,7 +34,11 @@ npm install sass-loader sass webpack --save-dev
 
 > ⚠ [Node Sass](https://github.com/sass/node-sass) 不能与 [Yarn PnP](https://classic.yarnpkg.com/en/docs/pnp/) 特性一起正常工作。
 
+<<<<<<< HEAD
 将 `sass-loader` 、[css-loader](/loaders/css-loader/) 与 [style-loader](/loaders/style-loader/) 进行链式调用，可以将样式以 style 标签的形式插入 DOM 中，或者使用 [mini-css-extract-plugin](/plugins/mini-css-extract-plugin/) 将样式输出到独立的文件中。
+=======
+Chain the `sass-loader` with the [css-loader](/loaders/css-loader and the [style-loader](/loaders/style-loader to immediately apply all styles to the DOM or the [mini-css-extract-plugin](/plugins/mini-css-extract-plugin to extract it into a separate file.
+>>>>>>> e3742de4cd2841a1a597aa5e8a585d4ab812e3fa
 
 然后将本 loader 添加到你的 Webpack 配置中。例如：
 
@@ -532,8 +536,13 @@ module.exports = {
 
 从 bundle 中提取样式表，有 2 种实用的方式：
 
+<<<<<<< HEAD
 - [mini-css-extract-plugin](/plugins/mini-css-extract-plugin/)（在使用 webpack 4 时使用此 plugin，它将适用于所有用例）
 - [extract-loader](https://github.com/peerigon/extract-loader)（简单，专门针对 css-loader 的输出）
+=======
+- [mini-css-extract-plugin](/plugins/mini-css-extract-plugin (use this, when using webpack 4 configuration. Works in all use-cases)
+- [extract-loader](https://github.com/peerigon/extract-loader) (simpler, but specialized on the css-loader's output)
+>>>>>>> e3742de4cd2841a1a597aa5e8a585d4ab812e3fa
 
 **webpack.config.js**
 

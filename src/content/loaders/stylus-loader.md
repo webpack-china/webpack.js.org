@@ -368,7 +368,7 @@ module.exports = {
 
 ### Normal usage
 
-Chain the `stylus-loader` with the [`css-loader`](/loaders/css-loader/) and the [`style-loader`](/loaders/style-loader/) to immediately apply all styles to the DOM.
+Chain the `stylus-loader` with the [`css-loader`](/loaders/css-loader and the [`style-loader`](/loaders/style-loader to immediately apply all styles to the DOM.
 
 **webpack.config.js**
 
@@ -509,7 +509,7 @@ module.exports = {
 
 ### In production
 
-Usually, it's recommended to extract the style sheets into a dedicated file in production using the [MiniCssExtractPlugin](/plugins/mini-css-extract-plugin/). This way your styles are not dependent on JavaScript.
+Usually, it's recommended to extract the style sheets into a dedicated file in production using the [MiniCssExtractPlugin](/plugins/mini-css-extract-plugin. This way your styles are not dependent on JavaScript.
 
 ### webpack resolver
 
@@ -568,7 +568,7 @@ Bundling CSS with webpack has some nice advantages like referencing images and f
 There are two possibilities to extract a style sheet from the bundle:
 
 - [`extract-loader`](https://github.com/peerigon/extract-loader) (simpler, but specialized on the css-loader's output)
-- [MiniCssExtractPlugin](/plugins/mini-css-extract-plugin/) (more complex, but works in all use-cases)
+- [MiniCssExtractPlugin](/plugins/mini-css-extract-plugin (more complex, but works in all use-cases)
 
 ## Contributing
 

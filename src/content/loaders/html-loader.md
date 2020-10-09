@@ -783,7 +783,7 @@ module.exports = {
 以直接使用，而非注入到 javascript。
 可以使用以下 3 种 loader 来实现：
 
-- [file-loader](/loaders/file-loader/)
+- [file-loader](/loaders/file-loader
 - [extract-loader](https://github.com/peerigon/extract-loader)
 - html-loader
 

@@ -278,7 +278,11 @@ module.exports = {
 
 ### 常规用法 {#normal-usage}
 
+<<<<<<< HEAD
 将 `less-loader`、[`css-loader`](/loaders/css-loader/) 和 [`style-loader`](/loaders/style-loader/) 串联起来使用可立即将所有样式应用于 DOM。
+=======
+Chain the `less-loader` with the [`css-loader`](/loaders/css-loader and the [`style-loader`](/loaders/style-loader to immediately apply all styles to the DOM.
+>>>>>>> e3742de4cd2841a1a597aa5e8a585d4ab812e3fa
 
 **webpack.config.js**
 
@@ -345,7 +349,11 @@ module.exports = {
 
 ### 生产环境 {#in-production}
 
+<<<<<<< HEAD
 在生产环境中推荐使用 [MiniCssExtractPlugin](/plugins/mini-css-extract-plugin/) 来提取样式表到专门的文件中，这样你的样式就不需要依赖 JavaScript。
+=======
+Usually, it's recommended to extract the style sheets into a dedicated file in production using the [MiniCssExtractPlugin](/plugins/mini-css-extract-plugin. This way your styles are not dependent on JavaScript.
+>>>>>>> e3742de4cd2841a1a597aa5e8a585d4ab812e3fa
 
 ### 导入 {#imports}
 
@@ -463,8 +471,13 @@ module.exports = {
 
 有两种从 bundle 中提取样式表的方式：
 
+<<<<<<< HEAD
 - [`extract-loader`](https://github.com/peerigon/extract-loader) （简单，但得专门指定 `css-loader` 的 output）
 - [MiniCssExtractPlugin](/plugins/mini-css-extract-plugin/) （较复杂，但适用于所有的场景）
+=======
+- [`extract-loader`](https://github.com/peerigon/extract-loader) (simpler, but specialized on the css-loader's output)
+- [MiniCssExtractPlugin](/plugins/mini-css-extract-plugin (more complex, but works in all use-cases)
+>>>>>>> e3742de4cd2841a1a597aa5e8a585d4ab812e3fa
 
 ### CSS modules 陷阱 {#css-modules-gotcha}
 

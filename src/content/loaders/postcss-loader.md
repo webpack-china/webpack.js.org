@@ -805,7 +805,7 @@ export default {
 
 ### Extract CSS {#extract-cssextractplugin}
 
-Using [`mini-css-extract-plugin`](/plugins/mini-css-extract-plugin/).
+Using [`mini-css-extract-plugin`](/plugins/mini-css-extract-plugin.
 
 **webpack.config.js**
 
