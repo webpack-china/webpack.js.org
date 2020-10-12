@@ -118,19 +118,13 @@ webpack 是完全基于[赞助](https://opencollective.com/webpack)的。
 `mangleExports: "deterministic"`
 
 该算法以确定性的方式为模块和分块分配短的（3 或 5 位）数字 ID，
-
 这是包大小和长期缓存之间的一种权衡。
 
-`moduleIds/chunkIds/mangleExports: false` 禁用默认行为，你可以通过插件提供一个自定义算法。
-请注意，在 webpack 4 中，`moduleIds/chunkIds: false` 如果没有自定义插件，则可以正常运行，
-而在 webpack 5 中，你必须提供一个自定义插件。
+`moduleIds/chunkIds/mangleExports: false` 禁用默认行为，你可以通过插件提供一个自定义算法。请注意，在 webpack 4 中，`moduleIds/chunkIds: false` 如果没有自定义插件，则可以正常运行，而在 webpack 5 中，你必须提供一个自定义插件。
 
-迁移：最好使用 `chunkIds`、`moduleIds` 和 `mangleExports` 的默认值。
-你也可以选择使用旧的默认值`chunkIds: "size"，moduleIds: "size", mangleExports: "size"`，
-这将会生成更小的包，但为了缓存，会更频繁地将其失效。
+__迁移__：最好使用 `chunkIds`、`moduleIds` 和 `mangleExports` 的默认值。你也可以选择使用旧的默认值`chunkIds: "size"，moduleIds: "size", mangleExports: "size"`，这将会生成更小的包，但为了缓存，会更频繁地将其失效。
 
-注意：在 webpack 4 中，散列的模块 id 会导致 gzip 性能降低。
-这与模块顺序的改变有关，已经被修正。
+注意：在 webpack 4 中，散列的模块 id 会导致 gzip 性能降低。这与模块顺序的改变有关，已经被修正。
 
 注意：在 webpack 5 中，`deterministic` Ids 在生产模式下是默认启用的。
 
