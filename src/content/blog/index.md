@@ -9,6 +9,6 @@ Read here for announcements.
 
 See recent blog posts in the side bar.
 
-## Popular posts
+## Popular posts {#popular-posts}
 
 - [Webpack 5 release (2020-10-10)](/blog/2020-10-10-webpack-5-release/)

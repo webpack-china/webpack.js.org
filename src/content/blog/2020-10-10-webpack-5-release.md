@@ -22,20 +22,20 @@ So today (2020-10-10) webpack 5.0.0 is released, but this doesn't mean it's done
 As with webpack 4 we continue development by fixing problems and adding features.
 In the next days there will probably a lot bugfixes. Features will come later.
 
-## Common Questions
+## Common Questions {#common-questions}
 
-### So what does the release mean?
+### So what does the release mean? {#so-what-does-the-release-mean}
 
 It means we finished doing breaking changes.
 Many refactorings have been done to up-level the architecture and create a good base for future features (and current features).
 
-### So when is the time to upgrade?
+### So when is the time to upgrade? {#so-when-is-the-time-to-upgrade}
 
 It depends. There is a good chance that upgrading fails and you would need to give it a second or 3rd try.
 If you are open to that, try to upgrade now and provide feedback to webpack, plugins and loaders.
 We are eager to fix those problems. Someone has to start and you would be one of the first ones benefiting from it.
 
-## Sponsoring Update
+## Sponsoring Update {#sponsoring-update}
 
 webpack is fully based upon [sponsoring](https://opencollective.com/webpack).
 It's not tied to (and paid by) a big company like some other Open Source projects.
@@ -56,7 +56,7 @@ I hope some other company steps up and follows these (gigantic) footsteps.
 
 Thanks to [all the sponsors](/#sponsors).
 
-## General direction
+## General direction {#general-direction}
 
 This release focus on the following:
 
@@ -67,13 +67,13 @@ This release focus on the following:
 - Clean up internal structures that were left in a weird state while implementing features in v4 without introducing any breaking changes.
 - Prepare for future features by introducing breaking changes now, allowing us to stay on v5 for as long as possible.
 
-## __Migration__ Guide
+## __Migration__ Guide {#__migration__-guide}
 
 [See here for a __migration__ guide](/migrate/5)
 
-## Major Changes: Removals
+## Major Changes: Removals {#major-changes-removals}
 
-### Removed Deprecated Items
+### Removed Deprecated Items {#removed-deprecated-items}
 
 All items deprecated in v4 were removed.
 
@@ -83,17 +83,17 @@ Here are a few things that were removed but did not have deprecation warnings in
 
 - IgnorePlugin and BannerPlugin must now be passed only one argument that can be an object, string or function.
 
-### Deprecation codes
+### Deprecation codes {#deprecation-codes}
 
 New deprecations include a deprecation code so they are easier to reference.
 
-### Syntax deprecated
+### Syntax deprecated {#syntax-deprecated}
 
 `require.include` has been deprecated and will emit a warning by default when used.
 
 Behavior can be changed with `Rule.parser.requireInclude` to allowed, deprecated or disabled.
 
-### Automatic Node.js Polyfills Removed
+### Automatic Node.js Polyfills Removed {#automatic-nodejs-polyfills-removed}
 
 In the early days, webpack's aim was to allow running most Node.js modules in the browser, but the module landscape changed and many module uses are now written mainly for frontend purposes. webpack <= 4 ships with polyfills for many of the Node.js core modules, which are automatically applied once a module uses any of the core modules (i.e. the `crypto` module).
 
@@ -107,9 +107,9 @@ __MIGRATION__:
 - It's possible to manually add a polyfill for a Node.js core module. An error message will give a hint on how to achieve that.
 - Package authors: Use the `browser` field in `package.json` to make a package frontend-compatible. Provide alternative implementations/dependencies for the browser.
 
-## Major Changes: Long Term Caching
+## Major Changes: Long Term Caching {#major-changes-long-term-caching}
 
-### Deterministic Chunk, Module IDs and Export names
+### Deterministic Chunk, Module IDs and Export names {#deterministic-chunk-module-ids-and-export-names}
 
 New algorithms were added for long term caching. These are enabled by default in production mode.
 
@@ -128,14 +128,14 @@ Note: In webpack 4 hashed module ids yielded reduced gzip performance. This was 
 
 Note: In webpack 5, `deterministic` Ids are enabled by default in production mode
 
-### Real Content Hash
+### Real Content Hash {#real-content-hash}
 
 Webpack 5 will use a real hash of the file content when using `[contenthash]` now. Before it "only" used a hash of the internal structure.
 This can be positive impact on long term caching when only comments are changed or variables are renamed. These changes are not visible after minimizing.
 
-## Major Changes: Development Support
+## Major Changes: Development Support {#major-changes-development-support}
 
-### Named Chunk IDs
+### Named Chunk IDs {#named-chunk-ids}
 
 A new named chunk id algorithm enabled by default in development mode gives chunks (and filenames) human-readable names.
 A Module ID is determined by its path, relative to the `context`.
@@ -148,7 +148,7 @@ It's possible to use `chunkIds: "named"` in production, but make sure not to acc
 
 __MIGRATION__: If you dislike the filenames being changed in development, you can pass `chunkIds: "natural"` to use the old numeric mode.
 
-### Module Federation
+### Module Federation {#module-federation}
 
 Webpack 5 adds a new feature called "Module Federation", which allows multiple webpack builds to work together.
 From runtime perspective modules from multiple builds will behave like a huge connected module graph.
@@ -156,9 +156,9 @@ From developer perspective modules can be imported from specified remote builds 
 
 For more details see [this separate guide](/concepts/module-federation).
 
-## Major Changes: New Web Platform Features
+## Major Changes: New Web Platform Features {#major-changes-new-web-platform-features}
 
-### JSON modules
+### JSON modules {#json-modules}
 
 JSON modules now align with the proposal and emit a warning when a non-default export is used.
 JSON modules no longer have named exports when importing from a strict ECMAScript module.
@@ -169,13 +169,13 @@ Even when using the default export, unused properties are dropped by the `optimi
 
 It's possible to specify a custom JSON parser in `Rule.parser.parse` to import JSON-like files (e. g. for toml, yaml, json5, etc.).
 
-### import.meta
+### import.meta {#importmeta}
 
 - `import.meta.webpackHot` is an alias for `module.hot` which is also available in strict ESM
 - `import.meta.webpack` is the webpack major version as number
 - `import.meta.url` is the `file:` url of the current file (similar to `__filename` but as file url)
 
-### Asset modules
+### Asset modules {#asset-modules}
 
 Webpack 5 has now native support for modules representing assets.
 These modules will either emit a file into the output folder or inject a DataURI into the javascript bundle.
@@ -188,7 +188,7 @@ They can be used via multiple ways:
 
 The "new way" syntax was chosen to allow running code without bundler too. This syntax is also available in native ECMAScript modules in the browser.
 
-### Native Worker support
+### Native Worker support {#native-worker-support}
 
 When combining `new URL` for assets with `new Worker`/`new SharedWorker`/`navigator.serviceWorker.register` webpack will automatically create a new entrypoint for a web worker.
 
@@ -196,7 +196,7 @@ When combining `new URL` for assets with `new Worker`/`new SharedWorker`/`naviga
 
 The syntax was chosen to allow running code without bundler too. This syntax is also available in native ECMAScript modules in the browser.
 
-### URIs
+### URIs {#uris}
 
 Webpack 5 supports handling of protocols in requests.
 
@@ -207,7 +207,7 @@ Webpack 5 supports handling of protocols in requests.
 
 Fragments in requests are supported: Example: `./file.js#fragment`
 
-### Async modules
+### Async modules {#async-modules}
 
 Webpack 5 supports so called "async modules".
 That are modules that do not evaluate synchronously, but are async and Promise-based instead.
@@ -222,7 +222,7 @@ In webpack there are multiple ways to have async modules:
 - WebAssembly Modules in the new spec
 - ECMAScript Modules that are using Top-Level-Await
 
-### Externals
+### Externals {#externals}
 
 Webpack 5 adds additional external types to cover more applications:
 
@@ -234,9 +234,9 @@ Webpack 5 adds additional external types to cover more applications:
 
 `script`: Loads a url via `<script>` tag and gets the exports from a global variable (and optionally properties of it). The external module is an async module.
 
-## Major Changes: New Node.js Ecosystem Features
+## Major Changes: New Node.js Ecosystem Features {#major-changes-new-nodejs-ecosystem-features}
 
-### Resolving
+### Resolving {#resolving}
 
 The `exports` and `imports` field in package.json is now supported.
 
@@ -244,9 +244,9 @@ Yarn PnP is supported natively.
 
 See more details in [package exports](/guides/package-exports/).
 
-## Major Changes: Development Experience
+## Major Changes: Development Experience {#major-changes-development-experience}
 
-### Improved target
+### Improved target {#improved-target}
 
 Webpack 5 allows to pass a list of targets and also support versions of target.
 
@@ -257,7 +257,7 @@ This is a simple way to provide webpack all the information it needs to determin
 - chunk loading mechanism, and
 - supported syntax like arrow functions
 
-### Stats
+### Stats {#stats}
 
 The Stats test format has been improved regarding readability and verbosity. The defaults have been improved to be less verbose and also suitable for large builds.
 
@@ -274,7 +274,7 @@ The Stats test format has been improved regarding readability and verbosity. The
 - Timestamp of build is no longer shown by default. This can be enabled with `stats.builtAt`. It will show the timestamp in the summary.
 - Child compilations will no longer shown by default. They can be displayed with `stats.children`.
 
-### Progress
+### Progress {#progress}
 
 A few improvements have been done to the `ProgressPlugin` which is used for `--progress` by the CLI, but can also be used manually as plugin.
 
@@ -296,7 +296,7 @@ new webpack.ProgressPlugin({ percentBy: 'entries' });
 
 To make progress percentage more accurate `ProgressPlugin` caches the last known total modules count and reuses this value on the next build. The first build will warm the cache but the following builds will use and update this value.
 
-### Automatic unique naming
+### Automatic unique naming {#automatic-unique-naming}
 
 In webpack 4 multiple webpack runtimes could conflict on the same HTML page, because they use the same global variable for chunk loading. To fix that it was needed to provide a custom name to the `output.jsonpFunction` configuration.
 
@@ -306,19 +306,19 @@ This value is used to make all potential conflicting globals unique.
 
 __MIGRATION__: Remove `output.jsonpFunction` in favor of a unique name in your `package.json`.
 
-### Automatic public path
+### Automatic public path {#automatic-public-path}
 
 Webpack 5 will determine the `output.publicPath` automatically when possible.
 
-### Typescript typings
+### Typescript typings {#typescript-typings}
 
 Webpack 5 generates typescript typings from source code and exposes them via the npm package.
 
 __MIGRATION__: Remove `@types/webpack`. Update references when names differ.
 
-## Major Changes: Optimization
+## Major Changes: Optimization {#major-changes-optimization}
 
-### Nested tree-shaking
+### Nested tree-shaking {#nested-tree-shaking}
 
 webpack is now able to track access to nested properties of exports. This can improve Tree Shaking (Unused export elimination and export mangling) when reexporting namespace objects.
 
@@ -338,7 +338,7 @@ console.log(module.inner.a);
 
 In this example, the export `b` can be removed in production mode.
 
-### Inner-module tree-shaking
+### Inner-module tree-shaking {#inner-module-tree-shaking}
 
 webpack 4 didn't analyze dependencies between exports and imports of a module. webpack 5 has a new option `optimization.innerGraph`, which is enabled by default in production mode, that runs an analysis on symbols in a module to figure out dependencies from exports to imports.
 
@@ -380,7 +380,7 @@ Using `eval()` will bail-out this optimization for a module, because evaled code
 
 This optimization is also known as Deep Scope Analysis.
 
-### CommonJs Tree Shaking
+### CommonJs Tree Shaking {#commonjs-tree-shaking}
 
 webpack used to opt-out from used exports analysing for CommonJs exports and `require()` calls.
 
@@ -403,26 +403,26 @@ The following constructs are supported:
 
 When detecting not analysable code, webpack bails out and doesn't track export information at all for these modules (for performance reasons).
 
-### Side-Effect analysis
+### Side-Effect analysis {#side-effect-analysis}
 
 The `"sideEffects"` flag in package.json allows to manually flag modules as side-effect-free, which allows to drop them when unused.
 
 webpack 5 can also automatically flag modules as side-effect-free according to a static analysis of the source code.
 
-### Optimization per runtime
+### Optimization per runtime {#optimization-per-runtime}
 
 Webpack 5 is now able (and does by default) to analyse and optimize modules per runtime (A runtime is often equal to an entrypoint).
 This allows to only exports in these entrypoints where they are really needed.
 Entrypoints doesn't affect each other (as long as using a runtime per entrypoint)
 
-### Module Concatenation
+### Module Concatenation {#module-concatenation}
 
 Module Concatenation also works per runtime to allow different concatenation for each runtime.
 
 Module Concatenation has become a first class citizen and any module and dependency is now allowed to implement it.
 Initially webpack 5 already added support for ExternalModules and json modules, more will likely ship soonish.
 
-### General Tree Shaking improvements
+### General Tree Shaking improvements {#general-tree-shaking-improvements}
 
 `export *` has been improved to track more info and do no longer flag the `default` export as used.
 
@@ -430,7 +430,7 @@ Initially webpack 5 already added support for ExternalModules and json modules, 
 
 `import()` allows to manually tree shake the module via `/* webpackExports: ["abc", "default"] */` magic comment.
 
-### Development Production Similarity
+### Development Production Similarity {#development-production-similarity}
 
 We try to find a good trade-off between build performance in development mode and avoiding production-only problems by improving the similarity between both modes.
 
@@ -438,7 +438,7 @@ Webpack 5 enables the `sideEffects` optimization by default in both modes. In we
 
 In many cases development and production happen on different OS with different case-sensitivity of filesystem, so webpack 5 adds a few more warnings/errors when there is something weird casing-wise.
 
-### Improved Code Generation
+### Improved Code Generation {#improved-code-generation}
 
 webpack detects when ASI happens and generates shorter code when no semicolons are inserted. `Object(...)` -> `(0, ...)`
 
@@ -454,7 +454,7 @@ webpack 5 can generate both ES5 and ES6/ES2015 code now.
 
 Supporting only modern browsers will generate shorter code using arrow functions and more spec-conform code using `const` declarations with TDZ for `export default`.
 
-### Improved `target` option
+### Improved `target` option {#improved-target-option}
 
 In webpack 4 the `target` was a rough choice between `"web"` and `"node"` (and a few others).
 Webpack 5 gives you more options here.
@@ -487,7 +487,7 @@ Some combinations and features are not yet implemented and will result in errors
 - `["web", "node"]` + `output.module: true` will lead to a module chunk loading method, which is not implemented yet
 - `"web"` will lead to `http(s):` imports being treated as `module` externals, which are not implemented yet (Workaround: `externalsPresets: { web: false, webAsync: true }`, which will use `import()` instead).
 
-### SplitChunks and Module Sizes
+### SplitChunks and Module Sizes {#splitchunks-and-module-sizes}
 
 Modules now express size in a better way than a single number. There are different types of sizes now.
 
@@ -511,9 +511,9 @@ You can still use a single number for sizes. In this case webpack will automatic
 
 The `mini-css-extract-plugin` uses `css/mini-extra` as size type, and adds this size type to the default types automatically.
 
-## Major Changes: Performance
+## Major Changes: Performance {#major-changes-performance}
 
-### Persistent Caching
+### Persistent Caching {#persistent-caching}
 
 There is now a filesystem cache. It's opt-in and can be enabled with the following configuration:
 
@@ -553,7 +553,7 @@ The Persistent Cache will automatically create multiple cache files depending on
 By default timestamps will be used for snapshotting in development mode and file hashes in production mode.
 File hashes allow to use Persistent Caching on CI too.
 
-#### Compiler Idle and Close
+#### Compiler Idle and Close {#compiler-idle-and-close}
 
 Compilers now need to be closed after being used. Compilers now enter and leave the idle state and have hooks for these states. Plugins may use these hooks to do unimportant work. (i. e. the Persistent cache slowly stores the cache to disk). On compiler close - All remaining work should be finished as fast as possible. A callback signals the closing as done.
 
@@ -563,7 +563,7 @@ The `webpack()` façade automatically calls `close` when being passed a callback
 
 __MIGRATION__: While using the Node.js API, make sure to call `Compiler.close` when done.
 
-### File Emitting
+### File Emitting {#file-emitting}
 
 webpack used to always emit all output files during the first build but skipped writing unchanged files during incremental (watch) builds.
 It is assumed that nothing else changes output files while webpack is running.
@@ -580,9 +580,9 @@ Files that are flagged as `[immutable]` (including a content hash), will never b
 We assume that the content hash will change when file content changes.
 This is true in general, but might not be always true during webpack or plugin development.
 
-## Major Changes: Long outstanding problems
+## Major Changes: Long outstanding problems {#major-changes-long-outstanding-problems}
 
-### Code Splitting for single-file-targets
+### Code Splitting for single-file-targets {#code-splitting-for-single-file-targets}
 
 Targets that only allow to startup a single file (like node, WebWorker, electron main) now supports loading the dependent pieces required for bootstrapping automatically by the runtime.
 
@@ -590,7 +590,7 @@ This allows using `opimization.splitChunks` for these targets with `chunks: "all
 
 Note that with targets where chunk loading is async, this makes initial evaluation async too. This can be an issue when using `output.library`, since the exported value is a Promise now.
 
-### Updated Resolver
+### Updated Resolver {#updated-resolver}
 
 `enhanced-resolve` was updated to v5. This has the following improvements:
 
@@ -600,14 +600,14 @@ Note that with targets where chunk loading is async, this makes initial evaluati
 - support for features like `exports` and `imports` fields
 - Increased performance
 
-### Chunks without JS
+### Chunks without JS {#chunks-without-js}
 
 Chunks that contain no JS code, will no longer generate a JS file.
 This allows to have chunks that contain only CSS.
 
-## Major Changes: Future
+## Major Changes: Future {#major-changes-future}
 
-### Experiments
+### Experiments {#experiments}
 
 Not all features are stable from the beginning. In webpack 4 we added experimental features and noted in the changelog that they are experimental, but it was not always clear from the configuration that these features are experimental.
 
@@ -627,15 +627,15 @@ The following experiments will ship with webpack 5:
 
 Note that this also means WebAssembly support is now disabled by default.
 
-### Minimum Node.js Version
+### Minimum Node.js Version {#minimum-nodejs-version}
 
 The minimum supported Node.js version has increased from 6 to 10.13.0(LTS).
 
 __MIGRATION__: Upgrade to the latest Node.js version available.
 
-## Changes to the Configuration
+## Changes to the Configuration {#changes-to-the-configuration}
 
-### Changes to the Structure
+### Changes to the Structure {#changes-to-the-structure}
 
 - `entry: {}` allows an empty object now (to allow to use plugins to add entries)
 - `target` supports an array, versions and browserslist
@@ -763,7 +763,7 @@ __MIGRATION__: Upgrade to the latest Node.js version available.
 - `watchOptions.ignored` can now be a RegExp
 - `webpack.util.serialization` is now exposed.
 
-### Changes to the Defaults
+### Changes to the Defaults {#changes-to-the-defaults}
 
 - `target` is now `"browserslist"` by default when a browserslist config is available
 - `module.unsafeCache` is now only enabled for `node_modules` by default
@@ -784,33 +784,33 @@ __MIGRATION__: Upgrade to the latest Node.js version available.
 - `node.global` `node.__filename` and `node.__dirname` defaults to `false` in node-`target`s
 - `stats.errorStack` defaults to `false`
 
-## Loader related Changes
+## Loader related Changes {#loader-related-changes}
 
-### `this.getOptions`
+### `this.getOptions` {#thisgetoptions}
 
 This new API should simplify the usage for options in loaders.
 It allows to pass a JSON schema for validation.
 See [PR](https://github.com/webpack/webpack/pull/10017) for details
 
-### `this.exec`
+### `this.exec` {#thisexec}
 
 This has been removed from loader context
 
 __MIGRATION__: This can be implemented in the loader itself
 
-### `this.getResolve`
+### `this.getResolve` {#thisgetresolve}
 
 `getResolve(options)` in the loader API will merge options in a different way, see `module.rules` `resolve`.
 
 As webpack 5 differs between different issuing dependencies so it might make sense to pass a `dependencyType` as option (e. g. `"esm"`, `"commonjs"`, or others).
 
-## Major Internal Changes
+## Major Internal Changes {#major-internal-changes}
 
 ?> This section might need a bit more refinement
 
 The following changes are only relevant for plugin authors:
 
-### New plugin order
+### New plugin order {#new-plugin-order}
 
 Plugins in webpack 5 are now applies __before__ the configuration defaults has been applied.
 This allows plugins to apply their own defaults, or act as configuration presets.
@@ -819,7 +819,7 @@ But this is also a breaking change as plugins can't rely on configuration values
 
 __MIGRATION__: Access configuration only in plugin hooks. Or best avoid accessing configuration at all and take options via constructor.
 
-### Runtime Modules
+### Runtime Modules {#runtime-modules}
 
 A large part of the runtime code was moved into the so-called "runtime modules". These special modules are in-charge of adding runtime code. They can be added into any chunk, but are currently always added to the runtime chunk. "Runtime Requirements" control which runtime modules (or core runtime parts) are added to the bundle. This ensures that only runtime code that is used is added to the bundle. In the future, runtime modules could also be added to an on-demand-loaded chunk, to load runtime code when needed.
 
@@ -829,25 +829,25 @@ In the best case, no runtime code is needed at all.
 
 __MIGRATION__: If you are injecting runtime code into the webpack runtime in a plugin, consider using RuntimeModules instead.
 
-### Serialization
+### Serialization {#serialization}
 
 A serialization mechanism was added to allow serialization of complex objects in webpack. It has an opt-in semantic, so classes that should be serialized need to be explicitly flagged (and their serialization implemented). This has been done for most Modules, all Dependencies and some Errors.
 
 __MIGRATION__: When using custom Modules or Dependencies, it is recommended to make them serializable to benefit from persistent caching.
 
-### Plugins for Caching
+### Plugins for Caching {#plugins-for-caching}
 
 A `Cache` class with a plugin interface has been added. This class can be used to write and read to the cache. Depending on the configuration, different plugins can add functionality to the cache. The `MemoryCachePlugin` adds in-memory caching. The `FileCachePlugin` adds persistent (file-system) caching.
 
 The `FileCachePlugin` uses the serialization mechanism to persist and restore cached items to/from the disk.
 
-### Hook Object Frozen
+### Hook Object Frozen {#hook-object-frozen}
 
 Classes with `hooks` have their `hooks` object frozen, so adding custom hooks is no longer possible this way.
 
 __MIGRATION__: The recommended way to add custom hooks is using a WeakMap and a static `getXXXHooks(XXX)` (i. e. `getCompilationHook(compilation)`) method. Internal classes use the same mechanism used for custom hooks.
 
-### Tapable Upgrade
+### Tapable Upgrade {#tapable-upgrade}
 
 The compat layer for webpack 3 plugins has been removed. It had already been deprecated for webpack 4.
 
@@ -855,13 +855,13 @@ Some less used tapable APIs were removed or deprecated.
 
 __MIGRATION__: Use the new tapable API.
 
-### Staged Hooks
+### Staged Hooks {#staged-hooks}
 
 For several steps in the sealing process, there had been multiple hooks for different stages. i. e. `optimizeDependenciesBasic` `optimizeDependencies` and `optimizeDependenciesAdvanced`. These have been removed in favor of a single hook which can be used with a `stage` option. See `OptimizationStages` for possible stage values.
 
 __MIGRATION__: Hook into the remaining hook instead. You may add a `stage` option.
 
-### Main/Chunk/ModuleTemplate deprecation
+### Main/Chunk/ModuleTemplate deprecation {#mainchunkmoduletemplate-deprecation}
 
 Bundle templating has been refactored. MainTemplate/ChunkTemplate/ModuleTemplate were deprecated and the JavascriptModulesPlugin takes care of JS templating now.
 
@@ -873,7 +873,7 @@ There is a compat-layer, so Main/Chunk/ModuleTemplate still exist, but only dele
 
 __MIGRATION__: Follow the advice in the deprecation messages. Mostly pointing to hooks at different locations.
 
-### Entry point descriptor
+### Entry point descriptor {#entry-point-descriptor}
 
 If an object is passed as entry point the value might be a string, array of strings or a descriptor:
 
@@ -889,7 +889,7 @@ module.exports = {
 
 Descriptor syntax might be used to pass additional options to an entry point.
 
-#### Entry point output filename
+#### Entry point output filename {#entry-point-output-filename}
 
 By default, the output filename for the entry chunk is extracted from `output.filename` but you can specify a custom output filename for a specific entry:
 
@@ -901,7 +901,7 @@ module.exports = {
 };
 ```
 
-#### Entry point dependency
+#### Entry point dependency {#entry-point-dependency}
 
 By default, every entry chunk stores all the modules that it uses. With `dependOn`-option you can share the modules from one entry chunk to another:
 
@@ -916,7 +916,7 @@ module.exports = {
 
 The app chunk will not contain the modules that `react-vendors` has.
 
-#### Entry point library
+#### Entry point library {#entry-point-library}
 
 The entry descriptor allows to pass a different `library` option for each entrypoint.
 
@@ -939,7 +939,7 @@ module.exports = {
 };
 ```
 
-#### Entry point runtime
+#### Entry point runtime {#entry-point-runtime}
 
 The entry descriptor allows to specify a `runtime` per entry.
 When specified a chunk with this name is created which contains only the runtime code for the entry.
@@ -957,7 +957,7 @@ module.exports = {
 };
 ```
 
-#### Entry point chunk loading
+#### Entry point chunk loading {#entry-point-chunk-loading}
 
 The entry descriptor allows to specify a `chunkLoading` per entry.
 The runtime for this entry will use this to load chunks.
@@ -976,7 +976,7 @@ module.exports = {
 };
 ```
 
-### Order and IDs
+### Order and IDs {#order-and-ids}
 
 webpack used to order modules and chunks in the Compilation phase, in a specific way, to assign IDs in incremental order. This is no longer the case. The order will no longer be used for id generation, instead, the full control of ID generation is in the plugin.
 
@@ -984,7 +984,7 @@ Hooks to optimize the order of module and chunks have been removed.
 
 __MIGRATION__: You cannot rely on the order of modules and chunks in the compilation phase no more.
 
-### Arrays to Sets
+### Arrays to Sets {#arrays-to-sets}
 
 - Compilation.modules is now a Set
 - Compilation.chunks is now a Set
@@ -994,7 +994,7 @@ There is a compat-layer which prints deprecation warnings.
 
 __MIGRATION__: Use Set methods instead of Array methods.
 
-### Compilation.fileSystemInfo
+### Compilation.fileSystemInfo {#compilationfilesysteminfo}
 
 This new class can be used to access information about the filesystem in a cached way. Currently, it allows asking for both file and directory timestamps. Information about timestamps is transferred from the watcher if possible, otherwise determined by filesystem access.
 
@@ -1006,13 +1006,13 @@ Timestamping for directories is possible now, which allows serialization of Cont
 
 `Compiler.modifiedFiles` has been added (next to `Compiler.removedFiles`) to make it easier to reference the changed files.
 
-### Filesystems
+### Filesystems {#filesystems}
 
 Next to `compiler.inputFileSystem` and `compiler.outputFileSystem` there is a new `compiler.intermediateFileSystem` for all fs actions that are not considered as input or output, like writing records, cache or profiling output.
 
 The filesystems have now the `fs` interface and do no longer demand additional methods like `join` or `mkdirp`. But if they have methods like `join` or `dirname` they are used.
 
-### Hot Module Replacement
+### Hot Module Replacement {#hot-module-replacement}
 
 HMR runtime has been refactored to Runtime Modules. `HotUpdateChunkTemplate` has been merged into `ChunkTemplate`. ChunkTemplates and plugins should also handle `HotUpdateChunk`s now.
 
@@ -1022,7 +1022,7 @@ __MIGRATION__: As this is a newly introduced functionality, there is nothing to 
 
 `import.meta.webpackHot` exposes the same API as `module.hot`. This is also usable from strict ESM modules (.mjs, type: "module" in package.json) which do not have access to `module`.
 
-### Work Queues
+### Work Queues {#work-queues}
 
 webpack used to handle module processing by functions calling functions, and a `semaphore` which limits parallelism. The `Compilation.semaphore` has been removed and async queues now handle work queuing and processing. Each step has a separate queue:
 
@@ -1038,12 +1038,12 @@ In the future, multiple compilers may work together and job orchestration can be
 
 __MIGRATION__: As this is a newly introduced functionality, there is nothing to migrate.
 
-### Logging
+### Logging {#logging}
 
 webpack internals includes some logging now.
 `stats.logging` and `infrastructureLogging` options can be used to enabled these messages.
 
-### Module and Chunk Graph
+### Module and Chunk Graph {#module-and-chunk-graph}
 
 webpack used to store a resolved module in the dependency, and store the contained modules in the chunk. This is no longer the case. All information about how modules are connected in the module graph are now stored in a ModuleGraph class. All information about how modules are connected with chunks are now stored in the ChunkGraph class. The information which depends on i. e. the chunk graph, is also stored in the related class.
 
@@ -1072,13 +1072,13 @@ There is a compat-layer for most of these changes, which prints a deprecation wa
 
 __MIGRATION__: Use the new APIs on ModuleGraph and ChunkGraph
 
-### Init Fragments
+### Init Fragments {#init-fragments}
 
 `DependenciesBlockVariables` has been removed in favor of InitFragments. `DependencyTemplates` can now add `InitFragments` to inject code to the top of the module's source. `InitFragments` allows deduplication.
 
 __MIGRATION__: Use `InitFragments` instead of inserting something at a negative index into the source.
 
-### Module Source Types
+### Module Source Types {#module-source-types}
 
 Modules now have to define which source types they support via `Module.getSourceTypes()`. Depending on that, different plugins call `source()` with these types. i. e. for source type `javascript` the `JavascriptModulesPlugin` embeds the source code into the bundle. Source type `webassembly` will make the `WebAssemblyModulesPlugin` emit a wasm file. Custom source types are also supported, i. e. the mini-css-extract-plugin will probably use the source type `stylesheet` to embed the source code into a css file.
 
@@ -1086,27 +1086,27 @@ There is no relationship between module type and source type. i. e. module type 
 
 __MIGRATION__: Custom modules need to implement these new interface methods.
 
-### Plugins for Stats
+### Plugins for Stats {#plugins-for-stats}
 
 Stats `preset`, `default`, `json` and `toString` are now baked in by a plugin system. Converted the current Stats into plugins.
 
 __MIGRATION__: Instead of replacing the whole Stats functionality, you can now customize it. Extra information can now be added to the stats json instead of writing a separate file.
 
-### New Watching
+### New Watching {#new-watching}
 
 The watcher used by webpack was refactored. It was previously using `chokidar` and the native dependency `fsevents` (only on OSX). Now it's only based on native Node.js `fs`. This means there is no native dependency left in webpack.
 
 It also captures more information about filesystem while watching. It now captures mtimes and watches event times, as well as information about missing files. For this, the `WatchFileSystem` API changed a little bit. While on it we also converted Arrays to Sets and Objects to Maps.
 
-### SizeOnlySource after emit
+### SizeOnlySource after emit {#sizeonlysource-after-emit}
 
 webpack now replaces the Sources in `Compilation.assets` with `SizeOnlySource` variants to reduce memory usage.
 
-### Emitting assets multiple times
+### Emitting assets multiple times {#emitting-assets-multiple-times}
 
 The warning `Multiple assets emit different content to the same filename` has been made an error.
 
-### ExportsInfo
+### ExportsInfo {#exportsinfo}
 
 The way how information about exports of modules is stored has been refactored. The ModuleGraph now features an `ExportsInfo` for each `Module`, which stores information per export. It also stores information about unknown exports and if the module is used in a side-effect-only way.
 
@@ -1120,7 +1120,7 @@ For each export the following information is stored:
     - Used for reexporting namespace objects: `import * as X from "..."; export { X };`
     - Used for representing structure in JSON modules
 
-### Code Generation Phase
+### Code Generation Phase {#code-generation-phase}
 
 The Compilation features Code Generation as separate compilation phase now. It no longer runs hidden in `Module.source()` or `Module.getRuntimeRequirements()`.
 
@@ -1128,7 +1128,7 @@ This should make the flow much cleaner. It also allows to report progress for th
 
 __MIGRATION__: `Module.source()` and `Module.getRuntimeRequirements()` are deprecated now. Use `Module.codeGeneration()` instead.
 
-### DependencyReference
+### DependencyReference {#dependencyreference}
 
 webpack used to have a single method and type to represent references of dependencies (`Compilation.getDependencyReference` returning a `DependencyReference`).
 This type used to include all information about this reference like the referenced Module, which exports have been imported, if it's a weak reference and also some ordering related information.
@@ -1142,7 +1142,7 @@ In webpack 5 this part of the codebase was refactored and the method has been sp
 - There is a `weak` flag on the `Dependency` class
 - Ordering is only relevant to `HarmonyImportDependencies` and can be get via `sourceOrder` property
 
-### Presentational Dependencies
+### Presentational Dependencies {#presentational-dependencies}
 
 There is now a new type of dependency in `NormalModules`: Presentational Dependencies
 
@@ -1151,7 +1151,7 @@ So they can never have referenced modules or influence exports/imports.
 
 These dependencies are cheaper to process and webpack uses them when possible
 
-### Deprecated loaders
+### Deprecated loaders {#deprecated-loaders}
 
 - [`null-loader`](https://github.com/webpack-contrib/null-loader)
 
@@ -1179,7 +1179,7 @@ These dependencies are cheaper to process and webpack uses them when possible
   };
   ```
 
-## Minor Changes
+## Minor Changes {#minor-changes}
 
 - `Compiler.name`: When generating a compiler name with absolute paths, make sure to separate them with `|` or `!` on both parts of the name.
     - Using space as a separator is now deprecated. (Paths could contain spaces)
@@ -1216,7 +1216,7 @@ These dependencies are cheaper to process and webpack uses them when possible
 - EnvironmentPlugin shows an error now when referenced env variable is missing and has no fallback
 - Remove `serve` property from schema
 
-## Other Minor Changes
+## Other Minor Changes {#other-minor-changes}
 
 - removed buildin directory and replaced buildins with runtime modules
 - Removed deprecated features
