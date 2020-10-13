@@ -284,7 +284,7 @@ module.exports = {
 
 `boolean = false` `string`
 
-告知 webpack 将 `process.env.NODE_ENV` 设置为一个给定字符串。如果 `optimization.nodeEnv` 不是 `false`，则会使用 [DefinePlugin](/plugins/define-plugin/)，`optimization.nodeEnv` __默认值__取决于 [mode](/concepts/mode/)，如果为 falsy 值，则会回退到 `"production"`。
+告知 webpack 将 `process.env.NODE_ENV` 设置为一个给定字符串。如果 `optimization.nodeEnv` 不是 `false`，则会使用 [DefinePlugin](/plugins/define-plugin/)，`optimization.nodeEnv` __默认值__取决于 [mode](/concepts/mode/)，如果为 false 值，则会回退到 `"production"`。
 
 可能的值有：
 
