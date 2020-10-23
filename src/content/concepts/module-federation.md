@@ -16,13 +16,13 @@ related:
     url: https://www.youtube.com/playlist?list=PLWSiF9YHHK-DqsFHGYbeAMwbd9xcZbEWJ
 ---
 
-## 动机
+## 动机 {#motivation}
 
 多个独立的构建可以组成一个应用程序，这些独立的构建之间不应该存在依赖关系，因此可以单独开发和部署它们。
 
 这通常被称作微前端，但并不仅限于此。
 
-## 底层概念
+## 底层概念 {#low-level-concepts}
 
 我们区分本地模块和远程模块。本地模块是常规模块，是当前构建的一部分。远程模块不属于当前构建，并在运行时从所谓的容器(指 remoteEntry.js )加载。
 
@@ -39,7 +39,7 @@ related:
 
 容器可以嵌套使用，容器可以使用来自其他容器的模块。容器之间也可以循环依赖。
 
-### 重写(**Overriding**)
+### 重写(Overriding) {#overriding}
 
 容器能够将选定的本地模块标记为“可重写”。容器的使用者能够提供“重写”，即替换容器的一个“可重写模块”的模块。当使用者提供重写模块时，容器的所有模块将使用替换模块而不是本地模块。当使用者不提供替换模块时，容器的所有模块将使用本地模块。
 
@@ -58,7 +58,7 @@ W> 当使用嵌套时，为一个容器提供重写将自动覆盖嵌套容器�
 
 必须在容器的模块加载之前提供重写。在初始块中使用的重写只能被不使用 Promise 的同步模块重写。一旦执行，就不可再次被重写。
 
-## 高级概念
+## 高级概念 {#high-level-concepts}
 
 每个构建都充当一个容器，也使用其他构建作为容器。通过这种方式，每个构建都能够通过从对应容器中加载其他暴露出来的模块来访问它。
 
@@ -66,9 +66,9 @@ W> 当使用嵌套时，为一个容器提供重写将自动覆盖嵌套容器�
 
 packageName 选项允许通过设置包名来查找所需的版本。默认情况下，它会自动推断模块请求，当想禁用自动推断时，请将 requiredVersion 设置为 false 。
 
-## 构建块
+## 构建块(Building blocks) {#building-blocks}
 
-### `OverridablesPlugin` (底层 API)
+### `OverridablesPlugin` (底层 API) {#overridablesplugin-low-level}
 
 这个插件使得特定模块“可重写”。一个本地 API ( `__webpack_override__` ) 允许提供重写。
 
@@ -97,19 +97,19 @@ __webpack_override__({
 });
 ```
 
-### `ContainerPlugin` (底层 API)
+### `ContainerPlugin` (底层 API) {#containerplugin-low-level}
 
 这个插件使用指定的公开模块创建一个额外的容器入口。它还在内部使用 OverridablesPlugin，并向容器的使用者暴露 `override`  API。
 
-### `ContainerReferencePlugin` (底层 API)
+### `ContainerReferencePlugin` (底层 API) {#containerreferenceplugin-low-level}
 
 这个插件将特定的引用添加到外部容器中，并允许从这些容器中导入远程模块。它还调用这些容器的 `override` API 来为它们提供重写。本地的重写(通过 `__webpack_override__` 或 `override` API 时，构建也是一个容器)和指定的重写被提供给所有引用的容器。
 
-### `ModuleFederationPlugin` （高级 API）
+### `ModuleFederationPlugin` （高级 API）{#modulefederationplugin-high-level}
 
 这个插件组合了 `ContainerPlugin` 和 `ContainerReferencePlugin` 。覆盖(overrides)和覆盖(overridables)合并到指定共享模块的单个列表中。
 
-## 概念目标
+## 概念目标 {#concept-goals}
 
 - 它应该可以暴露和使用 webpack 支持的任何模块类型
 - 代码块加载应该并行加载所需的所有内容(web:到服务器的单次往返)
@@ -130,17 +130,17 @@ __webpack_override__({
    - 当你有嵌套的 node_modules 时，可以提供和使用多个不同的版本
 - 共享中尾部带有 `/` 的模块请求将匹配所有具有这个前缀的模块请求
 
-## 用例
+## 用例 {#use-cases}
 
-### 每个页面单独构建
+### 每个页面单独构建 {#separate-builds-per-page}
 
 单页应用的每个页面都是在单独的构建中从容器暴露出来的。主体应用程序(application shell)也是独立构建，会将所有页面作为远程模块来引用。通过这种方式，可以单独部署每个页面。在更新路由或添加新路由时部署主体应用程序。主体应用程序将常用库定义为共享模块，以避免在页面构建中出现重复。
 
-### 将组件库作为容器
+### 将组件库作为容器 {#components-library-as-container}
 
 许多应用程序共享一个通用的组件库，可以将其构建成暴露所有组件的容器。每个应用程序使用来自组件库容器的组件。可以单独部署对组件库的更改，而不需要重新部署所有应用程序。应用程序自动使用组件库的最新版本。
 
-### 动态远程容器
+### 动态远程容器 {#dynamic-remote-containers}
 
 该容器接口支持 `get` 和 `init` 方法。
 `init` 是一个异步兼容的方法，调用它时只有一个参数：共享作用域对象(shared scope object)。此对象在远程容器中用作共享作用域，并由主机提供的模块填充。
@@ -188,7 +188,7 @@ loadComponent('abtests', 'test123');
 
 [查看完整实现](https://github.com/module-federation/module-federation-examples/tree/master/advanced-api/dynamic-remotes)
 
-## 故障排除
+## 故障排除 {#troubleshooting}
 
 __`Uncaught Error: Shared module is not available for eager consumption`__
 
