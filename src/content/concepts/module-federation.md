@@ -99,15 +99,15 @@ __webpack_override__({
 
 ### `ContainerPlugin` (底层 API) {#containerplugin-low-level}
 
-这个插件使用指定的公开模块创建一个额外的容器入口。它还在内部使用 OverridablesPlugin，并向容器的使用者暴露 `override`  API。
+该插件使用指定的公开模块来创建一个额外的容器入口。它还会在内部使用 OverridablesPlugin，并向容器的使用者暴露 `override` API。
 
 ### `ContainerReferencePlugin` (底层 API) {#containerreferenceplugin-low-level}
 
-这个插件将特定的引用添加到外部容器中，并允许从这些容器中导入远程模块。它还调用这些容器的 `override` API 来为它们提供重写。本地的重写(通过 `__webpack_override__` 或 `override` API 时，构建也是一个容器)和指定的重写被提供给所有引用的容器。
+该插件将特定的引用添加到作为外部资源(externals)的容器中，并允许从这些容器中导入远程模块。它还会调用这些容器的 `override` API 来为它们提供重写。本地的重写(当构建也是一个容器时，通过 `__webpack_override__` 或 `override` API )和指定的重写被提供给所有引用的容器。
 
 ### `ModuleFederationPlugin` （高级 API）{#modulefederationplugin-high-level}
 
-这个插件组合了 `ContainerPlugin` 和 `ContainerReferencePlugin` 。覆盖(overrides)和覆盖(overridables)合并到指定共享模块的单个列表中。
+该插件组合了 `ContainerPlugin` 和 `ContainerReferencePlugin` 。重写(overrides)和可重写(overridables)被合并到指定共享模块的单个列表中。
 
 ## 概念目标 {#concept-goals}
 
