@@ -18,7 +18,6 @@ contributors:
 
 ## 导出函数 {#exporting-a-function}
 
-
 你最终可能会遇到需要区分[开发](/guides/development)和[生产](/guides/production)环境差异的情况。你可能有至少两种选择：
 
 有一种选择是由webpack配置导出一个函数而不是对象，这个函数包含两个参数：
