@@ -21,6 +21,7 @@ contributors:
 你最终可能会遇到需要区分[开发](/guides/development)和[生产](/guides/production)环境差异的情况。你可能有至少两种选择：
 
 有一种选择是由webpack配置导出一个函数而不是对象，这个函数包含两个参数：
+
 - 第一个是环境(environment)。在[环境选项文档](/api/cli/#environment-options)查看更多示例。
 - 第二个是用于描述webpack配置项的参数map，比如[`output-filename`](/api/cli/#output-options) 和 [`optimize-minimize`](/api/cli/#optimize-options)等。
 
