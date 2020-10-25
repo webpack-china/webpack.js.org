@@ -67,7 +67,6 @@ W> 只有通过webpack命令行工具返回 `Promise` 才生效。[`webpack()`](
 
 ## 导出多种配置 {#exporting-multiple-configurations}
 
-
 除了导出单个配置对象/函数，你可能也会需要导出多种配置（webpack 3.1.0起支持）。当运行webpack时，所有配置项都会构建。比如，对于多种[targets](/configuration/output/#outputlibrarytarget)（比如AMD and CommonJS）[打包library](/guides/author-libraries)会非常有用。
 
 ```js
