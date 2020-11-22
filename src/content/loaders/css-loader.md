@@ -96,15 +96,9 @@ module.exports = {
       {
         test: /\.css$/i,
         use: [
-<<<<<<< HEAD
-          'handlebars-loader', // handlebars-loader 需要原始资源字符串 
-          'extract-loader',
-          'css-loader',
-=======
-          "handlebars-loader", // handlebars loader expects raw resource string
+          "handlebars-loader", // handlebars-loader 需要原始资源字符串
           "extract-loader",
           "css-loader",
->>>>>>> e4ff8a53015295f998cf3b8a54a64e6bf60d85de
         ],
       },
     ],
@@ -189,13 +183,8 @@ module.exports = {
           url: (url, resourcePath) => {
             // resourcePath - css 文件的路径
 
-<<<<<<< HEAD
             // 不处理 `img.png` url
-            if (url.includes('img.png')) {
-=======
-            // Don't handle `img.png` urls
             if (url.includes("img.png")) {
->>>>>>> e4ff8a53015295f998cf3b8a54a64e6bf60d85de
               return false;
             }
 
@@ -275,13 +264,8 @@ module.exports = {
           import: (url, media, resourcePath) => {
             // resourcePath - css 文件路径
 
-<<<<<<< HEAD
             // 不处理 `style.css` 的导入
-            if (url.includes('style.css')) {
-=======
-            // Don't handle `style.css` import
             if (url.includes("style.css")) {
->>>>>>> e4ff8a53015295f998cf3b8a54a64e6bf60d85de
               return false;
             }
 
@@ -516,13 +500,8 @@ module.exports = {
         test: /\.css$/i,
         loader: "css-loader",
         options: {
-<<<<<<< HEAD
           // 使用 `local` 同使用 `modules: true` 的效果是一样的
-          modules: 'global',
-=======
-          // Using `local` value has same effect like using `modules: true`
           modules: "global",
->>>>>>> e4ff8a53015295f998cf3b8a54a64e6bf60d85de
         },
       },
     ],
