@@ -75,7 +75,7 @@ module.exports = {
 类型: `Boolean|Number|String`
 默认值: `undefined`
 
-该值可以通过 loader 的选项(options 参数)指定，默认为 `undefined` (无限制)。
+该值可以通过 loader 的 options 参数来指定，默认为 `undefined` 。
 
 #### `Boolean` {#boolean}
 
