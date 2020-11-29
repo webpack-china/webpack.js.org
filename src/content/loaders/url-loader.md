@@ -15,19 +15,19 @@ repo: https://github.com/webpack-contrib/url-loader
 
 
 
-A loader for webpack which transforms files into base64 URIs.
+用于将文件转换为 base64 URI 的 loader。
 
-## Getting Started {#getting-started}
+## 起步 {#getting-started}
 
-To begin, you'll need to install `url-loader`:
+首先，您需要安装 `url-loader`：
 
 ```console
-$ npm install url-loader --save-dev
+npm install url-loader --save-dev
 ```
 
-`url-loader` works like
-[`file-loader`](/loaders/file-loader/), but can return
-a DataURL if the file is smaller than a byte limit.
+`url-loader` 功能类似于
+[`file-loader`](/loaders/file-loader/), 
+但是在文件大小（单位 byte）低于指定的限制时，可以返回一个 DataURL。
 
 **index.js**
 
@@ -57,29 +57,29 @@ module.exports = {
 };
 ```
 
-And run `webpack` via your preferred method.
+然后通过您的首选方法运行`webpack`。
 
-## Options {#options}
+## 选项 {#options}
 
 |             Name              |            Type             |                            Default                            | Description                                                                         |
 | :---------------------------: | :-------------------------: | :-----------------------------------------------------------: | :---------------------------------------------------------------------------------- |
-|     **[`limit`](#limit)**     | `{Boolean\|Number\|String}` |                            `true`                             | Specifying the maximum size of a file in bytes.                                     |
-|  **[`mimetype`](#mimetype)**  |     `{Boolean\|String}`     | based from [mime-types](https://github.com/jshttp/mime-types) | Sets the MIME type for the file to be transformed.                                  |
-|  **[`encoding`](#encoding)**  |     `{Boolean\|String}`     |                           `base64`                            | Specify the encoding which the file will be inlined with.                           |
-| **[`generator`](#generator)** |        `{Function}`         |           `() => type/subtype;encoding,base64_data`           | You can create you own custom implementation for encoding data.                     |
-|  **[`fallback`](#fallback)**  |         `{String}`          |                         `file-loader`                         | Specifies an alternative loader to use when a target file's size exceeds the limit. |
-|  **[`esModule`](#esmodule)**  |         `{Boolean}`         |                            `true`                             | Use ES modules syntax.                                                              |
+|     **[`limit`](#limit)**     | `{Boolean\|Number\|String}` |                            `true`                             | 指定文件的最大体积（以字节为单位）。                                                    |
+|  **[`mimetype`](#mimetype)**  |     `{Boolean\|String}`     | 基于 [mime-types](https://github.com/jshttp/mime-types) 库实现转换 | 设置要转换的文件的 MIME 类型。                                                           |
+|  **[`encoding`](#encoding)**  |     `{Boolean\|String}`     |                           `base64`                            | 指定用于内联文件的编码。                                                               | 
+| **[`generator`](#generator)** |        `{Function}`         |           `() => type/subtype;encoding,base64_data`           | 您可以创建自己的自定义实现以对数据进行编码。                                             |
+|  **[`fallback`](#fallback)**  |         `{String}`          |                         `file-loader`                         | 指定当目标文件大小超过限制时的替代 loader。                                              |
+|  **[`esModule`](#esmodule)**  |         `{Boolean}`         |                            `true`                             | 使用ES模块语法。                                                                     |
 
 ### `limit` {#limit}
 
-Type: `Boolean|Number|String`
-Default: `undefined`
+类型: `Boolean|Number|String`
+默认值: `undefined`
 
-The limit can be specified via loader options and defaults to no limit.
+该值可以通过 loader 的选项(options 参数)指定，默认为 `undefined` (无限制)。
 
 #### `Boolean` {#boolean}
 
-Enable or disable transform files into base64.
+开启/关闭将文件转换为 base64。
 
 **webpack.config.js**
 
@@ -105,10 +105,10 @@ module.exports = {
 
 #### `Number|String` {#numberstring}
 
-A `Number` or `String` specifying the maximum size of a file in bytes.
-If the file size is **equal** or **greater** than the limit [`file-loader`](/loaders/file-loader/) will be used (by default) and all query parameters are passed to it.
+指定文件的最大体积（以字节为单位）。
+如果文件体积**等于**或**大于**限制，默认情况下将使用 [`file-loader`](/loaders/file-loader/) 并将所有参数传递给它。
 
-Using an alternative to `file-loader` is enabled via the `fallback` option.
+可以通过 `fallback` 选项设置 `file-loader` 的可选参数。
 
 **webpack.config.js**
 
@@ -134,16 +134,16 @@ module.exports = {
 
 ### `mimetype` {#mimetype}
 
-Type: `Boolean|String`
-Default: based from [mime-types](https://github.com/jshttp/mime-types)
+类型: `Boolean|String`
+默认值: 基于第三方库 [mime-types](https://github.com/jshttp/mime-types) 来获取mimetype。
 
-Specify the `mimetype` which the file will be inlined with.
-If unspecified the `mimetype` value will be used from [mime-types](https://github.com/jshttp/mime-types).
+指定用于内联文件的`mimetype`。
+如果未指定，将使用第三方库 [mime-types](https://github.com/jshttp/mime-types) 来获取mimetype。
 
 #### `Boolean` {#boolean}
 
-The `true` value allows to generation the `mimetype` part from [mime-types](https://github.com/jshttp/mime-types).
-The `false` value removes the `mediatype` part from a Data URL (if omitted, defaults to `text/plain;charset=US-ASCII`).
+`true`值允许使用第三方库 [mime-types](https://github.com/jshttp/mime-types) 来获取 mimetype。
+`false` 值则从数据URL中删除 `mediatype` 部分（如果省略，则默认为 `text/plain；charset=US-ASCII`）。
 
 **webpack.config.js**
 
@@ -169,7 +169,7 @@ module.exports = {
 
 #### `String` {#string}
 
-Sets the MIME type for the file to be transformed.
+设置要转换的文件的 MIME 类型。
 
 **webpack.config.js**
 
@@ -195,15 +195,15 @@ module.exports = {
 
 ### `encoding` {#encoding}
 
-Type: `Boolean|String`
-Default: `base64`
+类型: `Boolean|String`
+默认值: `base64`
 
-Specify the `encoding` which the file will be inlined with.
-If unspecified the `encoding` will be `base64`.
+指定用于内联文件的编码格式。
+如果未指定，则 `encoding` 为 `base64`。
 
 #### `Boolean` {#boolean}
 
-If you don't want to use any encoding you can set `encoding` to `false` however if you set it to `true` it will use the default encoding `base64`.
+如果不想使用任何编码，可以将“encoding”设置为 `false`，如果将其设置为 `true`，则将使用默认编码 `base64`。
 
 **webpack.config.js**
 
@@ -229,7 +229,7 @@ module.exports = {
 
 #### `String` {#string}
 
-It supports [Node.js Buffers and Character Encodings](https://nodejs.org/api/buffer.html#buffer_buffers_and_character_encodings) which are `["utf8","utf16le","latin1","base64","hex","ascii","binary","ucs2"]`.
+它支持下面的编码格式（[Node.js Buffers and Character Encodings](https://nodejs.org/api/buffer.html#buffer_buffers_and_character_encodings)）：`["utf8","utf16le","latin1","base64","hex","ascii","binary","ucs2"]`。
 
 **webpack.config.js**
 
@@ -255,10 +255,10 @@ module.exports = {
 
 ### `generator` {#generator}
 
-Type: `Function`
-Default: `(mimetype, encoding, content, resourcePath) => mimetype;encoding,base64_content`
+类型： `Function`
+默认值：`(mimetype, encoding, content, resourcePath) => mimetype;encoding,base64_content`
 
-You can create you own custom implementation for encoding data.
+您可以使用自定义方案来编码数据。
 
 **webpack.config.js**
 
@@ -272,8 +272,8 @@ module.exports = {
           {
             loader: 'url-loader',
             options: {
-              // The `mimetype` and `encoding` arguments will be obtained from your options
-              // The `resourcePath` argument is path to file.
+              // `mimetype` 和 `encoding` 参数将从您传入的参数中中获得
+              // `resourcePath` 参数是文件的路径。
               generator: (content, mimetype, encoding, resourcePath) => {
                 if (/\.html$/i.test(resourcePath)) {
                   return `data:${mimetype},${content.toString()}`;
@@ -294,10 +294,10 @@ module.exports = {
 
 ### `fallback` {#fallback}
 
-Type: `String`
-Default: `'file-loader'`
+类型: `String`
+默认值: `'file-loader'`
 
-Specifies an alternative loader to use when a target file's size exceeds the limit set in the `limit` option.
+指定当目标文件的大小超过 `limit` 选项中设置的限制时要使用的替代加载程序。
 
 **webpack.config.js**
 
@@ -321,9 +321,9 @@ module.exports = {
 };
 ```
 
-The fallback loader will receive the same configuration options as url-loader.
+替代的loader的配置选项和url-loader的配置选项相同。
 
-For example, to set the quality option of a responsive-loader above use:
+例如为替代loader（responsive-loader）设置 `quality` 参数：
 
 **webpack.config.js**
 
@@ -350,13 +350,13 @@ module.exports = {
 
 ### `esModule` {#esmodule}
 
-Type: `Boolean`
-Default: `true`
+类型: `Boolean`
+默认值: `true`
 
-By default, `file-loader` generates JS modules that use the ES modules syntax.
-There are some cases in which using ES modules is beneficial, like in the case of [module concatenation](/plugins/module-concatenation-plugin/) and [tree shaking](/guides/tree-shaking/).
+默认情况下，`file loader` 生成使用ES modules语法的JS模块。
+在某些情况下，使用ES模块是有益的，比如 [module concatenation](https://webpack.js.org/plugins/module-concatenation-plugin/) 和 [tree shaking](https://webpack.js.org/guides/tree-shanking/)。
 
-You can enable a CommonJS module syntax using:
+您可以使用以下命令启用CommonJS模块语法：
 
 **webpack.config.js**
 
@@ -380,13 +380,13 @@ module.exports = {
 };
 ```
 
-## Examples {#examples}
+## 实例 {#examples}
 
 ### SVG {#svg}
 
-SVG can be compressed into a more compact output, avoiding `base64`.
-You can read about it more [here](https://css-tricks.com/probably-dont-base64-svg/).
-You can do it using [mini-svg-data-uri](https://github.com/tigt/mini-svg-data-uri) package.
+SVG可以被压缩成更小的体积，尽量避免使用 `base64`。
+你可以从[这里](https://css-tricks.com/probably-dont-base64-svg/)了解更多信息。
+你可以使用 [mini-svg-data-uri](https://github.com/tigt/mini-svg-data-uri) 来压缩SVG。
 
 **webpack.config.js**
 
@@ -412,9 +412,9 @@ module.exports = {
 };
 ```
 
-## Contributing {#contributing}
+## 贡献
 
-Please take a moment to read our contributing guidelines if you haven't yet done so.
+如果您还没有阅读我们的贡献指南，请花一点时间阅读。
 
 [CONTRIBUTING](https://github.com/webpack-contrib/url-loader/blob/master/.github/CONTRIBUTING.md)
 
