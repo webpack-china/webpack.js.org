@@ -39,30 +39,30 @@ chunk 的加载操作通常是通过调用 `import()` 实现的，但也支持�
 
 容器可以嵌套使用，容器可以使用来自其他容器的模块。容器之间也可以循环依赖。
 
-### 重写（Overriding） {#overriding}
+### 重载（Overriding） {#overriding}
 
-容器能够将选定的本地模块标记为“可重写”。容器的使用者能够提供“重写”，即替换容器中的一个“可重写”的模块。当使用者提供重写模块时，容器的所有模块将使用替换模块而非本地模块。当使用者不提供替换模块时，容器的所有模块将使用本地模块。
+容器能够将选定的本地模块标记为“可重载”。容器的使用者能够提供“重载”，即替换容器中的一个“可重载”的模块。当使用者提供重载模块时，容器的所有模块将使用替换模块而非本地模块。当使用者不提供替换模块时，容器的所有模块将使用本地模块。
 
-容器管理可重写模块的方式为：当它们被使用者重写时，不需要下载它们。这通常是通过将它们放在单独的 chunk 中来实现的。
+容器管理可重载模块的方式为：当使用者已经重写它们后，就不需要下载了。这通常是通过将它们放在单独的 chunk 中来实现的。
 
 另一方面，替换模块的提供者，将只提供异步加载函数。它允许容器仅在需要替换模块时才去加载。提供者管理替换模块的方式为：当容器不请求替换模块时，则无需下载。这通常是通过将它们放在单独的 chunk 中来实现的。
 
-"name" 用于标识容器中可重写的模块。
+"name" 用于标识容器中可重载的模块。
 
-重写（Overrides）的提供和容器暴露模块类似，它分为两个步骤:
+重载（Overrides）的提供和容器暴露模块类似，它分为两个步骤:
 
 1. 加载（异步）
 2. 执行（同步）
 
-W> 当嵌套使用时，向容器提供重写将自动覆盖嵌套容器中具有相同 "name" 的模块。
+W> 当嵌套使用时，向容器提供重载将自动覆盖嵌套容器中具有相同 "name" 的模块。
 
-必须在容器模块加载之前提供重写。在初始 chunk 中使用的重写只能被不使用 Promise 的同步模块重写。一旦执行，就不可再次被重写。
+必须在容器模块加载之前提供重载。在初始 chunk 中使用的重载只能被不使用 Promise 的同步模块重载。一旦执行，就不可再次被重载。
 
 ## 高级概念 {#high-level-concepts}
 
 每个构建都充当一个容器，也可将其他构建作为容器。通过这种方式，每个构建都能够通过从对应容器中加载模块来访问其他容器暴露出来的模块。
 
-共享模块是可重写并作为对嵌套容器的重写提供的模块。它们通常指向每个构建中的相同模块，例如相同的库。
+共享模块是指既可重写的又可作为向嵌套容器提供重写的模块。它们通常指向每个构建中的相同模块，例如相同的库。
 
 packageName 选项允许通过设置包名来查找所需的版本。默认情况下，它会自动推断模块请求，当想禁用自动推断时，请将 requiredVersion 设置为 false 。
 
@@ -70,7 +70,7 @@ packageName 选项允许通过设置包名来查找所需的版本。默认情�
 
 ### `OverridablesPlugin` (底层 API) {#overridablesplugin-low-level}
 
-这个插件使得特定模块“可重写”。一个本地 API ( `__webpack_override__` ) 允许提供重写。
+这个插件使得特定模块“可重载”。一个本地 API ( `__webpack_override__` ) 允许提供重载。
 
 __webpack.config.js__
 
@@ -80,7 +80,7 @@ module.exports = {
   plugins: [
     new OverridablesPlugin([
       {
-        // 通过 OverridablesPlugin 定义一个可重写的模块
+        // 通过 OverridablesPlugin 定义一个可重载的模块
         test1: './src/test1.js',
       },
     ]),
@@ -103,11 +103,11 @@ __webpack_override__({
 
 ### `ContainerReferencePlugin` (底层 API) {#containerreferenceplugin-low-level}
 
-该插件将特定的引用添加到作为外部资源(externals)的容器中，并允许从这些容器中导入远程模块。它还会调用这些容器的 `override` API 来为它们提供重写。本地的重写(当构建也是一个容器时，通过 `__webpack_override__` 或 `override` API )和指定的重写被提供给所有引用的容器。
+该插件将特定的引用添加到作为外部资源(externals)的容器中，并允许从这些容器中导入远程模块。它还会调用这些容器的 `override` API 来为它们提供重载。本地的重载(当构建也是一个容器时，通过 `__webpack_override__` 或 `override` API )和指定的重载被提供给所有引用的容器。
 
 ### `ModuleFederationPlugin` （高级 API）{#modulefederationplugin-high-level}
 
-该插件组合了 `ContainerPlugin` 和 `ContainerReferencePlugin` 。重写(overrides)和可重写(overridables)被合并到指定共享模块的单个列表中。
+该插件组合了 `ContainerPlugin` 和 `ContainerReferencePlugin` 。重载(overrides)和可重载(overridables)被合并到指定共享模块的单个列表中。
 
 ## 概念目标 {#concept-goals}
 
