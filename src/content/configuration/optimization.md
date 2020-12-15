@@ -198,7 +198,7 @@ __webpack.config.js__
 module.exports = {
   //...
   optimization: {
-    moduleIds: 'hashed'
+    moduleIds: 'deterministic'
   }
 };
 ```
@@ -478,7 +478,7 @@ module.exports = {
 
 ## `optimization.sideEffects` {#optimizationsideeffects}
 
-`boolean = true`
+`boolean = true`  `string: 'flag'` 
 
 告知 webpack 去辨识 `package.json` 中的  [`副作用`](https://github.com/webpack/webpack/blob/master/examples/side-effects/README.md) 标记或规则，以跳过那些当导出不被使用且被标记不包含副作用的模块。
 
@@ -508,6 +508,21 @@ module.exports = {
   }
 };
 ```
+
+只使用手动 flag，并且不对源码进行分析：
+
+```js
+module.exports = {
+  //...
+  optimization: {
+    sideEffects: 'flag'
+  }
+};
+```
+
+此处的 `'flag'` 值在非生产环境默认使用。
+
+T> 设置为 `optimization.sideEffects` 时，当模块只包含无副作用的语句时，此模块也会被标记为无副作用。
 
 ## `optimization.portableRecords` {#optimizationportablerecords}
 

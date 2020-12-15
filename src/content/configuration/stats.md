@@ -15,6 +15,8 @@ contributors:
   - anshumanv
   - pixel-ray
   - snitin315
+  - u01jmg3
+  - grrizzly
 ---
 
 `object` `string`
@@ -22,8 +24,6 @@ contributors:
 `stats` 选项让你更精确地控制 bundle 信息该怎么显示。 如果你不希望使用 `quiet` 或 `noInfo` 这样的不显示信息，而是又不想得到全部的信息，只是想要获取某部分 bundle 的信息，使用 stats 选项是比较好的折衷方式。
 
 T> 对于 webpack-dev-server，这个属性要放在 [`devServer` 配置对象](/configuration/dev-server/#devserverstats-).
-
-T> 对于 [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware), 该属性需要在webpack-dev-middleware 的 `options` 对象中.
 
 W> 在使用 Node.js API 时，此选项无效。
 
@@ -1017,37 +1017,7 @@ module.exports = {
 ```
 
 
-W> `stats.warningsFilter` 已被弃用，请改用 [`stats.ignoreWarnings`](#statsignoreWarnings)。
-
-### `stats.ignoreWarnings` {#statsignorewarnings}
-
-`RegExp` `function (WebpackError, Compilation) => boolean` `{module?: RegExp, file?: RegExp, message?: RegExp}`
-
-告诉 `stats` 忽略特定的警告。这可以通过一个 `RegExp` 来完成，这是一个自定义的 `function`，用于根据原始 warning 实例来选择 warning，该实例的参数为 `WebpackError` 和 `Compilation`，并会返回一个 `boolean`，一个具有以下属性的 `object`：
-
-- `file`：一个正则表达式，用于匹配 warning 的源文件。
-- `message`：一个正则表达式，用于匹配 warning 信息。
-- `module`：一个正则表达式，用于匹配 warning 的源模块。
-
-`stats.ignoreWarnings` 可以是上述任何一种的 `arrau`：
-
-```javascript
-module.exports = {
-  //...
-  stats: {
-    ignoreWarnings: [
-      {
-        module: /module2\.js\?[34]/ // A RegExp
-      },
-      {
-        module: /[13]/,
-        message: /homepage/
-      },
-      (warning) => true
-    ]
-  }
-};
-```
+W> `stats.warningsFilter` 已被弃用，请改用 [`ignoreWarnings`](/configuration/other-options/#ignorewarnings)。
 
 ### `stats.chunkRelations` {#statschunkrelations}
 

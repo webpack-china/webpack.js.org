@@ -70,9 +70,9 @@ module.exports = {
 
 ## `watchOptions.ignored` {#watchoptionsignored}
 
-`RegExp` [`anymatch`](https://github.com/micromatch/anymatch)
+`RegExp` `string` `[string]`
 
-对于某些系统，监听大量文件系统会导致大量的 CPU 或内存占用。这个选项可以排除一些巨大的文件夹，例如 `node_modules`：
+对于某些系统，监听大量文件会导致大量的 CPU 或内存占用。可以使用正则排除像 `node_modules` 如此庞大的文件夹：
 
 __webpack.config.js__
 
@@ -85,7 +85,20 @@ module.exports = {
 };
 ```
 
-也可以使用多种 [anymatch](https://github.com/micromatch/anymatch) 模式：
+此外，还可以使用 glob 模式：
+
+__webpack.config.js__
+
+```javascript
+module.exports = {
+  //...
+  watchOptions: {
+    ignored: 'node_modules/**'
+  }
+};
+```
+
+也可以使用多 glob 匹配模式：
 
 __webpack.config.js__
 
@@ -119,17 +132,6 @@ module.exports = {
 ```
 
 T> 如果监听没生效，试试这个选项吧。Watch 在 NFS 和 VirtualBox 机器上不适用。
-
-
-## `info-verbosity` {#info-verbosity}
-
-`string = 'info': 'none' | 'info' | 'verbose'`
-
-控制生命周期消息的详细程度，例如 `Started watching files(开始监听文件)...` 日志。将 `info-verbosity` 设置为 `verbose`，还会额外在增量构建的开始和结束时，向控制台发送消息。
-
-```bash
-webpack --watch --info-verbosity verbose
-```
 
 
 ## 故障排除 {#troubleshooting}

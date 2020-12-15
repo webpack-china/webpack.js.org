@@ -1,7 +1,9 @@
-import React from 'react';
+import { Component, Fragment } from 'react';
 import Container from '../Container/Container';
 import testLocalStorage from '../../utilities/test-local-storage';
 import './NotificationBar.scss';
+import CloseIcon from '../../styles/icons/cross.svg';
+import PropTypes from 'prop-types';
 
 const version = '3';
 const localStorageIsEnabled = testLocalStorage() !== false;
@@ -13,7 +15,10 @@ const barDismissed = () => {
   return false;
 };
 
-class MessageBar extends React.Component {
+class MessageBar extends Component {
+  static propTypes = {
+    onClose: PropTypes.func
+  }
   render() {
     return (
       <div className="notification-bar">
@@ -22,11 +27,14 @@ class MessageBar extends React.Component {
             Webpack 5 现已正式发布。请阅读我们的 <a href="/blog/2020-10-10-webpack-5-release/">发布公告</a>。如还未准备升级，请阅读 <a href="https://v4.webpack.docschina.org/">webpack 4 文档</a>。
           </p>
           {localStorageIsEnabled ? (
-            <button
+            <CloseIcon
               aria-label="Dismiss"
-              className="notification-bar__close icon-cross"
+              className="notification-bar__close"
+              fill="#fff"
+              width={16}
               onClick={this.close.bind(this)}
-            />
+              role="button"
+              />
           ) : null}
         </Container>
       </div>
@@ -38,13 +46,13 @@ class MessageBar extends React.Component {
    *
    * @param {object} e - Click event
    */
-  close(e) {
+  close() {
     localStorage.setItem('notification-dismissed', version);
     this.props.onClose();
   }
 }
 
-export default class NotificationBar extends React.Component {
+export default class NotificationBar extends Component {
   constructor(props) {
     super(props);
     this.onClose = this.onClose.bind(this);
@@ -70,6 +78,6 @@ export default class NotificationBar extends React.Component {
   render() {
     const { dismissed } = this.state;
 
-    return <React.Fragment>{!dismissed ? <MessageBar onClose={this.onClose} /> : null}</React.Fragment>;
+    return <Fragment>{!dismissed ? <MessageBar onClose={this.onClose} /> : null}</Fragment>;
   }
 }

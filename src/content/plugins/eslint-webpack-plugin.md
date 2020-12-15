@@ -72,7 +72,7 @@ module.exports = {
 npm install eslint-webpack-plugin --save-dev
 ```
 
-**Note**: You also need to install `eslint` from npm, if you haven't already:
+**Note**: You also need to install `eslint >= 7` from npm, if you haven't already:
 
 ```bash
 npm install eslint --save-dev
@@ -116,21 +116,28 @@ A string indicating the root of your files.
 
 Path to `eslint` instance that will be used for linting. If the `eslintPath` is a folder like a official eslint, or specify a `formatter` option. now you dont have to install `eslint`.
 
-### `files`
-
-- Type: `String|Array[String]`
-- Default: `'.'`
-
-Specify directories, files, or globs. Must be relative to `options.context`.
-Directories are traveresed recursively looking for files matching `options.extensions`.
-File and glob patterns ignore `options.extensions`.
-
 ### `extensions`
 
 - Type: `String|Array[String]`
 - Default: `'js'`
 
 Specify extensions that should be checked.
+
+### `exclude`
+
+- Type: `String|Array[String]`
+- Default: `'node_modules'`
+
+Specify the files and/or directories to exclude. Must be relative to `options.context`.
+
+### `files`
+
+- Type: `String|Array[String]`
+- Default: `null`
+
+Specify directories, files, or globs. Must be relative to `options.context`.
+Directories are traveresed recursively looking for files matching `options.extensions`.
+File and glob patterns ignore `options.extensions`.
 
 ### `fix`
 
@@ -154,6 +161,13 @@ Accepts a function that will have one argument: an array of eslint messages (obj
 - Default: `false`
 
 Lint only changed files, skip lint on start.
+
+#### `threads`
+
+- Type: `Boolean | Number`
+- Default: `false`
+
+Will run lint tasks across a thread pool. The pool size is automatic unless you specify a number.
 
 ### Errors and Warning
 
