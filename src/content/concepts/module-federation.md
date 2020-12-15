@@ -194,9 +194,9 @@ __`Uncaught Error: Shared module is not available for eager consumption`__
 
 应用程序正急切地执行一个作为全局主机运行的应用程序。有如下选项可供选择:
 
-你可以在模块联合的高级 API 中将依赖设置为即时依赖，该 API 不会将模块放在异步块中，而是同步地提供它们。这允许我们在初始块中使用这些共享模块。但是要小心，因为所有提供的和后备模块总是要下载的。建议只在应用程序的某个地方提供它，例如 shell。
+你可以在模块联邦的高级 API 中将依赖设置为即时依赖，此 API 不会将模块放在异步 chunk 中，而是同步地提供它们。这使得我们在初始块中可以直接使用这些共享模块。但是要注意，由于所有提供的和降级模块是要异步下载的，因此，建议只在应用程序的某个地方提供它，例如 shell。
 
-我们强烈建议使用异步边界(asynchronous boundary)。它将把初始化代码分割成更大的块，以避免任何额外的往返，并在总体上提高性能。
+我们强烈建议使用异步边界(asynchronous boundary)。它将把初始化代码分割成更大的块，以避免任何额外的开销，以提高总体性能。
 
 例如，你的入口看起来是这样的：
 
@@ -230,7 +230,7 @@ __bootstrap.js__
 + ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
-这种方法有效，但可能会有局限性或缺点。
+这种方法有效，但存在局限性或缺点。
 
 通过 `ModuleFederationPlugin` 将依赖的 `eager` 属性设置为 `true` 
 
@@ -250,7 +250,7 @@ new ModuleFederationPlugin({
 
 __`Uncaught Error: Module "./Button" does not exist in container.`__
 
-报错可能不会显示 `"./Button"` ，但是错误信息看起来差不多。这个问题通常会出现在将 webpack beta.16 升级到 webpack beta.17 中。
+错误提示中可能不会显示 `"./Button"`，但是信息看起来差不多。这个问题通常会出现在将 webpack beta.16 升级到 webpack beta.17 中。
 
 在 ModuleFederationPlugin 里，更改 exposes:
 
@@ -265,5 +265,5 @@ new ModuleFederationPlugin({
 
 __`Uncaught TypeError: fn is not a function`__
 
-你可能丢失了远程容器，请确保添加了它。
-如果已为试图使用的远程服务器加载了容器，但仍然看到此错误，则将主机容器的远程容器文件也添加到 HTML 中。
+此处错误可能是丢失了远程容器，请确保在使用前添加它。
+如果已为试图使用远程服务器的容器加载了容器，但仍然看到此错误，则需将主机容器的远程容器文件也添加到 HTML 中。
