@@ -103,15 +103,15 @@ __webpack_override__({
 
 ### `ContainerReferencePlugin` (底层 API) {#containerreferenceplugin-low-level}
 
-该插件将特定的引用添加到作为外部资源(externals)的容器中，并允许从这些容器中导入远程模块。它还会调用这些容器的 `override` API 来为它们提供重载。本地的重载(当构建也是一个容器时，通过 `__webpack_override__` 或 `override` API )和指定的重载被提供给所有引用的容器。
+该插件将特定的引用添加到作为外部资源（externals）的容器中，并允许从这些容器中导入远程模块。它还会调用这些容器的 `override` API 来为它们提供重载。本地的重载（当构建也是一个容器时，通过 `__webpack_override__` 或 `override` API）和指定的重载被提供给所有引用的容器。
 
 ### `ModuleFederationPlugin` （高级 API）{#modulefederationplugin-high-level}
 
-该插件组合了 `ContainerPlugin` 和 `ContainerReferencePlugin` 。重载(overrides)和可重载(overridables)被合并到指定共享模块的单个列表中。
+该插件组合了 `ContainerPlugin` 和 `ContainerReferencePlugin`。重载（overrides）和可重载（overridables）被合并到指定共享模块的单个列表中。
 
 ## 概念目标 {#concept-goals}
 
-- 它应该可以暴露和使用 webpack 支持的任何模块类型
+- 它既可以暴露，又可以使用 webpack 支持的任何模块类型
 - 代码块加载应该并行加载所需的所有内容(web:到服务器的单次往返)
 - 从使用者到容器的控制
    - 重写模块是一种单向操作
@@ -143,8 +143,8 @@ __webpack_override__({
 ## 动态远程容器 {#dynamic-remote-containers}
 
 该容器接口支持 `get` 和 `init` 方法。
-`init` 是一个异步兼容的方法，调用它时只有一个参数：共享作用域对象(shared scope object)。此对象在远程容器中用作共享作用域，并由主机提供的模块填充。
-可以利用它在运行时动态地将远程容器连接到主机容器。
+`init` 是一个兼容 `async` 的方法，调用时，只含有一个参数：共享作用域对象(shared scope object)。此对象在远程容器中用作共享作用域，并由 host 提供的模块填充。
+可以利用它在运行时动态地将远程容器连接到 host 容器。
 
 __init.js__
 
@@ -159,9 +159,9 @@ __init.js__
 })();
 ```
 
-容器尝试提供共享模块，但是如果共享模块已经被使用，警告和提供的共享模块将被忽略。容器可能仍然使用它作为回退。
+容器尝试提供共享模块，但是如果共享模块已经被使用，则会发出警告，并忽略所提供的共享模块。容器仍能将其作为降级模块。
 
-通过这种方式，您可以动态加载提供共享模块的不同版本的 A/B 测试。
+你可以通过动态加载的方式，提供一个共享模块的不同版本，从而实现 A/B 测试。
 
 T> 在尝试动态连接远程容器之前，确保已加载容器。
 
@@ -192,9 +192,9 @@ loadComponent('abtests', 'test123');
 
 __`Uncaught Error: Shared module is not available for eager consumption`__
 
-应用程序正在急切地执行一个作为全向主机运行的应用程序。有选项可供选择:
+应用程序正急切地执行一个作为全局主机运行的应用程序。有如下选项可供选择:
 
-您可以在模块联合的高级 API 中将依赖设置为即时依赖，该API不会将模块放在异步块中，而是同步地提供它们。这允许我们在初始块中使用这些共享模块。但是要小心，因为所有提供的和后备模块总是要下载的。建议只在应用程序的某个地方提供它，例如 shell。
+你可以在模块联合的高级 API 中将依赖设置为即时依赖，该 API 不会将模块放在异步块中，而是同步地提供它们。这允许我们在初始块中使用这些共享模块。但是要小心，因为所有提供的和后备模块总是要下载的。建议只在应用程序的某个地方提供它，例如 shell。
 
 我们强烈建议使用异步边界(asynchronous boundary)。它将把初始化代码分割成更大的块，以避免任何额外的往返，并在总体上提高性能。
 
