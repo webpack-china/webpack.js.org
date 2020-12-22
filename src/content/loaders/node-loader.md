@@ -14,23 +14,23 @@ repo: https://github.com/webpack-contrib/node-loader
 
 
 
-A [Node.js add-ons](https://nodejs.org/dist/latest/docs/api/addons.html) loader
-module for enhanced-require. Executes add-ons in
-[enhanced-require](https://github.com/webpack/enhanced-require).
+[Node.js add-ons](https://nodejs.org/dist/latest/docs/api/addons.html) loader 是一个
+增强 require 的模块。 在
+[enhanced-require](https://github.com/webpack/enhanced-require) 上执行 add-ons。
 
-## Requirements
+## 要求
 
-This module requires a minimum of Node v6.9.0 and Webpack v4.0.0.
+该模块要求 Node 版本不低于 v6.9.0 而且 Webpack 版本不低于 v4.0.0。
 
-## Getting Started
+## 开始
 
-To begin, you'll need to install `node-loader`:
+首先，需要安装 `node-loader`：
 
 ```console
 $ npm install node-loader --save-dev
 ```
 
-Then add the loader to your `webpack` config. For example:
+然后将 loader 添加到 `webpack` 配置中。比如：
 
 ```js
 import node from 'file.node';
@@ -50,22 +50,22 @@ module.exports = {
 }
 ```
 
-Or on the command-line:
+通过命令行：
 
 ```console
 $ webpack --module-bind 'node=node-loader'
 ```
 
-### Inline
+### 内联使用
 
-**In your application**
+**在项目中**
 ```js
 import node from 'node-loader!./file.node';
 ```
 
-And run `webpack` via your preferred method.
+然后使用你更喜欢的方式运行 `webpack`。
 
-## License
+## 证书
 
 #### [MIT](https://github.com/webpack-contrib/node-loader/blob/master/LICENSE)
 
