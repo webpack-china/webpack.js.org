@@ -18,7 +18,7 @@ repo: https://github.com/webpack-contrib/copy-webpack-plugin
 
 Copies individual files or entire directories, which already exist, to the build directory.
 
-## Getting Started
+## Getting Started {#getting-started}
 
 To begin, you'll need to install `copy-webpack-plugin`:
 
@@ -31,14 +31,14 @@ Then add the plugin to your `webpack` config. For example:
 **webpack.config.js**
 
 ```js
-const CopyPlugin = require('copy-webpack-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   plugins: [
     new CopyPlugin({
       patterns: [
-        { from: 'source', to: 'dest' },
-        { from: 'other', to: 'public' },
+        { from: "source", to: "dest" },
+        { from: "other", to: "public" },
       ],
     }),
   ],
@@ -49,21 +49,23 @@ module.exports = {
 
 > ℹ️ If you want `webpack-dev-server` to write files to the output directory during development, you can force it with the [`writeToDisk`](https://github.com/webpack/webpack-dev-middleware#writetodisk) option or the [`write-file-webpack-plugin`](https://github.com/gajus/write-file-webpack-plugin).
 
-## Options
+> ℹ️ You can get the original source filename from [Asset Objects](/api/stats/#asset-objects).
+
+## Options {#options}
 
 The plugin's signature:
 
 **webpack.config.js**
 
 ```js
-const CopyPlugin = require('copy-webpack-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   plugins: [
     new CopyPlugin({
       patterns: [
-        { from: 'source', to: 'dest' },
-        { from: 'other', to: 'public' },
+        { from: "source", to: "dest" },
+        { from: "other", to: "public" },
       ],
       options: {
         concurrency: 100,
@@ -73,23 +75,22 @@ module.exports = {
 };
 ```
 
-### Patterns
+### Patterns {#patterns}
 
-|                  Name                   |            Type             |                     Default                     | Description                                                                                           |
-| :-------------------------------------: | :-------------------------: | :---------------------------------------------: | :---------------------------------------------------------------------------------------------------- |
-|             [`from`](#from)             |         `{String}`          |                   `undefined`                   | Glob or path from where we сopy files.                                                                |
-|               [`to`](#to)               |         `{String}`          |            `compiler.options.output`            | Output path.                                                                                          |
-|          [`context`](#context)          |         `{String}`          | `options.context \|\| compiler.options.context` | A path that determines how to interpret the `from` path.                                              |
-|      [`globOptions`](#globoptions)      |         `{Object}`          |                   `undefined`                   | [Options][glob-options] passed to the glob pattern matching library including `ignore` option.        |
-|           [`toType`](#totype)           |         `{String}`          |                   `undefined`                   | Determinate what is `to` option - directory, file or template.                                        |
-|            [`force`](#force)            |         `{Boolean}`         |                     `false`                     | Overwrites files already in `compilation.assets` (usually added by other plugins/loaders).            |
-|          [`flatten`](#flatten)          |         `{Boolean}`         |                     `false`                     | Removes all directory references and only copies file names.                                          |
-|        [`transform`](#transform)        |        `{Function}`         |                   `undefined`                   | Allows to modify the file contents.                                                                   |
-|   [`cacheTransform`](#cachetransform)   | `{Boolean\|String\|Object}` |                     `false`                     | Enable `transform` caching. You can use `{ cache: { key: 'my-cache-key' } }` to invalidate the cache. |
-|    [`transformPath`](#transformpath)    |        `{Function}`         |                   `undefined`                   | Allows to modify the writing path.                                                                    |
-| [`noErrorOnMissing`](#noerroronmissing) |         `{Boolean}`         |                     `false`                     | Doesn't generate an error on missing file(s).                                                         |
+|                  Name                   |         Type         |                     Default                     | Description                                                                                                                                            |
+| :-------------------------------------: | :------------------: | :---------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------- |
+|             [`from`](#from)             |      `{String}`      |                   `undefined`                   | Glob or path from where we сopy files.                                                                                                                 |
+|               [`to`](#to)               | `{String\|Function}` |            `compiler.options.output`            | Output path.                                                                                                                                           |
+|          [`context`](#context)          |      `{String}`      | `options.context \|\| compiler.options.context` | A path that determines how to interpret the `from` path.                                                                                               |
+|      [`globOptions`](#globoptions)      |      `{Object}`      |                   `undefined`                   | [Options][glob-options] passed to the glob pattern matching library including `ignore` option.                                                         |
+|           [`filter`](#filter)           |     `{Function}`     |                   `undefined`                   | Allows to filter copied assets.                                                                                                                        |
+|           [`toType`](#totype)           |      `{String}`      |                   `undefined`                   | Determinate what is `to` option - directory, file or template.                                                                                         |
+|            [`force`](#force)            |     `{Boolean}`      |                     `false`                     | Overwrites files already in `compilation.assets` (usually added by other plugins/loaders).                                                             |
+|        [`transform`](#transform)        |      `{Object}`      |                   `undefined`                   | Allows to modify the file contents. Enable `transform` caching. You can use `{ transform: {cache: { key: 'my-cache-key' }} }` to invalidate the cache. |
+| [`noErrorOnMissing`](#noerroronmissing) |     `{Boolean}`      |                     `false`                     | Doesn't generate an error on missing file(s).                                                                                                          |
+|             [`info`](#info)             | `{Object\|Function}` |                   `undefined`                   | Allows to add assets info.                                                                                                                             |
 
-#### `from`
+#### `from` {#from}
 
 Type: `String`
 Default: `undefined`
@@ -109,18 +110,18 @@ module.exports = {
   plugins: [
     new CopyPlugin({
       patterns: [
-        'relative/path/to/file.ext',
-        'relative/path/to/dir',
-        path.resolve(__dirname, 'src', 'file.ext'),
-        path.resolve(__dirname, 'src', 'dir'),
-        '**/*',
+        "relative/path/to/file.ext",
+        "relative/path/to/dir",
+        path.resolve(__dirname, "src", "file.ext"),
+        path.resolve(__dirname, "src", "dir"),
+        "**/*",
         {
-          from: '**/*',
+          from: "**/*",
         },
         // If absolute path is a `glob` we replace backslashes with forward slashes, because only forward slashes can be used in the `glob`
         path.posix.join(
-          path.resolve(__dirname, 'src').replace(/\\/g, '/'),
-          '*.txt'
+          path.resolve(__dirname, "src").replace(/\\/g, "/"),
+          "*.txt"
         ),
       ],
     }),
@@ -128,7 +129,7 @@ module.exports = {
 };
 ```
 
-##### `For windows`
+##### `For windows` {#for-windows}
 
 If you define `from` as absolute file path or absolute folder path on `Windows`, you can use windows path segment (`\\`)
 
@@ -138,7 +139,7 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: path.resolve(__dirname, 'file.txt'),
+          from: path.resolve(__dirname, "file.txt"),
         },
       ],
     }),
@@ -157,8 +158,8 @@ module.exports = {
         {
           // If absolute path is a `glob` we replace backslashes with forward slashes, because only forward slashes can be used in the `glob`
           from: path.posix.join(
-            path.resolve(__dirname, 'fixtures').replace(/\\/g, '/'),
-            '*.txt'
+            path.resolve(__dirname, "fixtures").replace(/\\/g, "/"),
+            "*.txt"
           ),
         },
       ],
@@ -170,10 +171,12 @@ module.exports = {
 The `context` behaves differently depending on what the `from` is (`glob`, `file` or `dir`).
 More [`examples`](#examples)
 
-#### `to`
+#### `to` {#to}
 
-Type: `String`
+Type: `String|Function`
 Default: `compiler.options.output`
+
+##### String {#string}
 
 Output path.
 
@@ -189,16 +192,16 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: '**/*',
-          to: 'relative/path/to/dest/',
+          from: "**/*",
+          to: "relative/path/to/dest/",
         },
         {
-          from: '**/*',
-          to: '/absolute/path/to/dest/',
+          from: "**/*",
+          to: "/absolute/path/to/dest/",
         },
         {
-          from: '**/*',
-          to: '[path][name].[contenthash].[ext]',
+          from: "**/*",
+          to: "[path][name].[contenthash].[ext]",
         },
       ],
     }),
@@ -206,7 +209,53 @@ module.exports = {
 };
 ```
 
-#### `context`
+##### Function {#function}
+
+Allows to modify the writing path.
+
+> ⚠️ Don't return directly `\\` in `to` (i.e `path\to\newFile`) option because on UNIX the backslash is a valid character inside a path component, i.e., it's not a separator.
+> On Windows, the forward slash and the backward slash are both separators.
+> Instead please use `/` or `path` methods.
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+        {
+          from: "src/*.png",
+          to({ context, absoluteFilename }) {
+            return "dest/newPath/[name][ext]";
+          },
+        },
+      ],
+    }),
+  ],
+};
+```
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+        {
+          from: "src/*.png",
+          to({ context, absoluteFilename }) {
+            return Promise.resolve("dest/newPath/[name][ext]");
+          },
+        },
+      ],
+    }),
+  ],
+};
+```
+
+#### `context` {#context}
 
 Type: `String`
 Default: `options.context|compiler.options.context`
@@ -225,9 +274,9 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: 'src/*.txt',
-          to: 'dest/',
-          context: 'app/',
+          from: "src/*.txt",
+          to: "dest/",
+          context: "app/",
         },
       ],
     }),
@@ -249,7 +298,7 @@ If `from` is a glob, then regardless of the `context` option, the result will be
 
 More [`examples`](#examples)
 
-#### `globOptions`
+#### `globOptions` {#globoptions}
 
 Type: `Object`
 Default: `undefined`
@@ -265,11 +314,11 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: 'public/**/*',
+          from: "public/**/*",
           globOptions: {
             dot: true,
             gitignore: true,
-            ignore: ['**/file.*', '**/ignored-directory/**'],
+            ignore: ["**/file.*", "**/ignored-directory/**"],
           },
         },
       ],
@@ -278,7 +327,42 @@ module.exports = {
 };
 ```
 
-#### `toType`
+#### `filter` {#filter}
+
+Type: `Function`
+Default: `undefined`
+
+> ℹ️ To ignore files by path please use the [`globOptions.ignore`](https://github.com/webpack-contrib/copy-webpack-plugin/blob/master/(#globoptions) option.
+
+**webpack.config.js**
+
+```js
+const fs = require("fs").promise;
+
+module.exports = {
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+        {
+          from: "public/**/*",
+          filter: async (resourcePath) => {
+            const data = await fs.promises.readFile(resourcePath);
+            const content = data.toString();
+
+            if (content === "my-custom-content") {
+              return false;
+            }
+
+            return true;
+          },
+        },
+      ],
+    }),
+  ],
+};
+```
+
+#### `toType` {#totype}
 
 Type: `String`
 Default: `undefined`
@@ -294,7 +378,7 @@ We try to automatically determine the `type` so you most likely do not need this
 |   **`'file'`**   | `{String}` | `undefined` | If `to` is not a directory and is not a template                                                   |
 | **`'template'`** | `{String}` | `undefined` | If `to` contains [a template pattern](https://github.com/webpack-contrib/file-loader#placeholders) |
 
-##### `'dir'`
+##### `'dir'` {#dir}
 
 **webpack.config.js**
 
@@ -304,9 +388,9 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: 'path/to/file.txt',
-          to: 'directory/with/extension.ext',
-          toType: 'dir',
+          from: "path/to/file.txt",
+          to: "directory/with/extension.ext",
+          toType: "dir",
         },
       ],
     }),
@@ -314,7 +398,7 @@ module.exports = {
 };
 ```
 
-##### `'file'`
+##### `'file'` {#file}
 
 **webpack.config.js**
 
@@ -324,9 +408,9 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: 'path/to/file.txt',
-          to: 'file/without/extension',
-          toType: 'file',
+          from: "path/to/file.txt",
+          to: "file/without/extension",
+          toType: "file",
         },
       ],
     }),
@@ -334,7 +418,7 @@ module.exports = {
 };
 ```
 
-##### `'template'`
+##### `'template'` {#template}
 
 **webpack.config.js**
 
@@ -344,9 +428,9 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: 'src/',
-          to: 'dest/[name].[hash].[ext]',
-          toType: 'template',
+          from: "src/",
+          to: "dest/[name].[hash].[ext]",
+          toType: "template",
         },
       ],
     }),
@@ -354,7 +438,7 @@ module.exports = {
 };
 ```
 
-#### `force`
+#### `force` {#force}
 
 Type: `Boolean`
 Default: `false`
@@ -369,8 +453,8 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: 'src/**/*',
-          to: 'dest/',
+          from: "src/**/*",
+          to: "dest/",
           force: true,
         },
       ],
@@ -379,40 +463,15 @@ module.exports = {
 };
 ```
 
-#### `flatten`
+#### `transform` {#transform}
 
-Type: `Boolean`
-Default: `false`
-
-Removes all directory references and only copies file names.
-
-> ⚠️ If files have the same name, the result is non-deterministic.
-
-**webpack.config.js**
-
-```js
-module.exports = {
-  plugins: [
-    new CopyPlugin({
-      patterns: [
-        {
-          from: 'src/**/*',
-          to: 'dest/',
-          flatten: true,
-        },
-      ],
-    }),
-  ],
-};
-```
-
-#### `transform`
-
-Type: `Function`
+Type: `Function|Object`
 Default: `undefined`
 
 Allows to modify the file contents.
 
+##### `Function`
+
 **webpack.config.js**
 
 ```js
@@ -421,8 +480,8 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: 'src/*.png',
-          to: 'dest/',
+          from: "src/*.png",
+          to: "dest/",
           // The `content` argument is a [`Buffer`](https://nodejs.org/api/buffer.html) object, it could be converted to a `String` to be processed using `content.toString()`
           // The `absoluteFrom` argument is a `String`, it is absolute path from where the file is being copied
           transform(content, absoluteFrom) {
@@ -435,6 +494,18 @@ module.exports = {
 };
 ```
 
+##### `Object` {#object}
+
+|               Name                |        Type         |   Default   | Description                                                                                                      |
+| :-------------------------------: | :-----------------: | :---------: | :--------------------------------------------------------------------------------------------------------------- |
+| **[`transformer`](#transformer)** |    `{Function}`     | `undefined` | Allows to modify the file contents.                                                                              |
+|       **[`cache`](#cache)**       | `{Boolean\|Object}` |   `false`   | Enable `transform` caching. You can use `transform: { cache: { key: 'my-cache-key' } }` to invalidate the cache. |
+
+###### `transformer` {#transformer}
+
+Type: `Function`
+Default: `undefined`
+
 **webpack.config.js**
 
 ```js
@@ -443,10 +514,14 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: 'src/*.png',
-          to: 'dest/',
-          transform(content, path) {
-            return Promise.resolve(optimize(content));
+          from: "src/*.png",
+          to: "dest/",
+          // The `content` argument is a [`Buffer`](https://nodejs.org/api/buffer.html) object, it could be converted to a `String` to be processed using `content.toString()`
+          // The `absoluteFrom` argument is a `String`, it is absolute path from where the file is being copied
+          transform: {
+            transformer(content, absoluteFrom) {
+              return optimize(content);
+            },
           },
         },
       ],
@@ -455,15 +530,39 @@ module.exports = {
 };
 ```
 
-#### `cacheTransform`
+**webpack.config.js**
 
-Type: `Boolean|String|Object`
+```js
+module.exports = {
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+        {
+          from: "src/*.png",
+          to: "dest/",
+          transform: {
+            transformer(content, path) {
+              return Promise.resolve(optimize(content));
+            },
+          },
+        },
+      ],
+    }),
+  ],
+};
+```
+
+###### `cache` {#cache}
+
+Type: `Boolean|Object`
 Default: `false`
+
+**webpack.config.js**
 
 Enable/disable and configure caching.
 Default path to cache directory: `node_modules/.cache/copy-webpack-plugin`.
 
-##### `Boolean`
+###### `Boolean` {#boolean}
 
 Enables/Disable `transform` caching.
 
@@ -475,12 +574,14 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: 'src/*.png',
-          to: 'dest/',
-          transform(content, path) {
-            return optimize(content);
+          from: "src/*.png",
+          to: "dest/",
+          transform: {
+            transformer(content, path) {
+              return optimize(content);
+            },
+            cache: true,
           },
-          cacheTransform: true,
         },
       ],
     }),
@@ -488,33 +589,7 @@ module.exports = {
 };
 ```
 
-##### `String`
-
-Enables `transform` caching and setup cache directory.
-
-**webpack.config.js**
-
-```js
-module.exports = {
-  plugins: [
-    new CopyPlugin({
-      patterns: [
-        {
-          from: 'src/*.png',
-          to: 'dest/',
-          transform(content, path) {
-            return optimize(content);
-          },
-          // Should be absolute
-          cacheTransform: path.resolve(__dirname, 'cache-directory'),
-        },
-      ],
-    }),
-  ],
-};
-```
-
-##### `Object`
+##### `Object` {#object}
 
 Enables `transform` caching and setup cache directory and invalidation keys.
 
@@ -526,17 +601,19 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: 'src/*.png',
-          to: 'dest/',
-          transform(content, path) {
-            return optimize(content);
-          },
-          cacheTransform: {
-            directory: path.resolve(__dirname, 'cache-directory'),
-            keys: {
-              // May be useful for invalidating cache based on external values
-              // For example, you can invalid cache based on `process.version` - { node: process.version }
-              key: 'value',
+          from: "src/*.png",
+          to: "dest/",
+          transform: {
+            transformer(content, path) {
+              return optimize(content);
+            },
+            cache: {
+              directory: path.resolve(__dirname, "cache-directory"),
+              keys: {
+                // May be useful for invalidating cache based on external values
+                // For example, you can invalid cache based on `process.version` - { node: process.version }
+                key: "value",
+              },
             },
           },
         },
@@ -558,20 +635,22 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: 'src/*.png',
-          to: 'dest/',
-          transform(content, path) {
-            return optimize(content);
-          },
-          cacheTransform: {
-            directory: path.resolve(__dirname, 'cache-directory'),
-            keys: (defaultCacheKeys, absoluteFrom) => {
-              const keys = getCustomCacheInvalidationKeysSync();
+          from: "src/*.png",
+          to: "dest/",
+          transform: {
+            transformer(content, path) {
+              return optimize(content);
+            },
+            cache: {
+              directory: path.resolve(__dirname, "cache-directory"),
+              keys: (defaultCacheKeys, absoluteFrom) => {
+                const keys = getCustomCacheInvalidationKeysSync();
 
-              return {
-                ...defaultCacheKeys,
-                keys,
-              };
+                return {
+                  ...defaultCacheKeys,
+                  keys,
+                };
+              },
             },
           },
         },
@@ -591,20 +670,22 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: 'src/*.png',
-          to: 'dest/',
-          transform(content, path) {
-            return optimize(content);
-          },
-          cacheTransform: {
-            directory: path.resolve(__dirname, 'cache-directory'),
-            keys: async (defaultCacheKeys, absoluteFrom) => {
-              const keys = await getCustomCacheInvalidationKeysAsync();
+          from: "src/*.png",
+          to: "dest/",
+          transform: {
+            transformer(content, path) {
+              return optimize(content);
+            },
+            cache: {
+              directory: path.resolve(__dirname, "cache-directory"),
+              keys: async (defaultCacheKeys, absoluteFrom) => {
+                const keys = await getCustomCacheInvalidationKeysAsync();
 
-              return {
-                ...defaultCacheKeys,
-                keys,
-              };
+                return {
+                  ...defaultCacheKeys,
+                  keys,
+                };
+              },
             },
           },
         },
@@ -614,58 +695,7 @@ module.exports = {
 };
 ```
 
-#### `transformPath`
-
-Type: `Function`
-Default: `undefined`
-
-Allows to modify the writing path.
-
-> ⚠️ Don't return directly `\\` in `transformPath` (i.e `path\to\newFile`) option because on UNIX the backslash is a valid character inside a path component, i.e., it's not a separator.
-> On Windows, the forward slash and the backward slash are both separators.
-> Instead please use `/` or `path` methods.
-
-**webpack.config.js**
-
-```js
-module.exports = {
-  plugins: [
-    new CopyPlugin({
-      patterns: [
-        {
-          from: 'src/*.png',
-          to: 'dest/',
-          transformPath(targetPath, absolutePath) {
-            return 'newPath';
-          },
-        },
-      ],
-    }),
-  ],
-};
-```
-
-**webpack.config.js**
-
-```js
-module.exports = {
-  plugins: [
-    new CopyPlugin({
-      patterns: [
-        {
-          from: 'src/*.png',
-          to: 'dest/',
-          transformPath(targetPath, absolutePath) {
-            return Promise.resolve('newPath');
-          },
-        },
-      ],
-    }),
-  ],
-};
-```
-
-### `noErrorOnMissing`
+### `noErrorOnMissing` {#noerroronmissing}
 
 Type: `Boolean`
 Default: `false`
@@ -678,7 +708,7 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: path.resolve(__dirname, 'missing-file.txt'),
+          from: path.resolve(__dirname, "missing-file.txt"),
           noErrorOnMissing: true,
         },
       ],
@@ -687,13 +717,58 @@ module.exports = {
 };
 ```
 
-### Options
+#### `info`
+
+Type: `Object|Function<Object>`
+Default: `undefined`
+
+Allows to add assets info.
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+        "relative/path/to/file.ext",
+        {
+          from: "**/*",
+          // Terser skip this file for minimization
+          info: { minimized: true },
+        },
+      ],
+    }),
+  ],
+};
+```
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+        "relative/path/to/file.ext",
+        {
+          from: "**/*",
+          // Terser skip this file for minimization
+          info: (file) => ({ minimized: true }),
+        },
+      ],
+    }),
+  ],
+};
+```
+
+### Options {#options}
 
 |             Name              |    Type    | Default | Description                                      |
 | :---------------------------: | :--------: | :-----: | :----------------------------------------------- |
 | [`concurrency`](#concurrency) | `{Number}` |  `100`  | Limits the number of simultaneous requests to fs |
 
-#### `concurrency`
+#### `concurrency` {#concurrency}
 
 limits the number of simultaneous requests to fs
 
@@ -710,9 +785,9 @@ module.exports = {
 };
 ```
 
-### Examples
+### Examples {#examples}
 
-#### Different variants `from` (`glob`, `file` or `dir`).
+#### Different variants `from` (`glob`, `file` or `dir`). {#different-variants-from-glob-file-or-dir}
 
 Take for example the following file structure:
 
@@ -721,7 +796,7 @@ src/directory-nested/deep-nested/deepnested-file.txt
 src/directory-nested/nested-file.txt
 ```
 
-##### From is a Glob
+##### From is a Glob {#from-is-a-glob}
 
 Everything that you specify in `from` will be included in the result:
 
@@ -733,7 +808,7 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: 'src/directory-nested/**/*',
+          from: "src/directory-nested/**/*",
         },
       ],
     }),
@@ -758,8 +833,8 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: '**/*',
-          context: path.resolve(__dirname, 'src', 'directory-nested'),
+          from: "**/*",
+          context: path.resolve(__dirname, "src", "directory-nested"),
         },
       ],
     }),
@@ -774,7 +849,7 @@ deep-nested/deepnested-file.txt,
 nested-file.txt
 ```
 
-##### From is a Dir
+##### From is a Dir {#from-is-a-dir}
 
 **webpack.config.js**
 
@@ -784,7 +859,7 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: path.resolve(__dirname, 'src', 'directory-nested'),
+          from: path.resolve(__dirname, "src", "directory-nested"),
         },
       ],
     }),
@@ -809,8 +884,8 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: '**/*',
-          context: path.resolve(__dirname, 'src', 'directory-nested'),
+          from: "**/*",
+          context: path.resolve(__dirname, "src", "directory-nested"),
         },
       ],
     }),
@@ -825,7 +900,7 @@ deep-nested/deepnested-file.txt,
 nested-file.txt
 ```
 
-##### From is a File
+##### From is a File {#from-is-a-file}
 
 ```js
 module.exports = {
@@ -835,9 +910,9 @@ module.exports = {
         {
           from: path.resolve(
             __dirname,
-            'src',
-            'directory-nested',
-            'nested-file.txt'
+            "src",
+            "directory-nested",
+            "nested-file.txt"
           ),
         },
       ],
@@ -862,8 +937,8 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: 'nested-file.txt',
-          context: path.resolve(__dirname, 'src', 'directory-nested'),
+          from: "nested-file.txt",
+          context: path.resolve(__dirname, "src", "directory-nested"),
         },
       ],
     }),
@@ -877,7 +952,7 @@ Result:
 nested-file.txt
 ```
 
-#### Ignoring files
+#### Ignoring files {#ignoring-files}
 
 **webpack.config.js**
 
@@ -888,15 +963,15 @@ module.exports = {
       patterns: [
         {
           from: path.posix.join(
-            path.resolve(__dirname, 'src').replace(/\\/g, '/'),
-            '**/*'
+            path.resolve(__dirname, "src").replace(/\\/g, "/"),
+            "**/*"
           ),
           globOptions: {
             ignore: [
               // Ignore all `txt` files
-              '**/*.txt',
+              "**/*.txt",
               // Ignore all files in all subdirectories
-              '**/subdir/**',
+              "**/subdir/**",
             ],
           },
         },
@@ -906,13 +981,76 @@ module.exports = {
 };
 ```
 
-## Contributing
+#### Flatten copy {#flatten-copy}
+
+Removes all directory references and only copies file names.
+
+> ⚠️ If files have the same name, the result is non-deterministic.
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+        {
+          from: "src/**/*",
+          to: "[name].[ext]",
+        },
+      ],
+    }),
+  ],
+};
+```
+
+Result:
+
+```txt
+file-1.txt
+file-2.txt
+nested-file.txt
+```
+
+#### Copy in new directory {#copy-in-new-directory}
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+        {
+          // When copying files starting with a dot, must specify the toType option
+          // toType: "file",
+          to({ context, absoluteFilename }) {
+            return `newdirectory/${path.relative(context, absoluteFilename)}`;
+          },
+          from: "directory",
+        },
+      ],
+    }),
+  ],
+};
+```
+
+Result:
+
+```txt
+"newdirectory/file-1.txt",
+"newdirectory/nestedfile.txt",
+"newdirectory/nested/deep-nested/deepnested.txt",
+"newdirectory/nested/nestedfile.txt",
+```
+
+## Contributing {#contributing}
 
 Please take a moment to read our contributing guidelines if you haven't yet done so.
 
 [CONTRIBUTING](https://github.com/webpack-contrib/copy-webpack-plugin/blob/master/.github/CONTRIBUTING.md)
 
-## License
+## License {#license}
 
 [MIT](https://github.com/webpack-contrib/copy-webpack-plugin/blob/master/LICENSE)
 

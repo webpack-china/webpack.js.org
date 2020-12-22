@@ -16,11 +16,11 @@ contributors:
 > amd
 
 
-## 带表达式的 require 语句
+## 带表达式的 require 语句 {#require-with-expression}
 
 如果你的 request 含有表达式(expressions)，就会创建一个上下文(context)，因为在编译时(compile time)并不清楚 __具体__ 导入哪个模块。
 
-示例，考虑到我们有包含 `.esj` 文件的如下目录结构：
+示例，考虑到我们有包含 `.ejs` 文件的如下目录结构：
 
 ```bash
 example_directory
@@ -65,7 +65,7 @@ __context module__
 这意味着 webpack 能够支持动态地 require，但会导致所有可能用到的模块都包含在 bundle 中。
 
 
-## `require.context`
+## `require.context` {#requirecontext}
 
 你还可以通过 `require.context()` 函数来创建自己的 context。
 
@@ -95,7 +95,7 @@ require.context('../', true, /\.stories\.js$/);
 W> 传递给 `require.context` 的参数必须是字面量(literal)！
 
 
-### context module API
+### context module API {#context-module-api}
 
 一个 context module 会导出一个（require）函数，此函数可以接收一个参数：request。
 

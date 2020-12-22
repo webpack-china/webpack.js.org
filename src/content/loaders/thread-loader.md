@@ -4,29 +4,39 @@ source: https://raw.githubusercontent.com/webpack-contrib/thread-loader/master/R
 edit: https://github.com/webpack-contrib/thread-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/thread-loader
 ---
-Runs the following loaders in a worker pool.
 
-## Install
+
+[![npm][npm]][npm-url]
+[![node][node]][node-url]
+[![deps][deps]][deps-url]
+[![tests][tests]][tests-url]
+[![coverage][cover]][cover-url]
+[![chat][chat]][chat-url]
+[![size][size]][size-url]
+
+
+
+运行以下 loader 在 worker pool 中。
+
+## 快速开始 {#getting-started}
 
 ```bash
 npm install --save-dev thread-loader
 ```
 
-## Usage
+使用时，需将此 loader 放置在其他 loader 之前。放置在此 loader 之后的 loader 会在一个独立的 worker 池中运行。
 
-Put this loader in front of other loaders. The following loaders run in a worker pool.
+在 worker 池中运行的 loader 是受到限制的。例如：
 
-Loaders running in a worker pool are limited. Examples:
+* 这些 loader 不能生成新的文件。
+* 这些 loader 不能使用自定义的 loader API（也就是说，不能通过插件来自定义）。
+* 这些 loader 无法获取 webpack 的配置。
 
-* Loaders cannot emit files.
-* Loaders cannot use custom loader API (i. e. by plugins).
-* Loaders cannot access the webpack options.
+每个 worker 都是一个独立的 node.js 进程，其开销大约为 600ms 左右。同时会限制跨进程的数据交换。
 
-Each worker is a separate node.js process, which has an overhead of ~600ms. There is also an overhead of inter-process communication.
+请仅在耗时的操作中使用此 loader！
 
-Use this loader only for expensive operations!
-
-## Examples
+### 示例 {#examples}
 
 **webpack.config.js**
 
@@ -36,15 +46,15 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        include: path.resolve("src"),
+        include: path.resolve('src'),
         use: [
           "thread-loader",
-          // your expensive loader (e.g babel-loader)
-        ]
-      }
-    ]
-  }
-}
+          // 耗时的 loader （例如 babel-loader）
+        ],
+      },
+    ],
+  },
+};
 ```
 
 **with options**
@@ -53,93 +63,88 @@ module.exports = {
 use: [
   {
     loader: "thread-loader",
-    // loaders with equal options will share worker pools
+    // 有同样配置的 loader 会共享一个 worker 池
     options: {
-      // the number of spawned workers, defaults to (number of cpus - 1) or
-      // fallback to 1 when require('os').cpus() is undefined
+      // 产生的 worker 的数量，默认是 (cpu 核心数 - 1)，或者，
+      // 在 require('os').cpus() 是 undefined 时回退至 1
       workers: 2,
 
-      // number of jobs a worker processes in parallel
-      // defaults to 20
+      // 一个 worker 进程中并行执行工作的数量
+      // 默认为 20
       workerParallelJobs: 50,
 
-      // additional node.js arguments
+      // 额外的 node.js 参数
       workerNodeArgs: ['--max-old-space-size=1024'],
 
-      // Allow to respawn a dead worker pool
-      // respawning slows down the entire compilation
-      // and should be set to false for development
+      // 允许重新生成一个僵死的 work 池
+      // 这个过程会降低整体编译速度
+      // 并且开发环境应该设置为 false
       poolRespawn: false,
 
-      // timeout for killing the worker processes when idle
-      // defaults to 500 (ms)
-      // can be set to Infinity for watching builds to keep workers alive
+      // 闲置时定时删除 worker 进程
+      // 默认为 500（ms）
+      // 可以设置为无穷大，这样在监视模式(--watch)下可以保持 worker 持续存在
       poolTimeout: 2000,
 
-      // number of jobs the poll distributes to the workers
-      // defaults to 200
-      // decrease of less efficient but more fair distribution
+      // 池分配给 worker 的工作数量
+      // 默认为 200
+      // 降低这个数值会降低总体的效率，但是会提升工作分布更均一
       poolParallelJobs: 50,
 
-      // name of the pool
-      // can be used to create different pools with elsewise identical options
+      // 池的名称
+      // 可以修改名称来创建其余选项都一样的池
       name: "my-pool"
-    }
+    },
   },
-  // your expensive loader (e.g babel-loader)
-]
+  // 耗时的 loader（例如 babel-loader）
+];
 ```
 
-**prewarming**
+**预警**
 
-To prevent the high delay when booting workers it possible to warmup the worker pool.
+可以通过预警 worker 池来防止启动 worker 时的高延时。
 
-This boots the max number of workers in the pool and loads specified modules into the node.js module cache.
+这会启动池内最大数量的 worker 并把指定的模块加载到 node.js 的模块缓存中。
 
-``` js
+```js
 const threadLoader = require('thread-loader');
 
-threadLoader.warmup({
-  // pool options, like passed to loader options
-  // must match loader options to boot the correct pool
-}, [
-  // modules to load
-  // can be any module, i. e.
-  'babel-loader',
-  'babel-preset-es2015',
-  'sass-loader',
-]);
+threadLoader.warmup(
+  {
+    // 池选项，例如传递给 loader 选项
+    // 必须匹配 loader 选项才能启动正确的池
+  },
+  [
+    // 加载模块
+    // 可以是任意模块，例如
+    'babel-loader',
+    'babel-preset-es2015',
+    'sass-loader',
+  ]
+);
 ```
 
+## 贡献 {#contributing}
 
-## Maintainers
+如果还未阅读贡献指南，请抽时间进行阅读。
 
-<table>
-  <tbody>
-    <tr>
-      <td align="center">
-        <a href="https://github.com/sokra">
-          <img width="150" height="150" src="https://github.com/sokra.png?size=150">
-          </br>
-          sokra
-        </a>
-      </td>
-    </tr>
-  <tbody>
-</table>
+[CONTRIBUTING](https://github.com/webpack-contrib/thread-loader/blob/master/.github/CONTRIBUTING.md)
 
+## License {#license}
+
+[MIT](https://github.com/webpack-contrib/thread-loader/blob/master/LICENSE)
 
 [npm]: https://img.shields.io/npm/v/thread-loader.svg
 [npm-url]: https://npmjs.com/package/thread-loader
-
+[node]: https://img.shields.io/node/v/thread-loader.svg
+[node-url]: https://nodejs.org/
 [deps]: https://david-dm.org/webpack-contrib/thread-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/thread-loader
-
-[chat]: https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg
-[chat-url]: https://gitter.im/webpack/webpack
-
-[test]: http://img.shields.io/travis/webpack-contrib/thread-loader.svg
-[test-url]: https://travis-ci.org/webpack-contrib/thread-loader
-
+[tests]: https://github.com/webpack-contrib/thread-loader/workflows/thread-loader/badge.svg
+[tests-url]: https://github.com/webpack-contrib/thread-loader/actions
 [cover]: https://codecov.io/gh/webpack-contrib/thread-loader/branch/master/graph/badge.svg
 [cover-url]: https://codecov.io/gh/webpack-contrib/thread-loader
+[chat]: https://badges.gitter.im/webpack/webpack.svg
+[chat-url]: https://gitter.im/webpack/webpack
+[size]: https://packagephobia.now.sh/badge?p=thread-loader
+[size-url]: https://packagephobia.now.sh/result?p=thread-loader

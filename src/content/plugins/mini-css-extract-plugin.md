@@ -16,28 +16,28 @@ repo: https://github.com/webpack-contrib/mini-css-extract-plugin
 
 
 
-This plugin extracts CSS into separate files. It creates a CSS file per JS file which contains CSS. It supports On-Demand-Loading of CSS and SourceMaps.
+本插件会将 CSS 提取到单独的文件中，为每个包含 CSS 的 JS 文件创建一个 CSS 文件，并且支持 CSS 和 SourceMaps 的按需加载。
 
-It builds on top of a new webpack v4 feature (module types) and requires webpack 4 to work.
+本插件基于 webpack v4 的新特性（模块类型）构建，并且需要 webpack 4 才能正常工作。
 
-Compared to the extract-text-webpack-plugin:
+与 extract-text-webpack-plugin 相比：
 
-- Async loading
-- No duplicate compilation (performance)
-- Easier to use
-- Specific to CSS
+- 异步加载
+- 没有重复的编译（性能）
+- 更容易使用
+- 特别针对 CSS 开发
 
-## Getting Started
+## 快速开始 {#getting-started}
 
-To begin, you'll need to install `mini-css-extract-plugin`:
+首先，你需要安装 `mini-css-extract-plugin`：
 
 ```bash
 npm install --save-dev mini-css-extract-plugin
 ```
 
-It's recommended to combine `mini-css-extract-plugin` with the [`css-loader`](/loaders/css-loader/)
+建议 `mini-css-extract-plugin` 与 [`css-loader`](/loaders/css-loader/) 一起使用。
 
-Then add the loader and the plugin to your `webpack` config. For example:
+之后将 loader 与 plugin 添加到你的 `webpack` 配置文件中。 例如：
 
 **style.css**
 
@@ -71,16 +71,104 @@ module.exports = {
 };
 ```
 
-## Options
+## 选项 {#options}
 
-### `publicPath`
+### Plugin Options {#plugin-options}
 
-Type: `String|Function`
-Default: the `publicPath` in `webpackOptions.output`
+|                 选项名                  |         类型         |       默认值       | 描述                                              |
+| :-----------------------------------: | :------------------: | :-----------------: | :------------------------------------------------------- |
+|      **[`filename`](#filename)**      | `{String\|Function}` |    `[name].css`     | 此选项决定了输出的每个 CSS 文件的名称  |
+| **[`chunkFilename`](#chunkfilename)** | `{String\|Function}` | `based on filename` | 此选项决定了非入口的 chunk 文件名称 |
+|   **[`ignoreOrder`](#ignoreorder)**   |     `{Boolean}`      |       `false`       | 移除 Order 警告                                    |
+|        **[`insert`](#insert)**        | `{String\|Function}` | `var head = document.getElementsByTagName("head")[0];head.appendChild(linkTag);` | 在指定位置插入 `<link>`                   |
+|    **[`attributes`](#attributes)**    |      `{Object}`      |                                       `{}`                                       | 给标签添加自定义属性                            |
+|      **[`linkType`](#linktype)**      | `{String\|Boolean}`  |              `text/css`               | 允许使用自定义 link 类型加载异步 chunk |
 
-Specifies a custom public path for the target file(s).
+#### `filename` {#filename}
 
-#### `String`
+类型：`String|Function`
+默认值：`[name].css`
+
+此选项决定了输出的每个 CSS 文件的名称。
+
+机制类似于 [`output.filename`](/configuration/output/#outputfilename)。
+
+#### `chunkFilename` {#chunkfilename}
+
+类型：`String|Function`
+默认值：`based on filename`
+
+> 将 `chunkFilename` 设置为 `function`，仅在 webpack@5 下可用。
+
+此选项决定了非入口的 chunk 文件名称
+
+机制类似于 [`output.chunkFilename`](/configuration/output/#outputchunkfilename)
+
+#### `ignoreOrder` {#ignoreorder}
+
+类型：`Boolean`
+默认值：`false`
+
+移除 Order 警告
+具体细节请参阅[示例](#remove-order-warnings)。
+
+#### `insert` {#insert}
+
+类型：`String|Function`
+默认值：`document.head.appendChild(linkTag);`
+
+默认情况下，`extract-css-chunks-plugin` 会将 styles（`<link>` 元素）附加到当前 `window` 的 `document.head` 中。
+
+但在某些情况下，可能需要对附加的目标进行精细化管理，甚至延迟 `link` 元素的插入。
+例如，当你在 iframe 中运行应用程序异步加载样式时，就属于此情况。
+对于此类情况，`insert` 可被配置为函数或自定义的选择器。
+
+如果附加目标为 [iframe](https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement)，请确保父文档有足够的访问权限进入 frame document，并将元素附加到它上面。
+
+##### `String` {#string}
+
+允许设置自定义的 [query selector](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector)。
+新的 `<link>` 元素将被插入到找到的 item 之后。
+
+**webpack.config.js**
+
+```js
+new MiniCssExtractPlugin({
+  insert: '#some-element',
+});
+```
+
+找到 id 为 `some-element` 的元素，在它之后插入新的 `<link>` 元素。
+
+##### `Function` {#function}
+
+允许覆盖默认行为，并在任意位置插入样式。
+
+> ⚠ 注意，这段代码将与你的应用程序一起在浏览器中运行。由于并非所有浏览器都支持 ESMA 特性，如 `let`，`const`，`arrow function expression` 等，我们建议只使用 ECMA 5 的特性和语法。
+
+> > ⚠ `insert` 函数被序列化为字符串并传递给插件。这意味着它将无法访问 webpack 配置模块的作用域。
+
+**webpack.config.js**
+
+```js
+new MiniCssExtractPlugin({
+  insert: function (linkTag) {
+    var reference = document.querySelector('#some-element');
+    if (reference) {
+      reference.parentNode.insertBefore(linkTag, reference);
+    }
+  },
+});
+```
+
+找到 id 为 `some-element` 的元素，在它之后插入新的 `<link>` 元素。
+
+#### `attributes` {#attributes}
+
+类型：`Object`
+默认值：`{}`
+
+如果定义了此选项，`mini-css-extract-plugin` 将把指定的属性和值附加到 `<link>` 元素上。
 
 **webpack.config.js**
 
@@ -90,8 +178,112 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
   plugins: [
     new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // both options are optional
+      attributes: {
+        id: 'target',
+        'data-target': 'example',
+      },
+    }),
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+      },
+    ],
+  },
+};
+```
+
+注意：它只适用于动态加载的 css chunk，如果你想修改 html 文件内的链接属性，请使用 [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin)。
+
+#### `linkType` {#linktype}
+
+类型：`String|Boolean`
+默认值：`text/css`
+
+此选项运行使用自定义链接类型加载异步 chunk，例如 `<link type="text/css" ...>`。
+
+##### `String` {#string}
+
+可选值：`text/css`
+
+**webpack.config.js**
+
+```js
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+module.exports = {
+  plugins: [
+    new MiniCssExtractPlugin({
+      linkType: 'text/css',
+    }),
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+      },
+    ],
+  },
+};
+```
+
+##### `Boolean` {#boolean}
+
+`false` 禁用 link 的 `type` 属性
+
+**webpack.config.js**
+
+```js
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+module.exports = {
+  plugins: [
+    new MiniCssExtractPlugin({
+      linkType: false,
+    }),
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+      },
+    ],
+  },
+};
+```
+
+### Loader 选项 {#loader-options}
+
+|              名称               |         类型         |              默认值               | 描述                                                                       |
+| :-----------------------------: | :------------------: | :--------------------------------: | :-------------------------------------------------------------------------------- |
+| **[`publicPath`](#publicpath)** | `{String\|Function}` | `webpackOptions.output.publicPath` | 为图片、文件等外部资源指定一个自定义的公共路径。 |
+|   **[`esModule`](#esmodule)**   |     `{Boolean}`      |               `true`               | 使用 ES modules 语法                                                             |
+|    **[`modules`](#modules)**    |      `{Object}`      |            `undefined`             | 配置 CSS 模块                                                         |
+
+#### `publicPath` {#publicpath}
+
+类型：`String|Function`
+默认值：`webpackOptions.output` 选项中的 `publicPath`
+
+为 CSS 内的图片、文件等外部资源指定一个自定义的公共路径。
+机制类似于 [`output.publicPath`](/configuration/output/#outputpublicpath)。
+
+##### `String` {#string}
+
+**webpack.config.js**
+
+```js
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+module.exports = {
+  plugins: [
+    new MiniCssExtractPlugin({
+      // 类似于 webpackOptions.output 中的选项
+      // 所有选项都是可选的
       filename: '[name].css',
       chunkFilename: '[id].css',
     }),
@@ -115,7 +307,7 @@ module.exports = {
 };
 ```
 
-#### `Function`
+##### `Function` {#function}
 
 **webpack.config.js**
 
@@ -125,8 +317,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
   plugins: [
     new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // both options are optional
+      // 类似于 webpackOptions.output 中的选项
+      // 所有选项都是可选的
       filename: '[name].css',
       chunkFilename: '[id].css',
     }),
@@ -152,15 +344,15 @@ module.exports = {
 };
 ```
 
-### `esModule`
+### `esModule` {#esmodule}
 
-Type: `Boolean`
-Default: `false`
+类型：`Boolean`
+默认值：`true`
 
-By default, `mini-css-extract-plugin` generates JS modules that use the CommonJS modules syntax.
-There are some cases in which using ES modules is beneficial, like in the case of [module concatenation](/plugins/module-concatenation-plugin/) and [tree shaking](/guides/tree-shaking/).
+默认情况下  `mini-css-extract-plugin` 将会生成使用 ES 模块语法的 JS 模块。
+在某些情况下，使用 ES 模块是有益的，比如：[module concatenation](/plugins/module-concatenation-plugin/) 和 [tree shaking](/guides/tree-shaking/)。
 
-You can enable a ES module syntax using:
+你可以使用以下方式启用 CommonJS 语法：
 
 **webpack.config.js**
 
@@ -177,7 +369,7 @@ module.exports = {
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              esModule: true,
+              esModule: false,
             },
           },
           'css-loader',
@@ -188,9 +380,88 @@ module.exports = {
 };
 ```
 
-## Examples
+#### `modules` {#modules}
 
-### Minimal example
+类型：`Object`
+默认值：`undefined`
+
+用于配置 CSS Modules。
+
+##### `namedExport` {#namedexport}
+
+类型：`Boolean`
+类型：`false`
+
+启用/禁用 ES 模块命名导出。
+
+> ⚠ 命名会被修改为 `camelCase` 的形式。
+
+> ⚠ 不允许在 css 的 class name 中使用 JavaScript 关键字。
+
+> ⚠ 应启用 `css-loader` 和 `MiniCssExtractPlugin.loader` 中的 `esModule` 以及 `modules.namedExport` 选项。
+
+**styles.css**
+
+```css
+.foo-baz {
+  color: red;
+}
+.bar {
+  color: blue;
+}
+```
+
+**index.js**
+
+```js
+import { fooBaz, bar } from './styles.css';
+
+console.log(fooBaz, bar);
+```
+
+你可以按照如下配置启用 ES 模块命名导出。
+
+**webpack.config.js**
+
+```js
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+module.exports = {
+  plugins: [new MiniCssExtractPlugin()],
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              esModule: true,
+              modules: {
+                namedExport: true,
+              },
+            },
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              esModule: true,
+              modules: {
+                namedExport: true,
+                localIdentName: 'foo__[name]__[local]',
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+```
+
+## 示例 {#examples}
+
+### 最简单的例子 {#minimal-example}
 
 **webpack.config.js**
 
@@ -200,11 +471,11 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
   plugins: [
     new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // all options are optional
+      // 类似于 webpackOptions.output 中的选项
+      // 所有选项都是可选的
       filename: '[name].css',
       chunkFilename: '[id].css',
-      ignoreOrder: false, // Enable to remove warnings about conflicting order
+      ignoreOrder: false, // 忽略有关顺序冲突的警告
     }),
   ],
   module: {
@@ -215,10 +486,9 @@ module.exports = {
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              // you can specify a publicPath here
-              // by default it uses publicPath in webpackOptions.output
+              // 你可以在这里指定特定的 publicPath
+              // 默认情况下使用 webpackOptions.output 中的 publicPath
               publicPath: '../',
-              hmr: process.env.NODE_ENV === 'development',
             },
           },
           'css-loader',
@@ -229,7 +499,44 @@ module.exports = {
 };
 ```
 
-### The `publicPath` option as function
+### 通用用例 {#common-use-case}
+
+`mini-css-extract-plugin` is more often used in `production` mode to get separate css files.
+For `development` mode (including `webpack-dev-server`) you can use `style-loader`, because it injects CSS into the DOM using multiple <style></style> and works faster.
+
+> i Do not use together `style-loader` and `mini-css-extract-plugin`.
+
+**webpack.config.js**
+
+```js
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const devMode = process.env.NODE_ENV !== 'production';
+
+const plugins = [];
+if (!devMode) {
+  // enable in production only
+  plugins.push(new MiniCssExtractPlugin());
+}
+
+module.exports = {
+  plugins,
+  module: {
+    rules: [
+      {
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader',
+          'postcss-loader',
+          'sass-loader',
+        ],
+      },
+    ],
+  },
+};
+```
+
+### `publicPath` 选项为函数 {#the-publicpath-option-as-function}
 
 **webpack.config.js**
 
@@ -239,8 +546,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
   plugins: [
     new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // both options are optional
+      // 类似于 webpackOptions.output 中的选项
+      // 所有选项都是可选的
       filename: '[name].css',
       chunkFilename: '[id].css',
     }),
@@ -254,9 +561,9 @@ module.exports = {
             loader: MiniCssExtractPlugin.loader,
             options: {
               publicPath: (resourcePath, context) => {
-                // publicPath is the relative path of the resource to the context
-                // e.g. for ./css/admin/main.css the publicPath will be ../../
-                // while for ./css/main.css the publicPath will be ../
+                // publicPath 是资源相对于上下文的相对路径
+                // 例如：对于 ./css/admin/main.css publicPath 将会是 ../../
+                // 而对于 ./css/main.css publicPath 将会是 ../
                 return path.relative(path.dirname(resourcePath), context) + '/';
               },
             },
@@ -269,40 +576,45 @@ module.exports = {
 };
 ```
 
-### Advanced configuration example
+### 高级配置示例 {#advanced-configuration-example}
 
-This plugin should be used only on `production` builds without `style-loader` in the loaders chain, especially if you want to have HMR in `development`.
+此插件不能与 loader 链中的 `style-loader` 一同使用。
 
-Here is an example to have both HMR in `development` and your styles extracted in a file for `production` builds.
+这是一个在 `development` 构建中使用 HMR 并且在 `production` 构建中将样式文件提取到独立文件中的示例。
 
-(Loaders options left out for clarity, adapt accordingly to your needs.)
+（为了更加清楚的表达，省略了 Loader 的选项，以适应需要。）
+
+如果你使用的是 `webpack-dev-server`，那么就无需使用 `HotModuleReplacementPlugin` plugin。
+`webpack-dev-server` 使用 `hot` 选项决定是否启用/禁用 HMR。
 
 **webpack.config.js**
 
 ```js
+const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const devMode = process.env.NODE_ENV !== 'production';
 
+const plugins = [
+  new MiniCssExtractPlugin({
+    // Options similar to the same options in webpackOptions.output
+    // both options are optional
+    filename: devMode ? '[name].css' : '[name].[contenthash].css',
+    chunkFilename: devMode ? '[id].css' : '[id].[contenthash].css',
+  }),
+];
+if (devMode) {
+  // only enable hot in development
+  plugins.push(new webpack.HotModuleReplacementPlugin());
+}
+
 module.exports = {
-  plugins: [
-    new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // both options are optional
-      filename: devMode ? '[name].css' : '[name].[hash].css',
-      chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
-    }),
-  ],
+  plugins,
   module: {
     rules: [
       {
         test: /\.(sa|sc|c)ss$/,
         use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              hmr: process.env.NODE_ENV === 'development',
-            },
-          },
+          MiniCssExtractPlugin.loader,
           'css-loader',
           'postcss-loader',
           'sass-loader',
@@ -313,30 +625,38 @@ module.exports = {
 };
 ```
 
-### Hot Module Reloading (HMR)
+### 模块热更新 (HMR) {#hot-module-reloading-hmr}
 
-The `mini-css-extract-plugin` supports hot reloading of actual css files in development.
-Some options are provided to enable HMR of both standard stylesheets and locally scoped CSS or CSS modules.
-Below is an example configuration of mini-css for HMR use with CSS modules.
+注意：在 webpack 5 中 HMR 已自动支持。无需配置。你可以跳过以下内容：
 
-While we attempt to hmr css-modules. It is not easy to perform when code-splitting with custom chunk names.
-`reloadAll` is an option that should only be enabled if HMR isn't working correctly.
-The core challenge with css-modules is that when code-split, the chunk ids can and do end up different compared to the filename.
+`mini-css-extract-plugin` 支持在开发中热重载实际的 CSS 文件。
+我们提供了一些选项来启动标准 stylesheets 和本地范围内 CSS 和 CSS modules 的 HMR 支持。
+以下是 mini-css 用于启动 HMR CSS modules 的示例配置。
+
+如果你使用的是 `webpack-dev-server`，那么你无需使用 `HotModuleReplacementPlugin` 插件。
+`webpack-dev-server` 使用 `hot` 选项来控制启用/禁用 HMR。
 
 **webpack.config.js**
 
 ```js
+const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+const plugins = [
+  new MiniCssExtractPlugin({
+    // Options similar to the same options in webpackOptions.output
+    // both options are optional
+    filename: devMode ? '[name].css' : '[name].[contenthash].css',
+    chunkFilename: devMode ? '[id].css' : '[id].[contenthash].css',
+  }),
+];
+if (devMode) {
+  // only enable hot in development
+  plugins.push(new webpack.HotModuleReplacementPlugin());
+}
+
 module.exports = {
-  plugins: [
-    new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // both options are optional
-      filename: '[name].css',
-      chunkFilename: '[id].css',
-    }),
-  ],
+  plugins,
   module: {
     rules: [
       {
@@ -344,12 +664,7 @@ module.exports = {
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
-            options: {
-              // only enable hot in development
-              hmr: process.env.NODE_ENV === 'development',
-              // if hmr does not work, this is a forceful method.
-              reloadAll: true,
-            },
+            options: {},
           },
           'css-loader',
         ],
@@ -359,22 +674,17 @@ module.exports = {
 };
 ```
 
-### Minimizing For Production
+### 生产模式压缩 {#minimizing-for-production}
 
-To minify the output, use a plugin like [optimize-css-assets-webpack-plugin](https://github.com/NMFR/optimize-css-assets-webpack-plugin).
-Setting `optimization.minimizer` overrides the defaults provided by webpack, so make sure to also specify a JS minimizer:
+为了压缩输出文件，请使用类似于 [css-minimizer-webpack-plugin](/plugins/css-minimizer-webpack-plugin/) 这样的插件。
 
 **webpack.config.js**
 
 ```js
-const TerserJSPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
-  optimization: {
-    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
-  },
   plugins: [
     new MiniCssExtractPlugin({
       filename: '[name].css',
@@ -389,20 +699,29 @@ module.exports = {
       },
     ],
   },
+  optimization: {
+    minimizer: [
+      // For webpack@5 you can use the `...` syntax to extend existing minimizers (i.e. `terser-webpack-plugin`), uncomment the next line
+      // `...`,
+      new CssMinimizerPlugin(),
+    ],
+  },
 };
 ```
 
-### Using preloaded or inlined CSS
+这将只在生产模式下启用 CSS 压缩优化。如果你需要在开发模式下使用，请设置 `optimization.minimize` 选项为 true。
 
-The runtime code detects already added CSS via `<link>` or `<style>` tag.
-This can be useful when injecting CSS on server-side for Server-Side-Rendering.
-The `href` of the `<link>` tag has to match the URL that will be used for loading the CSS chunk.
-The `data-href` attribute can be used for `<link>` and `<style>` too.
-When inlining CSS `data-href` must be used.
+### 使用预加载或内联 CSS {#using-preloaded-or-inlined-css}
 
-### Extracting all CSS in a single file
+运行时代码通过 `<link>` 或者`<style>` 标签检测已经添加的 CSS。
+当在服务端注入 CSS 代码 以及做 SSR 时将会很有用。
+`<link>` 标签的 `href` 属性必须与将要被加载的 CSS chunk 的 URL 相匹配。
+`data-href` 属性也可以被用在 `<link>` 和 `<style>` 标签中
+使用内联 CSS 时，必须使用 `data-href` 属性。
 
-Similar to what [extract-text-webpack-plugin](/plugins/extract-text-webpack-plugin/) does, the CSS can be extracted in one CSS file using `optimization.splitChunks.cacheGroups`.
+### 提取所有的 CSS 到一个文件中 {#extracting-all-css-in-a-single-file}
+
+用过使用 `optimization.splitChunks.cacheGroups` 选项，所有的 CSS 可以被提取到一个 CSS 文件中。
 
 **webpack.config.js**
 
@@ -438,24 +757,32 @@ module.exports = {
 };
 ```
 
-### Extracting CSS based on entry
+### 基于入口提取 CSS {#extracting-css-based-on-entry}
 
-You may also extract the CSS based on the webpack entry name.
-This is especially useful if you import routes dynamically but want to keep your CSS bundled according to entry.
-This also prevents the CSS duplication issue one had with the ExtractTextPlugin.
+你可以基于 webpack 的入口名称提取 CSS。
+当你使用路由动态加载但是想要通过入口加载对应的 CSS 文件时这将会非常有用。
+这样也避免了 ExtractTextPlugin 造成的 CSS 重复复制问题。
 
 ```js
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-function recursiveIssuer(m) {
-  if (m.issuer) {
-    return recursiveIssuer(m.issuer);
-  } else if (m.name) {
-    return m.name;
-  } else {
-    return false;
+function recursiveIssuer(m, c) {
+  const issuer = c.moduleGraph.getIssuer(m);
+  // For webpack@4 chunks = m.issuer
+
+  if (issuer) {
+    return recursiveIssuer(issuer, c);
   }
+
+  const chunks = c.chunkGraph.getModuleChunks(m);
+  // For webpack@4 chunks = m._chunks
+
+  for (const chunk of chunks) {
+    return chunk.name;
+  }
+
+  return false;
 }
 
 module.exports = {
@@ -467,16 +794,18 @@ module.exports = {
     splitChunks: {
       cacheGroups: {
         fooStyles: {
-          name: 'foo',
+          name: 'styles_foo',
           test: (m, c, entry = 'foo') =>
-            m.constructor.name === 'CssModule' && recursiveIssuer(m) === entry,
+            m.constructor.name === 'CssModule' &&
+            recursiveIssuer(m, c) === entry,
           chunks: 'all',
           enforce: true,
         },
         barStyles: {
-          name: 'bar',
+          name: 'styles_bar',
           test: (m, c, entry = 'bar') =>
-            m.constructor.name === 'CssModule' && recursiveIssuer(m) === entry,
+            m.constructor.name === 'CssModule' &&
+            recursiveIssuer(m, c) === entry,
           chunks: 'all',
           enforce: true,
         },
@@ -499,9 +828,11 @@ module.exports = {
 };
 ```
 
-### Module Filename Option
+### 文件名选项设置为函数 {#filename-option-as-function}
 
-With the `moduleFilename` option you can use chunk data to customize the filename. This is particularly useful when dealing with multiple entry points and wanting to get more control out of the filename for a given entry point/chunk. In the example below, we'll use `moduleFilename` to output the generated css into a different directory.
+使用 `filename` 选项，你可以使用 chunk 数据来定制文件名。
+这点在处理多个入口，并且希望对给定的 入口/chunk 文件进行更多处理时，非常有用。
+下面示例中，我们使用 `filename` 将生成的 css 输出到不同的目录中。
 
 **webpack.config.js**
 
@@ -511,7 +842,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
   plugins: [
     new MiniCssExtractPlugin({
-      moduleFilename: ({ name }) => `${name.replace('/js/', '/css/')}.css`,
+      filename: ({ chunk }) => `${chunk.name.replace('/js/', '/css/')}.css`,
     }),
   ],
   module: {
@@ -525,9 +856,9 @@ module.exports = {
 };
 ```
 
-### Long Term Caching
+### 长期缓存 {#long-term-caching}
 
-For long term caching use `filename: "[contenthash].css"`. Optionally add `[name]`.
+使用 `filename: "[contenthash].css"` 启动长期缓存。根据需要添加 `[name]`。
 
 **webpack.config.js**
 
@@ -552,9 +883,9 @@ module.exports = {
 };
 ```
 
-### Remove Order Warnings
+### 移除 Order 警告 {#remove-order-warnings}
 
-For projects where css ordering has been mitigated through consistent use of scoping or naming conventions, the css order warnings can be disabled by setting the ignoreOrder flag to true for the plugin.
+对于通过使用 scoping 或命名约定来解决 css order 的项目，可以通过将插件的 ignoreOrder 选项设置为 true 来禁用 css order 警告。
 
 **webpack.config.js**
 
@@ -578,20 +909,20 @@ module.exports = {
 };
 ```
 
-### Media Query Plugin
+### 媒体查询插件 {#media-query-plugin}
 
-If you'd like to extract the media queries from the extracted CSS (so mobile users don't need to load desktop or tablet specific CSS anymore) you should use one of the following plugins:
+如果您想从 CSS 文件中提取媒体查询（因为移动用户不需要加载电脑或平板专用的 CSS ），应使用以下插件之一：
 
 - [Media Query Plugin](https://github.com/SassNinja/media-query-plugin)
 - [Media Query Splitting Plugin](https://github.com/mike-diamond/media-query-splitting-plugin)
 
-## Contributing
+## 贡献 {#contributing}
 
-Please take a moment to read our contributing guidelines if you haven't yet done so.
+如果你还没有阅读过我们的贡献指南，请花一点时间阅读它。
 
 [CONTRIBUTING](https://github.com/webpack-contrib/mini-css-extract-plugin/blob/master/.github/CONTRIBUTING.md)
 
-## License
+## License {#license}
 
 [MIT](https://github.com/webpack-contrib/mini-css-extract-plugin/blob/master/LICENSE)
 

@@ -1,5 +1,5 @@
 // Import External Dependencies
-import React from 'react';
+import { Component } from 'react';
 
 // Load Images
 import HomeSVG from './SplashVizSVG';
@@ -11,13 +11,13 @@ import TextRotator from '../TextRotater/TextRotater';
 // Load Styling
 import './SplashViz.scss';
 
-export default class SplashViz extends React.Component {
+export default class SplashViz extends Component {
 
   render() {
     return (
       <section className="splash-viz">
         <h1 className="splash-viz__heading">
-          <span> bundle your</span>
+          <span> 构建你的</span>
           <TextRotator delay={ 5000 } repeatDelay={ 5000 } maxWidth={ 110 }>
             <span> assets </span>
             <span> scripts </span>

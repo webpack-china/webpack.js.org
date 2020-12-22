@@ -16,9 +16,11 @@ repo: https://github.com/webpack-contrib/expose-loader
 
 
 
-The `expose-loader` loader allow you to expose module to `global` object (`self`, `window` and `global`).
+The `expose-loader` loader allows to expose a module (in whole or in part) to global object (`self`, `window` and `global`).
 
-## Getting Started
+For further hints on compatibility issues, check out [Shimming](/guides/shimming/) of the official docs.
+
+## Getting Started {#getting-started}
 
 To begin, you'll need to install `expose-loader`:
 
@@ -26,7 +28,43 @@ To begin, you'll need to install `expose-loader`:
 $ npm install expose-loader --save-dev
 ```
 
-Then add the loader to your `webpack` config. For example:
+Then you can use the `expose-loader` using two approaches.
+
+## Inline {#inline}
+
+The `|` or `%20` (space) allow to separate the `globalName`, `moduleLocalName` and `override` of expose.
+The documentation and syntax examples can be read [here](#syntax).
+
+> ⚠ `%20` is space in a query string, because you can't use spaces in URLs
+
+```js
+import $ from "expose-loader?exposes[]=$&exposes[]=jQuery!jquery";
+//
+// Adds the `jquery` to the global object under the names `$` and `jQuery`
+```
+
+```js
+import { concat } from "expose-loader?exposes=_.concat!lodash/concat";
+//
+// Adds the `lodash/concat` to the global object under the name `_.concat`
+```
+
+```js
+import {
+  map,
+  reduce,
+} from "expose-loader?exposes[]=_.map|map&exposes[]=_.reduce|reduce!underscore";
+//
+// Adds the `map` and `reduce` method from `underscore` to the global object under the name `_.map` and `_.reduce`
+```
+
+## Using Configuration {#using-configuration}
+
+**src/index.js**
+
+```js
+import $ from "jquery";
+```
 
 **webpack.config.js**
 
@@ -35,79 +73,28 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js/i,
-        loader: 'expose-loader',
+        test: require.resolve("jquery"),
+        loader: "expose-loader",
         options: {
-          expose: '$',
+          exposes: ["$", "jQuery"],
         },
       },
-    ],
-  },
-};
-```
-
-And then require the target file in your bundle's code:
-
-**src/entry.js**
-
-```js
-require('expose-loader?expose=libraryName!./thing.js');
-```
-
-And run `webpack` via your preferred method.
-
-## Examples
-
-### Expose `jQuery`
-
-For example, let's say you want to expose jQuery as a global called `$`:
-
-```js
-require('expose-loader?expose=$!jquery');
-```
-
-Thus, `window.$` is then available in the browser console.
-
-Alternately, you can set this in your config file:
-
-**webpack.config.js**
-
-```js
-module.exports = {
-  module: {
-    rules: [
       {
-        test: require.resolve('jquery'),
-        loader: 'expose-loader',
+        test: require.resolve("underscore"),
+        loader: "expose-loader",
         options: {
-          expose: '$',
-        },
-      },
-    ],
-  },
-};
-```
-
-Let's say you also want to expose it as `window.jQuery` in addition to `window.$`.
-
-For multiple expose you can use `!` in loader string:
-
-**webpack.config.js**
-
-```js
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: require.resolve('jquery'),
-        rules: [
-          {
-            loader: 'expose-loader',
-            options: {
-              expose: ['$', 'jQuery'],
+          exposes: [
+            "_.map|map",
+            {
+              globalName: "_.reduce",
+              moduleLocalName: "reduce",
             },
-          },
-        ],
+            {
+              globalName: ["_", "filter"],
+              moduleLocalName: "filter",
+            },
+          ],
+        },
       },
     ],
   },
@@ -118,17 +105,221 @@ The [`require.resolve`](https://nodejs.org/api/modules.html#modules_require_reso
 `require.resolve` gives you the absolute path to the module (`"/.../app/node_modules/jquery/dist/jquery.js"`).
 So the expose only applies to the `jquery` module. And it's only exposed when used in the bundle.
 
-## Contributing
+And run `webpack` via your preferred method.
 
-Please take a moment to read our contributing guidelines if you haven't yet done so.
+## Options {#options}
 
-## Contributing
+|           Name            |                   Type                    |   Default   | Description     |
+| :-----------------------: | :---------------------------------------: | :---------: | :-------------- |
+| **[`exposes`](#exposes)** | `{String\|Object\|Array<String\|Object>}` | `undefined` | List of exposes |
+
+### `exposes` {#exposes}
+
+Type: `String|Object|Array<String|Object>`
+Default: `undefined`
+
+List of exposes.
+
+#### `String` {#string}
+
+Allows to use a string to describe an expose.
+
+##### `Syntax` {#syntax}
+
+The `|` or `%20` (space) allow to separate the `globalName`, `moduleLocalName` and `override` of expose.
+
+String syntax - `[[globalName] [moduleLocalName] [override]]` or `[[globalName]|[moduleLocalName]|[override]]`, where:
+
+- `globalName` - the name in the global object, for example `window.$` for a browser environment (**required**)
+- `moduleLocalName` - the name of method/variable/etc of the module (the module must export it) (**may be omitted**)
+- `override` - allows to override existing value in the global object (**may be omitted**)
+
+If `moduleLocalName` is not specified, it exposes the entire module to the global object, otherwise it exposes only the value of `moduleLocalName`.
+
+**src/index.js**
+
+```js
+import _ from "underscore";
+```
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: require.resolve("jquery"),
+        loader: "expose-loader",
+        options: {
+          // For `underscore` library, it can be `_.map map` or `_.map|map`
+          exposes: "jquery",
+        },
+      },
+    ],
+  },
+};
+```
+
+#### `Object` {#object}
+
+Allows to use an object to describe an expose.
+
+##### `globalName` {#globalname}
+
+Type: `String|Array<String>`
+Default: `undefined`
+
+The name in the global object. (**required**).
+
+**src/index.js**
+
+```js
+import _ from "underscore";
+```
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: require.resolve("underscore"),
+        loader: "expose-loader",
+        options: {
+          exposes: {
+            // Can be `['_', 'filter']`
+            globalName: "_.filter",
+            moduleLocalName: "filter",
+          },
+        },
+      },
+    ],
+  },
+};
+```
+
+##### `moduleLocalName` {#modulelocalname}
+
+Type: `String`
+Default: `undefined`
+
+The name of method/variable/etc of the module (the module must export it).
+If `moduleLocalName` is specified, it exposes only the value of `moduleLocalName`.
+
+**src/index.js**
+
+```js
+import _ from "underscore";
+```
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: require.resolve("underscore"),
+        loader: "expose-loader",
+        options: {
+          exposes: {
+            globalName: "_.filter",
+            moduleLocalName: "filter",
+          },
+        },
+      },
+    ],
+  },
+};
+```
+
+##### `override` {#override}
+
+Type: `Boolean`
+Default: `false`
+
+By default loader does not override the existing value in the global object, because it is unsafe.
+In `development` mode, we throw an error if the value already present in the global object.
+But you can configure loader to override the existing value in the global object using this option.
+
+To force override the value that is already present in the global object you can set the `override` option to the `true` value.
+
+**src/index.js**
+
+```js
+import $ from "jquery";
+```
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: require.resolve("jquery"),
+        loader: "expose-loader",
+        options: {
+          exposes: {
+            globalName: "$",
+            override: true,
+          },
+        },
+      },
+    ],
+  },
+};
+```
+
+#### `Array` {#array}
+
+**src/index.js**
+
+```js
+import _ from "underscore";
+```
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: require.resolve("underscore"),
+        loader: "expose-loader",
+        options: {
+          exposes: [
+            "_.map map",
+            {
+              globalName: "_.filter",
+              moduleLocalName: "filter",
+            },
+            {
+              globalName: ["_", "find"],
+              moduleLocalName: "myNameForFind",
+            },
+          ],
+        },
+      },
+    ],
+  },
+};
+```
+
+It will expose **only** `map`, `filter` and `find` (under `myNameForFind` name) methods to the global object.
+
+In a browser these methods will be available under `windows._.map(..args)`, `windows._.filter(...args)` and `windows._.myNameForFind(...args)` methods.
+
+## Contributing {#contributing}
 
 Please take a moment to read our contributing guidelines if you haven't yet done so.
 
 [CONTRIBUTING](https://github.com/webpack-contrib/expose-loader/blob/master/.github/CONTRIBUTING.md)
 
-## License
+## License {#license}
 
 [MIT](https://github.com/webpack-contrib/expose-loader/blob/master/LICENSE)
 

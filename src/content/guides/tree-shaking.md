@@ -16,9 +16,8 @@ contributors:
   - EugeneHlushko
   - AnayaDesign
   - torifat
+  - rahul3v
 related:
-  - title: "webpack 4 beta — try it today!"
-    url: https://medium.com/webpack/webpack-4-beta-try-it-today-6b1d27d7d7e2#9a67
   - title: Debugging Optimization Bailouts
     url: https://webpack.js.org/plugins/module-concatenation-plugin/#debugging-optimization-bailouts
   - title: Issue 6074 - Add support for more complex selectors for sideEffects
@@ -32,7 +31,7 @@ webpack 2 正式版本内置支持 ES2015 模块（也叫做 _harmony modules_�
 T> 本指南的继承自 [起步](/guides/getting-started) 指南。如果你尚未阅读该指南，请先行阅读。
 
 
-## 添加一个通用模块
+## 添加一个通用模块 {#add-a-utility}
 
 在我们的项目中添加一个新的通用模块文件 `src/math.js`，并导出两个函数：
 
@@ -62,6 +61,7 @@ export function cube(x) {
   return x * x * x;
 }
 ```
+
 需要将 `mode` 配置设置成[development](/configuration/mode/#mode-development)，以确定 bundle 不会被压缩：
 
 __webpack.config.js__
@@ -130,7 +130,7 @@ __dist/bundle.js (around lines 90 - 100)__
 注意，上面的 `unused harmony export square` 注释。如果你观察它下面的代码，你会注意到虽然我们没有引用 `square`，但它仍然被包含在 bundle 中。我们将在下一节解决这个问题。
 
 
-## 将文件标记为 side-effect-free(无副作用)
+## 将文件标记为 side-effect-free(无副作用) {#mark-the-file-as-side-effect-free}
 
 在一个纯粹的 ESM 模块世界中，很容易识别出哪些文件有 side effect。然而，我们的项目无法达到这种纯度，所以，此时有必要提示 webpack compiler 哪些代码是“纯粹部分”。
 
@@ -158,7 +158,7 @@ T> "side effect(副作用)" 的定义是，在导入时会执行特殊行为的�
 }
 ```
 
-数组方式支持相对路径、绝对路径和 glob 模式匹配相关文件。它在内部使用 [micromatch](https://github.com/micromatch/micromatch#matching-features)。
+此数组支持简单的 glob 模式匹配相关文件。其内部使用了 [glob-to-regexp](https://github.com/fitzgen/glob-to-regexp)（支持：`*`，`**`，`{a,b}`，`[a-z]`）。如果匹配模式为 `*.css`，且不包含 `/`，将被视为 `**/*.css`。
 
 T> 注意，所有导入文件都会受到 tree shaking 的影响。这意味着，如果在项目中使用类似 `css-loader` 并 import 一个 CSS 文件，则需要将其添加到 side effect 列表中，以免在生产模式中无意中将它删除：
 
@@ -174,7 +174,7 @@ T> 注意，所有导入文件都会受到 tree shaking 的影响。这意味着
 
 最后，还可以在 [`module.rules` 配置选项](/configuration/module/#module-rules) 中设置 `"sideEffects"`。
 
-## 解释 tree shaking 和 `sideEffects`
+## 解释 tree shaking 和 `sideEffects` {#clarifying-tree-shaking-and-sideeffects}
 
 [`sideEffects`](/configuration/optimization/#optimizationsideeffects) 和 [`usedExports`](/configuration/optimization/#optimizationusedexports)（更多被认为是 tree shaking）是两种不同的优化方式。
 
@@ -241,11 +241,13 @@ export {
 
 但我们可以通过 `/*#__PURE__*/` 注释来帮忙 terser。它给一个语句标记为没有副作用。就这样一个简单的改变就能够使下面的代码被 tree-shake:
 
-`var Button$1 = /*#__PURE__*/ withAppProvider()(Button);`
+```javascript
+var Button$1 = /*#__PURE__*/ withAppProvider()(Button);
+```
 
-这样会允许去掉这代码代码，但仍然会有一些导入的问题需要被包括/评估，因为它们包含了副作用。
+这会使得这段代码被过滤，但仍然会有一些引入的问题，需要对其进行评估，因为它们产生了副作用。
 
-为了解决这个问题，我们使用在 `package.json` 中[`"sideEffects"`](/guides/tree-shaking/#mark-the-file-as-side-effect-free) 属性。
+为了解决这个问题，我们需要在 `package.json` 中添加 [`"sideEffects"`](/guides/tree-shaking/#mark-the-file-as-side-effect-free) 属性。
 
 它类似于 `/*#__PURE__*/` 但是作用于模块的层面，而不是代码语句的层面。它表示的意思是(指`"sideEffects"` 属性)：“如果被标记为无副作用的模块没有被直接导出使用，打包工具会跳过进行模块的副作用分析评估。”。
 
@@ -309,7 +311,7 @@ __package.json__
 
 模块合并也会应用。所以这4个模块，加上入口的模块（也可能有更多的依赖）会被合并。 __`index.js` 最终没有生成代码__.
 
-## 将函数调用标记为无副作用
+## 将函数调用标记为无副作用 {#mark-a-function-call-as-side-effect-free}
 
 是可以告诉 webpack 一个函数调用是无副作用的，只要通过 `/*#__PURE__*/` 注释。它可以被放到函数调用之前，用来标记它们是无副作用的(pure)。传到函数中的入参是无法被刚才的注释所标记，需要单独每一个标记才可以。如果一个没被使用的变量定义的初始值被认为是无副作用的（pure），它会被标记为死代码，不会被执行且会被压缩工具清除掉。这个行为被会开启当 [`optimization.innerGraph`](/configuration/optimization/#optimizationinnergraph) 被设置成 `true`。
 
@@ -319,7 +321,7 @@ __file.js__
 /*#__PURE__*/ double(55);
 ```
 
-## 压缩输出结果
+## 压缩输出结果 {#minify-the-output}
 
 通过 `import` 和 `export`  语法，我们已经找出需要删除的“未引用代码(dead code)”，然而，不仅仅是要找出，还要在 bundle 中删除它们。为此，我们需要将 `mode` 配置选项设置为 [`production`](/configuration/mode/#mode-production)。
 
@@ -350,7 +352,7 @@ T> 注意，也可以在命令行接口中使用 `--optimize-minimize` 标记，
 
 T> 在使用 tree shaking 时必须有 [ModuleConcatenationPlugin](/plugins/module-concatenation-plugin) 的支持，您可以通过设置配置项 `mode: "production"` 以启用它。如果您没有如此做，请记得手动引入 [ModuleConcatenationPlugin](/plugins/module-concatenation-plugin)。
 
-## 结论
+## 结论 {#conclusion}
 
 因此，我们学到为了利用 _tree shaking_ 的优势， 你必须...
 

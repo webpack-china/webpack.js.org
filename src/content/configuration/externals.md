@@ -14,12 +14,15 @@ contributors:
   - snitin315
   - beejunk
   - EugeneHlushko
+  - chenxsan
+  - pranshuchittora
+  - kinetifex
 ---
 
 `externals` 配置选项提供了「从输出的 bundle 中排除依赖」的方法。相反，所创建的 bundle 依赖于那些存在于用户环境(consumer's environment)中的依赖。此功能通常对 __library 开发人员__来说是最有用的，然而也会有各种各样的应用程序用到它。
 
 
-## `externals`
+## `externals` {#externals}
 
 `string` `[string]` `object` `function`  `RegExp`
 
@@ -66,7 +69,7 @@ $('.my-element').animate(/* ... */);
 可以接受以下语法……
 
 
-### 字符串
+### 字符串 {#string}
 
 请查看上面的例子。属性名称是 `jquery`，表示应该排除 `import $ from 'jquery'` 中的 `jquery` 模块。为了替换这个模块，`jQuery` 的值将被用来检索一个全局的 `jQuery` 变量。换句话说，当设置为一个字符串时，它将被视为`全局的`（定义在上面和下面）。
 
@@ -95,7 +98,7 @@ import fs from 'fs-extra';
 const fs = require('fs-extra');
 ```
 
-### 字符串数组
+### `[string]` {#string}
 
 ```javascript
 module.exports = {
@@ -108,7 +111,7 @@ module.exports = {
 
 `subtract: ['./math', 'subtract']` 转换为父子结构，其中 `./math` 是父模块，而 bundle 只引用 `subtract` 变量下的子集。该例子会编译成 `require('./math').subtract;`
 
-### 对象
+### 对象 {#object}
 
 W> 一个形如  `{ root, amd, commonjs, ... }` 的对象仅允许用于  [`libraryTarget: 'umd'`](/configuration/output/#outputlibrarytarget) 这样的配置.它不被允许 用于其它的 library targets 配置值.
 
@@ -142,16 +145,17 @@ module.exports = {
 此语法用于描述外部 library 所有可用的访问方式。这里 `lodash` 这个外部 library 可以在 AMD 和 CommonJS 模块系统中通过 `lodash` 访问，但在全局变量形式下用 `_` 访问。`subtract` 可以通过全局 `math` 对象下的属性 `subtract` 访问（例如 `window['math']['subtract']`）。
 
 
-### 函数
+### 函数 {#function}
 
-`function (context, request, callback)`
+`function ({ context, request }, callback)`
 
 对于 webpack 外部化，通过定义函数来控制行为，可能会很有帮助。例如，[webpack-node-externals](https://www.npmjs.com/package/webpack-node-externals) 能够排除 `node_modules` 目录中所有模块，还提供一些选项，比如白名单 package(whitelist package)。
 
-函数接收三个入参：
+函数接收两个入参：
 
-- `context` (`string`): 包含引用的文件目录。
-- `request` (`string`): 被请求引入的路径。
+- `ctx` (`object`)：包含文件详情的对象。
+  - `ctx.context` (`string`): 包含引用的文件目录。
+  - `ctc.request` (`string`): 被请求引入的路径。
 - `callback` (`function (err, result, type)`): 用于指明模块如何被外部化的回调函数
 
 回调函数接收三个入参：
@@ -168,7 +172,7 @@ __webpack.config.js__
 module.exports = {
   //...
   externals: [
-    function(context, request, callback) {
+    function({ context, request }, callback) {
       if (/^yourregex$/.test(request)){
         // 使用 request 路径，将一个 commonjs 模块外部化
         return callback(null, 'commonjs ' + request);
@@ -188,7 +192,7 @@ __webpack.config.js__
 ```javascript
 module.exports = {
   externals: [
-    function(context, request, callback) {
+    function(ctx, callback) {
       // 该外部化的模块，是一个 `commonjs2` 的模块，且放在 `@scope/library` 目录中
       callback(null, '@scope/library', 'commonjs2');
     }
@@ -201,7 +205,7 @@ __webpack.config.js__
 ```javascript
 module.exports = {
   externals: [
-    function(context, request, callback) {
+    function(ctx, callback) {
       // 该外部化模块是一个全局变量叫作 `nameOfGlobal`.
       callback(null, 'nameOfGlobal');
     }
@@ -214,7 +218,7 @@ __webpack.config.js__
 ```javascript
 module.exports = {
   externals: [
-    function(context, request, callback) {
+    function(ctx, callback) {
       // 该外部化模块是一个在`@scope/library`模块里的命名导出（named export）。
       callback(null, ['@scope/library', 'namedexport'], 'commonjs');
     }
@@ -227,7 +231,7 @@ __webpack.config.js__
 ```javascript
 module.exports = {
   externals: [
-    function(context, request, callback) {
+    function(ctx, callback) {
       // 外部化模块是一个 UMD 模块
       callback(null, {
         root: 'componentsGlobal',
@@ -240,7 +244,7 @@ module.exports = {
 };
 ```
 
-### RegExp
+### RegExp {#regexp}
 
 匹配给定正则表达式的每个依赖，都将从输出 bundle 中排除。
 
@@ -255,7 +259,7 @@ module.exports = {
 
 这个示例中，所有名为 `jQuery` 的依赖（忽略大小写），或者 `$`，都会被外部化。
 
-### 混用语法
+### 混用语法 {#combining-syntaxes}
 
 有时你需要混用上面介绍的语法。这可以像以下这样操作：
 
@@ -278,7 +282,7 @@ module.exports = {
       subtract: ['./math', 'subtract']
     },
     // 函数
-    function(context, request, callback) {
+    function({ context, request }, callback) {
       if (/^yourregex$/.test(request)){
         return callback(null, 'commonjs ' + request);
       }
@@ -290,18 +294,18 @@ module.exports = {
 };
 ```
 
-W> [Default type](/configuration/externals/#externalstype) will be used if you sepcify `externals` without a type e.g. `externals: { react: 'react' }` instead of `externals: { react: 'commonjs-module react' }`.
+W> [Default type](/configuration/externals/#externalstype) will be used if you specify `externals` without a type e.g. `externals: { react: 'react' }` instead of `externals: { react: 'commonjs-module react' }`.
 
 关于如何使用此 externals 配置的更多信息，请参考 [如何编写 library](/guides/author-libraries)。
 
 
-## `externalsType`
+## `externalsType` {#externalstype}
 
 `string = 'var'`
 
-Specifies the default type of externals. `amd`, `root` and `system` externals __depend on the [`output.libraryTarget`](/configuration/output/#outputlibrarytarget)__ being set to the same value e.g. you can only consume `amd` externals within an `amd` library.
+指定 externals 的默认类型。当 external 被设置为 `amd`，`umd`，`system` 以及 `jsonp` 时，**[`output.libraryTarget`](/configuration/output/#outputlibrarytarget)** 的值也应相同。例如，你只能在 `amd` 库中使用 `amd` 的 externals。
 
-Supported types:
+支持的类型如下：
 
 - `'var'`
 - `'module'`
@@ -318,8 +322,9 @@ Supported types:
 - `'umd2'`
 - `'jsonp'`
 - `'system'`
-- `'promise'` - same as `'var'` but awaits the result (async module, depends on [`experiments.importAsync`](/configuration/experiments/))
-- `'import'` - uses `import()` to load a native EcmaScript module (async module, depends on [`experiments.importAsync`](/configuration/experiments/))
+- `'promise'` - 与 `'var'` 相同，但会 awaits 结果（适用于 async 模块）
+- `'import'` - 使用 `import()` 加载原生的 EcmaScript 模块（适用于 async 模块）
+- `'script'` - 使用 HTML 的 `<script>` 元素加载 script，用于暴露预定义的全局变量
 
 __webpack.config.js__
 
@@ -327,5 +332,115 @@ __webpack.config.js__
 module.exports = {
   //...
   externalsType: 'promise'
+};
+```
+
+### `script` {#script}
+
+External script can be loaded from any URL when [`externalsType`](#externalstype) is set to `'script'`. The `<script>` tag would be removed after the script has been loaded.
+
+#### Syntax {#syntax}
+
+```javascript
+module.exports = {
+  externals: {
+    packageName: ['http://example.com/script.js', 'global', 'property', 'property'] // properties are optional
+  }
+};
+```
+
+如果你不打算定义任何熟悉，你可以使用简写形式：
+
+```javascript
+module.exports = {
+  externals: {
+    packageName: 'global@http://example.com/script.js' // no properties here
+  }
+};
+```
+
+T> [`output.publicPath`](/configuration/output/#outputpublicpath) 不会被添加到提供的 URL 中。
+
+#### 示例 {#example}
+
+从 CDN 加载 `lodash`：
+
+__webpack.config.js__
+
+```js
+module.exports = {
+  // ...
+  externalsType: 'script',
+  externals: {
+    lodash: ['https://cdn.jsdelivr.net/npm/lodash@4.17.19/lodash.min.js', '_'],
+  }
+};
+```
+
+然后，代码中使用方式如下：
+
+```js
+import _ from 'lodash';
+console.log(_.head([1, 2, 3]));
+```
+
+下面示例是针对上面示例新增了属性配置：
+
+```js
+module.exports = {
+  // ...
+  externalsType: 'script',
+  externals: {
+    lodash: ['https://cdn.jsdelivr.net/npm/lodash@4.17.19/lodash.min.js', '_', 'head'],
+  }
+};
+```
+
+当你 `import 'loadsh'` 时，局部变量 `head` 和全局变量 `window._` 都会被暴露：
+
+```js
+import head from 'lodash';
+console.log(head([1, 2, 3])); // logs 1 here
+console.log(window._.head(['a', 'b'])); // logs a here
+```
+
+T> 当加载带有 HTML `<script>` 标签的代码时，webpack 的 runtime 将试图寻找一个已经存在的 `<script>` 标签，此标签需与 `src` 的属性相匹配，或者具有特定的 `data-webpack` 属性。对于 chunk 加载来说，`data-webpack` 属性的值为 `'[output.uniqueName]:chunk-[chunkId]'`，而 external 脚本的值为 `'[output.uniqueName]:[global]'`。
+
+T> 像 `output.chunkLoadTimeout`，`output.crossOriginLoading` 以及 `output.scriptType` 等选项也会对这种方式加载的 external 脚本产生影响。
+
+## `externalsPresets` {#externals-presets}
+
+`object`
+
+为特定的 target 启用 externals 的 preset。
+
+W> 在早期的 webpack 版本中，通过使用 [`target`](/configuration/target/) 实现以下功能。
+
+
+
+选项   | 描述                                      | 输入类型
+----------- | ------------------------------------------------ | ----------
+`electron`     | 将 main 和预加载上下文中常见的 electron 内置模块视为 external 模块（如 `electron`，`ipc` 或 `shell`），使用时通过 `require()` 加载。                     | boolean
+`electronMain`     | 将 main 上下文中的 electron 内置模块视为 external 模块（如 `app`，`ipc-main` 或 `shell`），使用时通过 `require()` 加载。                     | boolean
+`electronPreload`     | 将预加载上下文的 electron 内置模块视为 external 模块（如 `web-frame`，`ipc-renderer` 或 `shell`），使用时通过 `require()` 加载。                     | boolean
+`electronRenderer`     | 将 renderer 上下文的 electron 内置模块视为 external 模块（如 `web-frame`、`ipc-renderer` 或 `shell`），使用时通过 `require()` 加载。                     | boolean
+`node`     | 将 node.js 的内置模块视为 external 模块（如 `fs`，`path` 或 `vm`），使用时通过 `require()` 加载。| boolean
+`nwjs`    | 将 `NW.js` 遗留的 `nw.gui` 模块视为 external 模块，使用时通过 `require()` 加载。| boolean
+`web`     | 将 `http(s)://...` 以及 `std:...` 视为 external 模块，使用时通过 `import` 加载。__（注意，这将改变执行顺序，因为 external 代码会在该块中的其他代码执行前被执行）__。| boolean
+`webAsync`     | 将 `http(s)://...` 以及 `std:...` 的引用视为 external 模块，使用时通过 `async import()` 加载。__（注意，此 external 类型为 `async` 模块，它对执行会产生各种副作用）__。| boolean
+
+
+__示例__
+
+使用 `node` 的 preset 不会构建内置模块，而会将其视为 external 模块，使用时通过 `require()` 加载。
+
+__webpack.config.js__
+
+```js
+module.exports = {
+  // ...
+  externalsPresets:{
+    node: true
+  }
 };
 ```

@@ -16,22 +16,24 @@ repo: https://github.com/webpack-contrib/terser-webpack-plugin
 
 
 
-This plugin uses [terser](https://github.com/terser-js/terser) to minify your JavaScript.
+该插件使用 [terser](https://github.com/terser-js/terser) 来压缩 JavaScript。
 
-## Getting Started
+## 入门 {#getting-started}
 
-To begin, you'll need to install `terser-webpack-plugin`:
+如果你使用的是 webpack v5 或以上版本，你不需要安装这个插件。webpack v5 自带最新的 `terser-webpack-plugin`。
+
+首先，你需要安装 `terser-webpack-plugin`：
 
 ```console
 $ npm install terser-webpack-plugin --save-dev
 ```
 
-Then add the plugin to your `webpack` config. For example:
+然后将插件添加到你的 `webpack` 配置文件中。例如：
 
 **webpack.config.js**
 
 ```js
-const TerserPlugin = require('terser-webpack-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
   optimization: {
@@ -41,16 +43,27 @@ module.exports = {
 };
 ```
 
-And run `webpack` via your preferred method.
+接下来，按照你习惯的方式运行 `webpack`。
 
-## Options
+## 关于 source maps 说明 {#note-about-source-maps}
 
-### `test`
+**Works only with `source-map`, `inline-source-map`, `hidden-source-map` and `nosources-source-map` values for the [`devtool`](/configuration/devtool/) option.**
 
-Type: `String|RegExp|Array<String|RegExp>`
-Default: `/\.m?js(\?.*)?$/i`
+Why?
 
-Test to match files against.
+- `eval` wraps modules in `eval("string")` and the minimizer does not handle strings.
+- `cheap` has not column information and minimizer generate only a single line, which leave only a single mapping.
+
+Using supported `devtool` values enable source map generation.
+
+## 选项 {#options}
+
+### `test` {#test}
+
+类型： `String|RegExp|Array<String|RegExp>`
+默认值：`/\.m?js(\?.*)?$/i`
+
+用来匹配需要压缩的文件。
 
 **webpack.config.js**
 
@@ -67,12 +80,12 @@ module.exports = {
 };
 ```
 
-### `include`
+### `include` {#include}
 
-Type: `String|RegExp|Array<String|RegExp>`
-Default: `undefined`
+类型： `String|RegExp|Array<String|RegExp>`
+默认值： `undefined`
 
-Files to include.
+匹配参与压缩的文件。
 
 **webpack.config.js**
 
@@ -89,12 +102,12 @@ module.exports = {
 };
 ```
 
-### `exclude`
+### `exclude` {#exclude}
 
-Type: `String|RegExp|Array<String|RegExp>`
-Default: `undefined`
+类型： `String|RegExp|Array<String|RegExp>`
+默认值： `undefined`
 
-Files to exclude.
+匹配不需要压缩的文件。
 
 **webpack.config.js**
 
@@ -111,112 +124,21 @@ module.exports = {
 };
 ```
 
-### `cache`
+### `parallel` {#parallel}
 
-> ⚠ Ignored in webpack 5! Please use https://webpack.js.org/configuration/other-options/#cache.
+类型： `Boolean|Number`
+默认值： `true`
 
-Type: `Boolean|String`
-Default: `true`
+使用多进程并发运行以提高构建速度。
+并发运行的默认数量： `os.cpus().length - 1` 。
 
-Enable file caching.
-Default path to cache directory: `node_modules/.cache/terser-webpack-plugin`.
+> 并发运行可以显著提高构建速度，因此**强烈建议添加此配置** 。
 
-> ℹ️ If you use your own `minify` function please read the `minify` section for cache invalidation correctly.
+> 如果你使用 **Circle CI** 或任何其他不提供 CPU 实际可用数量的环境，则需要显式设置 CPU 数量，以避免 `Error: Call retries were exceeded`（请参阅 [#143](https://github.com/webpack-contrib/terser-webpack-plugin/issues/143)，[#202](https://github.com/webpack-contrib/terser-webpack-plugin/issues/202) ）。
 
-#### `Boolean`
+#### `Boolean` {#boolean}
 
-Enable/disable file caching.
-
-**webpack.config.js**
-
-```js
-module.exports = {
-  optimization: {
-    minimize: true,
-    minimizer: [
-      new TerserPlugin({
-        cache: true,
-      }),
-    ],
-  },
-};
-```
-
-#### `String`
-
-Enable file caching and set path to cache directory.
-
-**webpack.config.js**
-
-```js
-module.exports = {
-  optimization: {
-    minimize: true,
-    minimizer: [
-      new TerserPlugin({
-        cache: 'path/to/cache',
-      }),
-    ],
-  },
-};
-```
-
-### `cacheKeys`
-
-> ⚠ Ignored in webpack 5! Please use https://webpack.js.org/configuration/other-options/#cache.
-
-Type: `Function<(defaultCacheKeys, file) -> Object>`
-Default: `defaultCacheKeys => defaultCacheKeys`
-
-Allows you to override default cache keys.
-
-Default cache keys:
-
-```js
-({
-  terser: require('terser/package.json').version, // terser version
-  'terser-webpack-plugin': require('../package.json').version, // plugin version
-  'terser-webpack-plugin-options': this.options, // plugin options
-  path: compiler.outputPath ? `${compiler.outputPath}/${file}` : file, // asset path
-  hash: crypto.createHash('md4').update(input).digest('hex'), // source file hash
-});
-```
-
-**webpack.config.js**
-
-```js
-module.exports = {
-  optimization: {
-    minimize: true,
-    minimizer: [
-      new TerserPlugin({
-        cache: true,
-        cacheKeys: (defaultCacheKeys, file) => {
-          defaultCacheKeys.myCacheKey = 'myCacheKeyValue';
-
-          return defaultCacheKeys;
-        },
-      }),
-    ],
-  },
-};
-```
-
-### `parallel`
-
-Type: `Boolean|Number`
-Default: `true`
-
-Use multi-process parallel running to improve the build speed.
-Default number of concurrent runs: `os.cpus().length - 1`.
-
-> ℹ️ Parallelization can speedup your build significantly and is therefore **highly recommended**.
-
-> ⚠️ If you use **Circle CI** or any other environment that doesn't provide real available count of CPUs then you need to setup explicitly number of CPUs to avoid `Error: Call retries were exceeded` (see [#143](https://github.com/webpack-contrib/terser-webpack-plugin/issues/143), [#202](https://github.com/webpack-contrib/terser-webpack-plugin/issues/202)).
-
-#### `Boolean`
-
-Enable/disable multi-process parallel running.
+启用/禁用多进程并发运行功能。
 
 **webpack.config.js**
 
@@ -233,9 +155,9 @@ module.exports = {
 };
 ```
 
-#### `Number`
+#### `Number` {#number}
 
-Enable multi-process parallel running and set number of concurrent runs.
+启用多进程并发运行并设置并发运行次数。
 
 **webpack.config.js**
 
@@ -252,24 +174,16 @@ module.exports = {
 };
 ```
 
-### `sourceMap`
+### `minify` {#minify}
 
-Type: `Boolean`
-Default: `false` (see below for details around `devtool` value and `SourceMapDevToolPlugin` plugin)
+类型： `Function`
+默认值： `undefined`
 
-**Works only with `source-map`, `inline-source-map`, `hidden-source-map` and `nosources-source-map` values for the [`devtool`](/configuration/devtool/) option.**
+允许你自定义压缩函数。
+默认情况下，插件使用 [terser](https://github.com/terser-js/terser) 库。
+对于使用和测试未发布的版本或 fork 的代码很帮助。
 
-Why?
-
-- `eval` wraps modules in `eval("string")` and the minimizer does not handle strings.
-- `cheap` has not column information and minimizer generate only a single line, which leave only a single mapping.
-
-The plugin respect the [`devtool`](/configuration/devtool/) and using the `SourceMapDevToolPlugin` plugin.
-Using supported `devtool` values enable source map generation.
-Using `SourceMapDevToolPlugin` with enabled the `columns` option enables source map generation.
-
-Use source maps to map error message locations to modules (this slows down the compilation).
-If you use your own `minify` function please read the `minify` section for handling source maps correctly.
+> ⚠️ **启用 `parallel` 选项时，在 `minify` 函数内部只能使用 `require`** 。
 
 **webpack.config.js**
 
@@ -279,43 +193,23 @@ module.exports = {
     minimize: true,
     minimizer: [
       new TerserPlugin({
-        sourceMap: true,
-      }),
-    ],
-  },
-};
-```
-
-### `minify`
-
-Type: `Function`
-Default: `undefined`
-
-Allows you to override default minify function.
-By default plugin uses [terser](https://github.com/terser-js/terser) package.
-Useful for using and testing unpublished versions or forks.
-
-> ⚠️ **Always use `require` inside `minify` function when `parallel` option enabled**.
-
-**webpack.config.js**
-
-```js
-module.exports = {
-  optimization: {
-    minimize: true,
-    minimizer: [
-      new TerserPlugin({
-        minify: (file, sourceMap) => {
+        terserOptions: {
+          myCustomOption: true,
+        },
+        // Can be async
+        minify: (file, sourceMap, minimizerOptions) => {
+          // The `minimizerOptions` option contains option from the `terserOptions` option
+          // You can use `minimizerOptions.myCustomOption`
           const extractedComments = [];
 
           // Custom logic for extract comments
 
-          const { error, map, code, warnings } = require('uglify-module') // Or require('./path/to/uglify-module')
+          const { map, code } = require("uglify-module") // Or require('./path/to/uglify-module')
             .minify(file, {
               /* Your options for minification */
             });
 
-          return { error, map, code, warnings, extractedComments };
+          return { map, code, extractedComments };
         },
       }),
     ],
@@ -323,12 +217,12 @@ module.exports = {
 };
 ```
 
-### `terserOptions`
+### `terserOptions` {#terseroptions}
 
-Type: `Object`
-Default: [default](https://github.com/terser-js/terser#minify-options)
+类型： `Object`
+默认值： [默认](https://github.com/terser-js/terser#minify-options)
 
-Terser minify [options](https://github.com/terser-js/terser#minify-options).
+Terser 压缩[配置](https://github.com/terser-js/terser#minify-options) 。
 
 **webpack.config.js**
 
@@ -340,12 +234,13 @@ module.exports = {
       new TerserPlugin({
         terserOptions: {
           ecma: undefined,
-          warnings: false,
           parse: {},
           compress: {},
           mangle: true, // Note `mangle.properties` is `false` by default.
           module: false,
+          // Deprecated
           output: null,
+          format: null,
           toplevel: false,
           nameCache: null,
           ie8: false,
@@ -359,19 +254,19 @@ module.exports = {
 };
 ```
 
-### `extractComments`
+### `extractComments` {#extractcomments}
 
-Type: `Boolean|String|RegExp|Function<(node, comment) -> Boolean|Object>|Object`
-Default: `true`
+类型： `Boolean|String|RegExp|Function<(node, comment) -> Boolean|Object>|Object`
+默认值： `true`
 
-Whether comments shall be extracted to a separate file, (see [details](https://github.com/webpack/webpack/commit/71933e979e51c533b432658d5e37917f9e71595a)).
-By default extract only comments using `/^\**!|@preserve|@license|@cc_on/i` regexp condition and remove remaining comments.
-If the original file is named `foo.js`, then the comments will be stored to `foo.js.LICENSE.txt`.
-The `terserOptions.output.comments` option specifies whether the comment will be preserved, i.e. it is possible to preserve some comments (e.g. annotations) while extracting others or even preserving comments that have been extracted.
+是否将注释剥离到单独的文件中（请参阅[详细信息](https://github.com/webpack/webpack/commit/71933e979e51c533b432658d5e37917f9e71595a)）。
+默认情况下，仅剥离 `/^\**!|@preserve|@license|@cc_on/i` 正则表达式匹配的注释，其余注释会删除。
+如果原始文件名为 `foo.js` ，则注释将存储到 `foo.js.LICENSE.txt` 。
+`terserOptions.format.comments` 选项指定是否保留注释，即可以在剥离其他注释时保留一些注释，甚至保留已剥离的注释。
 
-#### `Boolean`
+#### `Boolean` {#boolean}
 
-Enable/disable extracting comments.
+启用/禁用剥离注释功能。
 
 **webpack.config.js**
 
@@ -388,9 +283,9 @@ module.exports = {
 };
 ```
 
-#### `String`
+#### `String` {#string}
 
-Extract `all` or `some` (use `/^\**!|@preserve|@license|@cc_on/i` RegExp) comments.
+剥离 `all` 或 `some` （使用 `/^\**!|@preserve|@license|@cc_on/i` 正则表达式进行匹配）注释。
 
 **webpack.config.js**
 
@@ -400,16 +295,16 @@ module.exports = {
     minimize: true,
     minimizer: [
       new TerserPlugin({
-        extractComments: 'all',
+        extractComments: "all",
       }),
     ],
   },
 };
 ```
 
-#### `RegExp`
+#### `RegExp` {#regexp}
 
-All comments that match the given expression will be extracted to the separate file.
+与指定表达式匹配的所有注释将会被剥离到单独的文件中。
 
 **webpack.config.js**
 
@@ -426,9 +321,9 @@ module.exports = {
 };
 ```
 
-#### `Function<(node, comment) -> Boolean>`
+#### `Function<(node, comment) -> Boolean>` {＃functionnode-comment --- boolean} {#functionnode-comment---boolean-＃functionnode-comment-----boolean}
 
-All comments that match the given expression will be extracted to the separate file.
+与指定表达式匹配的所有注释将会被剥离到单独的文件中。
 
 **webpack.config.js**
 
@@ -451,9 +346,9 @@ module.exports = {
 };
 ```
 
-#### `Object`
+#### `Object` {#object}
 
-Allow to customize condition for extract comments, specify extracted file name and banner.
+允许自定义剥离注释的条件，指定剥离的文件名和标题。
 
 **webpack.config.js**
 
@@ -479,11 +374,11 @@ module.exports = {
 };
 ```
 
-##### `condition`
+##### `condition` {#condition}
 
-Type: `Boolean|String|RegExp|Function<(node, comment) -> Boolean|Object>`
+类型： `Boolean|String|RegExp|Function<(node, comment) -> Boolean|Object>`
 
-Condition what comments you need extract.
+自定义需要剥离的注释。
 
 **webpack.config.js**
 
@@ -494,7 +389,7 @@ module.exports = {
     minimizer: [
       new TerserPlugin({
         extractComments: {
-          condition: 'some',
+          condition: "some",
           filename: (fileData) => {
             // The "fileData" argument contains object with "filename", "basename", "query" and "hash"
             return `${fileData.filename}.LICENSE.txt${fileData.query}`;
@@ -509,15 +404,18 @@ module.exports = {
 };
 ```
 
-##### `filename`
+##### `filename` {#filename}
 
-Type: `String|Function<(string) -> String>`
-Default: `[file].LICENSE.txt[query]`
+类型： `String|Function<(string) -> String>`
+默认值： `[file].LICENSE.txt [query]`
 
-Available placeholders: `[file]`, `[query]` and `[filebase]` (`[base]` for webpack 5).
+可用的占位符： `[file]` ， `[query]` 和 `[filebase]` （webpack 5 使用 `[base]` ）。
 
-The file where the extracted comments will be stored.
-Default is to append the suffix `.LICENSE.txt` to the original filename.
+剥离出来的注释将被存储到的文件的文件名。
+默认是将后缀 `.LICENSE.txt` 附加到原始文件名。
+
+> ⚠️我们强烈建议使用 `txt` 扩展名。
+使用 `js` / `cjs` / `mjs` 扩展名可能会与现有资源文件冲突，从而导致代码运行出错。
 
 **webpack.config.js**
 
@@ -529,7 +427,7 @@ module.exports = {
       new TerserPlugin({
         extractComments: {
           condition: /^\**!|@preserve|@license|@cc_on/i,
-          filename: 'extracted-comments.js',
+          filename: "extracted-comments.js",
           banner: (licenseFile) => {
             return `License information can be found in ${licenseFile}`;
           },
@@ -540,14 +438,14 @@ module.exports = {
 };
 ```
 
-##### `banner`
+##### `banner` {#banner}
 
-Type: `Boolean|String|Function<(string) -> String>`
-Default: `/*! For license information please see ${commentsFile} */`
+类型： `Boolean|String|Function<(string) -> String>`
+默认值： `/*! For license information please see ${commentsFile} */`
 
-The banner text that points to the extracted file and will be added on top of the original file.
-Can be `false` (no banner), a `String`, or a `Function<(string) -> String>` that will be called with the filename where extracted comments have been stored.
-Will be wrapped into comment.
+指向剥离文件的标语文本将被添加到原始文件的顶部。
+可以为 `false` （无标题）， `String` 或一个函数：`Function<(string) -> String>` ，该函数将被使用存储剥离的注释的文件名来调用。
+标语内容将被合并到注释中。
 
 **webpack.config.js**
 
@@ -573,50 +471,11 @@ module.exports = {
 };
 ```
 
-### `warningsFilter`
+## 示例 {#examples}
 
-Type: `Function<(warning, file, source) -> Boolean>`
-Default: `() => true`
+### 保留注释 {#preserve-comments}
 
-Allow to filter [terser](https://github.com/terser-js/terser) warnings.
-Return `true` to keep the warning, a falsy value (`false`/`null`/`undefined`) otherwise.
-
-> ⚠️ The `source` argument will contain `undefined` if you don't use source maps.
-
-**webpack.config.js**
-
-```js
-module.exports = {
-  optimization: {
-    minimize: true,
-    minimizer: [
-      new TerserPlugin({
-        warningsFilter: (warning, file, source) => {
-          if (/Dropping unreachable code/i.test(warning)) {
-            return true;
-          }
-
-          if (/file\.js/i.test(file)) {
-            return true;
-          }
-
-          if (/source\.js/i.test(source)) {
-            return true;
-          }
-
-          return false;
-        },
-      }),
-    ],
-  },
-};
-```
-
-## Examples
-
-### Preserve Comments
-
-Extract all legal comments (i.e. `/^\**!|@preserve|@license|@cc_on/i`) and preserve `/@license/i` comments.
+剥离所有有效的注释（即 `/^\**!|@preserve|@license|@cc_on/i` ）并保留 `/@license/i` 注释。
 
 **webpack.config.js**
 
@@ -627,7 +486,7 @@ module.exports = {
     minimizer: [
       new TerserPlugin({
         terserOptions: {
-          output: {
+          format: {
             comments: /@license/i,
           },
         },
@@ -638,9 +497,9 @@ module.exports = {
 };
 ```
 
-### Remove Comments
+### 删除注释 {#remove-comments}
 
-If you avoid building with comments, use this config:
+如果要在构建时去除注释，请使用以下配置：
 
 **webpack.config.js**
 
@@ -651,7 +510,7 @@ module.exports = {
     minimizer: [
       new TerserPlugin({
         terserOptions: {
-          output: {
+          format: {
             comments: false,
           },
         },
@@ -662,9 +521,9 @@ module.exports = {
 };
 ```
 
-### Custom Minify Function
+### 自定义压缩函数 {#custom-minify-function}
 
-Override default minify function - use `uglify-js` for minification.
+覆盖默认的 minify 函数 - 使用 `uglify-js` 进行压缩。
 
 **webpack.config.js**
 
@@ -674,17 +533,6 @@ module.exports = {
     minimize: true,
     minimizer: [
       new TerserPlugin({
-        // Uncomment lines below for cache invalidation correctly
-        // cache: true,
-        // cacheKeys: (defaultCacheKeys) => {
-        //   delete defaultCacheKeys.terser;
-        //
-        //   return Object.assign(
-        //     {},
-        //     defaultCacheKeys,
-        //     { 'uglify-js': require('uglify-js/package.json').version },
-        //   );
-        // },
         minify: (file, sourceMap) => {
           // https://github.com/mishoo/UglifyJS2#minify-options
           const uglifyJsOptions = {
@@ -697,7 +545,7 @@ module.exports = {
             };
           }
 
-          return require('uglify-js').minify(file, uglifyJsOptions);
+          return require("uglify-js").minify(file, uglifyJsOptions);
         },
       }),
     ],
@@ -705,13 +553,13 @@ module.exports = {
 };
 ```
 
-## Contributing
+## 贡献 {#contributing}
 
-Please take a moment to read our contributing guidelines if you haven't yet done so.
+请花一点时间阅读我们的贡献指南。
 
 [CONTRIBUTING](https://github.com/webpack-contrib/terser-webpack-plugin/blob/master/.github/CONTRIBUTING.md)
 
-## License
+## 许可证 {#license}
 
 [MIT](https://github.com/webpack-contrib/terser-webpack-plugin/blob/master/LICENSE)
 

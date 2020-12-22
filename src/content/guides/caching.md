@@ -25,7 +25,7 @@ T> 本指南继续沿用 [起步](/guides/getting-started)、[管理输出](/gui
 此指南的重点在于通过必要的配置，以确保 webpack 编译生成的文件能够被客户端缓存，而在文件内容变化后，能够请求到新的文件。
 
 
-## 输出文件的文件名(output filename)
+## 输出文件的文件名(output filename) {#output-filenames}
 
 我们可以通过替换 `output.filename` 中的 [substitutions](/configuration/output/#outputfilename) 设置，来定义输出文件的名称。webpack 提供了一种使用称为 __substitution(可替换模板字符串)__ 的方式，通过带括号字符串来模板化文件名。其中，`[contenthash]` substitution 将根据资源内容创建出唯一 hash。当资源内容发生变化时，`[contenthash]` 也会发生变化。
 
@@ -92,7 +92,7 @@ main.205199ab45963f6a62ec.js     544 kB       0  [emitted]  [big]  main
 
 W> 输出可能会因当前的 webpack 版本而稍有差异。与旧版本相比，新版本不一定有完全相同的问题，但我们仍然推荐的以下步骤，确保结果可靠。
 
-## 提取引导模板(extracting boilerplate)
+## 提取引导模板(extracting boilerplate) {#extracting-boilerplate}
 
 正如我们在 [代码分离](/guides/code-splitting) 中所学到的，[`SplitChunksPlugin`](/plugins/split-chunks-plugin/) 可以用于将模块分离到单独的 bundle 中。webpack 还提供了一个优化功能，可使用 [`optimization.runtimeChunk`](/configuration/optimization/#optimizationruntimechunk) 选项将 runtime 代码拆分为一个单独的 chunk。将其设置为 `single` 来为所有 chunk 创建一个 runtime bundle：
 
@@ -190,7 +190,7 @@ vendors.a42c3ca0d742766d7a28.js   69.4 KiB       1  [emitted]  vendors
 
 现在，我们可以看到 `main` 不再含有来自 `node_modules` 目录的 `vendor` 代码，并且体积减少到 `240 bytes`！
 
-## 模块标识符(module identifier)
+## 模块标识符(module identifier) {#module-identifiers}
 
 在项目中再添加一个模块 `print.js`：
 
@@ -252,7 +252,7 @@ __src/index.js__
 - `vendor` bundle 会随着自身的 `module.id` 的变化，而发生变化。
 - `manifest` runtime 会因为现在包含一个新模块的引用，而发生变化。
 
-第一个和最后一个都是符合预期的行为，`vendor` hash 发生变化是我们要修复的。我们将 [`optimization.moduleIds`](/configuration/optimization/#optimizationmoduleids) 设置为 `'hashed'`：
+第一个和最后一个都是符合预期的行为，`vendor` hash 发生变化是我们要修复的。我们将 [`optimization.moduleIds`](/configuration/optimization/#optimizationmoduleids) 设置为 `'deterministic'`：
 
 __webpack.config.js__
 
@@ -275,7 +275,7 @@ __webpack.config.js__
       path: path.resolve(__dirname, 'dist'),
     },
     optimization: {
-+     moduleIds: 'hashed',
++     moduleIds: 'deterministic',
       runtimeChunk: 'single',
       splitChunks: {
         cacheGroups: {
@@ -342,6 +342,6 @@ Entrypoint main = runtime.725a1a51ede5ae0cfde0.js vendors.55e79e5927a639d21a1b.j
 我们可以看到，这两次构建中，`vendor` bundle 文件名称，都是 `55e79e5927a639d21a1b`。
 
 
-## 结论
+## 结论 {#conclusion}
 
 缓存可能很复杂，但是从应用程序或站点用户可以获得的收益来看，这值得付出努力。想要了解更多信息，请查看下面_进一步阅读_部分。

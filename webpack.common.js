@@ -1,8 +1,15 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
+const webpack = require('webpack');
+const h = require('hastscript');
+// FIXME
+// why updating source code in responsive-table.js won't invalidate the webpack cache???
+// see https://github.com/webpack/changelog-v5/blob/master/guides/persistent-caching.md#build-dependencies
+const responsiveTable = require('./src/plugins/responsive-table/responsive-table.js');
 const mdPlugins = [
-  require('remark-slug'),
+  require('remark-gfm'),
+  require('docschina-remark-slugger'),
+  responsiveTable,
   [
     require('remark-custom-blockquotes'),
     {
@@ -16,37 +23,31 @@ const mdPlugins = [
   [
     require('remark-autolink-headings'),
     {
-      behaviour: 'append'
-    }
-  ],
-  [
-    require('remark-responsive-tables'),
-    {
-      classnames: {
-        title: 'title',
-        description: 'description',
-        content: 'content',
-        mobile: 'mobile',
-        desktop: 'desktop'
+      behavior: 'append',
+      content() {
+        return [
+          h('span.header-link')
+        ];
       }
     }
   ],
   require('remark-refractor')
 ];
 
-module.exports = (env = {}) => ({
+module.exports = () => ({
   context: path.resolve(__dirname, './src'),
-  entry: {
-    index: './index.jsx',
-    vendor: [
-      'react', // Replace with preact or inferno
-      'react-dom', // Replace with preact or inferno
-      'react-router-dom'
-    ]
+  cache: {
+    type: 'filesystem',
+    buildDependencies: {
+      config: [__filename],
+    },
+    cacheDirectory: path.resolve(__dirname, '.cache/webpack')
   },
   resolve: {
-    symlinks: false,
-    extensions: ['.js', '.jsx', '.scss']
+    extensions: ['.js', '.jsx', '.scss'],
+    fallback: {
+      path: require.resolve('path-browserify')
+    }
   },
   module: {
     rules: [
@@ -57,28 +58,24 @@ module.exports = (env = {}) => ({
           {
             loader: '@mdx-js/loader',
             options: {
-              mdPlugins
+              remarkPlugins: mdPlugins
             }
           }
         ]
       },
       {
         test: /\.md$/,
-        use: {
-          loader: 'remark-loader',
-          options: {
-            plugins: mdPlugins
-          }
-        }
-      },
-      {
-        test: /\.font.js$/,
         use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
           {
-            loader: 'fontgen-loader',
-            options: { embed: true }
+            loader: 'html-loader'
+          },
+          {
+            loader: 'remark-loader',
+            options: {
+              remarkOptions: {
+                plugins: [...mdPlugins, require('remark-html')]
+              }
+            }
           }
         ]
       },
@@ -86,18 +83,15 @@ module.exports = (env = {}) => ({
         test: /\.jsx?$/,
         exclude: /node_modules/,
         use: [
-          'babel-loader',
-          {
-            loader: 'eslint-loader',
-            options: { fix: true }
-          }
+          'babel-loader'
         ]
       },
       {
         test: /\.css$/,
         use: [
           MiniCssExtractPlugin.loader,
-          'css-loader'
+          'css-loader',
+          'postcss-loader'
         ]
       },
       {
@@ -105,49 +99,58 @@ module.exports = (env = {}) => ({
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
-          {
-            loader: 'postcss-loader',
-            options: {
-              plugins: () => [
-                require('autoprefixer')
-              ],
-            }
-          },
+          'postcss-loader',
           {
             loader: 'sass-loader',
             options: {
-              includePaths: [ path.join('./src/styles/partials') ]
+              sassOptions: {
+                includePaths: [ path.join('./src/styles/partials') ]
+              }
             }
           }
         ]
       },
       {
         test: /\.woff2?$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            prefix: 'font/'
-          }
+        type: 'asset/resource',
+        generator: {
+          filename: 'font/[name].[hash][ext][query]'
         }
       },
       {
-        test: /\.(jpg|png|svg|ico)$/,
-        use: 'file-loader'
+        test: /\.(jpg|jpeg|png|ico)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: '[name].[hash][ext][query]'
+        }
+      },
+      {
+        test: /\.svg$/i,
+        type: 'asset/resource',
+        exclude: [path.resolve(__dirname, 'src/styles/icons')],
+        generator: {
+          filename: '[name].[hash][ext][query]'
+        }
+      },
+      {
+        test: /\.svg$/i,
+        use: ['@svgr/webpack'],
+        include: [path.resolve(__dirname, 'src/styles/icons')]
       }
     ]
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[chunkhash].css'
+      filename: '[name].[contenthash].css'
+    }),
+    new webpack.DefinePlugin({
+      // https://github.com/algolia/algoliasearch-client-javascript/issues/764
+      'process.env.RESET_APP_DATA_TIMER': JSON.stringify('') // fix for algoliasearch
     })
   ],
-  stats: {
-    children: false
-  },
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/',
-    filename: '[name].bundle.js',
-    chunkFilename: '[name].[chunkhash].chunk.js'
+    filename: '[name].bundle.js'
   }
 });

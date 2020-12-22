@@ -4,6 +4,7 @@ contributors:
   - skipjack
   - byzyk
   - chenxsan
+  - snitin315
 related:
   - title: Concepts - Hot Module Replacement
     url: /concepts/hot-module-replacement
@@ -11,27 +12,17 @@ related:
     url: /api/hot-module-replacement
 ---
 
-Enables [Hot Module Replacement](/concepts/hot-module-replacement), otherwise known as HMR.
+ [Hot Module Replacement](/concepts/hot-module-replacement)，除此之外还被称为 HMR。
 
-W> HMR should __never__ be used in production.
+W> HMR **绝对不能**被用在生产环境。
 
 
-## Basic Usage
+## 基本使用 {#basic-usage}
 
-Enabling HMR is easy and in most cases no options are necessary.
+启用 HMR 很容易，且在大多数情况下不需要任何配置。
 
 ``` javascript
 new webpack.HotModuleReplacementPlugin({
   // Options...
 });
 ```
-
-
-## Options
-
-The following options are accepted:
-
-- `multiStep` (boolean): If `true`, the plugin will build in two steps -- first compiling the hot update chunks, and then the remaining normal assets.
-- `fullBuildTimeout` (number): The delay between the two steps when `multiStep` is enabled.
-
-W> These options are experimental and may be deprecated. As mentioned above, they are typically not necessary and including a `new webpack.HotModuleReplacementPlugin()` is enough.

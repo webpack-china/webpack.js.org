@@ -8,12 +8,14 @@ contributors:
   - sokra
   - EugeneHlushko
   - Zearin
+  - chenxsan
+  - adyjs
 ---
 
 正如我们在 [起步](/guides/getting-started/#using-a-configuration) 中提到的，在 webpack 配置中有多种方式定义 `entry` 属性。除了解释为什么它可能非常有用，我们还将向你展示__如何去__配置 `entry` 属性。
 
 
-## 单个入口（简写）语法
+## 单个入口（简写）语法 {#single-entry-shorthand-syntax}
 
 用法：`entry: string | [string]`
 
@@ -37,14 +39,28 @@ module.exports = {
 };
 ```
 
-T> __当你向 `entry` 传入一个数组时会发生什么？__向 `entry` 属性传入文件路径数组，将创建出一个 __多主入口(multi-main entry)__。在你想要一次注入多个依赖文件，并且将它们的依赖导向(graph)到一个 chunk 时，这种方式就很有用。
+我们也可以将一个文件路径数组传递给 `entry` 属性，这将创建一个所谓的 __"multi-main entry"__。在你想要一次注入多个依赖文件，并且将它们的依赖关系绘制在一个 "chunk" 中时，这种方式就很有用。
 
-当你正在寻找为「只有一个入口起点的应用程序或工具（即 library）」快速设置 webpack 配置的时候，这会是个很不错的选择。然而，使用此语法在扩展配置时有失灵活性。
+__webpack.config.js__
+
+```javascript
+module.exports = {
+  entry: [ 
+    './src/file_1.js',
+    './src/file_2.js'
+  ],
+  output: {
+    filename: 'bundle.js'
+  }
+};
+```
+
+当你希望通过一个入口（例如一个库）为应用程序或工具快速设置 webpack 配置时，单一入口的语法方式是不错的选择。然而，使用这种语法方式来扩展或调整配置的灵活性不大。
 
 
-## 对象语法
+## 对象语法 {#object-syntax}
 
-用法：`entry: { <entryChunkName> string | [string] }`
+用法：`entry: { <entryChunkName> string | [string] } | {}`
 
 __webpack.config.js__
 
@@ -61,12 +77,14 @@ module.exports = {
 
 T> __“webpack 配置的可扩展”__是指，这些配置可以重复使用，并且可以与其他配置组合使用。这是一种流行的技术，用于将关注点从环境(environment)、构建目标(build target)、运行时(runtime)中分离。然后使用专门的工具（如 [webpack-merge](https://github.com/survivejs/webpack-merge)）将它们合并起来。
 
+T> 当你通过插件生成入口时，你可以传递空对象 `{}` 给 `entry`。
 
-## 常见场景
+
+## 常见场景 {#scenarios}
 
 以下列出一些入口配置和它们的实际用例：
 
-### 分离 app(应用程序) 和 vendor(第三方库) 入口
+### 分离 app(应用程序) 和 vendor(第三方库) 入口 {#separate-app-and-vendor-entries}
 
 __webpack.config.js__
 
@@ -84,7 +102,7 @@ __webpack.prod.js__
 ```javascript
 module.exports = {
   output: {
-    filename: '[name].[contentHash].bundle.js'
+    filename: '[name].[contenthash].bundle.js'
   }
 };
 ```
@@ -105,7 +123,7 @@ __为什么？__这样你就可以在 `vendor.js` 中存入未做修改的必要
 
 T> 在 webpack < 4 的版本中，通常将 vendor 作为一个单独的入口起点添加到 entry 选项中，以将其编译为一个单独的文件（与 `CommonsChunkPlugin` 结合使用）。<br><br>而在 webpack 4 中不鼓励这样做。而是使用 [`optimization.splitChunks`](/configuration/optimization/#optimizationsplitchunks) 选项，将 vendor 和 app(应用程序) 模块分开，并为其创建一个单独的文件。__不要__ 为 vendor 或其他不是执行起点创建 entry。
 
-### 多页面应用程序
+### 多页面应用程序 {#multi-page-application}
 
 __webpack.config.js__
 
@@ -123,4 +141,4 @@ __这是什么？__我们告诉 webpack 需要三个独立分离的依赖图（�
 
 __为什么？__在多页面应用程序中，server 会拉取一个新的 HTML 文档给你的客户端。页面重新加载此新文档，并且资源被重新下载。然而，这给了我们特殊的机会去做很多事，例如使用 [`optimization.splitChunks`](/configuration/optimization/#optimizationsplitchunks) 为页面间共享的应用程序代码创建 bundle。由于入口起点数量的增多，多页应用能够复用多个入口起点之间的大量代码/模块，从而可以极大地从这些技术中受益。
 
-T> 根据经验：每个 HTML 文档只使用一个入口起点。
+T> 根据经验：每个 HTML 文档只使用一个入口起点。具体原因请参阅[此 issue](https://bundlers.tooling.report/code-splitting/multi-entry/#webpack)。

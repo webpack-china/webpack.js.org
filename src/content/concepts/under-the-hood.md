@@ -4,6 +4,8 @@ sort: 14
 contributors:
   - smelukov
   - EugeneHlushko
+  - chenxsan
+  - amirsaeed671
 ---
 
 > 此章节描述 webpack 内部实现，对于插件开发人员可能会提供帮助
@@ -12,7 +14,7 @@ contributors:
 
 但是，在输入和输出之间，还包括有 [模块](/concepts/modules/), [入口起点](/concepts/entry-points/), chunk, chunk 组和许多其他中间部分。
 
-## 主要部分
+## 主要部分 {#the-main-parts}
 
 项目中使用的每个文件都是一个 [模块](/concepts/modules/)
 
@@ -63,7 +65,7 @@ module.exports = {
 
 > 一个 chunk 组中可能有多个 chunk。例如，[SplitChunksPlugin](/plugins/split-chunks-plugin/) 会将一个 chunk 拆分为一个或多个 chunk。
 
-## chunk
+## chunk {#chunks}
 
 chunk 有两种形式：
 
@@ -80,13 +82,15 @@ module.exports = {
 };
 ```
 
-__./src/index.js__
+__./src/index.jsx__
 
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import('./app.jsx').then(App => ReactDOM.render(<App />, root));
+import('./app.jsx').then(App => {
+  ReactDOM.render(<App />, root);
+});
 ```
 
 这会创建出一个名为 `main` 的 initial chunk。其中包含：
@@ -111,7 +115,9 @@ __Output:__
 import(
   /* webpackChunkName: "app" */
   './app.jsx'
-).then(App => ReactDOM.render(<App />, root));
+).then(App => {
+  ReactDOM.render(<App />, root);
+});
 ```
 
 __Output:__
@@ -119,12 +125,13 @@ __Output:__
 - `/dist/main.js` - 一个 `initial` chunk
 - `/dist/app.js` - `non-initial` chunk
 
-## output(输出)
+## output(输出) {#output}
 
 输出文件的名称会受配置中的两个字段的影响：
 
 - [`output.filename`](/configuration/output/#outputfilename) - 用于 `initial` chunk 文件
 - [`output.chunkFilename`](/configuration/output/#outputchunkfilename) - 用于 `non-initial` chunk 文件
+- 在某些情况下，使用 `initial` 和 `non-initial` 的 chunk 时，可以使用 `output.filename`。
 
 这些字段中会有一些 [占位符](/configuration/output/#template-strings)。常用的占位符如下：
 

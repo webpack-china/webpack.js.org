@@ -23,12 +23,12 @@ resolver 帮助 webpack 从每个 `require`/`import` 语句中，找到需要引
 当打包模块时，webpack 使用 [enhanced-resolve](https://github.com/webpack/enhanced-resolve) 来解析文件路径。
 
 
-## webpack 中的解析规则
+## webpack 中的解析规则 {#resolving-rules-in-webpack}
 
 使用 `enhanced-resolve`，webpack 能解析三种文件路径：
 
 
-### 绝对路径
+### 绝对路径 {#absolute-paths}
 
 ```js
 import '/home/me/file';
@@ -39,7 +39,7 @@ import 'C:\\Users\\me\\file';
 由于已经获得文件的绝对路径，因此不需要再做进一步解析。
 
 
-### 相对路径
+### 相对路径 {#relative-paths}
 
 ```js
 import '../src/file1';
@@ -49,7 +49,7 @@ import './file2';
 在这种情况下，使用 `import` 或 `require` 的资源文件所处的目录，被认为是上下文目录。在 `import/require` 中给定的相对路径，会拼接此上下文路径，来生成模块的绝对路径。
 
 
-### 模块路径
+### 模块路径 {#module-paths}
 
 ```js
 import 'module';
@@ -58,6 +58,8 @@ import 'module/lib/file';
 
 在 [`resolve.modules`](/configuration/resolve/#resolvemodules) 中指定的所有目录检索模块。
 你可以通过配置别名的方式来替换初始模块路径，具体请参照 [`resolve.alias`](/configuration/resolve/#resolvealias) 配置选项。
+
+- 如果 package 中包含 `package.json` 文件，那么在 [`resolve.exportsFields`](/configuration/resolve/#resolveexportsfields) 配置选项中指定的字段会被依次查找，`package.json` 中的第一个字段会根据 [package 导出指南](/guides/package-exports/)确定 package 中可用的 export。
 
 一旦根据上述规则解析路径后，resolver 将会检查路径是指向文件还是文件夹。如果路径指向文件：
 
@@ -73,12 +75,12 @@ import 'module/lib/file';
 webpack 会根据构建目标，为这些选项提供合理的[默认](/configuration/resolve)配置。
 
 
-## 解析 loader
+## 解析 loader {#resolving-loaders}
 
 loader 的解析规则也遵循特定的规范。但是 [`resolveLoader`](/configuration/resolve/#resolveloader) 配置项可以为 loader 设置独立的解析规则。
 
 
-## 缓存
+## 缓存 {#caching}
 
 每次文件系统访问文件都会被缓存，以便于更快触发对同一文件的多个并行或串行请求。在 [watch 模式](/configuration/watch/#watch) 下，只有修改过的文件会被从缓存中移出。如果关闭 watch 模式，则会在每次编译前清理缓存。
 

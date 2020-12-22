@@ -14,6 +14,9 @@ contributors:
   - grgur
   - anshumanv
   - pixel-ray
+  - snitin315
+  - u01jmg3
+  - grrizzly
 ---
 
 `object` `string`
@@ -21,8 +24,6 @@ contributors:
 `stats` 选项让你更精确地控制 bundle 信息该怎么显示。 如果你不希望使用 `quiet` 或 `noInfo` 这样的不显示信息，而是又不想得到全部的信息，只是想要获取某部分 bundle 的信息，使用 stats 选项是比较好的折衷方式。
 
 T> 对于 webpack-dev-server，这个属性要放在 [`devServer` 配置对象](/configuration/dev-server/#devserverstats-).
-
-T> 对于 [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware), 该属性需要在webpack-dev-middleware 的 `options` 对象中.
 
 W> 在使用 Node.js API 时，此选项无效。
 
@@ -35,7 +36,7 @@ module.exports = {
 };
 ```
 
-## Stats Presets
+## Stats Presets {#stats-presets}
 
 webpack 有一些特定的预设选项给统计信息输出：
 
@@ -50,13 +51,13 @@ webpack 有一些特定的预设选项给统计信息输出：
 | `'verbose'`         | _none_      | 全部输出                                                        |
 | `'detailed'`        | _none_      | 全部输出除了 `chunkModules` 和 `chunkRootModules`                |
 
-## Stats 选项
+## Stats 选项 {#stats-options}
 
 你可以在统计输出里指定你想看到的信息。
 
 T> 所有在统计信息配置里的选项都是可选的。
 
-### `stats.all`
+### `stats.all` {#statsall}
 
 当统计信息配置没被定义，则该值是一个回退值。它的优先级比本地的 webpack 默认值高。
 
@@ -69,7 +70,7 @@ module.exports = {
 };
 ```
 
-### `stats.assets`
+### `stats.assets` {#statsassets}
 
 `boolean = true`
 
@@ -84,7 +85,7 @@ module.exports = {
 };
 ```
 
-### `stats.assetsSort`
+### `stats.assetsSort` {#statsassetssort}
 
 `string = 'id'`
 
@@ -99,7 +100,7 @@ module.exports = {
 };
 ```
 
-### `stats.builtAt`
+### `stats.builtAt` {#statsbuiltat}
 
 `boolean = true`
 
@@ -114,7 +115,7 @@ module.exports = {
 };
 ```
 
-### `stats.moduleAssets`
+### `stats.moduleAssets` {#statsmoduleassets}
 
 `boolean = true`
 
@@ -129,7 +130,7 @@ module.exports = {
 };
 ```
 
-### `stats.cached`
+### `stats.cached` {#statscached}
 
 `boolean = true`
 
@@ -144,7 +145,172 @@ module.exports = {
 };
 ```
 
-### `stats.cachedAssets`
+### `stats.assetsSpace` {#statsassetsspace}
+
+`number = 15`
+
+告诉 `stats` 应该显示多少个 asset 项目（将以组的方式折叠，以适应这个空间）。
+
+```javascript
+module.exports = {
+  //...
+  stats: {
+    assetsSpace: 15
+  }
+};
+```
+
+### `stats.modulesSpace` {#statsmodulesspace}
+
+`number = 15`
+
+告诉 `stats` 应该显示多少个模块项目（将以组的方式折叠，以适应这个空间）。
+
+```javascript
+module.exports = {
+  //...
+  stats: {
+    modulesSpace: 15
+  }
+};
+```
+
+### `stats.chunkModulesSpace` {#statschunkmodulesspace}
+
+`number = 10`
+
+告诉 `stats` 显示多少个 chunk 模块项目（将以组的方式折叠，以适应这个空间）。
+
+```javascript
+module.exports = {
+  //...
+  stats: {
+    chunkModulesSpace: 15
+  }
+};
+```
+
+### `stats.nestedModulesSpace` {#statsnestedmodulesspace}
+
+`number = 10`
+
+告诉 `stats` 应该显示多少个嵌套模块的项目（将以组的方式折叠，以适应这个空间）。
+
+```javascript
+module.exports = {
+  //...
+  stats: {
+    nestedModulesSpace: 15
+  }
+};
+```
+
+### `stats.cachedModules` {#statscachedmodules}
+
+`boolean = true`
+
+告诉 `stats` 是否要缓存（非内置）模块的信息。
+
+```javascript
+module.exports = {
+  //...
+  stats: {
+    cachedModules: false
+  }
+};
+```
+
+### `stats.runtimeModules` {#statsruntimemodules}
+
+`boolean = true`
+
+告诉 `stats` 是否要添加运行时模块的信息。
+
+```javascript
+module.exports = {
+  //...
+  stats: {
+    runtimeModules: false
+  }
+};
+```
+
+### `stats.dependentModules` {#statsdependentmodules}
+
+`boolean`
+
+告诉 `stats` 是否要展示该 chunk 依赖的其他模块的 chunk 模块。
+
+```javascript
+module.exports = {
+  //...
+  stats: {
+    dependentModules: false
+  }
+};
+```
+
+### `stats.groupAssetsByChunk` {#statsgroupassetsbychunk}
+
+`boolean`
+
+告诉 `stats` 是否按照 asset 与 chunk 的关系进行分组。
+
+```javascript
+module.exports = {
+  //...
+  stats: {
+    groupAssetsByChunk: false
+  }
+};
+```
+
+### `stats.groupAssetsByEmitStatus` {#statsgroupassetsbyemitstatus}
+
+`boolean`
+
+告诉 `stats` 是否按照 asset 的状态进行分组（emitted，对比 emit 或缓存）.
+
+```javascript
+module.exports = {
+  //...
+  stats: {
+    groupAssetsByEmitStatus: false
+  }
+};
+```
+
+### `stats.groupAssetsByInfo` {#statsgroupassetsbyinfo}
+
+`boolean`
+
+告诉 `stats` 是否按照 asset 信息对 asset 进行分组（immutable，development。hotModuleReplacement 等）。
+
+```javascript
+module.exports = {
+  //...
+  stats: {
+    groupAssetsByInfo: false
+  }
+};
+```
+
+### `stats.groupModulesByAttributes` {#statsgroupmodulesbyattributes}
+
+`boolean`
+
+告诉 `stats` 是否按模块的属性进行分组（errors，warnings，assets，optional，orphan 或者 dependent）。
+
+```javascript
+module.exports = {
+  //...
+  stats: {
+    groupModulesByAttributes: false
+  }
+};
+```
+
+### `stats.cachedAssets` {#statscachedassets}
 
 `boolean = true`
 
@@ -159,7 +325,7 @@ module.exports = {
 };
 ```
 
-### `stats.children`
+### `stats.children` {#statschildren}
 
 `boolean = true`
 
@@ -174,7 +340,7 @@ module.exports = {
 };
 ```
 
-### `stats.chunks`
+### `stats.chunks` {#statschunks}
 
 `boolean = true`
 
@@ -189,7 +355,7 @@ module.exports = {
 };
 ```
 
-### `stats.chunkGroups`
+### `stats.chunkGroups` {#statschunkgroups}
 
 `boolean = true`
 
@@ -204,7 +370,7 @@ module.exports = {
 };
 ```
 
-### `stats.chunkModules`
+### `stats.chunkModules` {#statschunkmodules}
 
 `boolean = true`
 
@@ -219,22 +385,7 @@ module.exports = {
 };
 ```
 
-### `stats.chunkRootModules`
-
-`boolean = true`
-
-告知 `stats` 是否添加关于 chunks 的根模块信息。 如果 `stats.chunks = true` 则会应用该配置.
-
-```javascript
-module.exports = {
-  //...
-  stats: {
-    chunkRootModules: false
-  }
-};
-```
-
-### `stats.chunkOrigins`
+### `stats.chunkOrigins` {#statschunkorigins}
 
 `boolean = true`
 
@@ -249,7 +400,7 @@ module.exports = {
 };
 ```
 
-### `stats.chunksSort`
+### `stats.chunksSort` {#statschunkssort}
 
 `string = 'id'`
 
@@ -264,7 +415,7 @@ module.exports = {
 };
 ```
 
-### `stats.context`
+### `stats.context` {#statscontext}
 
 `string = '../src/'`
 
@@ -279,7 +430,7 @@ module.exports = {
 };
 ```
 
-### `stats.colors`
+### `stats.colors` {#statscolors}
 
 `boolean = false` `object`
 
@@ -311,7 +462,7 @@ module.exports = {
 };
 ```
 
-### `stats.depth`
+### `stats.depth` {#statsdepth}
 
 `boolean = false`
 
@@ -326,9 +477,9 @@ module.exports = {
 };
 ```
 
-### `stats.entrypoints`
+### `stats.entrypoints` {#statsentrypoints}
 
-`boolean = true`
+`boolean = true` `string = 'auto'`
 
 告知 `stats` 是否展示入口文件与对应的文件 bundles。
 
@@ -341,7 +492,9 @@ module.exports = {
 };
 ```
 
-### `stats.env`
+当 `stats.entrypoints` 被设置为 `'auto'` 时，webpack 将自动决定是否在 stats 输出中展示入口信息。
+
+### `stats.env` {#statsenv}
 
 `boolean = false`
 
@@ -356,7 +509,7 @@ module.exports = {
 };
 ```
 
-### `stats.orphanModules`
+### `stats.orphanModules` {#statsorphanmodules}
 
 `boolean = false`
 
@@ -371,7 +524,7 @@ module.exports = {
 };
 ```
 
-### `stats.errors`
+### `stats.errors` {#statserrors}
 
 `boolean = true`
 
@@ -386,7 +539,7 @@ module.exports = {
 };
 ```
 
-### `stats.errorDetails`
+### `stats.errorDetails` {#statserrordetails}
 
 `boolean = true`
 
@@ -401,7 +554,7 @@ module.exports = {
 };
 ```
 
-### `stats.errorStack`
+### `stats.errorStack` {#statserrorstack}
 
 `boolean = true`
 
@@ -416,7 +569,7 @@ module.exports = {
 };
 ```
 
-### `stats.excludeAssets`
+### `stats.excludeAssets` {#statsexcludeassets}
 
 `array = []: string | RegExp | function (assetName) => boolean` `string` `RegExp` `function (assetName) => boolean`
 
@@ -435,7 +588,7 @@ module.exports = {
 };
 ```
 
-### `stats.excludeModules`
+### `stats.excludeModules` {#statsexcludemodules}
 
 `array = []: string | RegExp | function (assetName) => boolean` `string` `RegExp` `function (assetName) => boolean` `boolean: false`
 
@@ -465,11 +618,11 @@ module.exports = {
 };
 ```
 
-### `stats.exclude`
+### `stats.exclude` {#statsexclude}
 
 详参 [`stats.excludeModules`](#statsexcludemodules).
 
-### `stats.hash`
+### `stats.hash` {#statshash}
 
 `boolean = true`
 
@@ -484,7 +637,7 @@ module.exports = {
 };
 ```
 
-### `stats.logging`
+### `stats.logging` {#statslogging}
 
 `string = 'info': 'none' | 'error' | 'warn' | 'info' | 'log' | 'verbose'` `boolean`
 
@@ -506,7 +659,7 @@ module.exports = {
 };
 ```
 
-### `stats.loggingDebug`
+### `stats.loggingDebug` {#statsloggingdebug}
 
 `array = []: string | RegExp | function (name) => boolean` `string` `RegExp` `function (name) => boolean`
 
@@ -526,7 +679,7 @@ module.exports = {
 };
 ```
 
-### `stats.loggingTrace`
+### `stats.loggingTrace` {#statsloggingtrace}
 
 `boolean = true`
 
@@ -542,22 +695,7 @@ module.exports = {
 };
 ```
 
-### `stats.maxModules`
-
-`number = 15`
-
-设置最大的模块显示数量。
-
-```javascript
-module.exports = {
-  //...
-  stats: {
-    maxModules: 5
-  }
-};
-```
-
-### `stats.modules`
+### `stats.modules` {#statsmodules}
 
 `boolean = true`
 
@@ -572,7 +710,7 @@ module.exports = {
 };
 ```
 
-### `stats.modulesSort`
+### `stats.modulesSort` {#statsmodulessort}
 
 `string = 'id'`
 
@@ -587,7 +725,7 @@ module.exports = {
 };
 ```
 
-### `stats.moduleTrace`
+### `stats.moduleTrace` {#statsmoduletrace}
 
 `boolean = true`
 
@@ -602,7 +740,7 @@ module.exports = {
 };
 ```
 
-### `stats.outputPath`
+### `stats.outputPath` {#statsoutputpath}
 
 `boolean = true`
 
@@ -617,7 +755,7 @@ module.exports = {
 };
 ```
 
-### `stats.performance`
+### `stats.performance` {#statsperformance}
 
 `boolean = true`
 
@@ -632,7 +770,7 @@ module.exports = {
 };
 ```
 
-### `stats.preset`
+### `stats.preset` {#statspreset}
 
 `string` `boolean: false`
 
@@ -649,7 +787,7 @@ module.exports = {
 
 将 `stats.preset` 的值设置为`false` 告知 webpack 使用 `'none'` [统计信息预设值](/configuration/stats/#stats-presets)。
 
-### `stats.providedExports`
+### `stats.providedExports` {#statsprovidedexports}
 
 `boolean = false`
 
@@ -664,7 +802,37 @@ module.exports = {
 };
 ```
 
-### `stats.publicPath`
+### `stats.errorsCount` {#statserrorscount}
+
+`boolean = true`
+
+添加展示 errors 个数。
+
+```javascript
+module.exports = {
+  //...
+  stats: {
+    errorsCount: false
+  }
+};
+```
+
+### `stats.warningsCount` {#statswarningscount}
+
+`boolean = true`
+
+添加展示 warnings 个数。
+
+```javascript
+module.exports = {
+  //...
+  stats: {
+    warningsCount: false
+  }
+};
+```
+
+### `stats.publicPath` {#statspublicpath}
 
 `boolean = true`
 
@@ -679,7 +847,7 @@ module.exports = {
 };
 ```
 
-### `stats.reasons`
+### `stats.reasons` {#statsreasons}
 
 `boolean = true`
 
@@ -694,7 +862,22 @@ module.exports = {
 };
 ```
 
-### `stats.source`
+### `stats.relatedAssets`  {#statsrelatedassets}
+
+`boolean = false`
+
+告诉 `stats` 是否需添加与其他 assets 相关的信息（例如 assets 的 SourceMaps）。
+
+```javascript
+module.exports = {
+  //...
+  stats: {
+    relatedAssets: true
+  }
+};
+```
+
+### `stats.source`  {#statssource}
 
 `boolean = false`
 
@@ -709,7 +892,7 @@ module.exports = {
 };
 ```
 
-### `stats.timings`
+### `stats.timings` {#statstimings}
 
 `boolean = true`
 
@@ -724,7 +907,7 @@ module.exports = {
 };
 ```
 
-### `stats.usedExports`
+### `stats.usedExports` {#statsusedexports}
 
 `boolean = false`
 
@@ -739,7 +922,7 @@ module.exports = {
 };
 ```
 
-### `stats.version`
+### `stats.version` {#statsversion}
 
 `boolean = true`
 
@@ -754,7 +937,52 @@ module.exports = {
 };
 ```
 
-### `stats.warnings`
+### `stats.chunkGroupAuxiliary` {#statschunkgroupauxiliary}
+
+`boolean = true`
+
+在 chunk 组中展示辅助 asset。
+
+```javascript
+module.exports = {
+  //...
+  stats: {
+    chunkGroupAuxiliary: false
+  }
+};
+```
+
+### `stats.chunkGroupChildren` {#statschunkgroupchildren}
+
+`boolean = true`
+
+显示 chunk 组的子 chunk。（例如，预置（prefetched），预加载（preloaded）的 chunk 和 asset)。
+
+```javascript
+module.exports = {
+  //...
+  stats: {
+    chunkGroupChildren: false
+  }
+};
+```
+
+### `stats.chunkGroupMaxAssets` {#statschunkgroupmaxassets}
+
+`number`
+
+chunk 组中的 asset 数上限。
+
+```javascript
+module.exports = {
+  //...
+  stats: {
+    chunkGroupMaxAssets: 5
+  }
+};
+```
+
+### `stats.warnings` {#statswarnings}
 
 `boolean = true`
 
@@ -769,7 +997,7 @@ module.exports = {
 };
 ```
 
-### `stats.warningsFilter`
+### `stats.warningsFilter` {#statswarningsfilter}
 
 `array = []: string | RegExp | function (warning) => boolean` `string` `RegExp` `function (warning) => boolean`
 
@@ -788,13 +1016,16 @@ module.exports = {
 };
 ```
 
-### `stats.chunkRelations`
+
+W> `stats.warningsFilter` 已被弃用，请改用 [`ignoreWarnings`](/configuration/other-options/#ignorewarnings)。
+
+### `stats.chunkRelations` {#statschunkrelations}
 
 `boolean = false`
 
 告知 `stats` 展示 chunk 的父chunk，孩子chunk和兄弟chunk。
 
-### 字段排序
+### 字段排序 {#sorting-fields}
 
 对于 `assetsSort`, `chunksSort` 和 `modulesSort` 它们有几个可用的字段用于排序：
 
@@ -818,7 +1049,7 @@ module.exports = {
 - `'issuerName'` - 发起者(issuer)的名字;
 - `'issuerPath'` - 一个完整的发起者(issuer)对象。基于这个字段排序没有现实的需要;
 
-### 扩展统计信息行为
+### 扩展统计信息行为 {#extending-stats-behaviours}
 
 如果你想使用其中一个预定义的行为，例如 `'minimal'`，但仍想重载一个或更多的规则：请指定想要设置的 `stats.preset` 同时在后面添加自定义或额外的规则。
 

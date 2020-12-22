@@ -15,12 +15,14 @@ contributors:
   - Aghassi
   - myshov
   - anikethsaha
+  - chenxsan
+  - jamesgeorge007
 ---
 
 这些选项能设置模块如何被解析。webpack 提供合理的默认值，但是还是可能会修改一些解析的细节。
 关于 resolver 具体如何工作的更多解释说明，请查看[模块解析](/concepts/module-resolution)。
 
-## `resolve`
+## `resolve` {#resolve}
 
 `object`
 
@@ -37,7 +39,7 @@ module.exports = {
 };
 ```
 
-### `resolve.alias`
+### `resolve.alias` {#resolvealias}
 
 `object`
 
@@ -151,7 +153,7 @@ module.exports = {
 };
 ```
 
-### `resolve.aliasFields`
+### `resolve.aliasFields` {#resolvealiasfields}
 
 `[string]: ['browser']`
 
@@ -169,14 +171,14 @@ module.exports = {
 };
 ```
 
-### `resolve.cacheWithContext`
+### `resolve.cacheWithContext` {#resolvecachewithcontext}
 
 `boolean` (从 webpack 3.1.0起支持)
 
 如果启用了不安全缓存，请在缓存键(cache key)中引入 `request.context`。这个选项被 [`enhanced-resolve`](https://github.com/webpack/enhanced-resolve/) 模块考虑在内。从 webpack 3.1.0 开始，在配置了 resolve 或 resolveLoader 插件时，解析缓存(resolve caching)中的上下文(context)会被忽略。
 这解决了性能衰退的问题。
 
-### `resolve.descriptionFiles`
+### `resolve.descriptionFiles` {#resolvedescriptionfiles}
 
 `[string] = ['package.json']`
 
@@ -193,7 +195,7 @@ module.exports = {
 };
 ```
 
-### `resolve.enforceExtension`
+### `resolve.enforceExtension` {#resolveenforceextension}
 
 `boolean = false`
 
@@ -211,7 +213,7 @@ module.exports = {
 };
 ```
 
-### `resolve.enforceModuleExtension`
+### `resolve.enforceModuleExtension` {#resolveenforcemoduleextension}
 
 `boolean = false`
 
@@ -230,7 +232,7 @@ module.exports = {
 };
 ```
 
-### `resolve.extensions`
+### `resolve.extensions` {#resolveextensions}
 
 `[string] = ['.wasm', '.mjs', '.js', '.json']`
 
@@ -258,7 +260,7 @@ import File from '../path/to/file';
 
 W> 使用此选项会 **覆盖默认数组**，这就意味着 webpack 将不再尝试使用默认扩展来解析模块。
 
-### `resolve.mainFields`
+### `resolve.mainFields` {#resolvemainfields}
 
 `[string]`
 
@@ -303,7 +305,7 @@ module.exports = {
 在这里 `browser` 属性是最优先选择的，因为它是 `mainFields` 的第一项。同时，由 webpack 打包的 Node.js 应用程序首先会尝试
 从 `module` 字段中解析文件。
 
-### `resolve.mainFiles`
+### `resolve.mainFiles` {#resolvemainfiles}
 
 `[string] = ['index']`
 
@@ -320,7 +322,26 @@ module.exports = {
 };
 ```
 
-### `resolve.modules`
+
+### `resolve.exportsFields` {#resolveexportsfields}
+
+`[string] = ['exports']`
+
+在 package.json 中用于解析模块请求的字段。欲了解更多信息，请查阅 [package-exports guideline](/guides/package-exports/) 文档。
+
+__webpack.config.js__
+
+```js
+module.exports = {
+  //...
+  resolve: {
+    exportsFields: ['exports', 'myCompanyExports']
+  }
+};
+```
+
+
+### `resolve.modules` {#resolvemodules}
 
 `[string] = ['node_modules']`
 
@@ -359,7 +380,7 @@ module.exports = {
 };
 ```
 
-### `resolve.unsafeCache`
+### `resolve.unsafeCache` {#resolveunsafecache}
 
 `RegExp` `[RegExp]` `boolean: true`
 
@@ -392,7 +413,7 @@ module.exports = {
 
 W> 修改缓存路径可能在极少数情况下导致失败。
 
-### `resolve.plugins`
+### `resolve.plugins` {#resolveplugins}
 
 [`[Plugin]`](/plugins/)
 
@@ -410,7 +431,37 @@ module.exports = {
 };
 ```
 
-### `resolve.symlinks`
+
+### `resolve.preferRelative` {#resolvepreferrelative}
+
+`boolean`
+
+当启用此选项时，webpack 更倾向于将模块请求解析为相对请求，而不使用来自 `node_modules` 目录下的模块。
+
+__webpack.config.js__
+
+```js
+module.exports = {
+  //...
+  resolve: {
+    preferRelative: true
+  }
+};
+```
+
+__src/index.js__
+
+```js
+// let's say `src/logo.svg` exists
+import logo1 from 'logo.svg'; // this is viable when `preferRelative` enabled
+import logo2 from './logo.svg'; // otherwise you can only use relative path to resolve logo.svg
+
+// `preferRelative` is enabled by default for `new URL()` case
+const b = new URL('module/path', import.meta.url);
+const a = new URL('./module/path', import.meta.url);
+```
+
+### `resolve.symlinks` {#resolvesymlinks}
 
 `boolean = true`
 
@@ -429,7 +480,7 @@ module.exports = {
 };
 ```
 
-### `resolve.cachePredicate`
+### `resolve.cachePredicate` {#resolvecachepredicate}
 
 `function(module) => boolean`
 
@@ -450,7 +501,79 @@ module.exports = {
 };
 ```
 
-## `resolveLoader`
+### `resolve.restrictions` {#resolverestrictions}
+
+`[string, RegExp]`
+
+解析限制列表，用于限制可以解析请求的路径。
+
+__webpack.config.js__
+
+```js
+module.exports = {
+  //...
+  resolve: {
+    restrictions: [/\.(sass|scss|css)$/]
+  }
+};
+```
+
+### `resolve.roots` {#resolveroots}
+
+`[string]`
+
+A list of directories where requests of server-relative URLs (starting with '/') are resolved, defaults to [`context` configuration option](/configuration/entry-context/#context). On non-Windows systems these requests are resolved as an absolute path first.
+
+__webpack.config.js__
+
+```js
+const fixtures = path.resolve(__dirname, 'fixtures');
+module.exports = {
+  //...
+  resolve: {
+    roots: [__dirname, fixtures]
+  }
+};
+```
+
+### `resolve.importsFields`
+
+`[string]`
+
+Fields from `package.json` which are used to provide the internal requests of a package (requests starting with `#` are considered internal).
+
+__webpack.config.js__
+
+```js
+module.exports = {
+  //...
+  resolve: {
+    importsFields: ['browser', 'module', 'main']
+  }
+};
+```
+
+### `resolve.fallback`
+
+`boolean`
+
+Redirect module requests when normal resolving fails.
+
+__webpack.config.js__
+
+```js
+module.exports = {
+  //...
+  resolve: {
+    fallback: {
+      xyz: path.resolve(__dirname, 'path/to/file.js')
+    }
+  }
+};
+```
+
+
+## `resolveLoader` {#resolveloader}
 
 `object { modules [string] = ['node_modules'], extensions [string] = ['.js', '.json'], mainFields [string] = ['loader', 'main']}`
 
@@ -472,7 +595,7 @@ module.exports = {
 
 T> 注意，这里你可以使用别名，并且其他特性类似于 resolve 对象。例如，`{ txt: 'raw-loader' }` 会使用 `raw-loader` 去 shim(填充) `txt!templates/demo.txt`。
 
-### `resolveLoader.moduleExtensions`
+### `resolveLoader.moduleExtensions` {#resolveloadermoduleextensions}
 
 `[string]`
 

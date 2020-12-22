@@ -9,7 +9,7 @@ contributors:
 
 The `EnvironmentPlugin` is shorthand for using the [`DefinePlugin`](/plugins/define-plugin) on [`process.env`](https://nodejs.org/api/process.html#process_process_env) keys.
 
-## Usage
+## Usage {#usage}
 
 The `EnvironmentPlugin` accepts either an array of keys or an object mapping its keys to their default values.
 
@@ -28,7 +28,7 @@ new webpack.DefinePlugin({
 
 T> Not specifying the environment variable raises an "`EnvironmentPlugin` - `${key}` environment variable is undefined" error.
 
-## Usage with default values
+## Usage with default values {#usage-with-default-values}
 
 Alternatively, the `EnvironmentPlugin` supports an object, which maps keys to their default values. The default value for a key is taken if the key is undefined in `process.env`.
 
@@ -82,7 +82,24 @@ if ('false') { // <-- 'false' from DEBUG is taken
 }
 ```
 
-## `DotenvPlugin`
+## Use Case: Git Version {#use-case-git-version}
+
+The following `EnvironmentPlugin` configuration provides `process.env.GIT_VERSION` (such as "v5.4.0-2-g25139f57f") and `process.env.GIT_AUTHOR_DATE` (such as "2020-11-04T12:25:16+01:00") corresponding to the last Git commit of the repository:
+
+```javascript
+const child_process = require('child_process');
+function git(command) {
+  return child_process.execSync(`git ${command}`, { encoding: 'utf8' }).trim();
+}
+
+new webpack.EnvironmentPlugin({
+  GIT_VERSION: git('describe --always'),
+  GIT_AUTHOR_DATE: git('log -1 --format=%aI'),
+});
+```
+
+
+## `DotenvPlugin` {#dotenvplugin}
 
 The third-party [`DotenvPlugin`](https://github.com/mrsteele/dotenv-webpack) (`dotenv-webpack`) allows you to expose (a subset of) [dotenv variables](https://www.npmjs.com/package/dotenv):
 

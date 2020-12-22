@@ -18,7 +18,7 @@ repo: https://github.com/webpack-contrib/compression-webpack-plugin
 
 Prepare compressed versions of assets to serve them with Content-Encoding.
 
-## Getting Started
+## Getting Started {#getting-started}
 
 To begin, you'll need to install `compression-webpack-plugin`:
 
@@ -31,7 +31,7 @@ Then add the plugin to your `webpack` config. For example:
 **webpack.config.js**
 
 ```js
-const CompressionPlugin = require('compression-webpack-plugin');
+const CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = {
   plugins: [new CompressionPlugin()],
@@ -40,21 +40,21 @@ module.exports = {
 
 And run `webpack` via your preferred method.
 
-## Options
+## Options {#options}
 
-|                      Name                       |                   Type                    |      Default       | Description                                                                                                   |
-| :---------------------------------------------: | :---------------------------------------: | :----------------: | :------------------------------------------------------------------------------------------------------------ |
-|               **[`test`](#test)**               | `{String\|RegExp\|Array<String\|RegExp>}` |    `undefined`     | Include all assets that pass test assertion                                                                   |
-|            **[`include`](#include)**            | `{String\|RegExp\|Array<String\|RegExp>}` |    `undefined`     | Include all assets matching any of these conditions                                                           |
-|            **[`exclude`](#exclude)**            | `{String\|RegExp\|Array<String\|RegExp>}` |    `undefined`     | Exclude all assets matching any of these conditions                                                           |
-|          **[`algorithm`](#algorithm)**          |           `{String\|Function}`            |       `gzip`       | The compression algorithm/function                                                                            |
-| **[`compressionOptions`](#compressionoptions)** |                `{Object}`                 |   `{ level: 9 }`   | Compression options for `algorithm`                                                                           |
-|          **[`threshold`](#threshold)**          |                `{Number}`                 |        `0`         | Only assets bigger than this size are processed (in bytes)                                                    |
-|           **[`minRatio`](#minratio)**           |                `{Number}`                 |       `0.8`        | Only assets that compress better than this ratio are processed (`minRatio = Compressed Size / Original Size`) |
-|           **[`filename`](#filename)**           |           `{String\|Function}`            | `[path].gz[query]` | The target asset filename.                                                                                    |
-|              **[`cache`](#cache)**              |                `{Boolean}`                |       `true`       | Enable file caching                                                                                           |
+|                        Name                         |                   Type                    |                            Default                            | Description                                                                                                   |
+| :-------------------------------------------------: | :---------------------------------------: | :-----------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------ |
+|                 **[`test`](#test)**                 | `{String\|RegExp\|Array<String\|RegExp>}` |                          `undefined`                          | Include all assets that pass test assertion                                                                   |
+|              **[`include`](#include)**              | `{String\|RegExp\|Array<String\|RegExp>}` |                          `undefined`                          | Include all assets matching any of these conditions                                                           |
+|              **[`exclude`](#exclude)**              | `{String\|RegExp\|Array<String\|RegExp>}` |                          `undefined`                          | Exclude all assets matching any of these conditions                                                           |
+|            **[`algorithm`](#algorithm)**            |           `{String\|Function}`            |                            `gzip`                             | The compression algorithm/function                                                                            |
+|   **[`compressionOptions`](#compressionoptions)**   |                `{Object}`                 | maximum available compression level, for gzip: `{ level: 9 }` | Compression options for `algorithm`                                                                           |
+|            **[`threshold`](#threshold)**            |                `{Number}`                 |                              `0`                              | Only assets bigger than this size are processed (in bytes)                                                    |
+|             **[`minRatio`](#minratio)**             |                `{Number}`                 |                             `0.8`                             | Only assets that compress better than this ratio are processed (`minRatio = Compressed Size / Original Size`) |
+|             **[`filename`](#filename)**             |           `{String\|Function}`            |                       `[path][base].gz`                       | The target asset filename                                                                                     |
+| **[`deleteOriginalAssets`](#deleteoriginalassets)** |      `{Boolean\|'keep-source-map'}`       |                            `false`                            | Whether to delete the original assets or not                                                                  |
 
-### `test`
+### `test` {#test}
 
 Type: `String|RegExp|Array<String|RegExp>`
 Default: `undefined`
@@ -73,7 +73,7 @@ module.exports = {
 };
 ```
 
-### `include`
+### `include` {#include}
 
 Type: `String|RegExp|Array<String|RegExp>`
 Default: `undefined`
@@ -92,7 +92,7 @@ module.exports = {
 };
 ```
 
-### `exclude`
+### `exclude` {#exclude}
 
 Type: `String|RegExp|Array<String|RegExp>`
 Default: `undefined`
@@ -111,14 +111,16 @@ module.exports = {
 };
 ```
 
-### `algorithm`
+### `algorithm` {#algorithm}
 
 Type: `String|Function`
 Default: `gzip`
 
 The compression algorithm/function.
 
-#### `String`
+> ℹ️ If you use custom function for the `algorithm` option, the default value of the `compressionOptions` option is `{}`.
+
+#### `String` {#string}
 
 The algorithm is taken from [zlib](https://nodejs.org/api/zlib.html).
 
@@ -128,13 +130,13 @@ The algorithm is taken from [zlib](https://nodejs.org/api/zlib.html).
 module.exports = {
   plugins: [
     new CompressionPlugin({
-      algorithm: 'gzip',
+      algorithm: "gzip",
     }),
   ],
 };
 ```
 
-#### `Function`
+#### `Function` {#function}
 
 Allow to specify a custom compression function.
 
@@ -152,16 +154,16 @@ module.exports = {
 };
 ```
 
-### `compressionOptions`
+### `compressionOptions` {#compressionoptions}
 
 Type: `Object`
 Default: `{ level: 9 }`
 
 Compression options for `algorithm`.
 
-If you use custom function for the `algorithm` option, the default value is `{}`.
-
 You can find all options here [zlib](https://nodejs.org/api/zlib.html#zlib_class_options).
+
+> ℹ️ If you use custom function for the `algorithm` option, the default value is `{}`.
 
 **webpack.config.js**
 
@@ -175,7 +177,7 @@ module.exports = {
 };
 ```
 
-### `threshold`
+### `threshold` {#threshold}
 
 Type: `Number`
 Default: `0`
@@ -194,7 +196,7 @@ module.exports = {
 };
 ```
 
-### `minRatio`
+### `minRatio` {#minratio}
 
 Type: `Number`
 Default: `0.8`
@@ -202,7 +204,12 @@ Default: `0.8`
 Only assets that compress better than this ratio are processed (`minRatio = Compressed Size / Original Size`).
 Example: you have `image.png` file with 1024b size, compressed version of file has 768b size, so `minRatio` equal `0.75`.
 In other words assets will be processed when the `Compressed Size / Original Size` value less `minRatio` value.
-You can use `1` value to process assets that are smaller than the original. Use a value of Number.MAX_SAFE_INTEGER to process all assets even if they are larger than the original (useful when you are pre-zipping all assets for AWS)
+
+You can use `1` value to process assets that are smaller than the original.
+
+Use a value of `Infinity` to process all assets even if they are larger than the original size or their original size is `0` bytes (useful when you are pre-zipping all assets for AWS).
+
+Use a value of `Number.MAX_SAFE_INTEGER` to process all assets even if they are larger than the original size, excluding assets with their original size is `0` bytes.
 
 **webpack.config.js**
 
@@ -210,27 +217,42 @@ You can use `1` value to process assets that are smaller than the original. Use 
 module.exports = {
   plugins: [
     new CompressionPlugin({
+      // Compress all assets, including files with `0` bytes size
+      // minRatio: Infinity
+
+      // Compress all assets, excluding files with `0` bytes size
+      // minRatio: Number.MAX_SAFE_INTEGER
+
       minRatio: 0.8,
     }),
   ],
 };
 ```
 
-### `filename`
+### `filename` {#filename}
 
 Type: `String|Function`
-Default: `[path].gz[query]`
+Default: `"[path][base].gz"`
 
 The target asset filename.
 
-#### `String`
+#### `String` {#string}
 
-`[file]` is replaced with the original asset filename.
-`[path]` is replaced with the path of the original asset.
-`[dir]` is replaced with the directory of the original asset.
-`[name]` is replaced with the filename of the original asset.
-`[ext]` is replaced with the extension of the original asset.
-`[query]` is replaced with the query.
+For example we have `assets/images/image.png?foo=bar#hash`:
+
+`[path]` is replaced with the directories to the original asset, included trailing `/` (`assets/images/`).
+
+`[file]` is replaced with the path of original asset (`assets/images/image.png`).
+
+`[base]` is replaced with the base (`[name]` + `[ext]`) of the original asset (`image.png`).
+
+`[name]` is replaced with the name of the original asset (`image`).
+
+`[ext]` is replaced with the extension of the original asset, included `.` (`.png`).
+
+`[query]` is replaced with the query of the original asset, included `?` (`?foo=bar`).
+
+`[fragment]` is replaced with the fragment (in the concept of URL it is called `hash`) of the original asset (`#hash`).
 
 **webpack.config.js**
 
@@ -238,13 +260,13 @@ The target asset filename.
 module.exports = {
   plugins: [
     new CompressionPlugin({
-      filename: '[path].gz[query]',
+      filename: "[path][base].gz",
     }),
   ],
 };
 ```
 
-#### `Function`
+#### `Function` {#function}
 
 **webpack.config.js**
 
@@ -252,20 +274,23 @@ module.exports = {
 module.exports = {
   plugins: [
     new CompressionPlugin({
-      filename(info) {
-        // info.file is the original asset filename
-        // info.path is the path of the original asset
-        // info.query is the query
-        return `${info.path}.gz${info.query}`;
+      filename(pathData) {
+        // The `pathData` argument contains all placeholders - `path`/`name`/`ext`/etc
+        // Available properties described above, for the `String` notation
+        if (/\.svg$/.test(pathData.file)) {
+          return "assets/svg/[path][base].gz";
+        }
+
+        return "assets/js/[path][base].gz";
       },
     }),
   ],
 };
 ```
 
-### `deleteOriginalAssets`
+### `deleteOriginalAssets` {#deleteoriginalassets}
 
-Type: `Boolean`
+Type: `Boolean | 'keep-source-map'`
 Default: `false`
 
 Whether to delete the original assets or not.
@@ -282,51 +307,22 @@ module.exports = {
 };
 ```
 
-### `cache`
-
-> ⚠ Ignored in webpack 5! Please use https://webpack.js.org/configuration/other-options/#cache.
-
-Type: `Boolean|String`
-Default: `true`
-
-Enable file caching.
-The default path to cache directory: `node_modules/.cache/compression-webpack-plugin`.
-
-#### `Boolean`
-
-Enable/disable file caching.
-
-**webpack.config.js**
+To exclude sourcemaps from compression
 
 ```js
 module.exports = {
   plugins: [
     new CompressionPlugin({
-      cache: true,
+      exclude: /.map$/
+      deleteOriginalAssets: 'keep-source-map',
     }),
   ],
 };
 ```
 
-#### `String`
+## Examples {#examples}
 
-Enable file caching and set path to cache directory.
-
-**webpack.config.js**
-
-```js
-module.exports = {
-  plugins: [
-    new CompressionPlugin({
-      cache: 'path/to/cache',
-    }),
-  ],
-};
-```
-
-## Examples
-
-### Using Zopfli
+### Using Zopfli {#using-zopfli}
 
 Prepare compressed versions of assets using `zopfli` library.
 
@@ -341,7 +337,7 @@ $ npm install @gfx/zopfli --save-dev
 **webpack.config.js**
 
 ```js
-const zopfli = require('@gfx/zopfli');
+const zopfli = require("@gfx/zopfli");
 
 module.exports = {
   plugins: [
@@ -357,7 +353,7 @@ module.exports = {
 };
 ```
 
-### Using Brotli
+### Using Brotli {#using-brotli}
 
 [Brotli](https://en.wikipedia.org/wiki/Brotli) is a compression algorithm originally developed by Google, and offers compression superior to gzip.
 
@@ -368,17 +364,18 @@ We can take advantage of this built-in support for Brotli in Node 10.16.0 and la
 **webpack.config.js**
 
 ```js
-const zlib = require('zlib');
+const zlib = require("zlib");
 
 module.exports = {
   plugins: [
     new CompressionPlugin({
-      filename: '[path].br[query]',
-      algorithm: 'brotliCompress',
+      filename: "[path][base].br",
+      algorithm: "brotliCompress",
       test: /\.(js|css|html|svg)$/,
       compressionOptions: {
-        // zlib’s `level` option matches Brotli’s `BROTLI_PARAM_QUALITY` option.
-        level: 11,
+        params: {
+          [zlib.constants.BROTLI_PARAM_QUALITY]: https://github.com/webpack-contrib/compression-webpack-plugin/blob/master/11,
+        },
       },
       threshold: 10240,
       minRatio: 0.8,
@@ -388,30 +385,33 @@ module.exports = {
 };
 ```
 
-**Note** The `level` option matches `BROTLI_PARAM_QUALITY` [for Brotli-based streams](https://nodejs.org/api/zlib.html#zlib_for_brotli_based_streams)
+**Note** Brotli’s `BROTLI_PARAM_QUALITY` option is functionally equivalent to zlib’s `level` option.
+You can find all Brotli’s options in [the relevant part of the zlib module documentation](https://nodejs.org/api/zlib.html#zlib_class_brotlioptions).
 
-### Multiple compressed versions of assets for different algorithm
+### Multiple compressed versions of assets for different algorithm {#multiple-compressed-versions-of-assets-for-different-algorithm}
 
 **webpack.config.js**
 
 ```js
-const zlib = require('zlib');
+const zlib = require("zlib");
 
 module.exports = {
   plugins: [
     new CompressionPlugin({
-      filename: '[path].gz[query]',
-      algorithm: 'gzip',
+      filename: "[path][base].gz",
+      algorithm: "gzip",
       test: /\.js$|\.css$|\.html$/,
       threshold: 10240,
       minRatio: 0.8,
     }),
     new CompressionPlugin({
-      filename: '[path].br[query]',
-      algorithm: 'brotliCompress',
+      filename: "[path][base].br",
+      algorithm: "brotliCompress",
       test: /\.(js|css|html|svg)$/,
       compressionOptions: {
-        level: 11,
+        params: {
+          [zlib.constants.BROTLI_PARAM_QUALITY]: https://github.com/webpack-contrib/compression-webpack-plugin/blob/master/11,
+        },
       },
       threshold: 10240,
       minRatio: 0.8,
@@ -420,13 +420,13 @@ module.exports = {
 };
 ```
 
-## Contributing
+## Contributing {#contributing}
 
 Please take a moment to read our contributing guidelines if you haven't yet done so.
 
 [CONTRIBUTING](https://github.com/webpack-contrib/compression-webpack-plugin/blob/master/.github/CONTRIBUTING.md)
 
-## License
+## License {#license}
 
 [MIT](https://github.com/webpack-contrib/compression-webpack-plugin/blob/master/LICENSE)
 

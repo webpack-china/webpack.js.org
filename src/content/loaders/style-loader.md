@@ -16,19 +16,19 @@ repo: https://github.com/webpack-contrib/style-loader
 
 
 
-Inject CSS into the DOM.
+把 CSS 插入到 DOM 中。
 
-## Getting Started
+## 快速开始 {#getting-started}
 
-To begin, you'll need to install `style-loader`:
+首先，你需要安装 `style-loader`：
 
 ```console
 npm install --save-dev style-loader
 ```
 
-It's recommended to combine `style-loader` with the [`css-loader`](/loaders/css-loader/)
+推荐将 `style-loader` 与 [`css-loader`](/loaders/css-loader/) 一起使用
 
-Then add the loader to your `webpack` config. For example:
+然后把 loader 添加到你的 `webpack` 配置中。比如：
 
 **style.css**
 
@@ -59,24 +59,25 @@ module.exports = {
 };
 ```
 
-## Options
+## Options {#options}
 
-|              Name               |         Type         |  Default   | Description                                              |
+|              名称               |         类型         |  默认值   | 描述                                              |
 | :-----------------------------: | :------------------: | :--------: | :------------------------------------------------------- |
-| [**`injectType`**](#injecttype) |      `{String}`      | `styleTag` | Allows to setup how styles will be injected into the DOM |
-| [**`attributes`**](#attributes) |      `{Object}`      |    `{}`    | Adds custom attributes to tag                            |
-|     [**`insert`**](#insert)     | `{String\|Function}` |   `head`   | Inserts tag at the given position into the DOM           |
-|       [**`base`**](#base)       |      `{Number}`      |   `true`   | Sets module ID base (DLLPlugin)                          |
-|   [**`esModule`**](#esmodule)   |     `{Boolean}`      |  `false`   | Use ES modules syntax                                    |
+| [**`injectType`**](#injecttype) |      `{String}`      | `styleTag` | 配置把 styles 插入到 DOM 中的方式 |
+| [**`attributes`**](#attributes) |      `{Object}`      |    `{}`    | 添加自定义属性到插入的标签中              |
+|     [**`insert`**](#insert)     | `{String\|Function}` |   `head`   | 在指定的位置插入标签 |
+|       [**`base`**](#base)       |      `{Number}`      |   `true`   | 基于 (DLLPlugin) 设置 module ID |
+|   [**`esModule`**](#esmodule)   |     `{Boolean}`      |  `false`   | 使用 ES modules 语法                                       |
+|    [**`modules`**](#modules)    |      `{Object}`      | `undefined`| 配置 CSS Modules                                |
 
-### `injectType`
+### `injectType` {#injecttype}
 
 Type: `String`
 Default: `styleTag`
 
-Allows to setup how styles will be injected into the DOM.
+配置把 styles 插入到 DOM 中的方式。
 
-Possible values:
+可选值：
 
 - `styleTag`
 - `singletonStyleTag`
@@ -84,9 +85,9 @@ Possible values:
 - `lazySingletonStyleTag`
 - `linkTag`
 
-#### `styleTag`
+#### `styleTag` {#styletag}
 
-Automatically injects styles into the DOM using multiple `<style></style>`. It is **default** behaviour.
+通过使用多个 `<style></style>` 自动把 styles 插入到 DOM 中。该方式是默认行为。
 
 **component.js**
 
@@ -94,7 +95,7 @@ Automatically injects styles into the DOM using multiple `<style></style>`. It i
 import './styles.css';
 ```
 
-Example with Locals (CSS Modules):
+使用 Locals (CSS Modules) 的例子：
 
 **component-with-css-modules.js**
 
@@ -105,7 +106,7 @@ const divElement = document.createElement('div');
 divElement.className = styles['my-class'];
 ```
 
-All locals (class names) stored in imported object.
+导入的对象保存着所有的 locals (class names)。
 
 **webpack.config.js**
 
@@ -116,7 +117,7 @@ module.exports = {
       {
         test: /\.css$/i,
         use: [
-          // The `injectType`  option can be avoided because it is default behaviour
+          // 由于是默认行为，`injectType` 选项可以省略
           { loader: 'style-loader', options: { injectType: 'styleTag' } },
           'css-loader',
         ],
@@ -126,7 +127,7 @@ module.exports = {
 };
 ```
 
-The loader inject styles like:
+此 loader 插入的 style 效果如下：
 
 ```html
 <style>
@@ -141,11 +142,11 @@ The loader inject styles like:
 </style>
 ```
 
-#### `singletonStyleTag`
+#### `singletonStyleTag` {#singletonstyletag}
 
-Automatically injects styles into the DOM using one `<style></style>`.
+通过使用一个 `<style></style>` 来自动把 styles 插入到 DOM 中。
 
-> ⚠ Source maps do not work.
+> ⚠ Source map 不起作用
 
 **component.js**
 
@@ -162,7 +163,7 @@ const divElement = document.createElement('div');
 divElement.className = styles['my-class'];
 ```
 
-All locals (class names) stored in imported object.
+导入的对象保存着所有的 locals  (class names)。
 
 **webpack.config.js**
 
@@ -185,7 +186,7 @@ module.exports = {
 };
 ```
 
-The loader inject styles like:
+loader 插入的 styles 如下：
 
 ```html
 <style>
@@ -198,13 +199,15 @@ The loader inject styles like:
 </style>
 ```
 
-#### `lazyStyleTag`
+#### `lazyStyleTag` {#lazystyletag}
 
-Injects styles into the DOM using multiple `<style></style>` on demand.
-We recommend following `.lazy.css` naming convention for lazy styles and the `.css` for basic `style-loader` usage (similar to other file types, i.e. `.lazy.less` and `.less`).
-When you `lazyStyleTag` value the `style-loader` injects the styles lazily making them useable on-demand via `style.use()` / `style.unuse()`.
+在需要时使用多个 `<style></style>` 把 styles 插入到 DOM 中。
 
-> ⚠️ Behavior is undefined when `unuse` is called more often than `use`. Don't do that.
+推荐 lazy style 遵循使用 `.lazy.css` 作为后缀的命名约定，`style-loader` 基本用法是使用 `.css` 作为文件后缀（其他文件也一样，比如：`.lazy.less` 和 `.less`）。
+
+当使用 `lazyStyleTag` 时，`style-loader` 将惰性插入 styles，在需要使用 styles 时可以通过 `style.use()` / `style.unuse()` 使 style 可用。
+
+> ⚠️ 调用 `unuse` 多于 `use` 时，其表现会不确定。因此，请不要这么做。
 
 **component.js**
 
@@ -212,7 +215,7 @@ When you `lazyStyleTag` value the `style-loader` injects the styles lazily makin
 import styles from './styles.lazy.css';
 
 styles.use();
-// For removing styles you can use
+// 要移除 styles 时你可以调用
 // styles.unuse();
 ```
 
@@ -227,7 +230,7 @@ const divElement = document.createElement('div');
 divElement.className = styles.locals['my-class'];
 ```
 
-All locals (class names) stored in `locals` property of imported object.
+导入的对象的 `locals` 属性保存着所有的 locals (class names)。
 
 **webpack.config.js**
 
@@ -252,7 +255,8 @@ module.exports = {
 };
 ```
 
-The loader inject styles like:
+此 loader 插入的 style 效果如下：
+
 
 ```html
 <style>
@@ -267,15 +271,17 @@ The loader inject styles like:
 </style>
 ```
 
-#### `lazySingletonStyleTag`
+#### `lazySingletonStyleTag` {#lazysingletonstyletag}
 
-Injects styles into the DOM using one `<style></style>` on demand.
-We recommend following `.lazy.css` naming convention for lazy styles and the `.css` for basic `style-loader` usage (similar to other file types, i.e. `.lazy.less` and `.less`).
-When you `lazySingletonStyleTag` value the `style-loader` injects the styles lazily making them useable on-demand via `style.use()` / `style.unuse()`.
+在必要时，使用 `<style></style>` 把 style 插入的 DOM 中。
 
-> ⚠️ Source maps do not work.
+推荐 lazy style 遵循使用 `.lazy.css` 作为后缀的命名约定，`style-loader` 基本用法是使用 `.css` 作为文件后缀（其他文件也一样，比如：`.lazy.less` 和 `.less`）。
 
-> ⚠️ Behavior is undefined when `unuse` is called more often than `use`. Don't do that.
+当使用 `lazySingletonStyleTag` 时，`style-loader` 将惰性插入 styles，在需要使用 styles 时可以通过 `style.use()` / `style.unuse()` 使 style 可用。
+
+> ⚠️ Source maps 不起作用
+
+> ⚠️ 调用 `unuse` 多于 `use` 时，其表现会不确定。因此，请不要这么做。
 
 **component.js**
 
@@ -283,7 +289,7 @@ When you `lazySingletonStyleTag` value the `style-loader` injects the styles laz
 import styles from './styles.css';
 
 styles.use();
-// For removing styles you can use
+// 要移除 styles 时你可以调用
 // styles.unuse();
 ```
 
@@ -298,7 +304,7 @@ const divElement = document.createElement('div');
 divElement.className = styles.locals['my-class'];
 ```
 
-All locals (class names) stored in `locals` property of imported object.
+导入的对象的 `locals` 属性保存着所有的 locals (class names)。
 
 **webpack.config.js**
 
@@ -326,7 +332,7 @@ module.exports = {
 };
 ```
 
-The loader generate this:
+此 loader 生成的代码如下：
 
 ```html
 <style>
@@ -339,11 +345,11 @@ The loader generate this:
 </style>
 ```
 
-#### `linkTag`
+#### `linkTag` {#linktag}
 
-Injects styles into the DOM using multiple `<link rel="stylesheet" href="path/to/file.css">` .
+使用多个 `<link rel="stylesheet" href="path/to/file.css">` 将 styles 插入到 DOM 中。
 
-> ℹ️ The loader will dynamically insert the `<link href="path/to/file.css" rel="stylesheet">` tag at runtime via JavaScript. You should use [MiniCssExtractPlugin](/plugins/mini-css-extract-plugin/) if you want to include a static `<link href="path/to/file.css" rel="stylesheet">`.
+> ℹ️ 此 loader 会在运行时使用 JavaScript 动态地插入 `<link href="path/to/file.css" rel="stylesheet">`。要静态插入 `<link href="path/to/file.css" rel="stylesheet">` 时请使用[MiniCssExtractPlugin](/plugins/mini-css-extract-plugin/)。
 
 ```js
 import './styles.css';
@@ -368,19 +374,19 @@ module.exports = {
 };
 ```
 
-The loader generate this:
+此 loader 生成的代码如下：
 
 ```html
 <link rel="stylesheet" href="path/to/style.css" />
 <link rel="stylesheet" href="path/to/other-styles.css" />
 ```
 
-### `attributes`
+### `attributes` {#attributes}
 
 Type: `Object`
 Default: `{}`
 
-If defined, the `style-loader` will attach given attributes with their values on `<style>` / `<link>` element.
+如果配置了 `attributes`，`style-loader` 将会在 `<style>` / `<link>` 上绑定指定的 `attributes` 以及它们的值。
 
 **component.js**
 
@@ -410,19 +416,21 @@ module.exports = {
 <style id="id"></style>
 ```
 
-### `insert`
+### `insert` {#insert}
 
 Type: `String|Function`
 Default: `head`
 
-By default, the `style-loader` appends `<style>`/`<link>` elements to the end of the style target, which is the `<head>` tag of the page unless specified by `insert`.
-This will cause CSS created by the loader to take priority over CSS already present in the target.
-You can use other values if the standard behavior is not suitable for you, but we do not recommend doing this.
-If you target an [iframe](https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement) make sure you have sufficient access rights, the styles will be injected into the content document head.
+默认情况下，除非指定 `insert`，否则 `style-loader` 会把 `<style>` / `<link>` 添加到页面的 `<head>` 标签尾部。
 
-#### `String`
+这会使得 `style-loader` 创建的 CSS 比 `<head>` 标签内已经存在的 CSS 拥有更高的优先级。
+当默认行为不能满足你的需求时，你可以使用其他值，但我们不推荐这么做。
 
-Allows to setup custom [query selector](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) where styles inject into the DOM.
+如果你指定 [iframe](https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement) 作为插入的目标时，请确保你有足够的访问权限，styles 将会被插入到 content document 的 head 标签中。
+
+#### `String` {#string}
+
+配置 styles 插入 DOM 的自定义 [query selector](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector)。
 
 **webpack.config.js**
 
@@ -447,14 +455,15 @@ module.exports = {
 };
 ```
 
-A new `<style>`/`<link>` elements will be inserted into at bottom of `body` tag.
+`<style>` / `<link>` 元素将会被插入到 `body` 标签底部。
 
-#### `Function`
+#### `Function` {#function}
 
-Allows to override default behavior and insert styles at any position.
+允许覆盖默认行为并把 styles 插入到任意位置。
 
-> ⚠ Do not forget that this code will be used in the browser and not all browsers support latest ECMA features like `let`, `const`, `arrow function expression` and etc, we recommend use only ECMA 5 features, but it is depends what browsers you want to support
-> ⚠ Do not forget that some DOM methods may not be available in older browsers, we recommended use only [DOM core level 2 properties](https://caniuse.com/#search=dom%20core), but it is depends what browsers you want to support
+> ⚠ 不要忘了这个函数会在浏览器中调用，由于不是所有浏览器都支持最新的 ECMA 特性，如：`let`，`const`，`allow function expression` 等，我们推荐只使用 ECMA 5 特性，但这取决于你想要支持的浏览器版本。
+
+> ⚠ 不要忘了版本较旧的浏览器中某些 DOM 方法并不可用，所以我们推荐只使用 [DOM core level 2 properties](https://caniuse.com/#search=dom%20core)，但这取决于想要支持的浏览器版本。
 
 **webpack.config.js**
 
@@ -495,11 +504,11 @@ module.exports = {
 };
 ```
 
-Insert styles at top of `head` tag.
+在 `head` 标签顶部插入styles。
 
-### `base`
+### `base` {#base}
 
-This setting is primarily used as a workaround for [css clashes](https://github.com/webpack-contrib/style-loader/issues/163) when using one or more [DllPlugin](https://robertknight.github.io/posts/webpack-dll-plugins/)'s. `base` allows you to prevent either the _app_'s css (or _DllPlugin2_'s css) from overwriting _DllPlugin1_'s css by specifying a css module id base which is greater than the range used by _DllPlugin1_ e.g.:
+这个配置主要是作为使用 [DllPlugin](https://robertknight.github.io/posts/webpack-dll-plugins/) 时出现 [css clashes](https://github.com/webpack-contrib/style-loader/issues/163) 问题时的解决方案。`base` 允许你通过指定一个比 _DllPlugin1_ 使用的 css 模块 id 大的值，来避免应用程序中的 css (或者 DllPlugin2 的 css) 被 DllPlugin1 中的 css 覆盖问题。比如：
 
 **webpack.dll1.config.js**
 
@@ -552,15 +561,14 @@ module.exports = {
 };
 ```
 
-### `esModule`
+### `esModule` {#esmodule}
 
 Type: `Boolean`
-Default: `false`
+Default: `true`
 
-By default, `style-loader` generates JS modules that use the CommonJS modules syntax.
-There are some cases in which using ES modules is beneficial, like in the case of [module concatenation](/plugins/module-concatenation-plugin/) and [tree shaking](/guides/tree-shaking/).
+默认情况下，`style-loader` 生成使用 ES 模块语法的 JS 模块。在某些情况下使用 ES 模块语法更好，比如：[module concatenation](/plugins/module-concatenation-plugin/) 和 [tree shaking](/guides/tree-shaking/) 时。
 
-You can enable a ES module syntax using:
+你可以使用下面的配置启用 CommonJS 模块语法：
 
 **webpack.config.js**
 
@@ -570,9 +578,9 @@ module.exports = {
     rules: [
       {
         test: /\.css$/i,
-        loader: 'css-loader',
+        loader: 'style-loader',
         options: {
-          esModule: true,
+          esModule: false,
         },
       },
     ],
@@ -580,12 +588,86 @@ module.exports = {
 };
 ```
 
-## Examples
+### `modules` {#modules}
 
-### Source maps
+类型：`Object`
+默认值：`undefined`
 
-The loader automatically inject source maps when previous loader emit them.
-Therefore, to generate source maps, set the `sourceMap` option to `true` for the previous loader.
+配置 CSS 模块。
+
+#### `namedExport` {#namedexport}
+
+类型：`Boolean`
+默认值：`false`
+
+启用/禁用本地 ES 模块的命名导出功能。
+
+> ⚠ 本地命名导出时，会将其名称转换为 `camelCase` 的形式。
+
+> ⚠ 并且不允许在 css 的 class 名中使用 JavaScript 的保留字。
+
+> ⚠ 在 `css-loader` 和 `style-loader` 中，选项 `esModule` 和 `modules.namedExport` 应启用。
+
+**styles.css**
+
+```css
+.foo-baz {
+  color: red;
+}
+.bar {
+  color: blue;
+}
+```
+
+**index.js**
+
+```js
+import { fooBaz, bar } from './styles.css';
+
+console.log(fooBaz, bar);
+```
+
+你可以使用如下方法为 ES 模块启用命名导出功能：
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: 'style-loader',
+            options: {
+              esModule: true,
+              modules: {
+                namedExport: true,
+              },
+            },
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              esModule: true,
+              modules: {
+                namedExport: true,
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+```
+
+## 示例 {#examples}
+
+当前面的 loader 生成 source map 时，此 loader 会向 source map 中自动注入。
+
+因此，想要生成 source map，则需将 style-loader 之前执行 loader 的 `sourceMap` 选项设置为`true`。
 
 **webpack.config.js**
 
@@ -605,16 +687,16 @@ module.exports = {
 };
 ```
 
-### Nonce
+### Nonce {#nonce}
 
-There are two ways to work with `nonce`:
+有两种方式使用 `nonce`：
 
-- using the `attributes` option
-- using the `__webpack_nonce__` variable
+- 使用 `attributes` 选项
+- 使用 `__webpack_nonce__` 变量
 
-> ⚠ the `attributes` option takes precedence over the `__webpack_nonce__` variable
+> ⚠ `attributes` 拥有比 `__webpack_nonce__` 更高的优先级
 
-#### `attributes`
+#### `attributes` {#attributes}
 
 **component.js**
 
@@ -647,7 +729,7 @@ module.exports = {
 };
 ```
 
-The loader generate:
+此 loader 生成代码如下：
 
 ```html
 <style nonce="12345678">
@@ -657,7 +739,7 @@ The loader generate:
 </style>
 ```
 
-#### `__webpack_nonce__`
+#### `__webpack_nonce__` {#__webpack_nonce__}
 
 **create-nonce.js**
 
@@ -672,7 +754,7 @@ import './create-nonce.js';
 import './style.css';
 ```
 
-Alternative example for `require`:
+使用 `require` 的示例：
 
 **component.js**
 
@@ -697,7 +779,7 @@ module.exports = {
 };
 ```
 
-The loader generate:
+此 loader 生成代码如下：
 
 ```html
 <style nonce="12345678">
@@ -707,9 +789,9 @@ The loader generate:
 </style>
 ```
 
-#### Insert styles at top
+#### Insert styles at top {#insert-styles-at-top}
 
-Inserts styles at top of `head` tag.
+在 `head` 标签顶部插入 style。
 
 **webpack.config.js**
 
@@ -748,9 +830,9 @@ module.exports = {
 };
 ```
 
-#### Insert styles before target element
+#### 在目标元素前插入 style {#insert-styles-before-target-element}
 
-Inserts styles before `#id` element.
+在 `#id` 元素前面插入 style。
 
 **webpack.config.js**
 
@@ -791,13 +873,13 @@ module.exports = {
 };
 ```
 
-## Contributing
+## Contributing {#contributing}
 
 Please take a moment to read our contributing guidelines if you haven't yet done so.
 
 [CONTRIBUTING](https://github.com/webpack-contrib/style-loader/blob/master/.github/CONTRIBUTING.md)
 
-## License
+## License {#license}
 
 [MIT](https://github.com/webpack-contrib/style-loader/blob/master/LICENSE)
 

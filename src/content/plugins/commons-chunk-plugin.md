@@ -9,6 +9,7 @@ contributors:
   - jeremenichelli
   - byzyk
   - madhavarshney
+  - snitin315
 ---
 
 The `CommonsChunkPlugin` is an opt-in feature that creates a separate file (known as a chunk), consisting of common modules shared between multiple entry points.
@@ -22,7 +23,7 @@ new webpack.optimize.CommonsChunkPlugin(options);
 ```
 
 
-## Options
+## Options {#options}
 
 <!-- eslint-skip -->
 
@@ -70,9 +71,9 @@ new webpack.optimize.CommonsChunkPlugin(options);
 ```
 
 
-## Examples
+## Examples {#examples}
 
-### Commons chunk for entries
+### Commons chunk for entries {#commons-chunk-for-entries}
 
 Generate an extra chunk, which contains common modules shared between entry points.
 
@@ -100,7 +101,7 @@ You must load the generated chunk before the entry point:
 ```
 
 
-### Explicit vendor chunk
+### Explicit vendor chunk {#explicit-vendor-chunk}
 
 Split your code into vendor and application.
 
@@ -133,7 +134,7 @@ module.exports = {
 T> In combination with long term caching you may need to use the [`ChunkManifestWebpackPlugin`](https://github.com/soundcloud/chunk-manifest-webpack-plugin) to avoid the vendor chunk changes. You should also use records to ensure stable module ids, e.g. using `NamedModulesPlugin` or [`HashedModuleIdsPlugin`](/plugins/hashed-module-ids-plugin).
 
 
-### Move common modules into the parent chunk
+### Move common modules into the parent chunk {#move-common-modules-into-the-parent-chunk}
 
 With [Code Splitting](/guides/code-splitting), multiple child chunks of an entry chunk can have common dependencies. To prevent duplication these can be moved into the parent. This reduces overall size, but does have a negative effect on the initial load time. If it is expected that users will need to download many sibling chunks, i.e. children of the entry chunk, then this should improve load time overall.
 
@@ -151,7 +152,7 @@ new webpack.optimize.CommonsChunkPlugin({
 ```
 
 
-### Extra async commons chunk
+### Extra async commons chunk {#extra-async-commons-chunk}
 
 Similar to the above one, but instead of moving common modules into the parent (which increases initial load time) a new async-loaded additional commons chunk is used. This is automatically downloaded in parallel when the additional chunk is downloaded.
 
@@ -175,7 +176,7 @@ new webpack.optimize.CommonsChunkPlugin({
 ```
 
 
-### Passing the `minChunks` property a function
+### Passing the `minChunks` property a function {#passing-the-minchunks-property-a-function}
 
 You also have the ability to pass the `minChunks` property a function. This function is called by the `CommonsChunkPlugin` and calls the function with `module` and `count` arguments.
 
@@ -216,23 +217,7 @@ new webpack.optimize.CommonsChunkPlugin({
 });
 ```
 
-In order to obtain a single CSS file containing your application and vendor CSS, use the following `minChunks` function together with [`ExtractTextPlugin`](/plugins/extract-text-webpack-plugin/):
-
-```javascript
-new webpack.optimize.CommonsChunkPlugin({
-  name: 'vendor',
-  minChunks: function (module) {
-    // This prevents stylesheet resources with the .css or .scss extension
-    // from being moved from their original chunk to the vendor chunk
-    if(module.resource && (/^.*\.(css|scss)$/).test(module.resource)) {
-      return false;
-    }
-    return module.context && module.context.includes('node_modules');
-  }
-});
-```
-
-## Manifest file
+## Manifest file {#manifest-file}
 
 To extract the webpack bootstrap logic into a separate file, use the `CommonsChunkPlugin` on a `name` which is not defined as `entry`. Commonly the name `manifest` is used. See the [caching guide](/guides/caching) for details.
 
@@ -243,7 +228,7 @@ new webpack.optimize.CommonsChunkPlugin({
 });
 ```
 
-## Combining implicit common vendor chunks and manifest file
+## Combining implicit common vendor chunks and manifest file {#combining-implicit-common-vendor-chunks-and-manifest-file}
 
 Since the `vendor` and `manifest` chunk use a different definition for `minChunks`, you need to invoke the plugin twice:
 
@@ -262,7 +247,7 @@ Since the `vendor` and `manifest` chunk use a different definition for `minChunk
 ];
 ```
 
-## More Examples
+## More Examples {#more-examples}
 
 - [Common and Vendor Chunks](https://github.com/webpack/webpack/tree/master/examples/common-chunk-and-vendor-chunk)
 - [Multiple Common Chunks](https://github.com/webpack/webpack/tree/8b888fedfaeaac6bd39168c0952cc19e6c34280a/examples/multiple-commons-chunks)

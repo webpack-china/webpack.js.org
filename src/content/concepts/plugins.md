@@ -8,14 +8,17 @@ contributors:
   - johnstew
   - MisterDev
   - byzyk
+  - chenxsan
 ---
 
 __插件__是 webpack 的 [支柱](https://github.com/webpack/tapable) 功能。webpack 自身也是构建于你在 webpack 配置中用到的__相同的插件系统__之上！
 
 插件目的在于解决 [loader](/concepts/loaders) 无法实现的__其他事__。
 
+T> 如果在插件中使用了 [`webpack-sources`](https://github.com/webpack/webpack-sources) 的 package，请使用 `require('webpack').sources` 替代 `require('webpack-sources')`，以避免持久缓存的版本冲突。
 
-## 剖析
+
+## 剖析 {#anatomy}
 
 webpack __插件__是一个具有 [`apply`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply) 方法的 JavaScript 对象。`apply` 方法会被 webpack compiler 调用，并且在__整个__编译生命周期都可以访问 compiler 对象。
 
@@ -37,14 +40,14 @@ module.exports = ConsoleLogOnBuildWebpackPlugin;
 
 compiler hook 的 tap 方法的第一个参数，应该是驼峰式命名的插件名称。建议为此使用一个常量，以便它可以在所有 hook 中重复使用。
 
-## 用法
+## 用法 {#usage}
 
 由于__插件__可以携带参数/选项，你必须在 webpack 配置中，向 `plugins` 属性传入一个 `new` 实例。
 
 取决于你的 webpack 用法，对应有多种使用插件的方式。
 
 
-### 配置方式
+### 配置方式 {#configuration}
 
 __webpack.config.js__
 
@@ -74,8 +77,9 @@ module.exports = {
 };
 ```
 
+`ProgressPlugin` 用于自定义编译过程中的进度报告，`HtmlWebpackPlugin` 将生成一个 HTML 文件，并在其中使用 `script` 引入一个名为 `my-first-webpack.bundle.js` 的 JS 文件。
 
-### Node API 方式
+### Node API 方式 {#node-api}
 
 在使用 Node API 时，还可以通过配置中的 `plugins` 属性传入插件。
 

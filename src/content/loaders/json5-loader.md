@@ -18,6 +18,7 @@ repo: https://github.com/webpack-contrib/json5-loader
 
 用于将 [json5](https://json5.org/) 文件解析为 JavaScript 对象的 webpack loader。
 
+
 ## 开始
 
 首先，你需要安装 `json5-loader`：
@@ -58,13 +59,13 @@ module.exports = {
 };
 ```
 
-## Options
+## Options {#options}
 
 |            Name             |    Type     | Default | Description            |
 | :-------------------------: | :---------: | :-----: | :--------------------- |
 | **[`esModule`](#esmodule)** | `{Boolean}` | `true`  | Uses ES modules syntax |
 
-### `esModule`
+### `esModule` {#esmodule}
 
 Type: `Boolean`
 Default: `true`
@@ -116,13 +117,14 @@ console.log(appConfig.env); // 'production'
 
 如何你想在 Node.js 中使用，别忘记完善 require 语句。 详见 webpack 文档。
 
+
 ## 贡献
 
 如果您还没有阅读我们的贡献指南，请花点时间阅读。
 
 [CONTRIBUTING](https://github.com/webpack-contrib/json5-loader/blob/master/.github/CONTRIBUTING.md)
 
-## License
+## License {#license}
 
 [MIT](https://github.com/webpack-contrib/json5-loader/blob/master/LICENSE)
 

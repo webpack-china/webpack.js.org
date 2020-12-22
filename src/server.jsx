@@ -1,5 +1,4 @@
 // Import External Dependencies
-import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { StaticRouter, Route } from 'react-router-dom';
 
@@ -9,6 +8,7 @@ import { getPageTitle } from './utilities/content-utils';
 // Import Components
 import Site from './components/Site/Site';
 import PrintScript from './components/Print/PrintScript';
+import StatsScript from './components/Stats/StatsScript';
 
 // Import Images
 import Favicon from './favicon.ico';
@@ -36,8 +36,8 @@ function isPrintPage(url) {
 export default locals => {
   let { assets } = locals.webpackStats.compilation;
 
-  let title = getPageTitle(locals.content, locals.path);
-  let description = 'webpack is a module bundler. Its main purpose is to bundle JavaScript files for usage in a browser, yet it is also capable of transforming, bundling, or packaging just about any resource or asset.';
+  let title = 'webpack 官方中文文档';
+  let description = 'webpack 是一个模块打包器。它的主要目标是将 JavaScript 文件打包在一起，打包后的文件用于在浏览器中使用，但它也能够胜任转换（transform）、打包（bundle）或包裹（package）任何资源(resource or asset)。';
 
   const renderedHtml = ReactDOMServer.renderToString(
     <StaticRouter location={locals.path} context={{}}>
@@ -58,6 +58,7 @@ export default locals => {
           <meta property="twitter:site" content="@webpack" />
           <meta property="twitter:creator" content="@webpack" />
           <meta property="twitter:domain" content="https://webpack.js.org/" />
+          <meta name="keywords" content="webpack5, webpack, webpack 中文文档, 印记中文, docschina, docschina.org, webpack.docschina.org, doc.react-china.org, nodejs.cn, vue.docschina.org, babel.docschina.org, parceljs.docschina.org, rollup.docschina.org, koajs.docschina.org"></meta>
           <link rel="icon" type="image/x-icon" href={ Favicon } />
           { Object.keys(assets).filter(asset => /\.css$/.test(asset)).map(path => (
             <link key={ path } rel="stylesheet" href={ `/${path}` } />
@@ -70,7 +71,7 @@ export default locals => {
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="black" />
           <meta name="apple-mobile-web-app-title" content="webpack" />
-          <link rel="apple-touch-icon-precomposed" href="/icon_180x180.png" />
+          <link rel="apple-touch-icon" href="/icon_180x180.png" />
           <link rel="mask-icon" href={ Logo } color="#465e69" />
           <meta name="msapplication-TileImage" content="/icon_150x150.png" />
           <meta name="msapplication-TileColor" content="#465e69" />
@@ -89,6 +90,9 @@ export default locals => {
             (isPrintPage(locals.path))
               ? <PrintScript />
               : bundles.map(path => <script key={ path } src={ path } />)
+          }
+          {
+            <StatsScript/>
           }
         </body>
       </html>
