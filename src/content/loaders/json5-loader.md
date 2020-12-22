@@ -16,22 +16,22 @@ repo: https://github.com/webpack-contrib/json5-loader
 
 
 
-A webpack loader for parsing [json5](https://json5.org/) files into JavaScript objects.
+用于将 [json5](https://json5.org/) 文件解析为 JavaScript 对象的 webpack loader。
 
-## Getting Started
+## 开始
 
-To begin, you'll need to install `json5-loader`:
+首先，你需要安装 `json5-loader`：
 
 ```sh
 $ npm install json5-loader --save-dev
 ```
 
-You can use the loader either:
+或者你也可以这样使用：
 
-- by configuring the `json5-loader` in the `module.rules` object of the webpack configuration, or
-- by directly using the `json5-loader!` prefix to the require statement.
+- 在 webpack 配置里的 `module.rules` 对象中配置 `json5-loader` ；
+- 直接在 require 语句中使用 `json5-loader!` 前缀。
 
-Suppose we have the following `json5` file:
+假设我们有下面这个 `json5` 文件
 
 **file.json5**
 
@@ -69,9 +69,10 @@ module.exports = {
 Type: `Boolean`
 Default: `true`
 
-There are some cases in which using ES modules is beneficial, like in the case of [module concatenation](/plugins/module-concatenation-plugin/) and [tree shaking](/guides/tree-shaking/).
+有些情况下，使用 ES 模块是非常有益的，比如 [module concatenation](/plugins/module-concatenation-plugin/)
+和 [tree shaking](/guides/tree-shaking/).
 
-You can enable a ES module syntax using:
+可以使用以下方式启用 ES 模块语法：
 
 **webpack.config.js**
 
@@ -92,9 +93,9 @@ module.exports = {
 };
 ```
 
-## Examples
+## 例子
 
-### Usage with require statement loader prefix
+### 在 require 居中使用 loader 前缀
 
 **file.json5**
 
@@ -113,11 +114,11 @@ import appConfig from 'json5-loader!./file.json5';
 console.log(appConfig.env); // 'production'
 ```
 
-Don't forget to polyfill require if you want to use it in Node.js. See the webpack documentation.
+如何你想在 Node.js 中使用，别忘记完善 require 语句。 详见 webpack 文档。
 
-## Contributing
+## 贡献
 
-Please take a moment to read our contributing guidelines if you haven't yet done so.
+如果您还没有阅读我们的贡献指南，请花点时间阅读。
 
 [CONTRIBUTING](https://github.com/webpack-contrib/json5-loader/blob/master/.github/CONTRIBUTING.md)
 
