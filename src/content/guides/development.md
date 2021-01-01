@@ -299,7 +299,7 @@ __package.json__
  }
 ```
 
-现在，在命令行中运行 `npm start`，我们会看到浏览器自动加载页面。如果你更改任何源文件并保存它们，web server 将在编译代码后自动重新加载。试试看！
+现在，在命令行中运行 `npm run start`，我们会看到浏览器自动加载页面。如果你更改任何源文件并保存它们，web server 将在编译代码后自动重新加载。试试看！
 
 `webpack-dev-server` 具有许多可配置的选项。关于其他更多配置，请查看 [配置文档](/configuration/dev-server)。
 
