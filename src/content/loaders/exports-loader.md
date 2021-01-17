@@ -22,7 +22,7 @@ repo: https://github.com/webpack-contrib/exports-loader
 
 想要获取有关兼容性的进一步提示，请查看官方文档中的 [Shimming](/guides/shimming/)。
 
-> ⚠ 默认情况下，loader 生成命名为 syntax 的 ES module。
+> ⚠ 默认情况下，loader 生成具名的 ES module。
 >
 > ⚠ 请注意，原始代码中现有的 exports（`export`/`module.exports`/`exports`）和导出新值可能会导致失败。
 
