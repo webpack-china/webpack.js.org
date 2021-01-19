@@ -279,7 +279,7 @@ Examples:
 
 > ⚠ 别名不能与 `default` 或者 `single` 语法一起使用。
 
-##### 例子 {#examples}
+##### 示例 {#examples}
 
 ###### ES Module Default Export {#es-module-default-export}
 
@@ -413,7 +413,7 @@ module.exports = { FooA: Foo };
 - `name` - 导出值的名称 (**required**)
 - `alias` - 导出值的别名 (**may be omitted**)
 
-##### 例子 {#examples}
+##### 示例 {#examples}
 
 ###### ES Module 默认导出 {#es-module-default-export}
 
@@ -561,7 +561,7 @@ module.exports = { FooA: Foo };
 
 > ⚠ 因为 CommonJS 格式限制，不能导出多个 `single` 值。
 
-##### 例子 {#examples}
+##### 示例 {#examples}
 
 ###### CommonJS 导出多个 {#commonjs-multiple-exports}
 
