@@ -68,7 +68,7 @@ module.exports = {
 |  **[`encoding`](#encoding)**  |     `{Boolean\|String}`     |                           `base64`                            | 指定用于内联文件的编码。                                                               |
 | **[`generator`](#generator)** |        `{Function}`         |           `() => type/subtype;encoding,base64_data`           | 你可以创建自己的自定义实现以对数据进行编码。                                             |
 |  **[`fallback`](#fallback)**  |         `{String}`          |                         `file-loader`                         | 指定当目标文件大小超过限制时的替代 loader。                                              |
-|  **[`esModule`](#esmodule)**  |         `{Boolean}`         |                            `true`                             | 使用ES模块语法。                                                                     |
+|  **[`esModule`](#esmodule)**  |         `{Boolean}`         |                            `true`                             | 使用 ES 模块语法。                                                                     |
 
 ### `limit` {#limit}
 
@@ -135,10 +135,10 @@ module.exports = {
 ### `mimetype` {#mimetype}
 
 类型: `Boolean|String`
-默认值: 基于第三方库 [mime-types](https://github.com/jshttp/mime-types) 来获取mimetype。
+默认值: 基于第三方库 [mime-types](https://github.com/jshttp/mime-types) 来获取 mimetype。
 
-指定用于内联文件的`mimetype`。
-如果未指定，将使用第三方库 [mime-types](https://github.com/jshttp/mime-types) 来获取mimetype。
+指定用于内联文件的 `mimetype`。
+如果未指定，将使用第三方库 [mime-types](https://github.com/jshttp/mime-types) 来获取 mimetype。
 
 #### `Boolean` {#boolean}
 
@@ -323,7 +323,7 @@ module.exports = {
 
 当使用降级 loader 时，其配置项与 url-loader 的配置项相同。
 
-例如为替代loader（responsive-loader）设置 `quality` 参数：
+例如为替代 loader（responsive-loader）设置 `quality` 参数：
 
 **webpack.config.js**
 
@@ -353,7 +353,7 @@ module.exports = {
 类型: `Boolean`
 默认值: `true`
 
-默认情况下，`file-loader` 生成使用ES modules语法的JS模块。
+默认情况下，`file-loader` 生成使用 ES modules 语法的JS模块。
 在某些情况下，使用 ES 模块更为合适，比如在 [module concatenation](https://webpack.js.org/plugins/module-concatenation-plugin/) 和 [tree shaking](https://webpack.js.org/guides/tree-shanking/)。
 
 你可以通过以下命令启用 CommonJS 模块语法：
@@ -386,7 +386,7 @@ module.exports = {
 
 SVG 可以被压缩至体积更小，尽量避免使用 `base64`。
 你可以从[这里](https://css-tricks.com/probably-dont-base64-svg/)了解更多信息。
-你可以使用 [mini-svg-data-uri](https://github.com/tigt/mini-svg-data-uri) 来压缩SVG。
+你可以使用 [mini-svg-data-uri](https://github.com/tigt/mini-svg-data-uri) 来压缩 SVG。
 
 **webpack.config.js**
 
@@ -436,7 +436,3 @@ module.exports = {
 [chat-url]: https://gitter.im/webpack/webpack
 [size]: https://packagephobia.now.sh/badge?p=url-loader
 [size-url]: https://packagephobia.now.sh/result?p=url-loader
-
-```
-
-```
