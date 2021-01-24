@@ -15,7 +15,7 @@ repo: https://github.com/webpack-contrib/url-loader
 
 
 
-**DEPREACTED for v5**: please consider to migarte on [`asset modules`](/guides/asset-modules/).
+**v5 后弃用**：请考虑使用 [`asset modules`](/guides/asset-modules/) 代替。
 
 用于将文件转换为 base64 URI 的 loader。
 
@@ -356,7 +356,7 @@ module.exports = {
 默认值: `true`
 
 默认情况下，`file-loader` 生成使用 ES modules 语法的JS模块。
-在某些情况下，使用 ES 模块更为合适，比如在 [module concatenation](https://webpack.js.org/plugins/module-concatenation-plugin/) 和 [tree shaking](https://webpack.js.org/guides/tree-shanking/)。
+在某些情况下，使用 ES 模块更为合适，比如在 [module concatenation](/plugins/module-concatenation-plugin/) 和 [tree shaking](/guides/tree-shanking/)。
 
 你可以通过以下命令启用 CommonJS 模块语法：
 
