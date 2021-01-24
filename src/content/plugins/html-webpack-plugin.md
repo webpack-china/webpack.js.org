@@ -20,7 +20,7 @@ npm install --save-dev html-webpack-plugin
 ## 基本用法 {#basic-usage}
 
 该插件将为你生成一个 HTML5 文件，
-在 body 中使用 `<script>` 标签引入你所有的 webpack 包。
+在 body 中使用 `script` 标签引入你所有 webpack 生成的 bundle。
 只需添加该插件到你的 webpack 配置中，如下所示：
 
 ```javascript
@@ -52,9 +52,9 @@ module.exports = {
 </html>
 ```
 
-如果你有多个 webpack 入口，他们都会在已生成 HTML 文件中的 `script` 标签内引入。
+如果你有多个 webpack 入口，他们都会在已生成 HTML 文件中的 `<script>` 标签内引入。
 
-如果你在 webpack 的输出中有任何 CSS 资源（例如，使用 [MiniCssExtractPlugin](/plugins/mini-css-extract-plugin/) 提取的 CSS），那么这些将会在已生成 HTML 文件 `<head>` 元素中的 `<link>` 标签内引入。
+如果在 webpack 的输出中有任何 CSS 资源（例如，使用 [MiniCssExtractPlugin](/plugins/mini-css-extract-plugin/) 提取的 CSS），那么这些资源也会在 HTML 文件 `<head>` 元素中的 `<link>` 标签内引入。
 
 
 ## 配置 {#configuration}
