@@ -19,7 +19,7 @@ repo: https://github.com/webpack-contrib/url-loader
 
 用于将文件转换为 base64 URI 的 loader。
 
-## 起步 {#getting-started}
+## 快速开始 {#getting-started}
 
 首先，你需要安装 `url-loader`：
 
@@ -77,7 +77,7 @@ module.exports = {
 类型: `Boolean|Number|String`
 默认值: `undefined`
 
-该值可以通过 loader 的 options 参数来指定，默认为 `undefined` 。
+该值可以通过 loader 的 options 参数来指定，默认为 `undefined`。
 
 #### `Boolean` {#boolean}
 
