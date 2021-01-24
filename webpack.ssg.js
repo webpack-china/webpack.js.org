@@ -11,13 +11,13 @@ const contentTree = require('./src/_content.json');
 
 // Load Common Configuration
 const common = require('./webpack.common.js');
+const PrecacheSsgManifestPlugin = require('./src/PrecacheSsgManifestPlugin');
 
 // content tree to path array
 const paths = [
   ...flattenContentTree(contentTree),
   '/vote',
   '/organization',
-  '/starter-kits',
   '/app-shell'
 ];
 
@@ -34,7 +34,7 @@ module.exports = env => merge(common(env), {
       index: './server.jsx'
     },
     output: {
-      filename: '.server/[name].js',
+      filename: '.server/[name].[contenthash].js',
       libraryTarget: 'umd'
     },
     optimization: {
@@ -107,9 +107,9 @@ module.exports = env => merge(common(env), {
         ]
       }),
       new WebpackPwaManifest({
-        name: 'webpack Documentation',
+        name: 'webpack 中文文档',
         short_name: 'webpack',
-        description: 'webpack documentation web application',
+        description: 'webpack 中文文档 web 应用',
         background_color: '#2b3a42',
         theme_color: '#2b3a42',
         display: 'fullscreen',
@@ -131,5 +131,6 @@ module.exports = env => merge(common(env), {
           },
         ],
       }),
+      new PrecacheSsgManifestPlugin()
     ]
   });

@@ -15,6 +15,8 @@ repo: https://github.com/webpack-contrib/url-loader
 
 
 
+**DEPREACTED for v5**: please consider to migarte on [`asset modules`](/guides/asset-modules/).
+
 用于将文件转换为 base64 URI 的 loader。
 
 ## 起步 {#getting-started}
@@ -63,7 +65,7 @@ module.exports = {
 
 |             Name              |            Type             |                            Default                            | Description                                                                         |
 | :---------------------------: | :-------------------------: | :-----------------------------------------------------------: | :---------------------------------------------------------------------------------- |
-|     **[`limit`](#limit)**     | `{Boolean\|Number\|String}` |                            `true`                             | 指定文件的最大体积（以字节为单位）。                                                    |
+|     **[`limit`](#limit)**     | `{Boolean\|Number\|String}` |                            `undefined`                        | 指定文件的最大体积（以字节为单位）。                                                    |
 |  **[`mimetype`](#mimetype)**  |     `{Boolean\|String}`     | 基于 [mime-types](https://github.com/jshttp/mime-types) 库实现转换 | 设置要转换的文件的 MIME 类型。                                                           |
 |  **[`encoding`](#encoding)**  |     `{Boolean\|String}`     |                           `base64`                            | 指定用于内联文件的编码。                                                               |
 | **[`generator`](#generator)** |        `{Function}`         |           `() => type/subtype;encoding,base64_data`           | 你可以创建自己的自定义实现以对数据进行编码。                                             |

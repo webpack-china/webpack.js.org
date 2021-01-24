@@ -16,6 +16,7 @@ contributors:
   - chenxsan
   - rohrlaf
   - jamesgeorge007
+  - anshumanv
 related:
   - title: webpack's automatic deduplication algorithm example
     url: https://github.com/webpack/webpack/blob/master/examples/many-pages/README.md
@@ -67,7 +68,6 @@ module.exports = {
       minChunks: 1,
       maxAsyncRequests: 30,
       maxInitialRequests: 30,
-      automaticNameDelimiter: '~',
       enforceSizeThreshold: 50000,
       cacheGroups: {
         defaultVendors: {
@@ -146,11 +146,23 @@ Maximum number of parallel requests when on-demand loading.
 
 Maximum number of parallel requests at an entry point.
 
+### `splitChunks.defaultSizeTypes` {#splitchunksdefaultsizetypes}
+
+`[string] = ['javascript', 'unknown']`
+
+Sets the size types which are used when a number is used for sizes.
+
 ### `splitChunks.minChunks` {#splitchunksminchunks}
 
 `number = 1`
 
-Minimum number of chunks that must share a module before splitting.
+The minimum times must a module be shared among chunks before splitting.
+
+### `splitChunks.hidePathInfo`
+
+`boolean`
+
+Prevents exposing path info when creating names for parts splitted by maxSize.
 
 ### `splitChunks.minSize` {#splitchunksminsize}
 
@@ -176,6 +188,15 @@ Size threshold at which splitting is enforced and other restrictions (minRemaini
 `splitChunks.minRemainingSize` option was introduced in webpack 5 to avoid zero sized modules by ensuring that the minimum size of the chunk which remains after splitting is above a limit. Defaults to `0` in ['development' mode](/configuration/mode/#mode-development). For other cases `splitChunks.minRemainingSize` defaults to the value of `splitChunks.minSize` so it doesn't need to be specified manually except for the rare cases where deep control is required.
 
 W> `splitChunks.minRemainingSize` only takes effect when a single chunk is remaining.
+
+
+### `splitChunks.layer` {#splitchunkslayer}
+
+#### `splitChunks.cacheGroups.{cacheGroup}.layer` {#splitchunkscachegroupscachegrouplayer}
+
+`RegExp` `string` `function`
+
+Assign modules to a cache group by module layer.
 
 ### `splitChunks.maxSize` {#splitchunksmaxsize}
 
@@ -258,28 +279,6 @@ Running webpack with following `splitChunks` configuration would also output a c
 
 W> When assigning equal names to different split chunks, all vendor modules are placed into a single shared chunk, though it's not recommend since it can result in more code downloaded.
 
-### `splitChunks.automaticNamePrefix` {#splitchunksautomaticnameprefix}
-
-`string = ''`
-
-Sets the name prefix for created chunks.
-
-```js
-module.exports = {
-  //...
-  optimization: {
-    splitChunks: {
-      automaticNamePrefix: 'general-prefix',
-      cacheGroups: {
-        react: {
-          // ...
-          automaticNamePrefix: 'react-chunks-prefix'
-        }
-      }
-    }
-  }
-};
-```
 
 ### `splitChunks.usedExports` {#splitchunksusedexports}
 

@@ -112,7 +112,7 @@ module.exports = {
 |                名称                 |         类型         |          默认值           | 描述                                      |
 | :---------------------------------: | :------------------: | :-----------------------: | :---------------------------------------- |
 |        [`execute`](#execute)        |     `{Boolean}`      |        `undefined`        | 在 `CSS-in-JS` 中启动 PostCSS Parser 支持 |
-| [`postcssOptions`](#postcssoptions) | `{Object\/Function}` | `Postcss.process的默认值` | 设置 `PostCSS` 选项与插件                 |
+| [`postcssOptions`](#postcssoptions) | `{Object\|Function}` | `Postcss.process的默认值` | 设置 `PostCSS` 选项与插件                 |
 |      [`sourceMap`](#sourcemap)      |     `{Boolean}`      |    `compiler.devtool`     | 开启 / 关闭 source map 的生成             |
 
 ### `execute`
@@ -568,6 +568,37 @@ module.exports = {
           { loader: "style-loader" },
           { loader: "css-loader" },
           { loader: "postcss-loader" },
+          { loader: "sass-loader" },
+        ],
+      },
+    ],
+  },
+};
+```
+
+### `implementation` {#implementation}
+
+类型：`Function`
+
+特殊的 `implementation` 选项决定使用 PostCSS 哪个实现。重载本地安装的 `postcss` 的 `peerDependency` 版本。
+
+**此选项只对下游的工具作者有效，以便于 PostCSS 7 到 PostCSS 8 的过渡。**
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: [
+          { loader: "style-loader" },
+          { loader: "css-loader" },
+          {
+            loader: "postcss-loader",
+            options: { implementation: require("postcss") },
+          },
           { loader: "sass-loader" },
         ],
       },

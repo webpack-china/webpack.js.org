@@ -586,11 +586,11 @@ module.exports = {
 
 ## `output.hotUpdateChunkFilename` {#outputhotupdatechunkfilename}
 
-`string = '[id].[hash].hot-update.js'`
+`string = '[id].[fullhash].hot-update.js'`
 
 自定义热更新 chunk 的文件名。可选的值的详细信息，请查看 [`output.filename`](#outputfilename) 选项。
 
-占位符只能是 `[id]` 和 `[hash]`，默认值是：
+其中值唯一的占位符是 `[id]` 和 `[fullhash]`，其默认为：
 
 __webpack.config.js__
 
@@ -598,7 +598,7 @@ __webpack.config.js__
 module.exports = {
   //...
   output: {
-    hotUpdateChunkFilename: '[id].[hash].hot-update.js'
+    hotUpdateChunkFilename: '[id].[fullhash].hot-update.js'
   }
 };
 ```
@@ -618,9 +618,9 @@ JSONP 函数用于异步加载(async load)热更新(hot-update) chunk。
 
 ## `output.hotUpdateMainFilename` {#outputhotupdatemainfilename}
 
-`string = '[hash].hot-update.json'` `function`
+`string = '[runtime].[fullhash].hot-update.json'` `function`
 
-自定义热更新的主文件名(main filename)。`[hash]` 是唯一可用的占位符。
+自定义热更新的主文件名(main filename)。`[fullhash]` 和 `[runtime]` 均可作为占位符。
 
 T> 通常，你不需要修改 `output.hotUpdateMainFilename`.
 
@@ -675,20 +675,20 @@ module.exports = {
 
 支持以下配置：
 
-`libraryExport: 'default'` - **入口的默认导出**将分配给 library target：
+`libraryExport: 'default'` - __入口的默认导出__将分配给 library target：
 
 ```javascript
 // if your entry has a default export of `MyDefaultModule`
 var MyDefaultModule = _entry_return_.default;
 ```
 
-`libraryExport: 'MyModule'` - 这个**确定的模块**将被分配给 library target：
+`libraryExport: 'MyModule'` - 这个 __确定的模块__ 将被分配给 library target：
 
 ```javascript
 var MyModule = _entry_return_.MyModule;
 ```
 
-`libraryExport: ['MyModule', 'MySubModule']` - 数组将被解析为要分配给 library target 的**模块路径**：
+`libraryExport: ['MyModule', 'MySubModule']` - 数组将被解析为要分配给 library target 的 __模块路径__：
 
 ```javascript
 var MySubModule = _entry_return_.MyModule.MySubModule;
@@ -713,7 +713,7 @@ T> 注意，下面的示例代码中的 `_entry_return_` 是入口起点返回�
 
 ### 暴露为一个变量 {#expose-a-variable}
 
-这些选项将入口起点的返回值（例如，入口起点的任何导出值），在 bundle 包所引入的位置，赋值给 output.library 提供的变量名。
+这些选项将入口起点的返回值（例如，入口起点的任何导出值），在 bundle 包所引入的位置，赋值给 [`output.library`](#outputlibrary) 提供的变量名。
 
 `libraryTarget: 'var'` - （默认值）当 library 加载完成，__入口起点的返回值__将分配给一个变量：
 
@@ -724,9 +724,7 @@ var MyLibrary = _entry_return_;
 MyLibrary.doSomething();
 ```
 
-W> 当使用此选项时，将 `output.library` 设置为空，会因为没有变量导致无法赋值。
-
-`libraryTarget: 'assign'` - 这将产生一个隐含的全局变量，可能会潜在地重新分配到全局中已存在的值（谨慎使用）。.
+`libraryTarget: 'assign'` - 这将产生一个隐含的全局变量，可能会潜在地重新分配到全局中已存在的值（谨慎使用）。
 
 ```javascript
 MyLibrary = _entry_return_;
@@ -734,7 +732,7 @@ MyLibrary = _entry_return_;
 
 注意，如果 `MyLibrary` 在作用域中未在前面代码进行定义，则你的 library 将被设置在全局作用域内。
 
-W> 当使用此选项时，将 `output.library` 设置为空，将产生一个破损的输出 bundle。
+W> 当使用此选项时，将 [`output.library`](#outputlibrary) 设置为空，将产生一个破损的输出 bundle。
 
 
 ### 通过在对象上赋值暴露 {#expose-via-object-assignment}
@@ -787,7 +785,7 @@ require('MyLibrary').doSomething();
 
 ### 模块定义系统 {#module-definition-systems}
 
-这些选项将导致 bundle 带有更完整的模块头部，以确保与各种模块系统的兼容性。根据 `output.libraryTarget` 选项不同，`output.library` 选项将具有不同的含义。
+这些选项将使得 bundle 带有更完整的模块头，以确保与各种模块系统的兼容性。根据 `output.libraryTarget` 选项不同，`output.library` 选项将具有不同的含义。
 
 
 `libraryTarget: 'commonjs2'` - __入口起点的返回值__将分配给 `module.exports` 对象。这个名称也意味着模块用于 CommonJS 环境：
@@ -798,7 +796,7 @@ module.exports = _entry_return_;
 require('MyLibrary').doSomething();
 ```
 
-注意，`output.library` 会被省略，因此对于此特定的 `output.libraryTarget`，无需再设置 `output.library` 。
+注意，`output.library` 不能与 `output.libraryTarget` 一起使用，具体原因请参照[此 issue](https://github.com/webpack/webpack/issues/11800)。
 
 T> 想要弄清楚 CommonJS 和 CommonJS2 之间的区别？虽然它们很相似，但二者之间存在一些微妙的差异，这通常与 webpack 上下文没有关联。（更多详细信息，请[阅读此 issue](https://github.com/webpack/webpack/issues/1114)。）
 
@@ -1034,11 +1032,11 @@ module.exports = {
 
 ## `output.pathinfo` {#outputpathinfo}
 
-`boolean`
+`boolean=true` `string: 'verbose'`
 
-告知 webpack 在 bundle 中引入「所包含模块信息」的相关注释。此选项在 `development` [模式](/concepts/mode/)时的默认值是 `true`，而在 `production` [模式](/configuration/mode/)时的默认值是 `false`。
+告知 webpack 在 bundle 中引入「所包含模块信息」的相关注释。此选项在 `development` [模式](/configuration/mode/)时的默认值为 `true`，而在 `production` [模式](/configuration/mode/)时的默认值为 `false`。当值为 `'verbose'` 时，会显示更多信息，如 export，运行时依赖以及 bailouts。
 
-W> 对于在开发环境(development)下阅读生成代码时，虽然通过这些注释可以提供非常有用的数据信息，但在生产环境(production)下，__不应该__使用。
+W> 对于在开发环境(development)下阅读生成代码时，虽然通过这些注释可以提供有用的数据信息，但在生产环境(production)下，__不应该__使用。
 
 __webpack.config.js__
 

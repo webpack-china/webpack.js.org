@@ -10,11 +10,6 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 module.exports = env => merge(common(env), {
   mode: 'development',
   devtool: 'source-map',
-  cache: {
-    buildDependencies: {
-      config: [__filename],
-    }
-  },
   entry: {
     index: './index.jsx'
   },
@@ -35,10 +30,9 @@ module.exports = env => merge(common(env), {
     })
   ],
   devServer: {
-    contentBase: path.resolve(__dirname, './dist'),
+    static: path.resolve(__dirname, './dist'),
     port: 3000,
     hot: true,
-    inline: true,
     compress: true,
     historyApiFallback: true
   }
