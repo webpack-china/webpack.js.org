@@ -19,15 +19,15 @@ repo: https://github.com/webpack-contrib/url-loader
 
 ## 起步 {#getting-started}
 
-首先，您需要安装 `url-loader`：
+首先，你需要安装 `url-loader`：
 
 ```console
 npm install url-loader --save-dev
 ```
 
 `url-loader` 功能类似于
-[`file-loader`](/loaders/file-loader/), 
-但是在文件大小（单位 byte）低于指定的限制时，可以返回一个 DataURL。
+[`file-loader`](/loaders/file-loader/),
+但是在文件大小（单位为字节）低于指定的限制时，可以返回一个 DataURL。
 
 **index.js**
 
@@ -57,7 +57,7 @@ module.exports = {
 };
 ```
 
-然后通过您的首选方法运行`webpack`。
+然后通过你的首选方法运行 `webpack`。
 
 ## 选项 {#options}
 
@@ -65,8 +65,8 @@ module.exports = {
 | :---------------------------: | :-------------------------: | :-----------------------------------------------------------: | :---------------------------------------------------------------------------------- |
 |     **[`limit`](#limit)**     | `{Boolean\|Number\|String}` |                            `true`                             | 指定文件的最大体积（以字节为单位）。                                                    |
 |  **[`mimetype`](#mimetype)**  |     `{Boolean\|String}`     | 基于 [mime-types](https://github.com/jshttp/mime-types) 库实现转换 | 设置要转换的文件的 MIME 类型。                                                           |
-|  **[`encoding`](#encoding)**  |     `{Boolean\|String}`     |                           `base64`                            | 指定用于内联文件的编码。                                                               | 
-| **[`generator`](#generator)** |        `{Function}`         |           `() => type/subtype;encoding,base64_data`           | 您可以创建自己的自定义实现以对数据进行编码。                                             |
+|  **[`encoding`](#encoding)**  |     `{Boolean\|String}`     |                           `base64`                            | 指定用于内联文件的编码。                                                               |
+| **[`generator`](#generator)** |        `{Function}`         |           `() => type/subtype;encoding,base64_data`           | 你可以创建自己的自定义实现以对数据进行编码。                                             |
 |  **[`fallback`](#fallback)**  |         `{String}`          |                         `file-loader`                         | 指定当目标文件大小超过限制时的替代 loader。                                              |
 |  **[`esModule`](#esmodule)**  |         `{Boolean}`         |                            `true`                             | 使用ES模块语法。                                                                     |
 
@@ -142,8 +142,8 @@ module.exports = {
 
 #### `Boolean` {#boolean}
 
-`true`值允许使用第三方库 [mime-types](https://github.com/jshttp/mime-types) 来获取 mimetype。
-`false` 值则从数据URL中删除 `mediatype` 部分（如果省略，则默认为 `text/plain；charset=US-ASCII`）。
+当值为 `true` 时，允许使用第三方库 [mime-types](https://github.com/jshttp/mime-types) 来获取 mimetype。
+而为 `false` 时，则从数据 URL 中删除 `mediatype` 部分（如果省略，则默认为 `text/plain；charset=US-ASCII`）。
 
 **webpack.config.js**
 
@@ -203,7 +203,7 @@ module.exports = {
 
 #### `Boolean` {#boolean}
 
-如果不想使用任何编码，可以将“encoding”设置为 `false`，如果将其设置为 `true`，则将使用默认编码 `base64`。
+如果不想使用任何编码，可以将 “encoding” 设置为 `false`，如果将其设置为 `true`，则默认使用 `base64`。
 
 **webpack.config.js**
 
@@ -258,7 +258,7 @@ module.exports = {
 类型： `Function`
 默认值：`(mimetype, encoding, content, resourcePath) => mimetype;encoding,base64_content`
 
-您可以使用自定义方案来编码数据。
+你可以使用自定义方案来编码数据。
 
 **webpack.config.js**
 
@@ -272,7 +272,7 @@ module.exports = {
           {
             loader: 'url-loader',
             options: {
-              // `mimetype` 和 `encoding` 参数将从您传入的参数中中获得
+              // `mimetype` 和 `encoding` 参数将从你传入的参数中中获得
               // `resourcePath` 参数是文件的路径。
               generator: (content, mimetype, encoding, resourcePath) => {
                 if (/\.html$/i.test(resourcePath)) {
@@ -321,7 +321,7 @@ module.exports = {
 };
 ```
 
-替代的loader的配置选项和url-loader的配置选项相同。
+当使用降级 loader 时，其配置项与 url-loader 的配置项相同。
 
 例如为替代loader（responsive-loader）设置 `quality` 参数：
 
@@ -353,10 +353,10 @@ module.exports = {
 类型: `Boolean`
 默认值: `true`
 
-默认情况下，`file loader` 生成使用ES modules语法的JS模块。
-在某些情况下，使用ES模块是有益的，比如 [module concatenation](https://webpack.js.org/plugins/module-concatenation-plugin/) 和 [tree shaking](https://webpack.js.org/guides/tree-shanking/)。
+默认情况下，`file-loader` 生成使用ES modules语法的JS模块。
+在某些情况下，使用 ES 模块更为合适，比如在 [module concatenation](https://webpack.js.org/plugins/module-concatenation-plugin/) 和 [tree shaking](https://webpack.js.org/guides/tree-shanking/)。
 
-您可以使用以下命令启用CommonJS模块语法：
+你可以通过以下命令启用 CommonJS 模块语法：
 
 **webpack.config.js**
 
@@ -380,11 +380,11 @@ module.exports = {
 };
 ```
 
-## 实例 {#examples}
+## 示例 {#examples}
 
 ### SVG {#svg}
 
-SVG可以被压缩成更小的体积，尽量避免使用 `base64`。
+SVG 可以被压缩至体积更小，尽量避免使用 `base64`。
 你可以从[这里](https://css-tricks.com/probably-dont-base64-svg/)了解更多信息。
 你可以使用 [mini-svg-data-uri](https://github.com/tigt/mini-svg-data-uri) 来压缩SVG。
 
@@ -412,9 +412,9 @@ module.exports = {
 };
 ```
 
-## 贡献
+## 贡献 {#contributing}
 
-如果您还没有阅读我们的贡献指南，请花一点时间阅读。
+如果你还没有阅读我们的贡献指南，请花一点时间阅读。
 
 [CONTRIBUTING](https://github.com/webpack-contrib/url-loader/blob/master/.github/CONTRIBUTING.md)
 
