@@ -54,7 +54,7 @@ module.exports = {
 
 如果你有多个 webpack 入口，他们都会在已生成 HTML 文件中的 `script` 标签内引入。
 
-如果你在 webpack 的输出中有任何 CSS 资源（例如，使用 [MiniCssExtractPlugin](/plugins/mini-css-extract-plugin/) 提取 CSS），那么这些将会在已生成 HTML 文件 `<head>` 元素中的 `<link>` 标签内引入。
+如果你在 webpack 的输出中有任何 CSS 资源（例如，使用 [MiniCssExtractPlugin](/plugins/mini-css-extract-plugin/) 提取的 CSS），那么这些将会在已生成 HTML 文件 `<head>` 元素中的 `<link>` 标签内引入。
 
 
 ## 配置 {#configuration}
