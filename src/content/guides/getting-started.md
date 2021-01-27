@@ -223,7 +223,7 @@ T> 输出可能会稍有不同，但是只要构建成功，那么你就可以�
 
 ## 使用一个配置文件 {#using-a-configuration}
 
-在 webpack v4 中，可以无须任何配置，然而大多数项目会需要很复杂的设置，这就是为什么 webpack 仍然要支持 [配置文件](/concepts/configuration)。这比在 terminal(终端) 中手动输入大量命令要高效的多，所以让我们创建一个配置文件：
+在 webpack v5 中，可以无须任何配置，然而大多数项目会需要很复杂的设置，这就是为什么 webpack 仍然要支持 [配置文件](/concepts/configuration)。这比在 terminal(终端) 中手动输入大量命令要高效的多，所以让我们创建一个配置文件：
 
 __project__
 
