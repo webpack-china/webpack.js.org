@@ -16,11 +16,11 @@ contributors:
   - jamesgeorge007
 ---
 
-loader 是一个导出函数的 JavaScript 模块。[loader runner](https://github.com/webpack/loader-runner) 会调用这个函数，然后把上一个 loader 产生的结果或者资源文件传入进去。函数的 `this` 上下文将由 webpack 填充，并且 [loader runner](https://github.com/webpack/loader-runner) 有一些有用的方法，可以使 loader 改变为异步调用方式，或者获取 query 参数。
+loader 本质上是导出为函数的 JavaScript 模块。[loader runner](https://github.com/webpack/loader-runner) 会调用此函数，然后将上一个 loader 产生的结果或者资源文件传入进去。函数中的 `this` 作为上下文会被 webpack 填充，并且 [loader runner](https://github.com/webpack/loader-runner) 中包含一些实用的方法，比如可以使 loader 调用方式变为异步，或者获取 query 参数。
 
-第一个 loader 只有一个传入参数：资源文件的内容。compiler 预期得到最后一个 loader 产生的处理结果。这个处理结果应该是 `String` 或者 `Buffer`（能够被转换为 string），代表了模块的 JavaScript 源码。另外，还可以传递一个可选的 SourceMap 结果（格式为 JSON 对象）。
+起始 loader 只有一个入参：资源文件的内容。compiler 预期得到最后一个 loader 产生的处理结果。这个处理结果应该为 `String` 或者 `Buffer`（能够被转换为 string）类型，代表了模块的 JavaScript 源码。另外，还可以传递一个可选的 SourceMap 结果（格式为 JSON 对象）。
 
-如果是单个处理结果，可以在__同步模式__中直接返回。如果有多个处理结果，则必须调用 `this.callback()`。在__异步模式__中，必须调用 `this.async()` 来指示  [loader runner](https://github.com/webpack/loader-runner) 等待异步结果，它会返回 `this.callback()` 回调函数。随后 loader 必须返回 `undefined` 并且调用该回调函数。
+如果是单个处理结果，可以在 __同步模式__ 中直接返回。如果有多个处理结果，则必须调用 `this.callback()`。在 __异步模式__ 中，必须调用 `this.async()` 来告知 [loader runner](https://github.com/webpack/loader-runner) 等待异步结果，它会返回 `this.callback()` 回调函数。随后 loader 必须返回 `undefined` 并且调用该回调函数。
 
 
 ## 示例 {#examples}
@@ -78,7 +78,7 @@ module.exports = function(content, map, meta) {
 };
 ```
 
-T> loader 最初被设计为可以在同步 loader pipelines（如 Node.js ，使用 [enhanced-require](https://github.com/webpack/enhanced-require))，_以及_在异步 pipelines（如 webpack ）中运行。然而在 Node.js 这样的单线程环境下进行耗时长的同步计算不是个好主意，我们建议尽可能地使你的 loader 异步化。但如果计算量很小，同步 loader 也是可以的。
+T> loader 最初被设计为可以在同步 loader pipelines（如 Node.js ，使用 [enhanced-require](https://github.com/webpack/enhanced-require))，_以及_ 在异步 pipelines（如 webpack）中运行。然而，由于同步计算过于耗时，在 Node.js 这样的单线程环境下进行此操作并不是好的方案，我们建议尽可能地使你的 loader 异步化。但如果计算量很小，同步 loader 也是可以的。
 
 
 ### "Raw" Loader {#raw-loader}
@@ -92,7 +92,7 @@ module.exports = function(content) {
   assert(content instanceof Buffer);
   return someSyncOperation(content);
   // 返回值也可以是一个 `Buffer`
-  // 即使不是 raw loader 也没问题
+  // 即使不是 "raw"，loader 也没问题
 };
 module.exports.raw = true;
 ```
@@ -100,9 +100,9 @@ module.exports.raw = true;
 
 ### Pitching Loader {#pitching-loader}
 
-loader __总是__从右到左被调用。有些情况下，loader 只关心 request 后面的__元数据(metadata)__，并且忽略前一个 loader 的结果。在实际（从右到左）执行 loader 之前，会先__从左到右__调用 loader 上的 `pitch` 方法。
+loader __总是__ 从右到左被调用。有些情况下，loader 只关心 request 后面的 __元数据(metadata)__，并且忽略前一个 loader 的结果。在实际（从右到左）执行 loader 之前，会先 __从左到右__ 调用 loader 上的 `pitch` 方法。
 
-T> loader 可以通过 request 添加或者禁用内联前缀，这将影响到 pitch 和 执行的顺序。更多详情查看 [`Rule.enforce`](/configuration/module/#ruleenforce)
+T> loader 可以通过 request 添加或者禁用内联前缀，这将影响到 pitch 和执行的顺序。更多详情请查阅 [`Rule.enforce`](/configuration/module/#ruleenforce)。
 
 对于以下 [`use`](/configuration/module/#ruleuse) 配置：
 
@@ -136,9 +136,9 @@ module.exports = {
 |- a-loader normal execution
 ```
 
-那么，为什么 loader 可以利用 "跳跃(pitching)" 阶段呢？
+那么，为什么 loader 可以利用 "pitching" 阶段呢？
 
-首先，传递给 `pitch` 方法的 `data`，在执行阶段也会暴露在 `this.data` 之下，并且可以用于在循环时，捕获和共享前面的信息。
+首先，传递给 `pitch` 方法的 `data`，在执行阶段也会暴露在 `this.data` 之下，并且可以用于在循环时，捕获并共享前面的信息。
 
 ``` javascript
 module.exports = function(content) {
@@ -206,7 +206,7 @@ __模块所在的目录__ 可以用作解析其他模块成员的上下文。
 
 被解析出来的 request 字符串。
 
-在我们的例子中：`"/abc/loader1.js?xyz!/abc/node_modules/loader2/index.js!/abc/resource.js?rrr"`
+在我们的例子中：`'/abc/loader1.js?xyz!/abc/node_modules/loader2/index.js!/abc/resource.js?rrr'`
 
 
 ### `this.query` {#thisquery}
@@ -219,12 +219,12 @@ __模块所在的目录__ 可以用作解析其他模块成员的上下文。
 
 提取给定的 loader 选项，接受一个可选的 JSON schema 作为参数
 
-T> 从 webpack 5 开始， `this.getOptions` 可以获取到 loader 上下文对象。 它用来替代来自 [loader-utils](https://github.com/webpack/loader-utils#getoptions) 中的 `getOptions` 方法。
+T> 从 webpack 5 开始，`this.getOptions` 可以获取到 loader 上下文对象。它用来替代来自 [loader-utils](https://github.com/webpack/loader-utils#getoptions) 中的 `getOptions` 方法。
 
 
 ### `this.callback` {#thiscallback}
 
-一个可以同步或者异步调用的可以返回多个结果的函数。预期的参数是：
+可以同步或者异步调用的并返回多个结果的函数。预期的参数是：
 
 <!-- eslint-skip -->
 
@@ -362,7 +362,7 @@ Here is a Warning!
  @ ./src/index.js 1:0-25
  ```
 
-T> 请注意，如果 `stats.warnings` 设置为 `false`，警告信息将不会显示。 或者其他一些省略设置被用做 `status`, 例如 `none` 或者 `errors-only`。
+T> 请注意，如果 `stats.warnings` 设置为 `false`，警告信息将不会显示。或者其他一些省略设置被用做 `status`，例如 `none` 或者 `errors-only`。
 
 ### `this.emitError` {#thisemiterror}
 
@@ -379,7 +379,7 @@ Here is an Error!
  @ ./src/index.js 1:0-25
 ```
 
-T> 与抛出错误中断运行不同， 它不会中断当前模块的编译过程。
+T> 与抛出错误中断运行不同，它不会中断当前模块的编译过程。
 
 
 ### `this.loadModule` {#thisloadmodule}
@@ -388,7 +388,7 @@ T> 与抛出错误中断运行不同， 它不会中断当前模块的编译过�
 loadModule(request: string, callback: function(err, source, sourceMap, module))
 ```
 
-解析给定的 request 到一个模块，应用所有配置的 loader ，并且在回调函数中传入生成的 source 、sourceMap 和 模块实例（通常是 [`NormalModule`](https://github.com/webpack/webpack/blob/master/lib/NormalModule.js) 的一个实例）。如果你需要获取其他模块的源代码来生成结果的话，你可以使用这个函数。
+解析给定的 request 到模块，应用所有配置的 loader，并且在回调函数中传入生成的 source、sourceMap 和模块实例（通常是 [`NormalModule`](https://github.com/webpack/webpack/blob/master/lib/NormalModule.js) 的一个实例）。如果你需要获取其他模块的源代码来生成结果的话，你可以使用这个函数。
 
 `this.loadModule` 在 loader 上下文中默认使用 CommonJS 来解析规则。用一个合适的 `dependencyType` 使用 `this.getResolve`。例如，在使用不同的语义之前使用 `'esm'`、`'commonjs'` 或者一个自定义的。
 
@@ -399,10 +399,10 @@ loadModule(request: string, callback: function(err, source, sourceMap, module))
 resolve(context: string, request: string, callback: function(err, result: string))
 ```
 
-像 require 表达式一样解析一个 request 。
+像 require 表达式一样解析一个 request。
 
 - `context` 必须是一个目录的绝对路径。此目录用作解析的起始位置。
-- `request` 是要被解析的 request。 通常情况下，像 `./relative` 的相对请求或者像 `module/path` 的模块请求会被使用，但是像 `/some/path` 也有可能被当做 request。
+- `request` 是要被解析的 request。通常情况下，像 `./relative` 的相对请求或者像 `module/path` 的模块请求会被使用，但是像 `/some/path` 也有可能被当做 request。
 - `callback` 是一个给出解析路径的 Node.js 风格的回调函数。
 
 解析操作的所有依赖项都会自动作为依赖项添加到当前模块中。
@@ -419,7 +419,7 @@ resolve(context: string, request: string): Promise<string>
 
 创建一个类似于 [`this.resolve`](#thisresolve) 的解析函数。
 
-在 webpack [`resolve` options](/configuration/resolve/#resolve) 下的任意配置项都是可能的。他们会被合并进 `resolve` 配置项中。请注意，`"..."` 可以在数组中使用，用于拓展 `resolve` 配置项的值。例如：`{ extensions: [".sass", "..."] }`。
+在 webpack [`resolve` 选项](/configuration/resolve/#resolve) 下的任意配置项都是可能的。他们会被合并进 `resolve` 配置项中。请注意，`"..."` 可以在数组中使用，用于拓展 `resolve` 配置项的值。例如：`{ extensions: [".sass", "..."] }`。
 
 `options.dependencyType` 是一个额外的配置。它允许我们指定依赖类型，用于从 `resolve` 配置项中解析 `byDependency`。
 
@@ -564,7 +564,7 @@ module.exports = function(source) {
 };
 ```
 
-这个模块将获取像下面的 bundle
+这个模块将获取像下面的 bundle：
 
 <!-- eslint-skip -->
 
@@ -593,7 +593,7 @@ Error: This is a Fatal Error!
 
 如下所示，不仅有错误消息，还提供了有关所涉及的 loader 和模块的详细信息：
 
-- 模块路径: `ERROR in ./src/lib.js`
+- 模块路径：`ERROR in ./src/lib.js`
 - request 字符串：`(./src/loader.js!./src/lib.js)`
 - loader 路径：`(from ./src/loader.js)`
 - 调用路径：`@ ./src/index.js 1:0-25`
@@ -605,7 +605,7 @@ T> 所有的报错和警告信息将被记录到 `stats` 当中。详情请查�
 
 ### Inline matchResource {#inline-matchresource}
 
-在webpack v4中引入了一种新的内联请求语法。前缀为 `<match-resource>!=!` 将为此请求设置  `matchResource`。
+在 webpack v4 中引入了一种新的内联请求语法。前缀为 `<match-resource>!=!` 将为此请求设置  `matchResource`。
 
 W> 不建议在应用程序代码中使用此语法。
 内联请求语法仅用于 loader 生成的代码。
@@ -624,7 +624,7 @@ __file.js__
 console.log('yep');
 ```
 
-loader 可以将文件转换为以下文件，并使用 `matchResource` 应用用户指定的CSS处理规则：
+loader 可以将文件转换为以下文件，并使用 `matchResource` 应用用户指定的 CSS 处理规则：
 
 __file.js__ (transformed by loader)
 
