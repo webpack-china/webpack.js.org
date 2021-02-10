@@ -26,7 +26,7 @@ new webpack.SourceMapDevToolPlugin(options);
 - `exclude`（`string` `RegExp` `[string, RegExp]`）：使匹配该值的模块不生成 source map。
 - `filename`（`string`）：定义生成的 SourceMap 的名称（不设置将默认置为 inlined）。
 - `append`（`string`）：在原始资源后追加给定值。通常是 `#sourceMappingURL` 注释。`[url]` 被替换成 source map 文件的 URL。webpack v4.36.0 之后支持 path 参数：`[chunk]`、`[filename]` 和 `[contenthash]`。设置 `append` 为 `false` 会禁止追加。
-- `moduleFilenameTemplate`（`string`）：查看 [`output.devtoolModuleFilenameTemplate`](/configuration/output/#output-devtoolmodulefilenametemplate)。
+- `moduleFilenameTemplate`（`string`）：查看 [`output.devtoolModuleFilenameTemplate`](/configuration/output/#outputdevtoolmodulefilenametemplate)。
 - `fallbackModuleFilenameTemplate`（`string`）：查看上面的链接。
 - `namespace`（`string`）：查看 [`output.devtoolNamespace`](/configuration/output/#outputdevtoolnamespace)。
 - `module = true`（`boolean`）：表示 loader 是否生成 source map。
