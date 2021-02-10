@@ -18,20 +18,20 @@ repo: https://github.com/webpack-contrib/json5-loader
 
 A webpack loader for parsing [json5](https://json5.org/) files into JavaScript objects.
 
-## Getting Started {#getting-started}
+## 快速开始 {#getting-started}
 
-To begin, you'll need to install `json5-loader`:
+首先，你需要安装 `json5-loader`：
 
 ```sh
 $ npm install json5-loader --save-dev
 ```
 
-You can use the loader either:
+你可以通过以下用法使用这个 loader：
 
-- by configuring the `json5-loader` in the `module.rules` object of the webpack configuration, or
-- by directly using the `json5-loader!` prefix to the require statement.
+- 在 webpack 配置中的 `module.rules` 对象中配置 `json5-loader`，
+- 或者直接在 require 语句中使用 `json5-loader!` 前缀。
 
-Suppose we have the following `json5` file:
+假设我们有下面这个 `json5` 文件：
 
 **file.json5**
 
@@ -62,16 +62,16 @@ module.exports = {
 
 |            Name             |    Type     | Default | Description            |
 | :-------------------------: | :---------: | :-----: | :--------------------- |
-| **[`esModule`](#esmodule)** | `{Boolean}` | `true`  | Uses ES modules syntax |
+| **[`esModule`](#esmodule)** | `{Boolean}` | `true`  | 使用 ES modules 语法 |
 
 ### `esModule` {#esmodule}
 
-Type: `Boolean`
-Default: `true`
+类型：`Boolean`
+默认值：`true`
 
-There are some cases in which using ES modules is beneficial, like in the case of [module concatenation](/plugins/module-concatenation-plugin/) and [tree shaking](/guides/tree-shaking/).
+在某些情况下使用 ES modules 是有益的，比如在使用 [module concatenation](/plugins/module-concatenation-plugin/) 和 [tree shaking](/guides/tree-shaking/) 时。
 
-You can enable a ES module syntax using:
+你可以使用以下配置启用 ES module 语法：
 
 **webpack.config.js**
 
@@ -92,9 +92,9 @@ module.exports = {
 };
 ```
 
-## Examples {#examples}
+## 示例 {#examples}
 
-### Usage with require statement loader prefix {#usage-with-require-statement-loader-prefix}
+### require 语句使用 loader 前缀的用法 {#usage-with-require-statement-loader-prefix}
 
 **file.json5**
 
@@ -113,13 +113,13 @@ import appConfig from 'json5-loader!./file.json5';
 console.log(appConfig.env); // 'production'
 ```
 
-Don't forget to polyfill require if you want to use it in Node.js. See the webpack documentation.
+如果需要在 Node.js 中使用，不要忘记兼容(polyfill) require。更多参考 webpack 文档。
 
-## Contributing {#contributing}
+## 贡献 {#contributing}
 
-Please take a moment to read our contributing guidelines if you haven't yet done so.
+如果你还没有看的话请花一点时间阅读我们的贡献指南。
 
-[CONTRIBUTING](https://github.com/webpack-contrib/json5-loader/blob/master/.github/CONTRIBUTING.md)
+[贡献指南](https://github.com/webpack-contrib/json5-loader/blob/master/.github/CONTRIBUTING.md)
 
 ## License {#license}
 
