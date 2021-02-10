@@ -16,7 +16,7 @@ repo: https://github.com/webpack-contrib/json5-loader
 
 
 
-A webpack loader for parsing [json5](https://json5.org/) files into JavaScript objects.
+一个将 [json5](https://json5.org/) 解析为 JavaScript 对象的 webpack loader。
 
 ## 快速开始 {#getting-started}
 
