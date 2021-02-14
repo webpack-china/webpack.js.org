@@ -105,7 +105,7 @@ module.exports = {
 默认值：`undefined`
 
 `flags` 参数是一个允许指定 dlopen 行为的整数。
-详情查看 [`process.dlopen`][https://nodejs.org/api/process.html#process_process_dlopen_module_filename_flags] 文档。
+请查阅 [`process.dlopen`][https://nodejs.org/api/process.html#process_process_dlopen_module_filename_flags] 文档了解更多。
 
 **index.js**
 
@@ -203,7 +203,7 @@ module.exports = {
 
 ## 贡献 {#contributing}
 
-如果你还没有看的话请花一点时间阅读我们的贡献指南。
+如果你还未阅读贡献指南，请抽时间进行阅读。
 
 [贡献指南](https://github.com/webpack-contrib/node-loader/blob/master/.github/CONTRIBUTING.md)
 
