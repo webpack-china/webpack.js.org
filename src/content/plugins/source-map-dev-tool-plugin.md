@@ -11,7 +11,7 @@ related:
     url: https://survivejs.com/webpack/building/source-maps/#-sourcemapdevtoolplugin-and-evalsourcemapdevtoolplugin-
 ---
 
-本插件实现了对 source map 生成内容进行更细粒度的控制。它也可以通过 [`devtool`](/configuration/devtool/) 配置选项的某些设置自动启用。
+本插件实现了对 source map 生成内容进行更细粒度的控制。它也可以根据 [`devtool`](/configuration/devtool/) 配置选项的某些设置来自动启用。
 
 ```js
 new webpack.SourceMapDevToolPlugin(options);
