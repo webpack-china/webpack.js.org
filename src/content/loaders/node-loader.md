@@ -16,9 +16,9 @@ repo: https://github.com/webpack-contrib/node-loader
 
 
 
-一个 [Node.js add-ons](https://nodejs.org/dist/latest/docs/api/addons.html) loader。
+处理 [Node.js 插件（add-ons）](https://nodejs.org/dist/latest/docs/api/addons.html) 的 loader。
 
-允许使用 `.node` 拓展名连接原生 node module。
+允许使用 `.node` 拓展名与原生 node module 相关联。
 
 > ⚠ `node-loader` 只对 `node`/`electron-main`/`electron-main` 生效。
 
@@ -30,7 +30,7 @@ repo: https://github.com/webpack-contrib/node-loader
 $ npm install node-loader --save-dev
 ```
 
-设置 `target` 配置项为 `node`/`electron-main`/`electron-main`，并且不要模拟 `__dirname` 全局变量。
+设置 `target` 配置项为 `node`/`electron-main`/`electron-main`，并且需禁用 `__dirname` 全局变量。
 
 **webpack.config.js**
 
