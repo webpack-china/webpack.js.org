@@ -309,7 +309,7 @@ module.exports = {
 };
 ```
 
-它将 **只** 暴露 `map`、`filter` 和 `find` 方法（在 `myNameForFind` 名下） 给全局对象。
+它将 **只** 暴露 `map`、`filter` 和 `find` 方法（名称为 `myNameForFind`） 给全局对象。
 
 在浏览器中，这些方法可以在 `windows._.map(..args)`、`windows._.filter(...args)` 和 `windows._.myNameForFind(...args)` 下面被使用。
 
