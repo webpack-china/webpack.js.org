@@ -16,7 +16,7 @@ repo: https://github.com/webpack-contrib/expose-loader
 
 
 
-`expose-loader` 允许 expose 一个模块（整体或者部分）给全局对象（`self`, `window` 和 `global`）。
+`expose-loader` 允许 expose 一个模块（整体或者部分）给全局对象（`self`、`window` 和 `global`）。
 
 想要获取有关兼容性的进一步提示，请查看官方文档中的 [Shimming](/guides/shimming/)。
 
@@ -30,9 +30,9 @@ $ npm install expose-loader --save-dev
 
 然后你可以用两种方法来用 `expose-loader`。
 
-### 内联 {#inline}
+## 内联 {#inline}
 
-可以使用 `|` 或者 `%20`（空格）分隔 expose 中的 `globalName`， `moduleLocalName` 和 `override`。
+可以使用 `|` 或者 `%20`（空格）分隔 expose 中的 `globalName`、`moduleLocalName` 和 `override`。
 可以在[这里](#syntax)获取文档和语法实例。
 
 > ⚠ `%20` 是查询字符串中的空格，因为你不能在 URL 中使用空格
@@ -40,13 +40,13 @@ $ npm install expose-loader --save-dev
 ```js
 import $ from "expose-loader?exposes=$,jQuery!jquery";
 //
-// 以 `$` 和 `jQuery` 的名称把 `jquery` 添加到全局对象中
+// 将 `jquery` 添加到名称为 `$` 和 `jQuery` 的全局对象中
 ```
 
 ```js
 import { concat } from "expose-loader?exposes=_.concat!lodash/concat";
 //
-// 以 `_.concat` 的名称把 `lodash/concat` 添加到全局对象中
+// 将 `lodash/concat` 添加到名称为 `_.concat` 的全局对象中
 ```
 
 ```js
@@ -55,10 +55,10 @@ import {
   reduce,
 } from "expose-loader?exposes=_.map|map,_.reduce|reduce!underscore";
 //
-// 以 `_.map` 和 `_.reduce` 的名称把 `underscore` 中的 `map` 和 `reduce` 方法分别添加到全局对象中
+// 将 `underscore` 中的 `map` 和 `reduce` 方法分别添加到名称为 `_.map` 和 `_.reduce` 的全局对象中
 ```
 
-### 使用配置文件 {#using-configuration}
+## 使用配置文件 {#using-configuration}
 
 **src/index.js**
 
@@ -111,14 +111,14 @@ module.exports = {
 
 |           Name            |                   Type                    |   Default   | Description     |
 | :-----------------------: | :---------------------------------------: | :---------: | :-------------- |
-| **[`exposes`](#exposes)** | `{String\|Object\|Array<String\|Object>}` | `undefined` | 生成导出的格式 |
+| **[`exposes`](#exposes)** | `{String\|Object\|Array<String\|Object>}` | `undefined` | List of exposes |
 
 ### `exposes` {#exposes}
 
 Type: `String|Object|Array<String|Object>`
 Default: `undefined`
 
-导出的列表。
+List of exposes.
 
 #### `String` {#string}
 
@@ -126,7 +126,7 @@ Default: `undefined`
 
 ##### `Syntax` {#syntax}
 
-可以使用 `|` 或者 `%20`（空格）分隔 expose 中的 `globalName`, `moduleLocalName` 和 `override`。
+可以使用 `|` 或者 `%20`（空格）分隔 expose 中的 `globalName`、`moduleLocalName` 和 `override`。
 
 字符串语法 - `[[globalName] [moduleLocalName] [override]]` 或者 `[[globalName]|[moduleLocalName]|[override]]`，含义如下：
 
@@ -309,9 +309,9 @@ module.exports = {
 };
 ```
 
-它将 **只** 暴露 `map`, `filter` 和 `find` 方法（在 `myNameForFind` 名下） 给全局对象。
+它将 **只** 暴露 `map`、`filter` 和 `find` 方法（在 `myNameForFind` 名下） 给全局对象。
 
-在浏览器中，这些方法可以在 `windows._.map(..args)`, `windows._.filter(...args)` 和 `windows._.myNameForFind(...args)` 下面被使用。
+在浏览器中，这些方法可以在 `windows._.map(..args)`、`windows._.filter(...args)` 和 `windows._.myNameForFind(...args)` 下面被使用。
 
 ## 贡献 {#contributing}
 
