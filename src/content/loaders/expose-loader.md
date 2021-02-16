@@ -16,7 +16,7 @@ repo: https://github.com/webpack-contrib/expose-loader
 
 
 
-`expose-loader` 允许 expose 一个模块（整体或者部分）给全局对象（`self`、`window` 和 `global`）。
+`expose-loader` 允许暴露一个模块（整体或者部分）给全局对象（`self`、`window` 和 `global`）。
 
 想要获取有关兼容性的进一步提示，请查看官方文档中的 [Shimming](/guides/shimming/)。
 
@@ -40,13 +40,13 @@ $ npm install expose-loader --save-dev
 ```js
 import $ from "expose-loader?exposes=$,jQuery!jquery";
 //
-// 将 `jquery` 添加到名称为 `$` 和 `jQuery` 的全局对象中
+// 将 `jquery` 添加到全局对象中，其名称为 `$` 和 `jQuery`
 ```
 
 ```js
 import { concat } from "expose-loader?exposes=_.concat!lodash/concat";
 //
-// 将 `lodash/concat` 添加到名称为 `_.concat` 的全局对象中
+// 将 `lodash/concat` 全局对象中，其名称为　`_.concat`
 ```
 
 ```js
@@ -55,7 +55,7 @@ import {
   reduce,
 } from "expose-loader?exposes=_.map|map,_.reduce|reduce!underscore";
 //
-// 将 `underscore` 中的 `map` 和 `reduce` 方法分别添加到名称为 `_.map` 和 `_.reduce` 的全局对象中
+// 将 `underscore` 中的 `map` 和 `reduce` 方法分别添加到全局对象中，其名称为 `_.map` 和 `_.reduce`
 ```
 
 ## 使用配置文件 {#using-configuration}
@@ -115,8 +115,8 @@ module.exports = {
 
 ### `exposes` {#exposes}
 
-Type: `String|Object|Array<String|Object>`
-Default: `undefined`
+类型：`String|Object|Array<String|Object>`
+默认值：`undefined`
 
 List of exposes.
 
@@ -167,8 +167,8 @@ module.exports = {
 
 ##### `globalName` {#globalname}
 
-Type: `String|Array<String>`
-Default: `undefined`
+类型：`String|Array<String>`
+默认值：`undefined`
 
 全局对象中的名字。（**必填项**）。
 
@@ -202,8 +202,8 @@ module.exports = {
 
 ##### `moduleLocalName` {#modulelocalname}
 
-Type: `String`
-Default: `undefined`
+类型：`String`
+默认值：`undefined`
 
 模块中的方法／变量／等的名称（该模块必须导出它）。
 如果指定了 `moduleLocalName`，它只暴露 `moduleLocalName` 的值。
@@ -237,8 +237,8 @@ module.exports = {
 
 ##### `override` {#override}
 
-Type: `Boolean`
-Default: `false`
+类型：`Boolean`
+默认值：`false`
 
 默认情况下，loader 不会覆盖全局对象中的现有值，因为它是不安全的。
 在 `development` 模式下，如果值已经出现在全局对象中则抛出一个错误。
