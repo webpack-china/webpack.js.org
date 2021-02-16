@@ -46,7 +46,7 @@ import $ from "expose-loader?exposes=$,jQuery!jquery";
 ```js
 import { concat } from "expose-loader?exposes=_.concat!lodash/concat";
 //
-// 将 `lodash/concat` 全局对象中，其名称为　`_.concat`
+// 将 `lodash/concat` 添加到全局对象中，其名称为 `_.concat`
 ```
 
 ```js
@@ -122,7 +122,7 @@ List of exposes.
 
 #### `String` {#string}
 
-允许用一个 string 来描述一个 expose。
+允许用一个 string 来描述 expose。
 
 ##### `Syntax` {#syntax}
 
@@ -134,7 +134,7 @@ List of exposes.
 - `moduleLocalName` - 模块的方法／变量／等的名称（该模块必须导出它）（**可以省略**）
 - `override` - 允许覆盖在全局对象中存在的值（**可以省略**）
 
-如果 `moduleLocalName` 没有明确，它将整个模块暴露给全局对象，否则它只暴露 `moduleLocalName` 的值。
+如果 `moduleLocalName` 没有指定，它将整个模块暴露给全局对象，否则它只暴露 `moduleLocalName` 的值。
 
 **src/index.js**
 
