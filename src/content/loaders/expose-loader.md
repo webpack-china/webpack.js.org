@@ -315,7 +315,7 @@ module.exports = {
 
 ## 贡献 {#contributing}
 
-如果您还没有阅读，请花一点时间阅读我们的贡献指南。
+如果你还没有阅读，请花一点时间阅读我们的贡献指南。
 
 [CONTRIBUTING](https://github.com/webpack-contrib/expose-loader/blob/master/.github/CONTRIBUTING.md)
 
