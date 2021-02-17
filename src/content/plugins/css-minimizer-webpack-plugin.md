@@ -65,8 +65,7 @@ module.exports = {
 
 ### `test` {#test}
 
-- 类型：`String|RegExp|Array<String|RegExp>`
-- 默认值：`/\.css(\?.*)?$/i`
+类型：`String|RegExp|Array<String|RegExp>` 默认值：`/\.css(\?.*)?$/i`
 
 用来匹配文件。
 
@@ -85,8 +84,8 @@ module.exports = {
 
 ### `include` {#include}
 
-- 类型：`String|RegExp|Array<String|RegExp>`
-- 默认值：`undefined`
+类型：`String|RegExp|Array<String|RegExp>`
+默认值：`undefined`
 
 要包含的文件。
 
@@ -107,8 +106,8 @@ module.exports = {
 
 ### `exclude` {#exclude}
 
-- 类型：`String|RegExp|Array<String|RegExp>`
-- 默认值：`undefined`
+类型：`String|RegExp|Array<String|RegExp>`
+默认值：`undefined`
 
 要排除的文件。
 
@@ -131,13 +130,13 @@ module.exports = {
 
 > ⚠ 在 webpack 5 中已被忽略！请使用 https://webpack.js.org/configuration/other-options/#cache。
 
-- 类型：`Boolean|String`
-- 默认值：`true`
+类型：`Boolean|String`
+默认值：`true`
 
 启用文件缓存。
 缓存目录的默认路径：`node_modules/.cache/css-minimizer-webpack-plugin`。
 
-> ℹ️ 如果使用自己的 `minify` 函数，为确保缓存无效请先正确阅读 `minify` 部分。
+> ℹ️ 如果使用自己的 `minify` 函数，为确保缓存无效请先阅读 `minify` 部分。
 
 #### `Boolean` {#boolean}
 
@@ -181,8 +180,8 @@ module.exports = {
 
 > ⚠ 在 webpack 5 中已被忽略！请使用 https://webpack.js.org/configuration/other-options/#cache。
 
-- 类型：`Function<(defaultCacheKeys, file) -> Object>`
-- 默认值：`defaultCacheKeys => defaultCacheKeys`
+类型：`Function<(defaultCacheKeys, file) -> Object>`
+默认值：`defaultCacheKeys => defaultCacheKeys`
 
 允许覆盖默认的缓存键。
 
@@ -220,8 +219,8 @@ module.exports = {
 
 ### `parallel` {#parallel}
 
-- 类型：`Boolean|Number`
-- 默认值：`true`
+类型：`Boolean|Number`
+默认值：`true`
 
 使用多进程并发执行，提升构建速度。
 运行时默认的并发数：`os.cpus().length - 1`。
@@ -268,8 +267,8 @@ module.exports = {
 
 ### `sourceMap` {#sourcemap}
 
-- 类型：`Boolean|Object`
-- 默认值：`false` (关于 `devtool`  和 `SourceMapDevToolPlugin` 插件的详细信息请参见下文)
+类型：`Boolean|Object`
+默认值：`false` (关于 `devtool`  和 `SourceMapDevToolPlugin` 插件的详细信息请参见下文)
 
 启用（配置）source map 支持。使用 [PostCss SourceMap 选项](https://github.com/postcss/postcss-loader#sourcemap)。
 启用时的默认配置：`{ inline: false }`。
@@ -302,8 +301,8 @@ module.exports = {
 
 ### `minify` {#minify}
 
-- 类型：`Function`
-- 默认值：`undefined`
+类型：`Function`
+默认值：`undefined`
 
 允许覆盖默认的 minify 函数。
 默认情况下，插件使用 [cssnano](https://github.com/cssnano/cssnano) 包。
@@ -358,8 +357,8 @@ module.exports = {
 
 ### `minimizerOptions` {#minimizeroptions}
 
-- 类型：`Object`
-- 默认值：`{ preset: 'default' }`
+类型：`Object`
+默认值：`{ preset: 'default' }`
 
 Cssnano 优化 [选项](https://cssnano.co/docs/optimisations).
 
@@ -385,11 +384,11 @@ module.exports = {
 
 ### `warningsFilter` {#warningsfilter}
 
-- 类型：`Function<(warning, file, source) -> Boolean>`
-- 默认值：`() => true`
+类型：`Function<(warning, file, source) -> Boolean>`
+默认值：`() => true`
 
 允许过滤 css-minimizer warnings（默认使用 [cssnano](https://github.com/cssnano/cssnano)）。
-返回 `true`将保留 warning，否则返回假值（`false`/`null`/`undefined`）。
+返回 `true` 将保留 warning，否则返回假值（`false`/`null`/`undefined`）。
 
 > ⚠️ 如果没有使用 source maps，`source` 参数将包含 `undefined`。
 
