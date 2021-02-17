@@ -57,7 +57,7 @@ module.exports = {
 ```
 
 这将仅在生产环境开启 CSS 优化。
-如果还想在开发环境下运行它，请将 `optimization.minimize` 设置为 `true`。
+如果还想在开发环境下启用 CSS 优化，请将 `optimization.minimize` 设置为 `true`。
 
 然后通过你喜欢的方式运行 `webpack`。
 
@@ -65,7 +65,7 @@ module.exports = {
 
 ### `test` {#test}
 
-类型：`String|RegExp|Array<String|RegExp>` 默认值：`/\.css(\?.*)?$/i`
+类型：`String|RegExp|Array<String|RegExp>` - 默认值：`/\.css(\?.*)?$/i`
 
 用来匹配文件。
 
@@ -128,7 +128,7 @@ module.exports = {
 
 ### `cache` {#cache}
 
-> ⚠ 在 webpack 5 中已被忽略！请使用 https://webpack.js.org/configuration/other-options/#cache。
+> ⚠ 在 webpack 5 中已被忽略！请使用 https://webpack.docschina.org/configuration/other-options/#cache。
 
 类型：`Boolean|String`
 默认值：`true`
@@ -136,7 +136,7 @@ module.exports = {
 启用文件缓存。
 缓存目录的默认路径：`node_modules/.cache/css-minimizer-webpack-plugin`。
 
-> ℹ️ 如果使用自己的 `minify` 函数，为确保缓存无效请先阅读 `minify` 部分。
+> ℹ️ 如果使用自己的 `minify` 函数，为缓存正确无效请先阅读 `minify` 部分。
 
 #### `Boolean` {#boolean}
 
@@ -178,7 +178,7 @@ module.exports = {
 
 ### `cacheKeys` {#cachekeys}
 
-> ⚠ 在 webpack 5 中已被忽略！请使用 https://webpack.js.org/configuration/other-options/#cache。
+> ⚠ 在 webpack 5 中已被忽略！请使用 https://webpack.docschina.org/configuration/other-options/#cache。
 
 类型：`Function<(defaultCacheKeys, file) -> Object>`
 默认值：`defaultCacheKeys => defaultCacheKeys`
@@ -268,7 +268,7 @@ module.exports = {
 ### `sourceMap` {#sourcemap}
 
 类型：`Boolean|Object`
-默认值：`false` (关于 `devtool`  和 `SourceMapDevToolPlugin` 插件的详细信息请参见下文)
+默认值：`false`（关于 `devtool`  和 `SourceMapDevToolPlugin` 插件的详细信息请参见下文）
 
 启用（配置）source map 支持。使用 [PostCss SourceMap 选项](https://github.com/postcss/postcss-loader#sourcemap)。
 启用时的默认配置：`{ inline: false }`。
