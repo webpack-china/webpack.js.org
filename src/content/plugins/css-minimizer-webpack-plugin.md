@@ -48,7 +48,7 @@ module.exports = {
   optimization: {
     minimize: true,
     minimizer: [
-      // 在 webpack@5 中，你可以使用 `...` 语法来扩展至现有的 minimizer（即 `terser-webpack-plugin`），而无需注释下一行
+      // 在 webpack@5 中，你可以使用 `...` 语法来扩展现有的 minimizer（即 `terser-webpack-plugin`），将下一行取消注释
       // `...`,
       new CssMinimizerPlugin(),
     ],
@@ -453,9 +453,9 @@ module.exports = {
 };
 ```
 
-### 删除所有注释 {#remove-all-comments}
+### 移除所有注释 {#remove-all-comments}
 
-删除所有注释（包括以 `/*!` 开头的注释）。
+移除所有注释（包括以 `/*!` 开头的注释）。
 
 ```js
 module.exports = {
