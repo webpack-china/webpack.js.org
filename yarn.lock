@@ -1734,10 +1734,10 @@
   resolved "https://registry.yarnpkg.com/@octokit/openapi-types/-/openapi-types-3.2.0.tgz#d62d0ff7147dbf4d218616b2484ee2a5d023055d"
   integrity sha512-X7yW/fpzF3uTAE+LbPD3HEeeU+/49o0V4kNA/yv8jQ3BDpFayv/osTOhY1y1mLXljW2bOJcOCSGZo4jFKPJ6Vw==
 
-"@octokit/openapi-types@^5.1.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@octokit/openapi-types/-/openapi-types-5.1.0.tgz#661fd03c7d55fbcb0a0937d3353d87dea012f52c"
-  integrity sha512-bodZvSYgycbUuuKrC/anCBUExvaSSWzMMFz0xl7pcJujxnmGxvqvcFHktjx1ZOSyeNKLfYF0QCgibaHUGsZTng==
+"@octokit/openapi-types@^5.2.2":
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/@octokit/openapi-types/-/openapi-types-5.2.2.tgz#1590c118a131031610faffd4222ae54915e2b82d"
+  integrity sha512-b3nHy/0uufJJsaZERwZM0syLRO6gfr6vvBPLewQxBKzzbhGDx1ygTyoELMNADD7mIPPzGMqbfdCeJTSeZueZwA==
 
 "@octokit/plugin-paginate-rest@^2.6.2":
   version "2.6.2"
@@ -1751,12 +1751,12 @@
   resolved "https://registry.yarnpkg.com/@octokit/plugin-request-log/-/plugin-request-log-1.0.2.tgz#394d59ec734cd2f122431fbaf05099861ece3c44"
   integrity sha512-oTJSNAmBqyDR41uSMunLQKMX0jmEXbwD1fpz8FG27lScV3RhtGfBa1/BBLym+PxcC16IBlF7KH9vP1BUYxA+Eg==
 
-"@octokit/plugin-rest-endpoint-methods@4.12.2":
-  version "4.12.2"
-  resolved "https://registry.yarnpkg.com/@octokit/plugin-rest-endpoint-methods/-/plugin-rest-endpoint-methods-4.12.2.tgz#d2bd0b794d6c11a13113db6199baf44a39b06f50"
-  integrity sha512-5+MmGusB7wPw7OholtcGaMyjfrsFSpFqtJW8VsrbfU/TuaiQepY4wgVkS7P3TAObX257jrTbbGo/sJLcoGf16g==
+"@octokit/plugin-rest-endpoint-methods@4.13.2":
+  version "4.13.2"
+  resolved "https://registry.yarnpkg.com/@octokit/plugin-rest-endpoint-methods/-/plugin-rest-endpoint-methods-4.13.2.tgz#4e1fa30742a7bb1f0fe99e2f8e2b21f7aa8b7eb5"
+  integrity sha512-pnn0lGE05nqZ+EZuZgJBffJ4QRAlrlvg3LBFjCKHqUUWCI3PMqZ8kPJOxFj0R3B3D5hoGambtEIpCnaRD6nRJw==
   dependencies:
-    "@octokit/types" "^6.10.1"
+    "@octokit/types" "^6.11.2"
     deprecation "^2.3.1"
 
 "@octokit/request-error@^2.0.0":
@@ -1782,15 +1782,15 @@
     once "^1.4.0"
     universal-user-agent "^6.0.0"
 
-"@octokit/rest@^18.2.1":
-  version "18.2.1"
-  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-18.2.1.tgz#04835fe9ab0d90ca2a93898cde2aa944c78c70bc"
-  integrity sha512-DdQ1vps41JSyB2axyL1mBwJiXAPibgugIQPOmt0mL/yhwheQ6iuq2aKiJWgGWa9ldMfe3v9gIFYlrFgxQ5ThGQ==
+"@octokit/rest@^18.3.2":
+  version "18.3.2"
+  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-18.3.2.tgz#dae61ff8c70e3f968e182919f36f1338163c8ea8"
+  integrity sha512-TSTI47/jLqdq8qvc/a/P/VApBal7QHeISPZ8a1v7ma8NN/YdU5HRTSCb15+IvzUeuM7Iagp0aG+ypvQXJgmgQw==
   dependencies:
     "@octokit/core" "^3.2.3"
     "@octokit/plugin-paginate-rest" "^2.6.2"
     "@octokit/plugin-request-log" "^1.0.2"
-    "@octokit/plugin-rest-endpoint-methods" "4.12.2"
+    "@octokit/plugin-rest-endpoint-methods" "4.13.2"
 
 "@octokit/types@^6.0.0", "@octokit/types@^6.0.1", "@octokit/types@^6.0.3":
   version "6.5.0"
@@ -1800,12 +1800,12 @@
     "@octokit/openapi-types" "^3.2.0"
     "@types/node" ">= 8"
 
-"@octokit/types@^6.10.1":
-  version "6.10.1"
-  resolved "https://registry.yarnpkg.com/@octokit/types/-/types-6.10.1.tgz#5955dc0cf344bb82a46283a0c332651f5dd9f1ad"
-  integrity sha512-hgNC5jxKG8/RlqxU/6GThkGrvFpz25+cPzjQjyiXTNBvhyltn2Z4GhFY25+kbtXwZ4Co4zM0goW5jak1KLp1ug==
+"@octokit/types@^6.11.2":
+  version "6.11.2"
+  resolved "https://registry.yarnpkg.com/@octokit/types/-/types-6.11.2.tgz#43973dc29cdf59bf9d5f3ab0d16275c4b4a6eb8d"
+  integrity sha512-EKQRFZU/oOfUlqk9ntLIE5UO/bcOx8exFpdXGBciJP90f05me3mza0sacIpqVqmiIQP3nJsBjnZHMmtijE5XwQ==
   dependencies:
-    "@octokit/openapi-types" "^5.1.0"
+    "@octokit/openapi-types" "^5.2.2"
 
 "@pmmmwh/react-refresh-webpack-plugin@^0.4.2":
   version "0.4.3"
@@ -8410,7 +8410,7 @@ lodash.uniq@4.5.0, lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
-lodash@^4.17.14, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21:
+lodash@^4.0.0, lodash@^4.17.14, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
