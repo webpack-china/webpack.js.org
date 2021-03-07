@@ -676,7 +676,7 @@ https://cdn.example.com/directory/image.png?width=300&height=300
 
 ### 动态公共路径取决于运行时的环境变量 {#dynamic-public-path-depending-on-environment-variable-at-run-time}
 
-应用程序可能想要根据环境变量配置不同的 CDN 地址，而这个环境变量仅在运行应用程序时可用。这可能是一个优点，因为应用程序只需要一个构建，根据部署环境的环境变量而产生不同的构建行为。由于 file-loader 是在编译应用程序时应用的，而不是在运行应用程序时应用的，因此环境变量不能在文件加载器配置中使用。解决这个问题的一种方法是在应用程序的入口根据环境变量将 `__webpack_public_path__` 设置为所需的 CDN 地址。`postTransformPublicPath` 配置项可以根据像 `__webpack_public_path__` 一样的变量来配置自定义路径。
+应用程序可能想要根据环境变量配置不同的 CDN 地址，而这个环境变量仅在运行应用程序时可用。这可能是一个优点，因为应用程序只需要一个构建，根据部署环境的环境变量而产生不同的构建行为。由于 file-loader 是在编译应用程序时应用的，而不是在运行应用程序时应用的，因此环境变量不能在 file-loader 配置中使用。解决这个问题的一种方法是在应用程序的入口根据环境变量将 `__webpack_public_path__` 设置为所需的 CDN 地址。`postTransformPublicPath` 配置项可以根据像 `__webpack_public_path__` 一样的变量来配置自定义路径。
 
 **main.js**
 
