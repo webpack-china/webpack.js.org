@@ -6,22 +6,22 @@ repo: https://github.com/webpack-contrib/istanbul-instrumenter-loader
 ---
 
 
-Instrument JS files with [istanbul-lib-instrument](https://github.com/istanbuljs/istanbuljs/tree/master/packages/istanbul-lib-instrument) for subsequent code coverage reporting
+使用 [istanbul-lib-instrument](https://github.com/istanbuljs/istanbuljs/tree/master/packages/istanbul-lib-instrument) 来测试 `JS` 文件，以进行后续代码覆盖率报告
 
-## Install {#install}
+## 安装 {#install}
 
 ```bash
 npm i -D istanbul-instrumenter-loader
 ```
 
-## <a href="https://webpack.js.org/concepts/loaders">Usage</a> {#a-hrefhttpswebpackjsorgconceptsloadersusagea}
+## <a href="https://webpack.js.org/concepts/loaders">用法</a> {#a-hrefhttpswebpackjsorgconceptsloadersusagea}
 
-### `References` {#references}
+### `参考` {#references}
 
 * [karma-webpack](https://github.com/webpack/karma-webpack)
 * [karma-coverage-istanbul-reporter](https://github.com/mattlewis92/karma-coverage-istanbul-reporter)
 
-### `Structure` {#structure}
+### `结构` {#structure}
 
 ```
 ├─ src
@@ -37,7 +37,7 @@ npm i -D istanbul-instrumenter-loader
 | | | | |– index.js
 ```
 
-To create a code coverage report for all components (even for those for which you have no tests yet) you have to require all the 1) sources and 2) tests. Something like it's described in ["alternative usage" of karma-webpack](https://github.com/webpack/karma-webpack#alternative-usage)
+为生成所有组件（包括您没写测试的那些）的代码覆盖率报告，你需要 require 所有业务和测试的代码。相关内容在 [karma-webpack 其它用法](https://github.com/webpack/karma-webpack#alternative-usage) 有涉及。 
 
 **test/index.js**
 ```js
@@ -52,7 +52,7 @@ const components = require.context('../src/components/', true, /index\.js$/);
 components.keys().forEach(components);
 ```
 
-> ℹ️  This file will be the only `entry` point for `karma`
+> ℹ️   以下为  `karma`  的唯一入口起点文件 
 
 **karma.conf.js**
 ```js
@@ -87,9 +87,9 @@ config.set({
 });
 ```
 
-### with `Babel` {#with-babel}
+### 使用 `Babel` {#with-babel}
 
-You must run the instrumentation as a post step
+您必须将该检测作为后续步骤运行
 
 **webpack.config.js**
 ```js
@@ -104,20 +104,20 @@ You must run the instrumentation as a post step
 }
 ```
 
-## <a href="https://github.com/istanbuljs/istanbuljs/blob/master/packages/istanbul-lib-instrument/api.md#instrumenter">Options</a> {#a-hrefhttpsgithubcomistanbuljsistanbuljsblobmasterpackagesistanbul-lib-instrumentapimdinstrumenteroptionsa}
+## <a href="https://github.com/istanbuljs/istanbuljs/blob/master/packages/istanbul-lib-instrument/api.md#instrumenter">选项</a> {#a-hrefhttpsgithubcomistanbuljsistanbuljsblobmasterpackagesistanbul-lib-instrumentapimdinstrumenteroptionsa}
 
-The loader supports all options supported by `istanbul-lib-instrument`
+ 此 loader 支持  `istanbul-lib-instrument`  的所有配置选项 
 
 |Name|Type|Default|Description|
 |:--:|:--:|:-----:|:----------|
-|**`debug`**|`{Boolean}`|`false`|Turn on debugging mode|
-|**`compact`**|`{Boolean}`|`true`|Generate compact code|
-|**`autoWrap`**|`{Boolean}`|`false`|Set to `true` to allow return statements outside of functions|
-|**`esModules`**|`{Boolean}`|`false`|Set to `true` to instrument ES2015 Modules|
-|**`coverageVariable`**|`{String}`|`__coverage__`|Name of global coverage variable|
-|**`preserveComments`**|`{Boolean}`|`false`|Preserve comments in `output`|
-|**`produceSourceMap`**|`{Boolean}`|`false`|Set to `true` to produce a source map for the instrumented code|
-|**`sourceMapUrlCallback`**|`{Function}`|`null`|A callback function that is called when a source map URL is found in the original code. This function is called with the source filename and the source map URL|
+|**`debug`**|`{Boolean}`|`false`|打开调试模式|
+|**`compact`**|`{Boolean}`|`true`|生成紧凑的代码|
+|**`autoWrap`**|`{Boolean}`|`false`|设置为 `true` 以允许函数外的返回语句|
+|**`esModules`**|`{Boolean}`|`false`|设置为 `true` 以检测ES2015模块|
+|**`coverageVariable`**|`{String}`|`__coverage__`|全局覆盖变量的名称|
+|**`preserveComments`**|`{Boolean}`|`false`|保留输出中的注释|
+|**`produceSourceMap`**|`{Boolean}`|`false`|设置为 `true` 以生成已检测代码的 `source map`|
+|**`sourceMapUrlCallback`**|`{Function}`|`null`|在原始代码中找到源映射 `URL` 时调用的回调函数，使用源文件名和源映射 `URL` 调用此函数|
 
 **webpack.config.js**
 ```js
