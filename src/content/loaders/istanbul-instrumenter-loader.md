@@ -6,7 +6,7 @@ repo: https://github.com/webpack-contrib/istanbul-instrumenter-loader
 ---
 
 
-使用 [istanbul-lib-instrument](https://github.com/istanbuljs/istanbuljs/tree/master/packages/istanbul-lib-instrument) 来测试 `JS` 文件，以进行后续代码覆盖率报告
+使用 [istanbul-lib-instrument](https://github.com/istanbuljs/istanbuljs/tree/master/packages/istanbul-lib-instrument) 来测试 `JS` 文件，以生成后续代码覆盖率报告
 
 ## 安装 {#install}
 
