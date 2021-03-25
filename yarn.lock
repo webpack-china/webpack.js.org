@@ -4614,7 +4614,7 @@ debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.9:
   dependencies:
     ms "2.0.0"
 
-debug@4.3.1:
+debug@4.3.1, debug@^4.3.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.1.tgz#f0d229c505e0c6d8c49ac553d1b13dc183f6b2ee"
   integrity sha512-doEwdvm4PCeK4K3RQN2ZC2BYUBaxwLARCqZmMjtF8a51J2Rb0xpVloFRnCODwqjpwnAoao4pelN8l3RJdv3gRQ==
@@ -5799,6 +5799,13 @@ figures@^3.2.0:
   integrity sha512-yaduQFRKLXYOGgEn6AZau90j3ggSOyiqXU0F9JZfeXYhNa+Jk4X+s45A2zg5jns87GAFa34BBm2kXw4XpNcbdg==
   dependencies:
     escape-string-regexp "^1.0.5"
+
+file-entry-cache@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/file-entry-cache/-/file-entry-cache-5.0.1.tgz#ca0f6efa6dd3d561333fb14515065c2fafdf439c"
+  integrity sha512-bCg29ictuBaKUwwArK4ouCaqDgLZcysCFLmM/Yn/FDoqndh/9vNuQfXRDvTuXKLxfD/JtZQGKFT8MGcJBK644g==
+  dependencies:
+    flat-cache "^2.0.1"
 
 file-entry-cache@^6.0.1:
   version "6.0.1"
@@ -7948,7 +7955,7 @@ js-cookie@^2.2.1:
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
   integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
 
-js-yaml@^3.13.1, js-yaml@^3.2.7, js-yaml@^3.6.1:
+js-yaml@^3.12.0, js-yaml@^3.13.1, js-yaml@^3.14.1, js-yaml@^3.2.7, js-yaml@^3.6.1:
   version "3.14.1"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.14.1.tgz#dae812fdb3825fa306609a8717383c50c36a0537"
   integrity sha512-okMH7OXXJ7YrN9Ok3/SXrnu4iX9yOk+25nqX4imS2npuvTYDmo/QEZoqwZkYaIDk3jVvBOTOIEgEhaLOynBS9g==
@@ -8091,7 +8098,7 @@ json5@^1.0.1:
   dependencies:
     minimist "^1.2.0"
 
-json5@^2.1.2:
+json5@^2.1.1, json5@^2.1.2:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/json5/-/json5-2.2.0.tgz#2dfefe720c6ba525d9ebd909950f0515316c89a3"
   integrity sha512-f+8cldu7X/y7RAJurMEJmdoKXGB/X550w2Nr3tTbezL6RwEE/iMcm+tZnXeoZtKuOq6ft8+CqzEkrIgx1fPoQA==
@@ -8745,6 +8752,15 @@ markdownlint@^0.23.1, markdownlint@~0.23.1:
   integrity sha512-iOEwhDfNmq2IJlaA8mzEkHYUi/Hwoa6Ss+HO5jkwUR6wQ4quFr0WzSx+Z9rsWZKUaPbyirIdL1zGmJRkWawr4Q==
   dependencies:
     markdown-it "12.0.4"
+
+md5@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/md5/-/md5-2.3.0.tgz#c3da9a6aae3a30b46b7b0c349b87b110dc3bda4f"
+  integrity sha512-T1GITYmFaKuO91vxyoQMFETst+O71VUPEU3ze5GNzDm0OWdP8v1ziTaAEPUr/3kLsY3Sftgz242A1SetQiDL7g==
+  dependencies:
+    charenc "0.0.2"
+    crypt "0.0.2"
+    is-buffer "~1.1.6"
 
 mdast-comment-marker@^1.0.0:
   version "1.1.2"
@@ -14118,10 +14134,10 @@ webpack-sources@^2.1.1:
     react-textarea-autosize "^5.2.1"
     uuid "^3.1.0"
 
-webpack@^5.26.3:
-  version "5.26.3"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.26.3.tgz#bafd439abac08fbb82657ec855d038743b725ab8"
-  integrity sha512-z/F2lt2N1fZqaud1B4SzjL3OW03eULThbBXQ2OX4LSrZX4N9k1A5d0Rje3zS2g887DTWyAV0KGqEf64ois2dhg==
+webpack@^5.28.0:
+  version "5.28.0"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.28.0.tgz#0de8bcd706186b26da09d4d1e8cbd3e4025a7c2f"
+  integrity sha512-1xllYVmA4dIvRjHzwELgW4KjIU1fW4PEuEnjsylz7k7H5HgPOctIq7W1jrt3sKH9yG5d72//XWzsHhfoWvsQVg==
   dependencies:
     "@types/eslint-scope" "^3.7.0"
     "@types/estree" "^0.0.46"
