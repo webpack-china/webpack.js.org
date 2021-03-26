@@ -41,18 +41,18 @@ npm i -D istanbul-instrumenter-loader
 
 **test/index.js**
 ```js
-// requires all tests in `project/test/src/components/**/index.js`
+// 从 `project/test/src/components/**/index.js` 中 requires 所有的测试用例
 const tests = require.context('./src/components/', true, /index\.js$/);
 
 tests.keys().forEach(tests);
 
-// requires all components in `project/src/components/**/index.js`
+// 从 `project/src/components/**/index.js` 中 requires 所有的组件
 const components = require.context('../src/components/', true, /index\.js$/);
 
 components.keys().forEach(components);
 ```
 
-> ℹ️   以下为  `karma`  的唯一入口起点文件 
+> ℹ️   以下为 `karma` 的唯一入口起点文件 
 
 **karma.conf.js**
 ```js
@@ -68,7 +68,7 @@ config.set({
     ...
     module: {
       rules: [
-        // instrument only testing sources with Istanbul
+        // 仅使用 Istanbul 测试源
         {
           test: /\.js$/,
           use: { loader: 'istanbul-instrumenter-loader' },
@@ -106,18 +106,18 @@ config.set({
 
 ## <a href="https://github.com/istanbuljs/istanbuljs/blob/master/packages/istanbul-lib-instrument/api.md#instrumenter">选项</a> {#a-hrefhttpsgithubcomistanbuljsistanbuljsblobmasterpackagesistanbul-lib-instrumentapimdinstrumenteroptionsa}
 
- 此 loader 支持  `istanbul-lib-instrument`  的所有配置选项 
+ 此 loader 支持 `istanbul-lib-instrument` 的所有配置选项 
 
-|Name|Type|Default|Description|
+|名称|类型|默认值|描述|
 |:--:|:--:|:-----:|:----------|
 |**`debug`**|`{Boolean}`|`false`|打开调试模式|
-|**`compact`**|`{Boolean}`|`true`|生成紧凑的代码|
+|**`compact`**|`{Boolean}`|`true`|压缩代码|
 |**`autoWrap`**|`{Boolean}`|`false`|设置为 `true` 以允许函数外的返回语句|
-|**`esModules`**|`{Boolean}`|`false`|设置为 `true` 以检测ES2015模块|
+|**`esModules`**|`{Boolean}`|`false`|设置为 `true` 以检测 ES2015 模块|
 |**`coverageVariable`**|`{String}`|`__coverage__`|全局覆盖变量的名称|
-|**`preserveComments`**|`{Boolean}`|`false`|保留输出中的注释|
+|**`preserveComments`**|`{Boolean}`|`false`|输出中保留注释|
 |**`produceSourceMap`**|`{Boolean}`|`false`|设置为 `true` 以生成已检测代码的 `source map`|
-|**`sourceMapUrlCallback`**|`{Function}`|`null`|在原始代码中找到源映射 `URL` 时调用的回调函数，使用源文件名和源映射 `URL` 调用此函数|
+|**`sourceMapUrlCallback`**|`{Function}`|`null`|在原始代码中找到 source map `URL` 时调用的回调函数。该函数的调用参数有源文件名以及 source map url。|
 
 **webpack.config.js**
 ```js
