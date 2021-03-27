@@ -197,7 +197,7 @@ import angular from 'angular';
 类型：`String`
 默认值：`module`
 
-生成 export 的格式。
+生成 exports 的格式。
 
 可选值 - `commonjs` （CommonJS module 语法） 和 `module` （ES module 语法）。
 
