@@ -41,12 +41,12 @@ npm i -D istanbul-instrumenter-loader
 
 **test/index.js**
 ```js
-// 从 `project/test/src/components/**/index.js` 中 requires 所有的测试用例
+// 从 `project/test/src/components/**/index.js` 中 require 所有的测试用例
 const tests = require.context('./src/components/', true, /index\.js$/);
 
 tests.keys().forEach(tests);
 
-// 从 `project/src/components/**/index.js` 中 requires 所有的组件
+// 从 `project/src/components/**/index.js` 中 require 所有的组件
 const components = require.context('../src/components/', true, /index\.js$/);
 
 components.keys().forEach(components);
