@@ -496,7 +496,7 @@ import 'lib_4';
 类型：`Boolean|String|Object`
 默认值：`undefined`
 
-用给定的' thisArg '和' args '关闭函数中的模块代码 (`(function () { ... }).call();`)。
+用给定的 `thisArg` 和 `args` 关闭函数中的模块代码 (`(function () { ... }).call();`)。
 
 > ⚠ 如果源码中包含 ES module import 的话，请不要使用该配置。
 
