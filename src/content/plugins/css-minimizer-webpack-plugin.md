@@ -61,6 +61,19 @@ module.exports = {
 
 然后通过你喜欢的方式运行 `webpack`。
 
+## 关于 source maps 的提示 {#note-about-source-maps}
+
+**仅对 [`devtool`](/configuration/devtool/) 配置项的 `source-map`、`inline-source-map`、`hidden-source-map` 与 `nosources-source-map` 值生效。**
+
+为什么呢？因为 CSS 仅支持这些 source map 类型。
+
+插件支持 [`devtool`](/configuration/devtool/) 并且使用 `SourceMapDevToolPlugin` 插件。
+使用受支持的 `devtool` 值可以启用 source map 生成。
+使用 `SourceMapDevToolPlugin` 并启用 `columns` 配置项可以启用 source map 生成。
+
+使用 source map 将错误信息位置映射到 modules 中（这降低了复杂度）。
+如果你是用自定义 `minify` 函数，请阅读 `minify` 章节以确保正确处理 source map。
+
 ## 选项 {#options}
 
 ### `test` {#test}
@@ -126,97 +139,6 @@ module.exports = {
 };
 ```
 
-### `cache` {#cache}
-
-> ⚠ 在 webpack 5 中已被忽略！请使用 https://webpack.docschina.org/configuration/other-options/#cache。
-
-类型：`Boolean|String`
-默认值：`true`
-
-启用文件缓存。
-缓存目录的默认路径：`node_modules/.cache/css-minimizer-webpack-plugin`。
-
-> ℹ️ 如果使用自己的 `minify` 函数，为缓存正确无效请先阅读 `minify` 部分。
-
-#### `Boolean` {#boolean}
-
-启用/禁用文件缓存。
-
-**webpack.config.js**
-
-```js
-module.exports = {
-  optimization: {
-    minimize: true,
-    minimizer: [
-      new CssMinimizerPlugin({
-        cache: true,
-      }),
-    ],
-  },
-};
-```
-
-#### `String` {#string}
-
-启用文件缓存并设置缓存目录的路径。
-
-**webpack.config.js**
-
-```js
-module.exports = {
-  optimization: {
-    minimize: true,
-    minimizer: [
-      new CssMinimizerPlugin({
-        cache: 'path/to/cache',
-      }),
-    ],
-  },
-};
-```
-
-### `cacheKeys` {#cachekeys}
-
-> ⚠ 在 webpack 5 中已被忽略！请使用 https://webpack.docschina.org/configuration/other-options/#cache。
-
-类型：`Function<(defaultCacheKeys, file) -> Object>`
-默认值：`defaultCacheKeys => defaultCacheKeys`
-
-允许覆盖默认的缓存键。
-
-默认缓存键：
-
-```js
-({
-  cssMinimizer: require('cssnano/package.json').version, // cssnano version
-  'css-minimizer-webpack-plugin': require('../package.json').version, // plugin version
-  'css-minimizer-webpack-plugin-options': this.options, // plugin options
-  path: compiler.outputPath ? `${compiler.outputPath}/${file}` : file, // asset path
-  hash: crypto.createHash('md4').update(input).digest('hex'), // source file hash
-});
-```
-
-**webpack.config.js**
-
-```js
-module.exports = {
-  optimization: {
-    minimize: true,
-    minimizer: [
-      new CssMinimizerPlugin({
-        cache: true,
-        cacheKeys: (defaultCacheKeys, file) => {
-          defaultCacheKeys.myCacheKey = 'myCacheKeyValue';
-
-          return defaultCacheKeys;
-        },
-      }),
-    ],
-  },
-};
-```
-
 ### `parallel` {#parallel}
 
 类型：`Boolean|Number`
@@ -265,24 +187,25 @@ module.exports = {
 };
 ```
 
-### `sourceMap` {#sourcemap}
+### `minify` {#minify}
 
-类型：`Boolean|Object`
-默认值：`false`（关于 `devtool`  和 `SourceMapDevToolPlugin` 插件的详细信息请参见下文）
+类型：`Function|Array<Function>`
+默认值：`CssMinimizerPlugin.cssnanoMinify`
 
-启用（配置）source map 支持。使用 [PostCss SourceMap 选项](https://github.com/postcss/postcss-loader#sourcemap)。
-启用时的默认配置：`{ inline: false }`。
+允许覆盖默认的 minify 函数。
+默认情况下，插件使用 [cssnano](https://github.com/cssnano/cssnano) 包。
+对于使用和测试未发布或版本衍生版本很有用。
 
-**仅适用于 [`devtool`](/configuration/devtool/) 选项中的 `source-map`，`inline-source-map`，`hidden-source-map` 和 `nosources-source-map`。**
+可选配置：
 
-为什么？因为 CSS 仅支持这些 source map 类型。
+- CssMinimizerPlugin.cssnanoMinify
+- CssMinimizerPlugin.cssoMinify
+- CssMinimizerPlugin.cleanCssMinify
+- async (data, inputMap, minimizerOptions) => {return {code: `a{color: red}`, map: `...`, warnings: []}}
 
-该插件遵循 [`devtool`](/configuration/devtool/) 并使用 `SourceMapDevToolPlugin` 插件。 
-使用受支持的 `devtool` 值可以生成 source map。
-使用了开启 `columns` 选项的 `SourceMapDevToolPlugin` 可以生成 source map。
+> ⚠️ **启用 `parallel` 选项时，始终在 `minify` 函数中使用 `require`**。
 
-使用 source map 在模块中映射错误信息（这会减慢编译速度）。
-如果要使用自定义的 `minify` 函数，为了能准确处理 source maps，请先阅读 `minify` 部分。
+#### `Function` {#function}
 
 **webpack.config.js**
 
@@ -292,23 +215,24 @@ module.exports = {
     minimize: true,
     minimizer: [
       new CssMinimizerPlugin({
-        sourceMap: true,
+        minimizerOptions: {
+          level: {
+            1: {
+              roundingPrecision: 'all=3,px=5',
+            },
+          },
+        },
+        minify: CssMinimizerPlugin.cleanCssMinify,
       }),
     ],
   },
 };
 ```
 
-### `minify` {#minify}
+#### `Array` {#array}
 
-类型：`Function`
-默认值：`undefined`
-
-允许覆盖默认的 minify 函数。
-默认情况下，插件使用 [cssnano](https://github.com/cssnano/cssnano) 包。
-对于使用和测试未发布或版本衍生版本很有用。
-
-> ⚠️ **启用 `parallel` 选项时，始终在 `minify` 函数中使用 `require`**。
+如果 `minify` 配置项传入一个数组，`minimizerOptions` 也必须是个数组。
+`miniify` 数组中的函数索引对应于 `minimizerOptions` 数组中具有相同索引的 options 对象。
 
 **webpack.config.js**
 
@@ -318,37 +242,23 @@ module.exports = {
     minimize: true,
     minimizer: [
       new CssMinimizerPlugin({
-        sourceMap: true,
-        minify: (data, inputMap, minimizerOptions) => {
-          const postcss = require('postcss');
-
-          const plugin = postcss.plugin(
-            'custom-plugin',
-            () => (css, result) => {
-              // 自定义代码
-            }
-          );
-
-          const [[filename, input]] = Object.entries(data);
-
-          const postcssOptions = {
-            from: filename,
-            to: filename,
-            map: {
-              prev: inputMap,
-            },
-          };
-
-          return postcss([plugin])
-            .process(input, postcssOptions)
-            .then((result) => {
-              return {
-                css: result.css,
-                map: result.map,
-                warnings: result.warnings(),
-              };
-            });
-        },
+        minimizerOptions: [
+          {}, // 第一个函数的配置项（CssMinimizerPlugin.cssnanoMinify）
+          {}, // 第二个函数的配置项（CssMinimizerPlugin.cleanCssMinify）
+          {}, // 第三个函数的配置项
+        ],
+        minify: [
+          CssMinimizerPlugin.cssnanoMinify,
+          CssMinimizerPlugin.cleanCssMinify,
+          async (data, inputMap, minimizerOptions) => {
+            // To do something
+            return {
+              code: `a{color: red}`,
+              map: `{"version": "3", ...}`,
+              warnings: [],
+            };
+          },
+        ],
       }),
     ],
   },
@@ -357,10 +267,12 @@ module.exports = {
 
 ### `minimizerOptions` {#minimizeroptions}
 
-类型：`Object`
+类型：`Object|Array<Object>`
 默认值：`{ preset: 'default' }`
 
 Cssnano 优化 [选项](https://cssnano.co/docs/optimisations).
+
+#### `Object` {#object}
 
 ```js
 module.exports = {
@@ -375,6 +287,58 @@ module.exports = {
               discardComments: { removeAll: true },
             },
           ],
+        },
+      }),
+    ],
+  },
+};
+```
+
+#### `Array` {#array}
+
+如果 `minify` 配置项传入一个数组，`minimizerOptions` 也必须是个数组。
+`miniify` 数组中的函数索引对应于 `minimizerOptions` 数组中具有相同索引的 options 对象。
+
+#### `processorOptions` {#processoroptions}
+
+类型：`Object`
+默认值：`{ to: assetName, from: assetName }`
+
+允许配置 cssnano 的 [`processoptions`](https://postcss.org/api/#processoptions) 配置项。
+`parser`、` stringifier` 和 `syntax` 可以是一个函数，也可以是一个字符串，用来表示将会被导出的模块。
+
+> ⚠️ **如果传入一个函数，则必须禁用`parallel` 配置项。**.
+
+```js
+import sugarss from 'sugarss';
+
+module.exports = {
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new CssMinimizerPlugin({
+        parallel: false,
+        minimizerOptions: {
+          processorOptions: {
+            parser: sugarss,
+          },
+        },
+      }),
+    ],
+  },
+};
+```
+
+```js
+module.exports = {
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new CssMinimizerPlugin({
+        minimizerOptions: {
+          processorOptions: {
+            parser: 'sugarss',
+          },
         },
       }),
     ],
@@ -431,6 +395,7 @@ module.exports = {
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
+  devtool: 'source-map',
   module: {
     loaders: [
       {
@@ -444,11 +409,7 @@ module.exports = {
     ],
   },
   optimization: {
-    minimizer: [
-      new CssMinimizerPlugin({
-        sourceMap: true,
-      }),
-    ],
+    minimizer: [new CssMinimizerPlugin()],
   },
 };
 ```
@@ -492,7 +453,6 @@ module.exports = {
     minimize: true,
     minimizer: [
       new CssMinimizerPlugin({
-        sourceMap: true,
         minify: async (data, inputMap) => {
           const csso = require('csso');
           const sourcemap = require('source-map');
@@ -511,7 +471,7 @@ module.exports = {
           }
 
           return {
-            css: minifiedCss.css,
+            code: minifiedCss.css,
             map: minifiedCss.map.toJSON(),
           };
         },
@@ -537,7 +497,6 @@ module.exports = {
     minimize: true,
     minimizer: [
       new CssMinimizerPlugin({
-        sourceMap: true,
         minify: async (data, inputMap) => {
           // eslint-disable-next-line global-require
           const CleanCSS = require('clean-css');
@@ -551,7 +510,7 @@ module.exports = {
           });
 
           return {
-            css: minifiedCss.styles,
+            code: minifiedCss.styles,
             map: minifiedCss.sourceMap.toJSON(),
             warnings: minifiedCss.warnings,
           };
