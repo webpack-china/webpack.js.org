@@ -49,7 +49,7 @@ module.exports = {
 };
 ```
 
-然后，通过你喜爱的方式去运行 `webpack`。
+然后，根据你习惯的方式运行 `webpack`。
 
 ## 贡献指南 {#contributing}
 
