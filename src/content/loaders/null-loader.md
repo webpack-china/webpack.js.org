@@ -39,7 +39,7 @@ module.exports = {
   module: {
     rules: [
       {
-         // 匹配一个 polyfill（或任何文件），
+        // 匹配一个 polyfill（或任何文件），
         // 然后在 bundle 中不会引入这个 polyfill
         test: path.resolve(__dirname, 'node_modules/library/polyfill.js'),
         use: 'null-loader',
