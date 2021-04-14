@@ -19,7 +19,7 @@ repo: https://github.com/webpack-contrib/null-loader
 
 此 loader 的一个用途是，使依赖项导入的模块静默。 
 例如，项目依赖于一个 ES6 库，该库会导入你不需要的 polyfill，
- 因此删除它将不会导致功能损失。
+因此，删除它不会造成功能上的缺失。
 
 ## 起步 {#getting-started}
 
