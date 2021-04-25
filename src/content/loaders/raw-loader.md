@@ -56,9 +56,9 @@ module.exports = {
 
 ## 选项 {#options}
 
-|           属性名            |    类型     | 默认值 | 备注                   |
-| :-------------------------: | :---------: | :----: | :--------------------- |
-| **[`esModule`](#esmodule)** | `{Boolean}` | `true` | Uses ES modules syntax |
+|           属性名            |    类型     | 默认值 | 备注             |
+| :-------------------------: | :---------: | :----: | :--------------- |
+| **[`esModule`](#esmodule)** | `{Boolean}` | `true` | 使用 ES 模块语法 |
 
 ### `esModule` {#esmodule}
 
