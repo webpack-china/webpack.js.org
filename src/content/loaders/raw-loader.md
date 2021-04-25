@@ -94,7 +94,7 @@ module.exports = {
 
 ## 示例 {#examples}
 
-### 行内 {#inline}
+### 内联 {#inline}
 
 ```js
 import txt from 'raw-loader!./file.txt';
