@@ -14,7 +14,7 @@ npm install svg-inline-loader --save-dev
 
 ## 配置 {#configuration}
 
-只需像下面这样加载配置对象到  `module.loaders` 中。
+只需按如下方式配置到  `module.loaders` 即可。
 
 ```javascript
     {
