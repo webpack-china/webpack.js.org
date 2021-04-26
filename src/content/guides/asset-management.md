@@ -11,9 +11,12 @@ contributors:
   - AnayaDesign
   - wizardofhogwarts
   - astonizer
+translators:
+  - QC-L
+  - dear-lizhihua
 ---
 
-如果你是从开始一直在沿用指南的示例，现在会有一个小项目，显示 "Hello webpack"。现在我们尝试混合一些其他资源，比如 images，看看 webpack 如何处理。
+如果你是从开始一直在沿用指南的示例，现在会有一个小项目，显示  "Hello webpack"。现在我们尝试混合一些其他资源，比如 images，看看 webpack 如何处理。
 
 在 webpack 出现之前，前端开发人员会使用 [grunt](https://gruntjs.com/) 和 [gulp](https://gulpjs.com/) 等工具来处理资源，并将它们从 `/src` 文件夹移动到 `/dist` 或 `/build` 目录中。JavaScript 模块也遵循同样方式，但是，像 webpack 这样的工具，将**动态打包**所有依赖（创建所谓的 [依赖图(dependency graph)](/concepts/dependency-graph)）。这是极好的创举，因为现在每个模块都可以**明确表述它自身的依赖**，可以避免打包未使用的模块。
 
@@ -692,7 +695,7 @@ Re-run the `npm run build` command and open `dist/index.html`. You should be abl
 + |  |  |– img.png
 ```
 
-这种配置方式会使你的代码更具备可移植性，因为现有的集中放置的方式会让所有资源紧密耦合起来。假如你想在另一个项目中使用  `/my-component`，只需将其复制或移动到 `/components` 目录下。只要你已经安装过全部_外部依赖_，并且_已经在配置中定义过相同的 loader_，那么项目应该能够良好运行。
+这种配置方式会使你的代码更具备可移植性，因为现有的集中放置的方式会让所有资源紧密耦合起来。假如你想在另一个项目中使用 `/my-component`，只需将其复制或移动到 `/components` 目录下。只要你已经安装过全部*外部依赖*，并且*已经在配置中定义过相同的 loader*，那么项目应该能够良好运行。
 
 但是，假如你只能被局限在旧有开发方式，或者你有一些在多个组件（视图、模板、模块等）之间共享的资源。你仍然可以将这些资源存储在一个基本目录(base directory)中，甚至配合使用 [alias](/configuration/resolve/#resolvealias) 来使它们更方便 `import 导入`。
 

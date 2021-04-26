@@ -127,7 +127,6 @@ export default function Page(props) {
 
         {loadContributors && (
           <div className="contributors__section">
-            <hr />
             <h3>贡献者</h3>
             <Contributors contributors={contributors} />
           </div>
