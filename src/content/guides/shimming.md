@@ -30,7 +30,7 @@ related:
 
 W> **我们不推荐使用全局依赖**！webpack 背后的整个理念是使前端开发更加模块化。也就是说，需要编写具有良好的封闭性(well contained)、不依赖于隐含依赖（例如，全局变量）的彼此隔离的模块。请只在必要的时候才使用这些特性。
 
-_shim_ 另外一个极其有用的使用场景就是：当你希望 [polyfill](<https://en.wikipedia.org/wiki/Polyfill_(programming)>) 扩展浏览器能力，来支持到更多用户时。在这种情况下，你可能只是想要将这些 polyfills 提供给需要修补(patch)的浏览器（也就是实现按需加载）。
+_shim_ 另外一个极其有用的使用场景就是：当你希望 [polyfill](https://en.wikipedia.org/wiki/Polyfill_(programming)) 扩展浏览器能力，来支持到更多用户时。在这种情况下，你可能只是想要将这些 polyfills 提供给需要修补(patch)的浏览器（也就是实现按需加载）。
 
 下面的文章将向我们展示这两种用例。
 

@@ -45,7 +45,7 @@ webpack-cli init <your-scaffold>
 webpack-cli init path/to/your/scaffold
 ```
 
-或者，还可以创建一个全局模块并符号链接(symlink)到本地 ​​ 模块：
+或者，还可以创建一个全局模块并符号链接(symlink)到本地模块：
 
 - 使用 npm
 

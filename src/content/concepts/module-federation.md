@@ -146,7 +146,7 @@ __webpack_override__({
 
 ## 动态远程容器 {#dynamic-remote-containers}
 
-该容器接口支持 `get`  和 `init`  方法。
+该容器接口支持 `get` 和 `init` 方法。
 `init` 是一个兼容 `async` 的方法，调用时，只含有一个参数：共享作用域对象(shared scope object)。此对象在远程容器中用作共享作用域，并由 host 提供的模块填充。
 可以利用它在运行时动态地将远程容器连接到 host 容器。
 
@@ -236,7 +236,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 这种方法有效，但存在局限性或缺点。
 
-通过 `ModuleFederationPlugin`  将依赖的 `eager`  属性设置为 `true`
+通过 `ModuleFederationPlugin` 将依赖的 `eager` 属性设置为 `true`
 
 **webpack.config.js**
 
