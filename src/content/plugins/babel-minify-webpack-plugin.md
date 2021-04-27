@@ -3,6 +3,8 @@ title: BabelMinifyWebpackPlugin
 source: https://raw.githubusercontent.com/webpack-contrib/babel-minify-webpack-plugin/master/README.md
 edit: https://github.com/webpack-contrib/babel-minify-webpack-plugin/edit/master/README.md
 repo: https://github.com/webpack-contrib/babel-minify-webpack-plugin
+translators:
+  - KimYangOfCat
 ---
 一个用于 <a href="https://github.com/babel/minify">babel-minify</a> 的 webpack 插件 - 基于 babel 的 minifier
 
@@ -78,7 +80,7 @@ module.exports = {
         <a href="https://github.com/d3viant0ne">Joshua Wiens</a>
       </td>
       <td align="center">
-        <img width="150" height="150"å
+        <img width="150" height="150"
         src="https://avatars3.githubusercontent.com/u/533616?v=3&s=150">
         </br>
         <a href="https://github.com/SpaceK33z">Kees Kluskens</a>
