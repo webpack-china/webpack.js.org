@@ -62,7 +62,7 @@ module.exports = {
   <tbody>
     <tr>
       <td align="center">
-        <img width="150" height="150"å
+        <img width="150" height="150"
         src="https://avatars2.githubusercontent.com/u/294474?v=3&s=150">
         </br>
         <a href="https://github.com/boopathi">Boopathi Rajaa</a>
