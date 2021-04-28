@@ -32,7 +32,7 @@ module.exports = {
 
 #### minifyOpts {#minifyopts}
 
-`minifyOpts` 被传递给 babel-preset-minify。 你可以在包目录中找到 [所有可用选项](https://github.com/babel/minify/tree/master/packages/babel-preset-minify#options)。
+`minifyOpts` 会被传递给 babel-preset-minify。你可以在 babel 仓库的 packages 目录中找到 [所有可用选项](https://github.com/babel/minify/tree/master/packages/babel-preset-minify#options)。
 
 `Default: {}`
 
