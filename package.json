@@ -143,7 +143,7 @@
     "textlint": "^11.8.2",
     "textlint-rule-heading": "^1.0.10",
     "unist-util-visit": "^2.0.3",
-    "webpack": "^5.35.0",
+    "webpack": "^5.36.0",
     "webpack-bundle-analyzer": "^4.4.1",
     "webpack-cli": "^4.6.0",
     "webpack-dev-server": "^4.0.0-beta.2",
