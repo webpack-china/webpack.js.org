@@ -38,7 +38,7 @@ module.exports = {
 
 #### pluginOpts {#pluginopts}
 
-+ `test`: 匹配特定类型的文件。 默认值: `/\.js($|\?)/i`
++ `test`: 匹配特定类型的文件。默认值: `/\.js($|\?)/i`
 + `include`: `include` 的文件。 默认值: `undefined`
 + `exclude`: `exclude` 的文件。 默认值: `undefined`
 + `comments`: 保留注释。 默认值: `/^\**!|@preserve|@license|@cc_on/`,  `falsy` 值将移除所有注释。可以接受函数，带有测试属性的（正则）的对象和值。
