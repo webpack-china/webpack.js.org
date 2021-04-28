@@ -49,7 +49,7 @@ module.exports = {
 
 ## 为什么 {#why}
 
-你也可以在webpack中使用[babel-loader](https://github.com/babel/babel-loader)，然后再引入 `minify` [作为一个预处理](https://github.com/babel/minify#babel-preset)，并且这样应该比直接使用本插件执行得更快。 - 这是因为 `babel-minify` 处理的文件体积会更小。但是，这个插件为什么还存在呢？
+你也可以在 webpack 中使用 [babel-loader](https://github.com/babel/babel-loader)，然后再引入 `minify` [作为一个 preset](https://github.com/babel/minify#babel-preset)，并且会比直接使用此插件执行得更快。— 这是因为 `babel-minify` 处理的文件体积会更小。既然如此，那这个插件存在的意义是什么呢？
 
 + webpack loader 会对单个文件进行操作，并且作为一个 webpack loader 的 minify preset 将会把每个文件视为在浏览器全局范围内直接执行（默认情况下），但是不会优化顶级作用域内的某些内容。若要在文件的顶级作用域内进行优化，请在 minifyOptions 中设置 `topLevel：true`。
 + 当你排除 `node_modules` 不通过 babel-loader 运行时，babel-minify 的优化便不会应用于被排除的文件，因为它们不需要通过 minifier。
