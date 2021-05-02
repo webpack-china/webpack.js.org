@@ -24,7 +24,7 @@ ContextModuleFactory.hooks.someHook.tap(/* ... */);
 
 `AsyncSeriesWaterfallHook`
 
-在解析请求的目录之前调用。请求可以通过返回 false 来忽略。
+在解析请求的目录之前调用。请求可以通过返回 `false` 来忽略。
 
 - 回调参数: `data`
 
