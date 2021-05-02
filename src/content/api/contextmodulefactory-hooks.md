@@ -28,7 +28,7 @@ ContextModuleFactory.hooks.someHook.tap(/* ... */);
 
 - 回调参数: `data`
 
-### afterResolve
+### afterResolve {#afterresolve}
 
 `AsyncSeriesWaterfallHook`
 
