@@ -44,7 +44,7 @@ ContextModuleFactory.hooks.someHook.tap(/* ... */);
 
 - 回调参数: `fileNames`
 
-### alternativeRequests
+### alternativeRequests {#alternativerequests}
 
 `AsyncSeriesWaterfallHook`
 
