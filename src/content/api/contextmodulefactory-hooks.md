@@ -20,7 +20,7 @@ ContextModuleFactory.hooks.someHook.tap(/* ... */);
 与 `compiler` 一样，`tapAsync` 和 `tapPromise` 是否可用
 取决于钩子的类型。
 
-### beforeResolve
+### beforeResolve {#beforeresolve}
 
 `AsyncSeriesWaterfallHook`
 
