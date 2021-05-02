@@ -36,7 +36,7 @@ ContextModuleFactory.hooks.someHook.tap(/* ... */);
 
 - 回调参数: `data`
 
-### contextModuleFiles
+### contextModuleFiles {#contextmodulefiles}
 
 `SyncWaterfallHook`
 
