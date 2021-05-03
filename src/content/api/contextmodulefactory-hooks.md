@@ -26,7 +26,7 @@ ContextModuleFactory.hooks.someHook.tap(/* ... */);
 
 在解析请求的目录之前调用。请求可以通过返回 `false` 来忽略。
 
-- 回调参数: `data`
+- 回调参数：`data`
 
 ### afterResolve {#afterresolve}
 
@@ -34,7 +34,7 @@ ContextModuleFactory.hooks.someHook.tap(/* ... */);
 
 在请求的目录解析后调用。
 
-- 回调参数: `data`
+- 回调参数：`data`
 
 ### contextModuleFiles {#contextmodulefiles}
 
@@ -42,7 +42,7 @@ ContextModuleFactory.hooks.someHook.tap(/* ... */);
 
 读取目录内容后调用。在递归模式下，也会读取每个子目录。回调参数是一个包含每个目录中所有文件和文件夹名称的数组。
 
-- 回调参数: `fileNames`
+- 回调参数：`fileNames`
 
 ### alternativeRequests {#alternativerequests}
 
@@ -50,4 +50,4 @@ ContextModuleFactory.hooks.someHook.tap(/* ... */);
 
 在创建请求之后但依据 regExp 进行过滤之前，为每个文件调用。
 
-- 回调参数: `request` `options`
+- 回调参数：`request` `options`
