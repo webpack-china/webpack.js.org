@@ -161,7 +161,7 @@
     "react-helmet-async": "^1.0.9",
     "react-router-dom": "^5.2.0",
     "react-spring": "next",
-    "react-tiny-popover": "5",
+    "react-tiny-popover": "6",
     "react-use": "^17.2.4",
     "react-visibility-sensor": "^5.0.2",
     "unist-util-visit": "^2.0.3",
