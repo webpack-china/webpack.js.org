@@ -66,7 +66,7 @@ NormalModuleFactory.hooks.someHook.for('identifier').tap(/* ... */);
 
 - 回调参数：`resolveData`
 
-### createModule{#createModule}
+### createModule {#createModule}
 
 `AsyncSeriesBailHook`
 
