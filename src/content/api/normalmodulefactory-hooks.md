@@ -92,7 +92,7 @@ NormalModuleFactory.hooks.someHook.for('identifier').tap(/* ... */);
 
 - 回调参数：`parserOptions`
 
-### parser{#parser}
+### parser {#parser}
 
 `HookMap<SyncHook>`
 
