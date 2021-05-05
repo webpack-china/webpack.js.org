@@ -50,7 +50,7 @@ NormalModuleFactory.hooks.someHook.for('identifier').tap(/* ... */);
 
 - 回调参数：`resolveData`
 
-### resolveForScheme{#resolveForScheme}
+### resolveForScheme {#resolveForScheme}
 
 `AsyncSeriesBailHook`
 
