@@ -42,7 +42,7 @@ NormalModuleFactory.hooks.someHook.for('identifier').tap(/* ... */);
 
 - 回调参数：`resolveData`
 
-### resolve{#resolve}
+### resolve {#resolve}
 
 `AsyncSeriesBailHook`
 
