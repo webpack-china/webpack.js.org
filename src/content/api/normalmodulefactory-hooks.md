@@ -82,7 +82,7 @@ NormalModuleFactory.hooks.someHook.for('identifier').tap(/* ... */);
 
 - 回调参数：`module` `createData` `resolveData`
 
-### createParser{#createParser}
+### createParser {#createParser}
 
 `HookMap<SyncBailHook>`
 
