@@ -34,7 +34,7 @@ NormalModuleFactory.hooks.someHook.for('identifier').tap(/* ... */);
 
 - 回调参数：`ResolveData`
 
-### factorize{#factorize}
+### factorize {#factorize}
 
 `AsyncSeriesBailHook`
 
