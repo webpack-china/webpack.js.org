@@ -74,7 +74,7 @@ NormalModuleFactory.hooks.someHook.for('identifier').tap(/* ... */);
 
 - 回调参数：`createData` `resolveData`
 
-### module{#module}
+### module {#module}
 
 `SyncWaterfallHook`
 
