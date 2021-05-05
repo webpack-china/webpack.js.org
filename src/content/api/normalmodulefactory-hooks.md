@@ -122,7 +122,7 @@ NormalModuleFactory.hooks.someHook.for('identifier').tap(/* ... */);
 
 - 回调参数：`generatorOptions`
 
-### generator{#generator}
+### generator {#generator}
 
 `HookMap<SyncHook>`
 
