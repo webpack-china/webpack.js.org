@@ -112,7 +112,7 @@ NormalModuleFactory.hooks.someHook.for('identifier').tap(/* ... */);
 6. `webassembly/async`
 7. `asset`
 
-### createGenerator{#createGenerator}
+### createGenerator {#createGenerator}
 
 `HookMap<SyncBailHook>`
 
