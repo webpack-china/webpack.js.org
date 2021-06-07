@@ -98,7 +98,7 @@ source map 有许多 [可用选项](/configuration/devtool)，请务必仔细阅
 ```diff
  export default function printMe() {
 -  console.log('I get called from print.js!');
-+  cosnole.log('I get called from print.js!');
++  cosnole.error('I get called from print.js!');
  }
 ```
 
@@ -183,7 +183,7 @@ webpack 提供几种可选方式，帮助你在代码发生变化后自动编译
 
 ```diff
  export default function printMe() {
--  cosnole.log('I get called from print.js!');
+-  cosnole.error('I get called from print.js!');
 +  console.log('I get called from print.js!');
  }
 ```
