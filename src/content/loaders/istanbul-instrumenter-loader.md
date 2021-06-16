@@ -7,7 +7,20 @@ translators:
   - LJCandyCrush
   - jacob-lcs
 ---
+[![npm][npm]][npm-url]
+[![node][node]][node-url]
+[![deps][deps]][deps-url]
+[![tests][tests]][tests-url]
+[![coverage][cover]][cover-url]
+[![chat][chat]][chat-url]
 
+<div align="center">
+  <a href="https://github.com/webpack/webpack">
+    <img width="200" height="200"
+      src="https://webpack.js.org/assets/icon-square-big.svg">
+  </a>
+  
+</div>
 
 使用 [istanbul-lib-instrument](https://github.com/istanbuljs/istanbuljs/tree/master/packages/istanbul-lib-instrument) 来测试 `JS` 文件，以生成后续代码覆盖率报告
 
@@ -181,7 +194,7 @@ config.set({
 [npm-url]: https://npmjs.com/package/istanbul-instrumenter-loader
 
 [node]: https://img.shields.io/node/v/istanbul-instrumenter-loader.svg
-[node-url]: https://nodejs.org/
+[node-url]: https://nodejs.org
 
 [deps]: https://david-dm.org/webpack-contrib/istanbul-instrumenter-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/istanbul-instrumenter-loader

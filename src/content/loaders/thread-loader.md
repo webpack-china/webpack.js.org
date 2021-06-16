@@ -7,7 +7,11 @@ translators:
   - weiyuan0609
   - QC-L
 ---
-
+<div align="center">
+  <a href="https://webpack.js.org/">
+    <img width="200" height="200" vspace="" hspace="25" src="https://cdn.rawgit.com/webpack/media/e7485eb2/logo/icon-square-big.svg">
+  </a>
+</div>
 
 [![npm][npm]][npm-url]
 [![node][node]][node-url]
@@ -140,7 +144,7 @@ threadLoader.warmup(
 [npm]: https://img.shields.io/npm/v/thread-loader.svg
 [npm-url]: https://npmjs.com/package/thread-loader
 [node]: https://img.shields.io/node/v/thread-loader.svg
-[node-url]: https://nodejs.org/
+[node-url]: https://nodejs.org
 [deps]: https://david-dm.org/webpack-contrib/thread-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/thread-loader
 [tests]: https://github.com/webpack-contrib/thread-loader/workflows/thread-loader/badge.svg

@@ -76,6 +76,7 @@ export const getPageTitle = (tree, path) => {
   const page = findInContent(tree, (item) => item.url === path);
 
   // non page found
+<<<<<<< HEAD
   if (!page) return 'webpack 中文文档';
 
   if (page) {
@@ -84,6 +85,16 @@ export const getPageTitle = (tree, path) => {
     }
     if (path === '/') return page.title || 'webpack 中文文档';
     return `${page.title} | webpack 中文文档`;
+=======
+  if (!page) return 'webpack';
+
+  if (page) {
+    if (path.includes('/printable')) {
+      return 'Combined printable page | webpack';
+    }
+    if (path === '/') return page.title || 'webpack';
+    return `${page.title} | webpack`;
+>>>>>>> 2b02e50fe61b983592e577e86afa84639712ad59
   }
 };
 

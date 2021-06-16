@@ -4,7 +4,11 @@ source: https://raw.githubusercontent.com/webpack-contrib/stylus-loader/master/R
 edit: https://github.com/webpack-contrib/stylus-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/stylus-loader
 ---
-
+<div align="center">
+  <a href="https://github.com/webpack/webpack">
+    <img width="200" height="200" src="https://webpack.js.org/assets/icon-square-big.svg">
+  </a>
+</div>
 
 [![npm][npm]][npm-url]
 [![node][node]][node-url]
@@ -685,7 +689,7 @@ Please take a moment to read our contributing guidelines if you haven't yet done
 [npm]: https://img.shields.io/npm/v/stylus-loader.svg
 [npm-url]: https://npmjs.com/package/stylus-loader
 [node]: https://img.shields.io/node/v/stylus-loader.svg
-[node-url]: https://nodejs.org/
+[node-url]: https://nodejs.org
 [deps]: https://david-dm.org/webpack-contrib/stylus-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/stylus-loader
 [tests]: https://github.com/webpack-contrib/stylus-loader/workflows/stylus-loader/badge.svg
