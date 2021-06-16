@@ -7,7 +7,12 @@ translators:
   - mercurywang
   - QC-L
 ---
-
+<div align="center">
+  <img width="160" height="160" src="https://cdn.worldvectorlogo.com/logos/coffeescript.svg">
+  <a href="https://github.com/webpack/webpack">
+    <img width="200" height="200" hspace="20" src="https://webpack.js.org/assets/icon-square-big.svg">
+  </a>
+</div>
 
 [![npm][npm]][npm-url]
 [![node][node]][node-url]
@@ -194,7 +199,7 @@ module.exports = {
 [npm]: https://img.shields.io/npm/v/coffee-loader.svg
 [npm-url]: https://npmjs.com/package/coffee-loader
 [node]: https://img.shields.io/node/v/coffee-loader.svg
-[node-url]: https://nodejs.org/
+[node-url]: https://nodejs.org
 [deps]: https://david-dm.org/webpack-contrib/coffee-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/coffee-loader
 [tests]: https://github.com/webpack-contrib/coffee-loader/workflows/coffee-loader/badge.svg

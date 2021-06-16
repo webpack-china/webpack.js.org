@@ -1,10 +1,14 @@
 ---
 title: EslintWebpackPlugin
+group: webpack contrib
 source: https://raw.githubusercontent.com/webpack-contrib/eslint-webpack-plugin/master/README.md
 edit: https://github.com/webpack-contrib/eslint-webpack-plugin/edit/master/README.md
 repo: https://github.com/webpack-contrib/eslint-webpack-plugin
 ---
-
+<div align="center">
+  <a href="https://github.com/eslint/eslint"><img width="200" height="200" src="https://cdn.worldvectorlogo.com/logos/eslint.svg"></a>
+  <a href="https://github.com/webpack/webpack"><img width="200" height="200" src="https://webpack.js.org/assets/icon-square-big.svg"></a>
+</div>
 
 [![npm][npm]][npm-url]
 [![node][node]][node-url]
@@ -231,7 +235,7 @@ if none is passed in the default/configured formatter will be used.
 [npm]: https://img.shields.io/npm/v/eslint-webpack-plugin.svg
 [npm-url]: https://npmjs.com/package/eslint-webpack-plugin
 [node]: https://img.shields.io/node/v/eslint-webpack-plugin.svg
-[node-url]: https://nodejs.org/
+[node-url]: https://nodejs.org
 [deps]: https://david-dm.org/webpack-contrib/eslint-webpack-plugin.svg
 [deps-url]: https://david-dm.org/webpack-contrib/eslint-webpack-plugin
 [tests]: https://github.com/webpack-contrib/eslint-webpack-plugin/workflows/eslint-webpack-plugin/badge.svg

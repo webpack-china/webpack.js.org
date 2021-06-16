@@ -7,7 +7,11 @@ translators:
   - jacob-lcs
   - QC-L
 ---
-
+<div align="center">
+  <a href="https://github.com/webpack/webpack">
+    <img width="200" height="200" src="https://webpack.js.org/assets/icon-square-big.svg">
+  </a>
+</div>
 
 [![npm][npm]][npm-url]
 [![node][node]][node-url]
@@ -217,7 +221,7 @@ module.exports = {
 [npm]: https://img.shields.io/npm/v/node-loader.svg
 [npm-url]: https://npmjs.com/package/node-loader
 [node]: https://img.shields.io/node/v/node-loader.svg
-[node-url]: https://nodejs.org/
+[node-url]: https://nodejs.org
 [deps]: https://david-dm.org/webpack-contrib/node-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/node-loader
 [tests]: https://github.com/webpack-contrib/node-loader/workflows/node-loader/badge.svg

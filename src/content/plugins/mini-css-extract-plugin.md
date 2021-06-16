@@ -1,12 +1,19 @@
 ---
 title: MiniCssExtractPlugin
+group: webpack contrib
 source: https://raw.githubusercontent.com/webpack-contrib/mini-css-extract-plugin/master/README.md
 edit: https://github.com/webpack-contrib/mini-css-extract-plugin/edit/master/README.md
 repo: https://github.com/webpack-contrib/mini-css-extract-plugin
 translators:
   - wangjq4214
 ---
-
+<div align="center">
+  <img width="200" height="200" src="https://cdn.worldvectorlogo.com/logos/javascript.svg">
+  <a href="https://webpack.js.org/">
+    <img width="200" height="200" vspace="" hspace="25" src="https://cdn.rawgit.com/webpack/media/e7485eb2/logo/icon-square-big.svg">
+  </a>
+  
+</div>
 
 [![npm][npm]][npm-url]
 [![node][node]][node-url]
@@ -972,7 +979,7 @@ module.exports = {
 [npm]: https://img.shields.io/npm/v/mini-css-extract-plugin.svg
 [npm-url]: https://npmjs.com/package/mini-css-extract-plugin
 [node]: https://img.shields.io/node/v/mini-css-extract-plugin.svg
-[node-url]: https://nodejs.org/
+[node-url]: https://nodejs.org
 [deps]: https://david-dm.org/webpack-contrib/mini-css-extract-plugin.svg
 [deps-url]: https://david-dm.org/webpack-contrib/mini-css-extract-plugin
 [tests]: https://github.com/webpack-contrib/mini-css-extract-plugin/workflows/mini-css-extract-plugin/badge.svg

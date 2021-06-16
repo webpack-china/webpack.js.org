@@ -8,7 +8,30 @@ translators:
   - QC-L
   - jacob-lcs
 ---
-
+<div align="center">
+  <img 
+    width="180" 
+    height="180" 
+    hspace="10"
+    alt="PostCSS Logo"
+    src="https://api.postcss.org/logo.svg">
+  <a href="https://github.com/webpack/webpack">
+    <img 
+      width="200" 
+      height="200" 
+      hspace="10"
+      src="https://cdn.rawgit.com/webpack/media/e7485eb2/logo/icon.svg">
+  </a>
+  <div align="center">
+    <a href="https://evilmartians.com/?utm_source=postcss">
+      <img 
+        src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg"
+        alt="Sponsored by Evil Martians" 
+        width="236" 
+        height="54" 
+        vspace="10">
+    </a>
+  </div>
 </div>
 
 [![npm][npm]][npm-url]
@@ -115,11 +138,20 @@ module.exports = {
 
 ## 选项 {#options}
 
+<<<<<<< HEAD
 |                名称                 |         类型         |          默认值           | 描述                                      |
 | :---------------------------------: | :------------------: | :-----------------------: | :---------------------------------------- |
 |        [`execute`](#execute)        |     `{Boolean}`      |        `undefined`        | 在 `CSS-in-JS` 中启动 PostCSS Parser 支持 |
 | [`postcssOptions`](#postcssoptions) | `{Object\|Function}` | `Postcss.process的默认值` | 设置 `PostCSS` 选项与插件                 |
 |      [`sourceMap`](#sourcemap)      |     `{Boolean}`      |    `compiler.devtool`     | 开启 / 关闭 source map 的生成             |
+=======
+|                Name                 |         Type         |                Default                | Description                                  |
+| :---------------------------------: | :------------------: | :-----------------------------------: | :------------------------------------------- |
+|        [`execute`](#execute)        |     `{Boolean}`      |              `undefined`              | Enable PostCSS Parser support in `CSS-in-JS` |
+| [`postcssOptions`](#postcssoptions) | `{Object\|Function}` | `defaults values for Postcss.process` | Set `PostCSS` options and plugins            |
+|      [`sourceMap`](#sourcemap)      |     `{Boolean}`      |          `compiler.devtool`           | Enables/Disables generation of source maps   |
+| [`implementation`](#implementation) | `{Function\|String}` |               `postcss`               | Setup PostCSS implementation to use          |
+>>>>>>> 760754992892b20075f75481c7e6660e7cbc505a
 
 ### `execute`
 
@@ -584,7 +616,12 @@ module.exports = {
 
 ### `implementation` {#implementation}
 
+<<<<<<< HEAD
 类型：`Function | String`
+=======
+Type: `Function | String`
+Default: `postcss`
+>>>>>>> 760754992892b20075f75481c7e6660e7cbc505a
 
 特殊的 `implementation` 选项决定使用 PostCSS 哪个实现。重载本地安装的 `postcss` 的 `peerDependency` 版本。
 
@@ -1069,7 +1106,7 @@ module.exports = postcss.plugin('postcss-assets', customPlugin);
 [npm]: https://img.shields.io/npm/v/postcss-loader.svg
 [npm-url]: https://npmjs.com/package/postcss-loader
 [node]: https://img.shields.io/node/v/postcss-loader.svg
-[node-url]: https://nodejs.org/
+[node-url]: https://nodejs.org
 [deps]: https://david-dm.org/webpack-contrib/postcss-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/postcss-loader
 [tests]: https://github.com/webpack-contrib/postcss-loader/workflows/postcss-loader/badge.svg

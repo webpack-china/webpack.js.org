@@ -1,5 +1,6 @@
 ---
 title: TerserWebpackPlugin
+group: webpack contrib
 source: https://raw.githubusercontent.com/webpack-contrib/terser-webpack-plugin/master/README.md
 edit: https://github.com/webpack-contrib/terser-webpack-plugin/edit/master/README.md
 repo: https://github.com/webpack-contrib/terser-webpack-plugin
@@ -7,7 +8,11 @@ translators:
   - 92hackers
   - QC-L
 ---
-
+<div align="center">
+  <a href="https://github.com/webpack/webpack">
+    <img width="200" height="200" src="https://webpack.js.org/assets/icon-square-big.svg">
+  </a>
+</div>
 
 [![npm][npm]][npm-url]
 [![node][node]][node-url]
@@ -569,7 +574,7 @@ module.exports = {
 [npm]: https://img.shields.io/npm/v/terser-webpack-plugin.svg
 [npm-url]: https://npmjs.com/package/terser-webpack-plugin
 [node]: https://img.shields.io/node/v/terser-webpack-plugin.svg
-[node-url]: https://nodejs.org/
+[node-url]: https://nodejs.org
 [deps]: https://david-dm.org/webpack-contrib/terser-webpack-plugin.svg
 [deps-url]: https://david-dm.org/webpack-contrib/terser-webpack-plugin
 [tests]: https://github.com/webpack-contrib/terser-webpack-plugin/workflows/terser-webpack-plugin/badge.svg

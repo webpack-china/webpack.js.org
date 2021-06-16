@@ -7,7 +7,20 @@ translators:
   - flytam
   - QC-L
 ---
+> This README is for babel-loader v8 + Babel v7
+> Check the [7.x branch](https://github.com/babel/babel-loader/tree/7.x) for docs with Babel v6
 
+[![NPM Status](https://img.shields.io/npm/v/babel-loader.svg?style=flat)](https://www.npmjs.com/package/babel-loader)
+[![codecov](https://codecov.io/gh/babel/babel-loader/branch/master/graph/badge.svg)](https://codecov.io/gh/babel/babel-loader)
+
+<div align="center">
+  <a href="https://github.com/babel/babel">
+    <img src="https://rawgit.com/babel/logo/master/babel.svg" alt="Babel logo" width="200" height="200">
+  </a>
+  <a href="https://github.com/webpack/webpack">
+    <img src="https://webpack.js.org/assets/icon-square-big.svg" alt="webpack logo" width="200" height="200">
+  </a>
+</div>
 
 
 

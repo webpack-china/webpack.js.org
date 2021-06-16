@@ -9,6 +9,16 @@ translators:
 ---
 
 
+https://webpack.js.org/configuration/resolve/#resolvealias. Setting `resolve.alias.package` to `false` will tell webpack@5 to ignore a module.
+
+---
+
+<div align="center">
+  <a href="https://github.com/webpack/webpack">
+    <img width="200" height="200" src="https://webpack.js.org/assets/icon-square-big.svg">
+  </a>
+</div>
+
 [![npm][npm]][npm-url]
 [![node][node]][node-url]
 [![deps][deps]][deps-url]
@@ -16,7 +26,7 @@ translators:
 [![chat][chat]][chat-url]
 [![size][size]][size-url]
 
-
+# null-loader
 
 返回一个空模块的 webpack loader
 
@@ -67,7 +77,7 @@ module.exports = {
 [npm]: https://img.shields.io/npm/v/null-loader.svg
 [npm-url]: https://npmjs.com/package/null-loader
 [node]: https://img.shields.io/node/v/null-loader.svg
-[node-url]: https://nodejs.org/
+[node-url]: https://nodejs.org
 [deps]: https://david-dm.org/webpack-contrib/null-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/null-loader
 [tests]: https://github.com/webpack-contrib/null-loader/workflows/null-loader/badge.svg
