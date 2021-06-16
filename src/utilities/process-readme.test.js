@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 const processReadme = require('./process-readme');
+=======
+const processReadme = require('../process-readme');
+>>>>>>> 102eb052170e74eccb498faa63fbb82f8915a8f8
 describe('processReadme', () => {
   const url =
     'https://raw.githubusercontent.com/webpack/html-loader/master/README.md';
@@ -28,6 +32,7 @@ describe('processReadme', () => {
       '- [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin)'
     );
   });
+<<<<<<< HEAD
 
   it('should clean up div[align="center"] block with paragraph', () => {
     const loaderMDData = `
@@ -59,4 +64,6 @@ describe('processReadme', () => {
 </div>`;
     expect(processReadme(loaderMDData)).toEqual('');
   });
+=======
+>>>>>>> 102eb052170e74eccb498faa63fbb82f8915a8f8
 });
