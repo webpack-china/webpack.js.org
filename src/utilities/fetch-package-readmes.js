@@ -2,8 +2,8 @@ const _ = require('lodash');
 const fs = require('fs');
 const path = require('path');
 const { promisify } = require('util');
-const mkdirp = promisify(require('mkdirp'));
-const request = require('request-promise');
+const mkdirp = require('mkdirp');
+const fetch = require('node-fetch');
 
 const yamlHeadmatter = require('./yaml-headmatter.js');
 const processReadme = require('./process-readme.js');
@@ -30,11 +30,11 @@ async function main() {
     );
 
     for (const repo of repos) {
-      const [org, packageName] = repo.split('/');
+      const [, packageName] = repo.split('/');
       const url = `https://raw.githubusercontent.com/${repo}/master/README.md`;
       const htmlUrl = `https://github.com/${repo}`;
       const editUrl = `${htmlUrl}/edit/master/README.md`;
-      const fileName = path.resolve(outputDir, `${packageName}.md`);
+      const fileName = path.resolve(outputDir, `_${packageName}.md`);
 
       let title = packageName;
 
@@ -44,6 +44,7 @@ async function main() {
         title = title.replace(/I18N/, 'I18n');
       }
 
+      // generate yaml matter for file
       let headmatter;
 
       if (type === 'plugins') {
@@ -64,17 +65,11 @@ async function main() {
         });
       }
 
-      request(url)
-        .then(async (content) => {
-          const body = processReadme(content, { source: url });
-
-          await writeFile(fileName, headmatter + body);
-
-          console.log('Generated:', path.relative(cwd, fileName));
-        })
-        .catch((err) => {
-          throw err;
-        });
+      const response = await fetch(url);
+      const content = await response.text();
+      const body = processReadme(content, { source: url });
+      await writeFile(fileName, headmatter + body);
+      console.log('Generated:', path.relative(cwd, fileName));
     }
   }
 }
