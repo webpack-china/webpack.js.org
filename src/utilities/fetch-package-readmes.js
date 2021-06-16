@@ -44,13 +44,25 @@ async function main() {
         title = title.replace(/I18N/, 'I18n');
       }
 
-      // generate yaml matter for file
-      let headmatter = yamlHeadmatter({
-        title: title,
-        source: url,
-        edit: editUrl,
-        repo: htmlUrl,
-      });
+      let headmatter;
+
+      if (type === 'plugins') {
+        headmatter = yamlHeadmatter({
+          title: title,
+          group: 'webpack contrib',
+          source: url,
+          edit: editUrl,
+          repo: htmlUrl,
+        });
+      } else {
+        // TODO we need other categories for loaders
+        headmatter = yamlHeadmatter({
+          title: title,
+          source: url,
+          edit: editUrl,
+          repo: htmlUrl,
+        });
+      }
 
       request(url)
         .then(async (content) => {
