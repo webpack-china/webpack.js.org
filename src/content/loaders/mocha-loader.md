@@ -6,6 +6,17 @@ repo: https://github.com/webpack-contrib/mocha-loader
 ---
 
 
+If you would like to continue to support/maintenance this package please contact me https://twitter.com/alexander_akait
+
+<div align="center">
+  <img width="200" height="200"
+    src="https://cdn.worldvectorlogo.com/logos/mocha.svg">
+  <a href="https://github.com/webpack/webpack">
+    <img width="200" height="200" hspace="20"
+      src="https://webpack.js.org/assets/icon-square-big.svg">
+  </a>
+</div>
+
 [![npm][npm]][npm-url]
 [![node][node]][node-url]
 [![deps][deps]][deps-url]
@@ -14,7 +25,7 @@ repo: https://github.com/webpack-contrib/mocha-loader
 [![chat][chat]][chat-url]
 [![size][size]][size-url]
 
-
+# mocha-loader
 
 Allows [Mocha](https://mochajs.org/) tests to be loaded and run via webpack.
 
@@ -110,7 +121,7 @@ Please take a moment to read our contributing guidelines if you haven't yet done
 [npm]: https://img.shields.io/npm/v/mocha-loader.svg
 [npm-url]: https://npmjs.com/package/mocha-loader
 [node]: https://img.shields.io/node/v/mocha-loader.svg
-[node-url]: https://nodejs.org/
+[node-url]: https://nodejs.org
 [deps]: https://david-dm.org/webpack-contrib/mocha-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/mocha-loader
 [tests]: https://github.com/webpack-contrib/mocha-loader/workflows/mocha-loader/badge.svg

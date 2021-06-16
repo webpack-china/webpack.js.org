@@ -4,7 +4,12 @@ source: https://raw.githubusercontent.com/webpack-contrib/imports-loader/master/
 edit: https://github.com/webpack-contrib/imports-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/imports-loader
 ---
-
+<div align="center">
+  <a href="https://github.com/webpack/webpack">
+    <img width="200" height="200"
+      src="https://webpack.js.org/assets/icon-square-big.svg">
+  </a>
+</div>
 
 [![npm][npm]][npm-url]
 [![node][node]][node-url]
@@ -772,7 +777,7 @@ Please take a moment to read our contributing guidelines if you haven't yet done
 [npm]: https://img.shields.io/npm/v/imports-loader.svg
 [npm-url]: https://www.npmjs.com/package/imports-loader
 [node]: https://img.shields.io/node/v/imports-loader.svg
-[node-url]: https://nodejs.org/
+[node-url]: https://nodejs.org
 [deps]: https://david-dm.org/webpack-contrib/imports-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/imports-loader
 [tests]: https://github.com/webpack-contrib/imports-loader/workflows/imports-loader/badge.svg

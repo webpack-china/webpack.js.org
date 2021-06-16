@@ -4,7 +4,11 @@ source: https://raw.githubusercontent.com/webpack-contrib/thread-loader/master/R
 edit: https://github.com/webpack-contrib/thread-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/thread-loader
 ---
-
+<div align="center">
+  <a href="https://webpack.js.org/">
+    <img width="200" height="200" vspace="" hspace="25" src="https://cdn.rawgit.com/webpack/media/e7485eb2/logo/icon-square-big.svg">
+  </a>
+</div>
 
 [![npm][npm]][npm-url]
 [![node][node]][node-url]
@@ -137,7 +141,7 @@ Please take a moment to read our contributing guidelines if you haven't yet done
 [npm]: https://img.shields.io/npm/v/thread-loader.svg
 [npm-url]: https://npmjs.com/package/thread-loader
 [node]: https://img.shields.io/node/v/thread-loader.svg
-[node-url]: https://nodejs.org/
+[node-url]: https://nodejs.org
 [deps]: https://david-dm.org/webpack-contrib/thread-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/thread-loader
 [tests]: https://github.com/webpack-contrib/thread-loader/workflows/thread-loader/badge.svg
