@@ -4,7 +4,14 @@ source: https://raw.githubusercontent.com/webpack-contrib/css-loader/master/READ
 edit: https://github.com/webpack-contrib/css-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/css-loader
 ---
-
+<div align="center">
+  <img width="180" height="180" vspace="20"
+    src="https://cdn.worldvectorlogo.com/logos/css-3.svg">
+  <a href="https://github.com/webpack/webpack">
+    <img width="200" height="200"
+      src="https://webpack.js.org/assets/icon-square-big.svg">
+  </a>
+</div>
 
 [![npm][npm]][npm-url]
 [![node][node]][node-url]
@@ -1471,7 +1478,7 @@ Please take a moment to read our contributing guidelines if you haven't yet done
 [npm]: https://img.shields.io/npm/v/css-loader.svg
 [npm-url]: https://npmjs.com/package/css-loader
 [node]: https://img.shields.io/node/v/css-loader.svg
-[node-url]: https://nodejs.org/
+[node-url]: https://nodejs.org
 [deps]: https://david-dm.org/webpack-contrib/css-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/css-loader
 [tests]: https://github.com/webpack-contrib/css-loader/workflows/css-loader/badge.svg

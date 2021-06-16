@@ -4,7 +4,30 @@ source: https://raw.githubusercontent.com/webpack-contrib/postcss-loader/master/
 edit: https://github.com/webpack-contrib/postcss-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/postcss-loader
 ---
-
+<div align="center">
+  <img 
+    width="180" 
+    height="180" 
+    hspace="10"
+    alt="PostCSS Logo"
+    src="https://api.postcss.org/logo.svg">
+  <a href="https://github.com/webpack/webpack">
+    <img 
+      width="200" 
+      height="200" 
+      hspace="10"
+      src="https://cdn.rawgit.com/webpack/media/e7485eb2/logo/icon.svg">
+  </a>
+  <div align="center">
+    <a href="https://evilmartians.com/?utm_source=postcss">
+      <img 
+        src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg"
+        alt="Sponsored by Evil Martians" 
+        width="236" 
+        height="54" 
+        vspace="10">
+    </a>
+  </div>
 </div>
 
 [![npm][npm]][npm-url]
@@ -116,6 +139,7 @@ And run `webpack` via your preferred method.
 |        [`execute`](#execute)        |     `{Boolean}`      |              `undefined`              | Enable PostCSS Parser support in `CSS-in-JS` |
 | [`postcssOptions`](#postcssoptions) | `{Object\|Function}` | `defaults values for Postcss.process` | Set `PostCSS` options and plugins            |
 |      [`sourceMap`](#sourcemap)      |     `{Boolean}`      |          `compiler.devtool`           | Enables/Disables generation of source maps   |
+| [`implementation`](#implementation) | `{Function\|String}` |               `postcss`               | Setup PostCSS implementation to use          |
 
 ### `execute`
 
@@ -581,6 +605,7 @@ module.exports = {
 ### `implementation`
 
 Type: `Function | String`
+Default: `postcss`
 
 The special `implementation` option determines which implementation of PostCSS to use. Overrides the locally installed `peerDependency` version of `postcss`.
 
@@ -1065,7 +1090,7 @@ Please take a moment to read our contributing guidelines if you haven't yet done
 [npm]: https://img.shields.io/npm/v/postcss-loader.svg
 [npm-url]: https://npmjs.com/package/postcss-loader
 [node]: https://img.shields.io/node/v/postcss-loader.svg
-[node-url]: https://nodejs.org/
+[node-url]: https://nodejs.org
 [deps]: https://david-dm.org/webpack-contrib/postcss-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/postcss-loader
 [tests]: https://github.com/webpack-contrib/postcss-loader/workflows/postcss-loader/badge.svg

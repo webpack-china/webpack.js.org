@@ -4,7 +4,12 @@ source: https://raw.githubusercontent.com/webpack-contrib/html-loader/master/REA
 edit: https://github.com/webpack-contrib/html-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/html-loader
 ---
-
+<div align="center">
+  <img width="200" height="200" src="https://worldvectorlogo.com/logos/html5.svg" alt="html-loader">
+  <a href="https://github.com/webpack/webpack">
+    <img width="200" height="200" vspace="" hspace="25" src="https://webpack.js.org/assets/icon-square-big.svg" alt="webpack">
+  </a>
+</div>
 
 [![npm][npm]][npm-url]
 [![node][node]][node-url]
@@ -920,7 +925,7 @@ Please take a moment to read our contributing guidelines if you haven't yet done
 [npm]: https://img.shields.io/npm/v/html-loader.svg
 [npm-url]: https://npmjs.com/package/html-loader
 [node]: https://img.shields.io/node/v/html-loader.svg
-[node-url]: https://nodejs.org/
+[node-url]: https://nodejs.org
 [deps]: https://david-dm.org/webpack-contrib/html-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/html-loader
 [tests]: https://github.com/webpack-contrib/html-loader/workflows/html-loader/badge.svg

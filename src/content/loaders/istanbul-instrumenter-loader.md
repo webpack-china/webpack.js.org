@@ -4,7 +4,20 @@ source: https://raw.githubusercontent.com/webpack-contrib/istanbul-instrumenter-
 edit: https://github.com/webpack-contrib/istanbul-instrumenter-loader/edit/master/README.md
 repo: https://github.com/webpack-contrib/istanbul-instrumenter-loader
 ---
+[![npm][npm]][npm-url]
+[![node][node]][node-url]
+[![deps][deps]][deps-url]
+[![tests][tests]][tests-url]
+[![coverage][cover]][cover-url]
+[![chat][chat]][chat-url]
 
+<div align="center">
+  <a href="https://github.com/webpack/webpack">
+    <img width="200" height="200"
+      src="https://webpack.js.org/assets/icon-square-big.svg">
+  </a>
+  
+</div>
 
 Instrument JS files with [istanbul-lib-instrument](https://github.com/istanbuljs/istanbuljs/tree/master/packages/istanbul-lib-instrument) for subsequent code coverage reporting
 
@@ -178,7 +191,7 @@ The loader supports all options supported by `istanbul-lib-instrument`
 [npm-url]: https://npmjs.com/package/istanbul-instrumenter-loader
 
 [node]: https://img.shields.io/node/v/istanbul-instrumenter-loader.svg
-[node-url]: https://nodejs.org/
+[node-url]: https://nodejs.org
 
 [deps]: https://david-dm.org/webpack-contrib/istanbul-instrumenter-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/istanbul-instrumenter-loader
