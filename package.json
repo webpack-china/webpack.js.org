@@ -93,7 +93,7 @@
     "directory-tree-webpack-plugin": "^1.0.2",
     "docschina-remark-slugger": "^0.1.4",
     "duplexer": "^0.1.1",
-    "eslint": "^7.29.0",
+    "eslint": "^7.30.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-cypress": "^2.11.3",
     "eslint-plugin-markdown": "^2.2.0",
