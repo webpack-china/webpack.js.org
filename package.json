@@ -143,7 +143,7 @@
     "tap-spot": "^1.1.1",
     "textlint": "^11.8.2",
     "textlint-rule-heading": "^1.0.10",
-    "unist-util-visit": "^2.0.3",
+    "unist-util-visit": "^3.1.0",
     "webpack": "^5.43.0",
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.7.2",
@@ -165,7 +165,7 @@
     "react-tiny-popover": "5",
     "react-use": "^17.2.4",
     "react-visibility-sensor": "^5.0.2",
-    "unist-util-visit": "^2.0.3",
+    "unist-util-visit": "^3.1.0",
     "webpack-pwa-manifest": "^4.3.0",
     "webpack.vote": "https://github.com/webpack/voting-app.git",
     "workbox-window": "^6.1.5"
