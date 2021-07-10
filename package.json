@@ -141,7 +141,7 @@
     "style-loader": "^3.0.0",
     "tailwindcss": "^2.2.4",
     "tap-spot": "^1.1.1",
-    "textlint": "^11.8.2",
+    "textlint": "^12.0.2",
     "textlint-rule-heading": "^1.0.10",
     "unist-util-visit": "^2.0.3",
     "webpack": "^5.44.0",
